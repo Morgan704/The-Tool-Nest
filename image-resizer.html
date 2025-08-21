@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Resizer</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0b0b0d; color: #fff; text-align: center; padding: 40px; }
+    .box { background: #1c1c21; padding: 20px; border-radius: 12px; max-width: 500px; margin: auto; }
+    input, button { margin: 10px 0; padding: 8px; border-radius: 8px; }
+    button { background: orange; border: none; cursor: pointer; font-weight: bold; }
+    img { max-width: 100%; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Image Resizer</h1>
+    <input type="file" id="upload" accept="image/*"><br>
+    <label>Width: <input type="number" id="width" placeholder="Width"></label><br>
+    <label>Height: <input type="number" id="height" placeholder="Height"></label><br>
+    <button onclick="resize()">Resize</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    let uploadedImage = null;
+
+    document.getElementById('upload').addEventListener('change', function(e) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        uploadedImage = new Image();
+        uploadedImage.src = event.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    });
+
+    function resize() {
+      if (!uploadedImage) {
+        alert("Please upload an image first!");
+        return;
+      }
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      const newWidth = parseInt(document.getElementById('width').value);
+      const newHeight = parseInt(document.getElementById('height').value);
+
+      if (!newWidth || !newHeight) {
+        alert("Please enter width and height!");
+        return;
+      }
+
+      canvas.width = newWidth;
+      canvas.height = newHeight;
+      ctx.drawImage(uploadedImage, 0, 0, newWidth, newHeight);
+
+      const resizedData = canvas.toDataURL('image/png');
+      document.getElementById('result').innerHTML = `
+        <h3>Resized Image:</h3>
+        <img src="${resizedData}">
+        <a href="${resizedData}" download="resized.png"><button>Download</button></a>
+      `;
+    }
+  </script>
+</body>
+</html>
