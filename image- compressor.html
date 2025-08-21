@@ -2,83 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Converter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image Compressor</title>
   <style>
     body {
-      font-family: system-ui, sans-serif;
+      font-family: Arial, sans-serif;
       background: #0b0b0d;
-      color: #eaeaea;
+      color: #fff;
       text-align: center;
       padding: 40px;
     }
-    .card {
+    .box {
       background: #1c1c21;
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 14px;
       padding: 20px;
+      border-radius: 12px;
       max-width: 500px;
       margin: auto;
     }
-    input, select, button {
+    input[type="file"], input[type="range"] {
       margin: 10px 0;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      font-size: 1rem;
+    }
+    img {
+      max-width: 100%;
+      margin-top: 20px;
     }
     button {
-      background: #ff8c00;
-      color: #0b0b0d;
+      background: orange;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
     }
-    button:hover { background: #e67600; }
-    canvas { display: none; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Image Converter</h2>
-    <p>Select an image and convert it to another format (JPG, PNG, WebP).</p>
-    
+  <div class="box">
+    <h1>Image Compressor</h1>
     <input type="file" id="upload" accept="image/*"><br>
-    <select id="format">
-      <option value="image/png">PNG</option>
-      <option value="image/jpeg">JPG</option>
-      <option value="image/webp">WebP</option>
-    </select><br>
-    <button id="convertBtn">Convert & Download</button>
-    
-    <canvas id="canvas"></canvas>
+    <label>Quality: <span id="qualityVal">0.7</span></label><br>
+    <input type="range" id="quality" min="0.1" max="1" step="0.1" value="0.7"><br>
+    <button onclick="compress()">Compress</button>
+    <div id="result"></div>
   </div>
 
   <script>
-    const upload = document.getElementById("upload");
-    const format = document.getElementById("format");
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
+    let uploadedImage = null;
 
-    document.getElementById("convertBtn").addEventListener("click", () => {
-      const file = upload.files[0];
-      if (!file) {
-        alert("Please select an image first!");
+    document.getElementById('upload').addEventListener('change', function(e) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        uploadedImage = new Image();
+        uploadedImage.src = event.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    });
+
+    document.getElementById('quality').addEventListener('input', function() {
+      document.getElementById('qualityVal').textContent = this.value;
+    });
+
+    function compress() {
+      if (!uploadedImage) {
+        alert("Please upload an image first!");
         return;
       }
-      const img = new Image();
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        canvas.toBlob((blob) => {
-          const link = document.createElement("a");
-          link.href = URL.createObjectURL(blob);
-          link.download = "converted." + format.value.split("/")[1];
-          link.click();
-        }, format.value);
-      };
-      img.src = URL.createObjectURL(file);
-    });
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = uploadedImage.width;
+      canvas.height = uploadedImage.height;
+      ctx.drawImage(uploadedImage, 0, 0);
+
+      const quality = parseFloat(document.getElementById('quality').value);
+      const compressedData = canvas.toDataURL('image/jpeg', quality);
+
+      document.getElementById('result').innerHTML = `
+        <h3>Compressed Image:</h3>
+        <img src="${compressedData}">
+        <a href="${compressedData}" download="compressed.jpg">
+          <button>Download</button>
+        </a>
+      `;
+    }
   </script>
 </body>
 </html>
