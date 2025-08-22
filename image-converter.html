@@ -1,84 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Converter</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Tool Nest</title>
   <style>
     body {
-      font-family: system-ui, sans-serif;
+      margin: 0;
+      font-family: Arial, sans-serif;
       background: #0b0b0d;
-      color: #eaeaea;
+      color: #ffffff; /* visible text */
       text-align: center;
-      padding: 40px;
+      padding: 2rem;
     }
-    .card {
-      background: #1c1c21;
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 14px;
-      padding: 20px;
-      max-width: 500px;
-      margin: auto;
+    header {
+      margin-bottom: 2rem;
     }
-    input, select, button {
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      font-size: 1rem;
+    h1 {
+      color: #ffc800;
     }
-    button {
-      background: #ff8c00;
-      color: #0b0b0d;
+    a {
+      display: block;
+      margin: 1rem auto;
+      padding: 0.8rem 1.2rem;
+      background: #ffc800;
+      color: #000;
+      text-decoration: none;
+      border-radius: 8px;
       font-weight: bold;
-      cursor: pointer;
+      width: 220px;
     }
-    button:hover { background: #e67600; }
-    canvas { display: none; }
+    a:hover {
+      background: #e67e00;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Image Converter</h2>
-    <p>Select an image and convert it to another format (JPG, PNG, WebP).</p>
-    
-    <input type="file" id="upload" accept="image/*"><br>
-    <select id="format">
-      <option value="image/png">PNG</option>
-      <option value="image/jpeg">JPG</option>
-      <option value="image/webp">WebP</option>
-    </select><br>
-    <button id="convertBtn">Convert & Download</button>
-    
-    <canvas id="canvas"></canvas>
-  </div>
+  <header>
+    <h1>The Tool Nest</h1>
+    <p>Select a tool below:</p>
+  </header>
 
-  <script>
-    const upload = document.getElementById("upload");
-    const format = document.getElementById("format");
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-
-    document.getElementById("convertBtn").addEventListener("click", () => {
-      const file = upload.files[0];
-      if (!file) {
-        alert("Please select an image first!");
-        return;
-      }
-      const img = new Image();
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        canvas.toBlob((blob) => {
-          const link = document.createElement("a");
-          link.href = URL.createObjectURL(blob);
-          link.download = "converted." + format.value.split("/")[1];
-          link.click();
-        }, format.value);
-      };
-      img.src = URL.createObjectURL(file);
-    });
-  </script>
+  <a href="image-compressor.html">Image Compressor</a>
+  <a href="image-converter.html">Image Converter</a>
+  <a href="image-resizer.html">Image Resizer</a>
+  <a href="Background-remover.html">Background Remover</a>
 </body>
 </html>
