@@ -1,864 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Background Remover - No API Required</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-    <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .glass-effect {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .tool-card {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .tool-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-        .upload-area {
-            border: 3px dashed #cbd5e0;
-            transition: all 0.3s ease;
-            min-height: 200px;
-        }
-        .upload-area.dragover {
-            border-color: #4299e1;
-            background-color: rgba(66, 153, 225, 0.1);
-        }
-        .canvas-container {
-            position: relative;
-            display: inline-block;
-        }
-        .canvas-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-        }
-        .brush-cursor {
-            cursor: crosshair;
-        }
-        .comparison-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-        }
-        .comparison-slider {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 4px;
-            height: 100%;
-            background: white;
-            cursor: ew-resize;
-            z-index: 10;
-        }
-        .comparison-slider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .method-active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-        .progress-bar {
-            height: 6px;
-            background: #e5e7eb;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transition: width 0.3s ease;
-        }
-        @media print {
-            body { margin: 0; }
-            .no-print { display: none; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Background Remover</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<style>
+  body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+  .glass-effect { backdrop-filter: blur(10px); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius:1rem; }
+  .upload-area { border:3px dashed #cbd5e0; min-height:200px; transition:0.3s; cursor:pointer; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+  .upload-area.dragover { border-color:#4299e1; background-color:rgba(66,153,225,0.1); }
+  .method-btn { background: rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:1rem; border-radius:.5rem; text-align:center; cursor:pointer; transition:0.3s; }
+  .method-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+  .method-active { background: linear-gradient(135deg,#667eea,#764ba2); color:white; }
+  .method-section { display:none; }
+  .checkerboard-bg { background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f0f0f0 75%), linear-gradient(-45deg, transparent 75%, #f0f0f0 75%); background-size:20px 20px; background-position:0 0,0 10px,10px -10px,-10px 0px; }
+</style>
 </head>
-<body class="gradient-bg min-h-screen">
-    <div class="container mx-auto px-4 py-6">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
-                <i class="fas fa-magic mr-3"></i>
-                Professional Background Remover
-            </h1>
-            <p class="text-xl text-gray-200 mb-2">Multiple Free Methods - No API Keys Required</p>
-            <p class="text-gray-300">Choose from client-side processing, free online tools, or manual editing</p>
-        </div>
+<body class="p-6">
+<div class="container mx-auto">
 
-        <!-- Method Selection -->
-        <div class="glass-effect rounded-xl p-6 mb-6">
-            <h2 class="text-2xl font-semibold text-white mb-4">
-                <i class="fas fa-tools mr-2"></i>
-                Choose Your Method
-            </h2>
-            <div class="grid md:grid-cols-4 gap-4">
-                <button class="method-btn method-active" data-method="client-side">
-                    <i class="fas fa-desktop text-2xl mb-2"></i>
-                    <div class="font-semibold">Client-Side AI</div>
-                    <div class="text-sm opacity-75">Process locally</div>
-                </button>
-                <button class="method-btn" data-method="free-services">
-                    <i class="fas fa-cloud text-2xl mb-2"></i>
-                    <div class="font-semibold">Free Online Tools</div>
-                    <div class="text-sm opacity-75">External services</div>
-                </button>
-                <button class="method-btn" data-method="manual">
-                    <i class="fas fa-edit text-2xl mb-2"></i>
-                    <div class="font-semibold">Manual Editor</div>
-                    <div class="text-sm opacity-75">Precise control</div>
-                </button>
-                <button class="method-btn" data-method="comparison">
-                    <i class="fas fa-balance-scale text-2xl mb-2"></i>
-                    <div class="font-semibold">Compare Results</div>
-                    <div class="text-sm opacity-75">Side by side</div>
-                </button>
-            </div>
-        </div>
+  <div class="text-center mb-6 text-white">
+    <h1 class="text-4xl font-bold mb-2"><i class="fas fa-magic mr-2"></i>Professional Background Remover</h1>
+    <p>Choose a method below:</p>
+  </div>
 
-        <!-- Upload Section -->
-        <div class="glass-effect rounded-xl p-6 mb-6">
-            <h2 class="text-2xl font-semibold text-white mb-4">
-                <i class="fas fa-upload mr-2"></i>
-                Upload Your Image
-            </h2>
-            <div id="uploadArea" class="upload-area rounded-lg p-8 text-center cursor-pointer flex flex-col items-center justify-center">
-                <i class="fas fa-cloud-upload-alt text-5xl text-gray-400 mb-3"></i>
-                <p class="text-lg text-gray-600 mb-2">Drag & drop your image here or click to select</p>
-                <p class="text-sm text-gray-500">Supports JPG, PNG, WebP (Max 10MB)</p>
-                <input type="file" id="fileInput" class="hidden" accept="image/*">
-            </div>
-        </div>
+  <!-- Method Selection -->
+  <div class="flex gap-4 mb-6">
+    <div class="method-btn method-active" data-method="client">Client-Side AI</div>
+    <div class="method-btn" data-method="manual">Manual Editor</div>
+    <div class="method-btn" data-method="comparison">Compare</div>
+  </div>
 
-        <!-- Client-Side Processing -->
-        <div id="clientSideSection" class="method-section">
-            <div class="glass-effect rounded-xl p-6 mb-6">
-                <h2 class="text-2xl font-semibold text-white mb-4">
-                    <i class="fas fa-desktop mr-2"></i>
-                    Client-Side AI Processing
-                </h2>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="bg-white rounded-lg p-4">
-                        <h3 class="text-lg font-semibold mb-3">Original Image</h3>
-                        <canvas id="originalCanvas" class="w-full border rounded max-w-full" style="max-height: 300px;"></canvas>
-                    </div>
-                    <div class="bg-white rounded-lg p-4">
-                        <h3 class="text-lg font-semibold mb-3">Processed Image</h3>
-                        <canvas id="processedCanvas" class="w-full border rounded max-w-full" style="max-height: 300px;"></canvas>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <button id="processBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors">
-                            <i class="fas fa-magic mr-2"></i>Process Image
-                        </button>
-                        <button id="downloadProcessedBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition-colors">
-                            <i class="fas fa-download mr-2"></i>Download PNG
-                        </button>
-                        <button id="resetBtn" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded transition-colors">
-                            <i class="fas fa-redo mr-2"></i>Reset
-                        </button>
-                    </div>
-                    <div id="processingProgress" class="hidden">
-                        <div class="progress-bar mb-2">
-                            <div id="progressFill" class="progress-fill" style="width: 0%"></div>
-                        </div>
-                        <p id="progressText" class="text-white text-center">0%</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Free Online Services -->
-        <div id="freeServicesSection" class="method-section hidden">
-            <div class="glass-effect rounded-xl p-6 mb-6">
-                <h2 class="text-2xl font-semibold text-white mb-4">
-                    <i class="fas fa-cloud mr-2"></i>
-                    Free Online Services
-                </h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="tool-card bg-white rounded-lg p-4">
-                        <div class="text-center mb-3">
-                            <i class="fas fa-cut text-3xl text-blue-600 mb-2"></i>
-                            <h3 class="font-semibold text-lg">Remove.bg</h3>
-                            <p class="text-sm text-gray-600">50 free images/month</p>
-                        </div>
-                        <button onclick="window.open('https://www.remove.bg/', '_blank')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition-colors">
-                            Open Tool
-                        </button>
-                    </div>
-                    <div class="tool-card bg-white rounded-lg p-4">
-                        <div class="text-center mb-3">
-                            <i class="fas fa-palette text-3xl text-purple-600 mb-2"></i>
-                            <h3 class="font-semibold text-lg">Canva</h3>
-                            <p class="text-sm text-gray-600">Free with account</p>
-                        </div>
-                        <button onclick="window.open('https://www.canva.com/features/background-remover/', '_blank')" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded transition-colors">
-                            Open Tool
-                        </button>
-                    </div>
-                    <div class="tool-card bg-white rounded-lg p-4">
-                        <div class="text-center mb-3">
-                            <i class="fas fa-camera text-3xl text-green-600 mb-2"></i>
-                            <h3 class="font-semibold text-lg">PhotoRoom</h3>
-                            <p class="text-sm text-gray-600">Free with watermark</p>
-                        </div>
-                        <button onclick="window.open('https://www.photoroom.com/', '_blank')" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded transition-colors">
-                            Open Tool
-                        </button>
-                    </div>
-                    <div class="tool-card bg-white rounded-lg p-4">
-                        <div class="text-center mb-3">
-                            <i class="fas fa-magic text-3xl text-red-600 mb-2"></i>
-                            <h3 class="font-semibold text-lg">Clipping Magic</h3>
-                            <p class="text-sm text-gray-600">Preview free</p>
-                        </div>
-                        <button onclick="window.open('https://clippingmagic.com/', '_blank')" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded transition-colors">
-                            Open Tool
-                        </button>
-                    </div>
-                    <div class="tool-card bg-white rounded-lg p-4">
-                        <div class="text-center mb-3">
-                            <i class="fas fa-layer-group text-3xl text-indigo-600 mb-2"></i>
-                            <h3 class="font-semibold text-lg">Photopea</h3>
-                            <p class="text-sm text-gray-600">Full Photoshop clone</p>
-                        </div>
-                        <button onclick="window.open('https://www.photopea.com/', '_blank')" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded transition-colors">
-                            Open Tool
-                        </button>
-                    </div>
-                    <div class="tool-card bg-white rounded-lg p-4">
-                        <div class="text-center mb-3">
-                            <i class="fas fa-eraser text-3xl text-yellow-600 mb-2"></i>
-                            <h3 class="font-semibold text-lg">Removal.ai</h3>
-                            <p class="text-sm text-gray-600">Limited free uses</p>
-                        </div>
-                        <button onclick="window.open('https://removal.ai/', '_blank')" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-2 rounded transition-colors">
-                            Open Tool
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Manual Editor -->
-        <div id="manualSection" class="method-section hidden">
-            <div class="glass-effect rounded-xl p-6 mb-6">
-                <h2 class="text-2xl font-semibold text-white mb-4">
-                    <i class="fas fa-edit mr-2"></i>
-                    Manual Background Editor
-                </h2>
-                <div class="grid md:grid-cols-3 gap-6">
-                    <div class="md:col-span-2">
-                        <div class="bg-white rounded-lg p-4 mb-4">
-                            <h3 class="text-lg font-semibold mb-3">Manual Selection</h3>
-                            <div class="canvas-container">
-                                <canvas id="manualCanvas" class="border rounded cursor-crosshair max-w-full" style="max-height: 400px;"></canvas>
-                                <canvas id="maskCanvas" class="canvas-overlay border rounded" style="max-height: 400px;"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="bg-white rounded-lg p-4">
-                            <h3 class="text-lg font-semibold mb-3">Tools</h3>
-                            <div class="space-y-3">
-                                <div>
-                                    <label class="block text-sm font-medium mb-1">Brush Size</label>
-                                    <input type="range" id="brushSize" min="1" max="50" value="10" class="w-full">
-                                    <span id="brushSizeValue" class="text-sm text-gray-600">10px</span>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium mb-1">Mode</label>
-                                    <select id="brushMode" class="w-full p-2 border rounded">
-                                        <option value="erase">Erase Background</option>
-                                        <option value="keep">Keep Foreground</option>
-                                    </select>
-                                </div>
-                                <button id="clearMask" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded transition-colors">
-                                    <i class="fas fa-trash mr-2"></i>Clear All
-                                </button>
-                                <button id="applyMask" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded transition-colors">
-                                    <i class="fas fa-check mr-2"></i>Apply Changes
-                                </button>
-                                <button id="downloadManual" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition-colors">
-                                    <i class="fas fa-download mr-2"></i>Download
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Comparison Section -->
-        <div id="comparisonSection" class="method-section hidden">
-            <div class="glass-effect rounded-xl p-6 mb-6">
-                <h2 class="text-2xl font-semibold text-white mb-4">
-                    <i class="fas fa-balance-scale mr-2"></i>
-                    Compare Results
-                </h2>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="bg-white rounded-lg p-4">
-                        <h3 class="text-lg font-semibold mb-3">Before</h3>
-                        <div class="comparison-container aspect-square bg-gray-100 rounded">
-                            <img id="beforeImage" class="w-full h-full object-contain" alt="Before">
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-lg p-4">
-                        <h3 class="text-lg font-semibold mb-3">After</h3>
-                        <div class="comparison-container aspect-square bg-gray-100 rounded checkerboard-bg">
-                            <img id="afterImage" class="w-full h-full object-contain" alt="After">
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-4 text-center">
-                    <button id="switchImages" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded transition-colors">
-                        <i class="fas fa-exchange-alt mr-2"></i>Switch Images
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tips and Tutorials -->
-        <div class="glass-effect rounded-xl p-6 mb-6">
-            <h2 class="text-2xl font-semibold text-white mb-4">
-                <i class="fas fa-lightbulb mr-2"></i>
-                Tips & Best Practices
-            </h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 text-white">
-                <div class="bg-white bg-opacity-10 rounded-lg p-4">
-                    <i class="fas fa-camera text-2xl mb-2 text-yellow-400"></i>
-                    <h3 class="font-semibold mb-2">Image Quality</h3>
-                    <p class="text-sm opacity-90">Use high-resolution images with clear subject-background contrast for best results.</p>
-                </div>
-                <div class="bg-white bg-opacity-10 rounded-lg p-4">
-                    <i class="fas fa-user text-2xl mb-2 text-blue-400"></i>
-                    <h3 class="font-semibold mb-2">Best Subjects</h3>
-                    <p class="text-sm opacity-90">People, products, and animals work best. Avoid complex backgrounds or transparent objects.</p>
-                </div>
-                <div class="bg-white bg-opacity-10 rounded-lg p-4">
-                    <i class="fas fa-palette text-2xl mb-2 text-green-400"></i>
-                    <h3 class="font-semibold mb-2">Post-Processing</h3>
-                    <p class="text-sm opacity-90">Use manual tools for fine-tuning edges and fixing any missed areas.</p>
-                </div>
-                <div class="bg-white bg-opacity-10 rounded-lg p-4">
-                    <i class="fas fa-file-image text-2xl mb-2 text-purple-400"></i>
-                    <h3 class="font-semibold mb-2">Format Choice</h3>
-                    <p class="text-sm opacity-90">Save as PNG for transparency, or JPG with solid color background for smaller file sizes.</p>
-                </div>
-                <div class="bg-white bg-opacity-10 rounded-lg p-4">
-                    <i class="fas fa-clock text-2xl mb-2 text-red-400"></i>
-                    <h3 class="font-semibold mb-2">Processing Time</h3>
-                    <p class="text-sm opacity-90">Client-side processing may take longer but keeps your images private and secure.</p>
-                </div>
-                <div class="bg-white bg-opacity-10 rounded-lg p-4">
-                    <i class="fas fa-shield-alt text-2xl mb-2 text-indigo-400"></i>
-                    <h3 class="font-semibold mb-2">Privacy</h3>
-                    <p class="text-sm opacity-90">Client-side processing keeps your images on your device. External tools may store images temporarily.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="text-center text-white opacity-75">
-            <p>&copy; 2024 Professional Background Remover. All methods are free to use.</p>
-        </div>
+  <!-- Upload Section -->
+  <div class="glass-effect p-6 mb-6">
+    <div id="uploadArea" class="upload-area">
+      <i class="fas fa-cloud-upload-alt text-5xl text-gray-400 mb-3"></i>
+      <p>Drag & drop your image here or click to select</p>
+      <input type="file" id="fileInput" class="hidden" accept="image/*">
     </div>
+  </div>
 
-    <script>
-        class BackgroundRemoverTool {
-            constructor() {
-                this.currentImage = null;
-                this.currentMethod = 'client-side';
-                this.initializeElements();
-                this.bindEvents();
-                this.setupCanvases();
-            }
+  <!-- Client-Side AI Section -->
+  <div id="clientSection" class="method-section" style="display:block;">
+    <div class="glass-effect p-4 mb-6">
+      <div class="grid md:grid-cols-2 gap-4">
+        <div>
+          <h3 class="text-white font-semibold mb-2">Original Image</h3>
+          <canvas id="originalCanvas" class="w-full border rounded max-h-64"></canvas>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-2">Processed Image</h3>
+          <canvas id="processedCanvas" class="w-full border rounded max-h-64"></canvas>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-2">
+        <button id="processBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"><i class="fas fa-magic mr-1"></i>Process</button>
+        <button id="downloadBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"><i class="fas fa-download mr-1"></i>Download</button>
+      </div>
+    </div>
+  </div>
 
-            initializeElements() {
-                // Upload elements
-                this.uploadArea = document.getElementById('uploadArea');
-                this.fileInput = document.getElementById('fileInput');
-                
-                // Canvas elements
-                this.originalCanvas = document.getElementById('originalCanvas');
-                this.processedCanvas = document.getElementById('processedCanvas');
-                this.manualCanvas = document.getElementById('manualCanvas');
-                this.maskCanvas = document.getElementById('maskCanvas');
-                
-                // Control elements
-                this.methodBtns = document.querySelectorAll('.method-btn');
-                this.methodSections = document.querySelectorAll('.method-section');
-                
-                // Processing elements
-                this.processBtn = document.getElementById('processBtn');
-                this.downloadProcessedBtn = document.getElementById('downloadProcessedBtn');
-                this.resetBtn = document.getElementById('resetBtn');
-                this.processingProgress = document.getElementById('processingProgress');
-                this.progressFill = document.getElementById('progressFill');
-                this.progressText = document.getElementById('progressText');
-                
-                // Manual editor elements
-                this.brushSize = document.getElementById('brushSize');
-                this.brushSizeValue = document.getElementById('brushSizeValue');
-                this.brushMode = document.getElementById('brushMode');
-                this.clearMask = document.getElementById('clearMask');
-                this.applyMask = document.getElementById('applyMask');
-                this.downloadManual = document.getElementById('downloadManual');
-                
-                // Comparison elements
-                this.beforeImage = document.getElementById('beforeImage');
-                this.afterImage = document.getElementById('afterImage');
-                this.switchImages = document.getElementById('switchImages');
-            }
+  <!-- Manual Editor Section -->
+  <div id="manualSection" class="method-section">
+    <div class="glass-effect p-4 mb-6">
+      <h3 class="text-white font-semibold mb-2">Manual Editing</h3>
+      <div class="relative">
+        <canvas id="manualCanvas" class="border rounded max-h-64"></canvas>
+        <canvas id="maskCanvas" class="absolute top-0 left-0 border rounded max-h-64"></canvas>
+      </div>
+      <div class="mt-2 flex gap-2">
+        <label class="text-white">Brush:</label>
+        <input type="range" id="brushSize" min="1" max="50" value="10">
+        <select id="brushMode">
+          <option value="erase">Erase Background</option>
+          <option value="keep">Keep Foreground</option>
+        </select>
+        <button id="applyMask" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">Apply</button>
+        <button id="downloadManual" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded">Download</button>
+      </div>
+    </div>
+  </div>
 
-            bindEvents() {
-                // Upload events
-                this.uploadArea.addEventListener('click', () => this.fileInput.click());
-                this.fileInput.addEventListener('change', (e) => this.handleFileSelect(e.target.files[0]));
-                this.uploadArea.addEventListener('dragover', (e) => this.handleDragOver(e));
-                this.uploadArea.addEventListener('dragleave', (e) => this.handleDragLeave(e));
-                this.uploadArea.addEventListener('drop', (e) => this.handleDrop(e));
-                
-                // Method selection
-                this.methodBtns.forEach(btn => {
-                    btn.addEventListener('click', () => this.switchMethod(btn.dataset.method));
-                });
-                
-                // Processing buttons
-                this.processBtn.addEventListener('click', () => this.processImage());
-                this.downloadProcessedBtn.addEventListener('click', () => this.downloadCanvas(this.processedCanvas, 'background_removed.png'));
-                this.resetBtn.addEventListener('click', () => this.resetAll());
-                
-                // Manual editor events
-                this.brushSize.addEventListener('input', () => {
-                    this.brushSizeValue.textContent = this.brushSize.value + 'px';
-                });
-                
-                this.clearMask.addEventListener('click', () => this.clearMaskCanvas());
-                this.applyMask.addEventListener('click', () => this.applyMaskToImage());
-                this.downloadManual.addEventListener('click', () => this.downloadCanvas(this.manualCanvas, 'manual_edit.png'));
-                
-                // Comparison events
-                this.switchImages.addEventListener('click', () => this.switchComparisonImages());
-                
-                this.setupManualEditor();
-            }
+  <!-- Comparison Section -->
+  <div id="comparisonSection" class="method-section">
+    <div class="glass-effect p-4 mb-6">
+      <div class="grid md:grid-cols-2 gap-4">
+        <div>
+          <h3 class="text-white mb-1">Before</h3>
+          <div class="checkerboard-bg">
+            <img id="beforeImage" class="w-full max-h-64 object-contain">
+          </div>
+        </div>
+        <div>
+          <h3 class="text-white mb-1">After</h3>
+          <div class="checkerboard-bg">
+            <img id="afterImage" class="w-full max-h-64 object-contain">
+          </div>
+        </div>
+      </div>
+      <button id="switchBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 mt-2 rounded"><i class="fas fa-exchange-alt mr-1"></i>Switch</button>
+    </div>
+  </div>
 
-            setupCanvases() {
-                this.originalCtx = this.originalCanvas.getContext('2d');
-                this.processedCtx = this.processedCanvas.getContext('2d');
-                this.manualCtx = this.manualCanvas.getContext('2d');
-                this.maskCtx = this.maskCanvas.getContext('2d');
-            }
+</div>
 
-            handleDragOver(e) {
-                e.preventDefault();
-                this.uploadArea.classList.add('dragover');
-            }
+<script>
+class BackgroundRemover {
+  constructor() {
+    // Elements
+    this.uploadArea = document.getElementById('uploadArea');
+    this.fileInput = document.getElementById('fileInput');
+    this.originalCanvas = document.getElementById('originalCanvas');
+    this.processedCanvas = document.getElementById('processedCanvas');
+    this.manualCanvas = document.getElementById('manualCanvas');
+    this.maskCanvas = document.getElementById('maskCanvas');
+    this.beforeImage = document.getElementById('beforeImage');
+    this.afterImage = document.getElementById('afterImage');
 
-            handleDragLeave(e) {
-                e.preventDefault();
-                this.uploadArea.classList.remove('dragover');
-            }
+    this.processBtn = document.getElementById('processBtn');
+    this.downloadBtn = document.getElementById('downloadBtn');
+    this.applyMaskBtn = document.getElementById('applyMask');
+    this.downloadManualBtn = document.getElementById('downloadManual');
+    this.switchBtn = document.getElementById('switchBtn');
+    this.brushSize = document.getElementById('brushSize');
+    this.brushMode = document.getElementById('brushMode');
 
-            handleDrop(e) {
-                e.preventDefault();
-                this.uploadArea.classList.remove('dragover');
-                const files = e.dataTransfer.files;
-                if (files.length > 0) {
-                    this.handleFileSelect(files[0]);
-                }
-            }
+    this.methodBtns = document.querySelectorAll('.method-btn');
+    this.sections = {
+      client: document.getElementById('clientSection'),
+      manual: document.getElementById('manualSection'),
+      comparison: document.getElementById('comparisonSection')
+    };
 
-            handleFileSelect(file) {
-                if (!file || !file.type.startsWith('image/')) {
-                    alert('Please select a valid image file.');
-                    return;
-                }
+    this.currentImage = null;
 
-                if (file.size > 10 * 1024 * 1024) {
-                    alert('File size must be less than 10MB.');
-                    return;
-                }
+    this.setupEvents();
+    this.setupManualEditor();
+  }
 
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.loadImage(e.target.result);
-                };
-                reader.readAsDataURL(file);
-            }
+  setupEvents() {
+    this.uploadArea.addEventListener('click', ()=>this.fileInput.click());
+    this.fileInput.addEventListener('change', e=>this.loadFile(e.target.files[0]));
+    this.uploadArea.addEventListener('dragover', e=>{ e.preventDefault(); this.uploadArea.classList.add('dragover'); });
+    this.uploadArea.addEventListener('dragleave', e=>{ e.preventDefault(); this.uploadArea.classList.remove('dragover'); });
+    this.uploadArea.addEventListener('drop', e=>{ e.preventDefault(); this.uploadArea.classList.remove('dragover'); this.loadFile(e.dataTransfer.files[0]); });
 
-            loadImage(src) {
-                const img = new Image();
-                img.onload = () => {
-                    this.currentImage = img;
-                    this.drawImageToCanvas(img, this.originalCanvas);
-                    this.drawImageToCanvas(img, this.manualCanvas);
-                    this.setupMaskCanvas();
-                    
-                    // Set comparison images
-                    this.beforeImage.src = src;
-                    this.afterImage.src = src;
-                    
-                    // Update upload area
-                    this.uploadArea.innerHTML = `
-                        <i class="fas fa-check-circle text-5xl text-green-500 mb-3"></i>
-                        <p class="text-lg text-green-600 font-semibold">Image loaded successfully!</p>
-                        <p class="text-sm text-gray-500">Click to select a different image</p>
-                    `;
-                };
-                img.src = src;
-            }
+    this.methodBtns.forEach(btn => {
+      btn.addEventListener('click', ()=>{
+        this.methodBtns.forEach(b=>b.classList.remove('method-active'));
+        btn.classList.add('method-active');
+        for(let s in this.sections) this.sections[s].style.display='none';
+        this.sections[btn.dataset.method].style.display='block';
+      });
+    });
 
-            drawImageToCanvas(img, canvas) {
-                const ctx = canvas.getContext('2d');
-                const maxWidth = 600;
-                const maxHeight = 400;
-                
-                let { width, height } = img;
-                const ratio = Math.min(maxWidth / width, maxHeight / height);
-                
-                width *= ratio;
-                height *= ratio;
-                
-                canvas.width = width;
-                canvas.height = height;
-                
-                ctx.clearRect(0, 0, width, height);
-                ctx.drawImage(img, 0, 0, width, height);
-            }
+    this.processBtn.addEventListener('click', ()=>this.processImage());
+    this.downloadBtn.addEventListener('click', ()=>this.downloadCanvas(this.processedCanvas,'background_removed.png'));
+    this.applyMaskBtn.addEventListener('click', ()=>this.applyMask());
+    this.downloadManualBtn.addEventListener('click', ()=>this.downloadCanvas(this.manualCanvas,'manual_edit.png'));
+    this.switchBtn.addEventListener('click', ()=>{ let t=this.beforeImage.src; this.beforeImage.src=this.afterImage.src; this.afterImage.src=t; });
+  }
 
-            setupMaskCanvas() {
-                if (this.manualCanvas.width && this.manualCanvas.height) {
-                    this.maskCanvas.width = this.manualCanvas.width;
-                    this.maskCanvas.height = this.manualCanvas.height;
-                    this.maskCanvas.style.width = this.manualCanvas.style.width;
-                    this.maskCanvas.style.height = this.manualCanvas.style.height;
-                    this.clearMaskCanvas();
-                }
-            }
+  loadFile(file) {
+    if(!file || !file.type.startsWith('image/')) { alert('Please select an image.'); return; }
+    const reader = new FileReader();
+    reader.onload = e=>this.loadImage(e.target.result);
+    reader.readAsDataURL(file);
+  }
 
-            switchMethod(method) {
-                this.currentMethod = method;
-                
-                // Update button states
-                this.methodBtns.forEach(btn => {
-                    btn.classList.remove('method-active');
-                    if (btn.dataset.method === method) {
-                        btn.classList.add('method-active');
-                    }
-                });
-                
-                // Show/hide sections
-                this.methodSections.forEach(section => {
-                    section.classList.add('hidden');
-                });
-                
-                const targetSection = document.getElementById(method.replace('-', '') + 'Section');
-                if (targetSection) {
-                    targetSection.classList.remove('hidden');
-                }
-            }
+  loadImage(src) {
+    const img = new Image();
+    img.onload = ()=>{
+      this.currentImage = img;
+      this.drawCanvas(img,this.originalCanvas);
+      this.drawCanvas(img,this.manualCanvas);
+      this.maskCanvas.width=this.manualCanvas.width;
+      this.maskCanvas.height=this.manualCanvas.height;
+      this.beforeImage.src = src;
+      this.afterImage.src = src;
+    };
+    img.src = src;
+  }
 
-            async processImage() {
-                if (!this.currentImage) {
-                    alert('Please select an image first.');
-                    return;
-                }
+  drawCanvas(img,canvas) {
+    const ctx = canvas.getContext('2d');
+    const maxW = 600, maxH = 400;
+    let w=img.width, h=img.height;
+    const ratio=Math.min(maxW/w,maxH/h);
+    w*=ratio; h*=ratio;
+    canvas.width=w; canvas.height=h;
+    ctx.clearRect(0,0,w,h);
+    ctx.drawImage(img,0,0,w,h);
+  }
 
-                this.showProgress();
-                
-                try {
-                    // Simulate AI processing
-                    await this.simulateProcessing();
-                    
-                    // Apply basic background removal (edge detection + threshold)
-                    this.applyBasicBackgroundRemoval();
-                    
-                } catch (error) {
-                    console.error('Processing error:', error);
-                    alert('Error processing image. Please try again.');
-                } finally {
-                    this.hideProgress();
-                }
-            }
+  processImage() {
+    if(!this.currentImage){ alert('Select image first.'); return; }
+    const srcCanvas = this.originalCanvas;
+    const tgtCanvas = this.processedCanvas;
+    tgtCanvas.width=srcCanvas.width;
+    tgtCanvas.height=srcCanvas.height;
+    const srcCtx = srcCanvas.getContext('2d');
+    const tgtCtx = tgtCanvas.getContext('2d');
+    const data = srcCtx.getImageData(0,0,srcCanvas.width,srcCanvas.height);
+    const d=data.data;
+    for(let i=0;i<d.length;i+=4){
+      const r=d[i],g=d[i+1],b=d[i+2];
+      const lum = 0.299*r+0.587*g+0.114*b;
+      if(lum>200||(Math.abs(r-g)<30 && Math.abs(g-b)<30 && Math.abs(r-b)<30)){ d[i+3]=0; }
+    }
+    tgtCtx.putImageData(data,0,0);
+    this.afterImage.src = tgtCanvas.toDataURL();
+  }
 
-            async simulateProcessing() {
-                return new Promise(resolve => {
-                    let progress = 0;
-                    const interval = setInterval(() => {
-                        progress += Math.random() * 10 + 5;
-                        if (progress >= 100) {
-                            this.updateProgress(100);
-                            clearInterval(interval);
-                            resolve();
-                        } else {
-                            this.updateProgress(progress);
-                        }
-                    }, 100);
-                });
-            }
+  downloadCanvas(canvas,name){
+    const link=document.createElement('a');
+    link.download=name;
+    link.href=canvas.toDataURL();
+    link.click();
+  }
 
-            applyBasicBackgroundRemoval() {
-                const sourceCanvas = this.originalCanvas;
-                const targetCanvas = this.processedCanvas;
-                const sourceCtx = sourceCanvas.getContext('2d');
-                const targetCtx = targetCanvas.getContext('2d');
-                
-                targetCanvas.width = sourceCanvas.width;
-                targetCanvas.height = sourceCanvas.height;
-                
-                const imageData = sourceCtx.getImageData(0, 0, sourceCanvas.width, sourceCanvas.height);
-                const data = imageData.data;
-                
-                // Simple edge-based background removal
-                for (let i = 0; i < data.length; i += 4) {
-                    const r = data[i];
-                    const g = data[i + 1];
-                    const b = data[i + 2];
-                    
-                    // Calculate luminance
-                    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-                    
-                    // Simple background detection (adjust threshold as needed)
-                    if (luminance > 200 || (Math.abs(r - g) < 30 && Math.abs(g - b) < 30 && Math.abs(r - b) < 30)) {
-                        data[i + 3] = 0; // Make transparent
-                    }
-                }
-                
-                targetCtx.putImageData(imageData, 0, 0);
-            }
+  setupManualEditor() {
+    let drawing=false, lastX=0, lastY=0;
+    const ctx=this.maskCanvas.getContext('2d');
+    const start=(e)=>{ drawing=true; [lastX,lastY]=this.getPos(e); };
+    const draw=(e)=>{
+      if(!drawing) return;
+      const [x,y]=this.getPos(e);
+      const size=parseInt(this.brushSize.value);
+      const mode=this.brushMode.value;
+      ctx.lineWidth=size; ctx.lineCap='round'; ctx.lineJoin='round';
+      ctx.globalCompositeOperation = mode==='erase'?'source-over':'destination-out';
+      ctx.strokeStyle = mode==='erase'?'rgba(255,0,0,0.5)':'rgba(0,0,0,1)';
+      ctx.beginPath(); ctx.moveTo(lastX,lastY); ctx.lineTo(x,y); ctx.stroke();
+      [lastX,lastY]=[x,y];
+    };
+    const stop=()=>drawing=false;
+    this.maskCanvas.addEventListener('mousedown',start);
+    this.maskCanvas.addEventListener('mousemove',draw);
+    this.maskCanvas.addEventListener('mouseup',stop);
+    this.maskCanvas.addEventListener('mouseout',stop);
+    this.maskCanvas.addEventListener('touchstart',e=>{ e.preventDefault(); const t=e.touches[0]; this.maskCanvas.dispatchEvent(new MouseEvent('mousedown',{clientX:t.clientX,clientY:t.clientY})); });
+    this.maskCanvas.addEventListener('touchmove',e=>{ e.preventDefault(); const t=e.touches[0]; this.maskCanvas.dispatchEvent(new MouseEvent('mousemove',{clientX:t.clientX,clientY:t.clientY})); });
+    this.maskCanvas.addEventListener('touchend',e=>{ e.preventDefault(); this.maskCanvas.dispatchEvent(new MouseEvent('mouseup',{})); });
+  }
 
-            setupManualEditor() {
-                let isDrawing = false;
-                let lastX = 0;
-                let lastY = 0;
+  getPos(e){
+    const rect=this.maskCanvas.getBoundingClientRect();
+    const scaleX=this.maskCanvas.width/rect.width;
+    const scaleY=this.maskCanvas.height/rect.height;
+    return [(e.clientX-rect.left)*scaleX,(e.clientY-rect.top)*scaleY];
+  }
 
-                const startDrawing = (e) => {
-                    isDrawing = true;
-                    [lastX, lastY] = this.getMousePos(e);
-                };
+  applyMask() {
+    if(!this.currentImage) return;
+    const srcCtx = this.manualCanvas.getContext('2d');
+    const maskCtx = this.maskCanvas.getContext('2d');
+    const imgData = srcCtx.getImageData(0,0,this.manualCanvas.width,this.manualCanvas.height);
+    const maskData = maskCtx.getImageData(0,0,this.maskCanvas.width,this.maskCanvas.height);
+    const d=imgData.data, m=maskData.data;
+    for(let i=0;i<d.length;i+=4){ if(m[i+3]>0 && m[i]>200) d[i+3]=0; }
+    srcCtx.putImageData(imgData,0,0);
+  }
+}
 
-                const draw = (e) => {
-                    if (!isDrawing) return;
-                    
-                    const [currentX, currentY] = this.getMousePos(e);
-                    const ctx = this.maskCtx;
-                    const brushSize = parseInt(this.brushSize.value);
-                    const mode = this.brushMode.value;
-                    
-                    ctx.lineWidth = brushSize;
-                    ctx.lineCap = 'round';
-                    ctx.lineJoin = 'round';
-                    
-                    if (mode === 'erase') {
-                        ctx.globalCompositeOperation = 'source-over';
-                        ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
-                    } else {
-                        ctx.globalCompositeOperation = 'destination-out';
-                        ctx.strokeStyle = 'rgba(0, 0, 0, 1)';
-                    }
-                    
-                    ctx.beginPath();
-                    ctx.moveTo(lastX, lastY);
-                    ctx.lineTo(currentX, currentY);
-                    ctx.stroke();
-                    
-                    [lastX, lastY] = [currentX, currentY];
-                };
-
-                const stopDrawing = () => {
-                    isDrawing = false;
-                };
-
-                // Mouse events
-                this.maskCanvas.addEventListener('mousedown', startDrawing);
-                this.maskCanvas.addEventListener('mousemove', draw);
-                this.maskCanvas.addEventListener('mouseup', stopDrawing);
-                this.maskCanvas.addEventListener('mouseout', stopDrawing);
-
-                // Touch events for mobile
-                this.maskCanvas.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    const mouseEvent = new MouseEvent('mousedown', {
-                        clientX: touch.clientX,
-                        clientY: touch.clientY
-                    });
-                    this.maskCanvas.dispatchEvent(mouseEvent);
-                });
-
-                this.maskCanvas.addEventListener('touchmove', (e) => {
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    const mouseEvent = new MouseEvent('mousemove', {
-                        clientX: touch.clientX,
-                        clientY: touch.clientY
-                    });
-                    this.maskCanvas.dispatchEvent(mouseEvent);
-                });
-
-                this.maskCanvas.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    const mouseEvent = new MouseEvent('mouseup', {});
-                    this.maskCanvas.dispatchEvent(mouseEvent);
-                });
-            }
-
-            getMousePos(e) {
-                const rect = this.maskCanvas.getBoundingClientRect();
-                const scaleX = this.maskCanvas.width / rect.width;
-                const scaleY = this.maskCanvas.height / rect.height;
-                
-                return [
-                    (e.clientX - rect.left) * scaleX,
-                    (e.clientY - rect.top) * scaleY
-                ];
-            }
-
-            clearMaskCanvas() {
-                this.maskCtx.clearRect(0, 0, this.maskCanvas.width, this.maskCanvas.height);
-                // Set initial transparent red overlay
-                this.maskCtx.fillStyle = 'rgba(255, 0, 0, 0.3)';
-                this.maskCtx.fillRect(0, 0, this.maskCanvas.width, this.maskCanvas.height);
-            }
-
-            applyMaskToImage() {
-                if (!this.currentImage) return;
-
-                const sourceImageData = this.manualCtx.getImageData(0, 0, this.manualCanvas.width, this.manualCanvas.height);
-                const maskImageData = this.maskCtx.getImageData(0, 0, this.maskCanvas.width, this.maskCanvas.height);
-                
-                const sourceData = sourceImageData.data;
-                const maskData = maskImageData.data;
-                
-                for (let i = 0; i < sourceData.length; i += 4) {
-                    const maskAlpha = maskData[i + 3];
-                    const maskRed = maskData[i];
-                    
-                    // If mask is red (background), make transparent
-                    if (maskAlpha > 0 && maskRed > 200) {
-                        sourceData[i + 3] = 0; // Make transparent
-                    }
-                }
-                
-                this.manualCtx.putImageData(sourceImageData, 0, 0);
-            }
-
-            switchComparisonImages() {
-                const tempSrc = this.beforeImage.src;
-                this.beforeImage.src = this.afterImage.src;
-                this.afterImage.src = tempSrc;
-            }
-
-            downloadCanvas(canvas, filename) {
-                const link = document.createElement('a');
-                link.download = filename;
-                link.href = canvas.toDataURL();
-                link.click();
-            }
-
-            showProgress() {
-                this.processingProgress.classList.remove('hidden');
-                this.processBtn.disabled = true;
-                this.processBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
-            }
-
-            hideProgress() {
-                this.processingProgress.classList.add('hidden');
-                this.processBtn.disabled = false;
-                this.processBtn.innerHTML = '<i class="fas fa-magic mr-2"></i>Process Image';
-            }
-
-            updateProgress(percentage) {
-                const progress = Math.min(Math.round(percentage), 100);
-                this.progressFill.style.width = `${progress}%`;
-                this.progressText.textContent = `${progress}%`;
-            }
-
-            resetAll() {
-                this.currentImage = null;
-                this.fileInput.value = '';
-                
-                // Clear all canvases
-                [this.originalCanvas, this.processedCanvas, this.manualCanvas, this.maskCanvas].forEach(canvas => {
-                    const ctx = canvas.getContext('2d');
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                });
-                
-                // Reset upload area
-                this.uploadArea.innerHTML = `
-                    <i class="fas fa-cloud-upload-alt text-5xl text-gray-400 mb-3"></i>
-                    <p class="text-lg text-gray-600 mb-2">Drag & drop your image here or click to select</p>
-                    <p class="text-sm text-gray-500">Supports JPG, PNG, WebP (Max 10MB)</p>
-                `;
-                
-                // Clear comparison images
-                this.beforeImage.src = '';
-                this.afterImage.src = '';
-            }
-        }
-
-        // Add method button styles
-        document.addEventListener('DOMContentLoaded', function() {
-            const style = document.createElement('style');
-            style.textContent = `
-                .method-btn {
-                    background: rgba(255, 255, 255, 0.1);
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                    color: white;
-                    padding: 1rem;
-                    border-radius: 0.5rem;
-                    text-align: center;
-                    transition: all 0.3s ease;
-                    cursor: pointer;
-                }
-                .method-btn:hover {
-                    background: rgba(255, 255, 255, 0.2);
-                    transform: translateY(-2px);
-                }
-                .checkerboard-bg {
-                    background-image: 
-                        linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
-                        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
-                        linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
-                        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
-                    background-size: 20px 20px;
-                    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-                }
-            `;
-            document.head.appendChild(style);
-            
-            // Initialize the tool
-            new BackgroundRemoverTool();
-        });
-    </script>
+document.addEventListener('DOMContentLoaded',()=>new BackgroundRemover());
+</script>
 </body>
 </html>
