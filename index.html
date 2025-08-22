@@ -6,357 +6,106 @@
   <title>The Tool Nest</title>
   <style>
     :root {
-      /* Your original color scheme */
-      --bg: #0b0b0d;
+      --bg: #0b0b0d;         
       --header-bg: #0a0a0b;
-      --text: #eaeaea;
+      --text: #ffffff;       /* Changed to white for visibility */
       --muted: #b8b8b8;
       --card: #1c1c21;
-      --accent: #ff8c00;
-      --accent-hover: #e67600;
+      --accent: #ffc800;
+      --accent-hover: #e67e00;
       --shadow: rgba(255, 140, 0, 0.2);
       --card-hover-text: #0b0b0d;
       --radius: 14px;
     }
 
     * { box-sizing: border-box; }
-    html, body { height: 100%; }
 
-    body {
+    html, body {
+      height: 100%;
       margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial;
-      background: radial-gradient(1200px 700px at 20% -10%, #111114 0%, transparent 60%),
-                  radial-gradient(1000px 600px at 90% 10%, #121216 0%, transparent 55%),
-                  var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text); /* ✅ Text is visible */
     }
 
     header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: linear-gradient(180deg, rgba(10,10,11,0.95), rgba(10,10,11,0.85));
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: var(--header-bg);
+      padding: 1rem;
+      text-align: center;
     }
 
-    .header-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    /* Your logo */
-    .logo {
-      position: absolute;
-      left: 20px;
-      font-weight: 700;
-      font-size: 1.3rem;
-      background: linear-gradient(to right, var(--accent), #ffbb00);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    h1 {
+    header h1 {
       margin: 0;
-      font-size: clamp(1.4rem, 2.5vw, 2rem);
-      letter-spacing: 0.5px;
-      font-weight: 700;
+      color: var(--accent);
     }
 
     main {
-      max-width: 1100px;
-      margin: 32px auto 60px;
-      padding: 0 20px;
-    }
-
-    .intro {
-      text-align: center;
-      margin-bottom: 22px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 18px;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      padding: 1rem;
     }
 
     .card {
       background: var(--card);
-      border: 1px solid rgba(255,255,255,0.06);
+      padding: 1.5rem;
       border-radius: var(--radius);
-      padding: 18px;
-      box-shadow: 0 10px 24px -12px var(--shadow);
-      transition: background 220ms ease, transform 180ms ease, box-shadow 220ms ease, border-color 220ms ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 160px;
+      box-shadow: 0 4px 10px var(--shadow);
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px var(--shadow);
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
       background: var(--accent);
-      transform: translateY(-2px);
-      box-shadow: 0 14px 30px -12px var(--shadow);
-      border-color: transparent;
+      color: var(--card-hover-text);
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: bold;
     }
 
-    .card h2 {
-      margin: 0 0 8px;
-      font-size: 1.1rem;
-      line-height: 1.2;
-    }
-
-    .card p {
-      margin: 0 0 14px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .card:hover h2, .card:hover p { color: var(--card-hover-text); }
-
-    .actions { margin-top: auto; }
-
-    .btn {
-      appearance: none;
-      border: none;
-      border-radius: 6px;
-      padding: 10px 14px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      background: var(--accent);
-      color: #0b0b0d;
-      transition: background 180ms ease, transform 120ms ease;
-      box-shadow: 0 6px 16px -10px var(--shadow);
-    }
-
-    .btn:hover { background: var(--accent-hover); }
-    .btn:active { transform: translateY(1px); }
-
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    @media (max-width: 720px) {
-      .grid { grid-template-columns: 1fr; }
-      .logo { display: none; }
+    .card a:hover {
+      background: var(--accent-hover);
+      color: #fff;
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="header-inner">
-      <div class="logo">ToolNest</div>
-      <h1>The Tool Nest</h1>
-    </div>
+    <h1>The Tool Nest</h1>
   </header>
 
   <main>
-    <p class="intro">A clean, responsive hub for everyday utilities. Tap any tool to get started.</p>
+    <div class="card">
+      <h2>Image Compressor</h2>
+      <p>Compress images easily without losing quality.</p>
+      <a href="image-compressor.html">Open Tool</a>
+    </div>
 
-    <section class="grid">
-      <!-- Original 30 Tools -->
-      <article class="card">
-        <h2>Image Converter</h2>
-        <p>Convert between JPG, PNG, WebP formats</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-         
-      </article>
-      <article class="card">
-        <h2>Image Compressor</h2>
-        <p>Reduce image file size</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Image Resizer</h2>
-        <p>Adjust image dimensions</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Background Remover</h2>
-        <p>Remove image backgrounds</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Video Converter</h2>
-        <p>Convert video formats</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Video Compressor</h2>
-        <p>Reduce video file size</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Video Trimmer</h2>
-        <p>Cut video clips</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>GIF Maker</h2>
-        <p>Create GIFs from videos</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Audio Converter</h2>
-        <p>Convert audio formats</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Audio Cutter</h2>
-        <p>Trim audio files</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>MP3 Compressor</h2>
-        <p>Reduce MP3 file size</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Volume Booster</h2>
-        <p>Increase audio volume</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>PDF Compressor</h2>
-        <p>Reduce PDF size</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>PDF to Word</h2>
-        <p>Convert PDF to editable Word</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Word to PDF</h2>
-        <p>Convert Word to PDF</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Excel to PDF</h2>
-        <p>Convert Excel to PDF</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>EMI Calculator</h2>
-        <p>Calculate loan payments</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>SIP Calculator</h2>
-        <p>Estimate investment returns</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>GST Calculator</h2>
-        <p>Compute GST amounts</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Currency Converter</h2>
-        <p>Convert currencies</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Age Calculator</h2>
-        <p>Calculate exact age</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>BMI Calculator</h2>
-        <p>Calculate body mass index</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Password Generator</h2>
-        <p>Create strong passwords</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>QR Code Generator</h2>
-        <p>Generate QR codes</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Color Picker</h2>
-        <p>Select color values</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Unit Converter</h2>
-        <p>Convert measurements</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
+    <div class="card">
+      <h2>Image Converter</h2>
+      <p>Convert images between different formats.</p>
+      <a href="image-converter.html">Open Tool</a>
+    </div>
 
-      <!-- NEW: Additional 10 Tools -->
-      <article class="card">
-        <h2>File Shredder</h2>
-        <p>Permanently delete sensitive files</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>YouTube Downloader</h2>
-        <p>Download videos from YouTube</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Metadata Remover</h2>
-        <p>Strip metadata from files</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Screen Recorder</h2>
-        <p>Record your screen activity</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Voice Changer</h2>
-        <p>Modify your voice in real-time</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>WebP Converter</h2>
-        <p>Convert images to WebP format</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>Barcode Generator</h2>
-        <p>Create custom barcodes</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>IP Address Checker</h2>
-        <p>Find your public IP address</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>File Splitter</h2>
-        <p>Split large files into parts</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-      <article class="card">
-        <h2>MAC Address Generator</h2>
-        <p>Generate random MAC addresses</p>
-        <div class="actions"><button class="btn">Open Tool</button></div>
-      </article>
-    </section>
+    <div class="card">
+      <h2>Image Resizer</h2>
+      <p>Resize images to any dimension you need.</p>
+      <a href="image-resizer.html">Open Tool</a>
+    </div>
+
+    <div class="card">
+      <h2>Background Remover</h2>
+      <p>Remove backgrounds from images instantly.</p>
+      <a href="Background-remover.html">Open Tool</a>
+    </div>
   </main>
-
-  <footer>
-    <p>© 2024 The Tool Nest</p>
-  </footer>
 </body>
-</html>                            
+</html>
