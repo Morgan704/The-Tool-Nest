@@ -6,653 +6,468 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CyberTool X</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; }
-        body { background: #000; color: #fff; min-height: 100vh; position: relative; }
-        
-        /* Background */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; color-scheme: dark;}
+        body { background: #000; color: #fff; }
+
         body::before {
             content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
-            animation: gradientShift 10s ease-in-out infinite alternate;
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0,255,255,.1) 0%, transparent 60%),
+                        radial-gradient(circle at 80% 50%, rgba(255,0,255,.1) 0%, transparent 60%);
+            animation: gradientShift 15s infinite alternate linear;
             z-index: -2;
         }
-        @keyframes gradientShift {
-            0% { transform: rotate(0deg) scale(1); }
-            100% { transform: rotate(180deg) scale(1.1); }
-        }
+        @keyframes gradientShift { to { transform: rotate(1turn) scale(1.05); } }
 
-        /* Particles */
-        .particles {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; overflow: hidden;
-        }
+        .particles { position: fixed; inset: 0; overflow: hidden; z-index: -1; pointer-events: none; }
         .particle {
-            position: absolute; width: 3px; height: 3px;
-            background: rgba(0, 255, 255, 0.8); border-radius: 50%;
-            animation: float 15s infinite linear; box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+            position: absolute; width: 3px; height: 3px; border-radius: 50%;
+            background: #0ff; opacity: 0; animation: float 15s linear infinite;
         }
         @keyframes float {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+            0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10%  { opacity: .8; }
+            90%  { opacity: .8; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
         }
 
-        /* Header */
         header {
-            position: sticky; top: 0; background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px); z-index: 1000; padding: 1rem 0;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            position: sticky; top: 0; z-index: 100;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(0,255,255,.2); padding: .75rem .5rem;
         }
-        nav {
-            display: flex; justify-content: center; max-width: 1200px;
-            margin: 0 auto; padding: 0 2rem;
-        }
-        nav ul {
-            display: flex; list-style: none; gap: 2rem; flex-wrap: wrap;
-            justify-content: center;
-        }
-        nav a {
-            color: #fff; text-decoration: none; padding: 0.5rem 1rem;
-            border-radius: 20px; transition: all 0.3s ease;
-            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
-        }
-        nav a:hover {
-            background: rgba(0, 255, 255, 0.2);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
-        }
+        nav ul { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; list-style: none; }
+        nav a { padding: .4rem .8rem; border-radius: 20px; font-size: .8rem; text-transform: uppercase; letter-spacing: 1px; transition: all .3s; }
+        nav a:hover { text-shadow: 0 0 8px #0ff; box-shadow: 0 0 8px rgba(0,255,255,.4); }
 
-        /* Main layout */
-        .container {
-            max-width: 1200px; margin: 0 auto; padding: 2rem;
-            animation: fadeIn 1s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
 
         .title {
-            text-align: center; font-size: 3.5rem; font-weight: 700; margin-bottom: 3rem;
-            background: linear-gradient(45deg, #00ffff, #ff00ff, #00ff80);
+            text-align: center; font-size: 2.5rem; font-weight: 700; margin: 1rem 0 2rem;
+            background: linear-gradient(90deg, #0ff 0%, #ff00ff 50%, #00ff80 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: titleGlow 2s ease-in-out infinite alternate;
-            text-transform: uppercase; letter-spacing: 3px;
+            animation: titleGlow 2.5s alternate infinite;
         }
-        @keyframes titleGlow {
-            0% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; }
-            100% { text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff; }
-        }
+        @keyframes titleGlow { 0%{text-shadow:0 0 10px #0ff,0 0 20px #0ff;}100%{text-shadow:0 0 20px #f0f,0 0 30px #f0f;} }
 
-        .grid {
-            display: grid; grid-template-columns: repeat(auto-fit, 320px);
-            gap: 2.5rem; justify-content: center;
-        }
+        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; }
 
+        /* ALL cards are 320×375 px, 16 px radius, soft glow */
         .card {
-            width: 320px; height: 400px; background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px; padding: 1.5rem; display: flex;
-            flex-direction: column; transition: all 0.3s ease;
-            position: relative; overflow: hidden;
+            width: 320px; height: 375px;
+            padding: 1.2rem;
+            display: flex; flex-direction: column;
+            background: rgba(255,255,255,.05);
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 16px;
+            box-shadow: 0 0 12px rgba(0,255,255,.25),
+                        inset 0 0 6px rgba(0,255,255,.05);
+            transition: all .35s ease;
         }
         .card:hover {
-            transform: scale(1.05); border-color: rgba(0, 255, 255, 0.5);
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0,255,255,.45),
+                        inset 0 0 10px rgba(0,255,255,.15);
         }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, #00ffff, #ff00ff, transparent);
+        .card::before { /* top accent run */
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, #0ff 50%, transparent);
             animation: borderFlow 3s linear infinite;
+            border-radius: 16px 16px 0 0;
+            opacity: .85;
         }
-        @keyframes borderFlow {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
+        @keyframes borderFlow { 0%{transform:translateX(-100%);}100%{transform:translateX(100%);} }
 
-        .card h3 {
-            font-size: 1.5rem; margin-bottom: 1rem; color: #00ffff;
-            text-align: center; text-transform: uppercase; letter-spacing: 1px;
-        }
+        .card h3 { margin-bottom: .75rem; color: #0ff; font-size: 1.2rem; letter-spacing: .5px; text-transform: uppercase; text-align: center; }
 
-        .card-content {
-            flex: 1; display: flex; flex-direction: column; gap: 1rem;
-            overflow-y: auto;
-        }
+        .card-content { flex: 1; display: flex; flex-direction: column; gap: .7rem; overflow: hidden; }
 
-        .card-content::-webkit-scrollbar {
-            width: 4px;
-        }
-        .card-content::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
-        .card-content::-webkit-scrollbar-thumb { background: rgba(0, 255, 255, 0.5); border-radius: 2px; }
-
-        input, textarea, select {
-            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: 8px; padding: 0.75rem; color: #fff; font-size: 0.9rem;
-            transition: all 0.3s ease; width: 100%;
-        }
-        input::placeholder, textarea::placeholder { color: rgba(255, 255, 255, 0.6); }
-        input:focus, textarea:focus, select:focus {
-            outline: none; border-color: #00ffff; box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-        }
+        /* Inputs / buttons */
+        input, textarea, select { width: 100%; background: rgba(255,255,255,.08); border-radius: 8px; padding: .6rem .8rem; font-size: .9rem; border: 1px solid rgba(0,255,255,.4); color: #fff; outline: none;}
+        input:focus, textarea:focus, select:focus { border-color: #0ff; box-shadow: 0 0 8px rgba(0,255,255,.45); }
 
         button {
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
-            border: 1px solid rgba(0, 255, 255, 0.5); border-radius: 25px;
-            padding: 0.75rem 1.5rem; color: #fff; font-size: 0.9rem;
-            cursor: pointer; transition: all 0.3s ease;
-            text-transform: uppercase; letter-spacing: 1px; margin: 0.25rem;
+            align-self: stretch;
+            background: linear-gradient(135deg, rgba(0,255,255,.2), rgba(255,0,255,.2));
+            border: 1px solid rgba(0,255,255,.5);
+            border-radius: 25px; padding: .55rem 0; color: #fff; font-size: .8rem;
+            cursor: pointer; transition: all .3s ease; letter-spacing: 1px; text-transform: uppercase;
         }
-        button:hover {
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.4), rgba(255, 0, 255, 0.4));
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6); transform: translateY(-2px);
-        }
+        button:hover { box-shadow: 0 0 14px rgba(0,255,255,.6); }
+
         .reset-btn {
-            background: rgba(255, 0, 128, 0.2); border-color: rgba(255, 0, 128, 0.5);
-            font-size: 0.8rem; padding: 0.5rem 1rem; align-self: center; margin-top: auto;
+            margin-top: auto;
+            background: rgba(255,0,128,.15);
+            border-color: rgba(255,0,128,.4);
         }
-        .reset-btn:hover { background: rgba(255, 0, 128, 0.4); box-shadow: 0 0 15px rgba(255, 0, 128, 0.6); }
+        .reset-btn:hover { box-shadow: 0 0 12px rgba(255,0,128,.55); }
 
-        .output {
-            background: rgba(0, 255, 255, 0.1); border-radius: 8px; padding: 1rem;
-            font-family: 'Courier New', monospace; color: #00ff80; text-align: center;
-            font-weight: bold; min-height: 45px; display: flex; align-items: center;
-            justify-content: center;
-        }
+        .output { padding: .6rem 1rem; background: rgba(0,255,255,.08); border-radius: 8px; text-align: center; font-family: 'Courier New' }
 
-        .calculator-buttons {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 1rem;
-        }
-        .calc-display {
-            grid-column: 1 / -1; text-align: right; font-size: 1.2rem;
-            background: rgba(0, 0, 0, 0.3); padding: 1rem; border-radius: 8px;
-            margin-bottom: 0.5rem; min-height: 50px; display: flex; align-items: center;
-            justify-content: flex-end; font-family: 'Courier New', monospace;
-        }
+        /* Calculator grid (inside 320×375 card) */
+        .calc-display{ margin-bottom:.4rem;background:#0002;padding:.5rem .8rem;font-size:1rem;border-radius:6px;font-family:monospace;text-align:right;}
+        .calculator-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:.25rem;flex:1;}
+        .calculator-buttons button{padding:.5rem 0;font-size:1rem;border-radius:6px;}
+        .calculator-buttons button:nth-child(-n+2){background:rgba(255,0,128,.15);border-color:rgba(255,0,128,.4);}
+        .calculator-buttons button:nth-child(4n+4){background:rgba(255,165,0,.15);border-color:rgba(255,165,0,.4);}
 
-        footer {
-            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px);
-            text-align: center; padding: 2rem 2rem; margin-top: 4rem;
-            border-top: 1px solid rgba(0, 255, 255, 0.2);
+        footer{
+            margin-top: 3rem; text-align:center; padding:2rem 1rem;
+            backdrop-filter: blur(6px); border-top:1px solid rgba(0,255,255,.25);
         }
-        .footer-links {
-            display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-        .footer-links a {
-            color: #fff; text-decoration: none; font-size: 0.9rem;
-            text-transform: uppercase; letter-spacing: 1px;
-        }
-        .footer-links a:hover { color: #00ffff; text-shadow: 0 0 10px rgba(0, 255, 255, 0.8); }
-        footer p { color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; }
+        .footer-links{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px}
     </style>
 </head>
 <body>
-    <!-- Particles -->
-    <div class="particles" id="particles"></div>
+<div class="particles" id="particles"></div>
 
-    <!-- Header -->
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#tools">Tools</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#privacy">Privacy</a></li>
-                <li><a href="#terms">Terms</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#privacy">Privacy</a></li>
+      <li><a href="#terms">Terms</a></li>
+    </ul>
+  </nav>
+</header>
 
-    <div class="container">
-        <h1 class="title">CyberTool X</h1>
-        
-        <div class="grid">
-            <!-- Calculator -->
-            <div class="card">
-                <h3>Calculator</h3>
-                <div class="card-content">
-                    <div class="calc-display" id="calc-display">0</div>
-                    <div class="calculator-buttons">
-                        <button onclick="calculatorClear()">C</button>
-                        <button onclick="calculatorDelete()">Del</button>
-                        <button onclick="calculatorPress('/')">/</button>
-                        <button onclick="calculatorPress('*')">×</button>
-                        <button onclick="calculatorPress('7')">7</button>
-                        <button onclick="calculatorPress('8')">8</button>
-                        <button onclick="calculatorPress('9')">9</button>
-                        <button onclick="calculatorPress('-')">-</button>
-                        <button onclick="calculatorPress('4')">4</button>
-                        <button onclick="calculatorPress('5')">5</button>
-                        <button onclick="calculatorPress('6')">6</button>
-                        <button onclick="calculatorPress('+')">+</button>
-                        <button onclick="calculatorPress('1')">1</button>
-                        <button onclick="calculatorPress('2')">2</button>
-                        <button onclick="calculatorPress('3')">3</button>
-                        <button onclick="calculateResult()" style="grid-column: span 2;">=</button>
-                        <button onclick="calculatorPress('0')" style="grid-column: span 2;">0</button>
-                        <button onclick="calculatorPress('.')">.</button>
-                    </div>
-                    <button class="reset-btn" onclick="resetCalculator()">Reset</button>
-                </div>
-            </div>
+<div class="container">
+  <h1 class="title">CyberTool X</h1>
 
-            <!-- Password Generator -->
-            <div class="card">
-                <h3>Password Generator</h3>
-                <div class="card-content">
-                    <input type="range" id="pass-length" min="8" max="32" value="12" oninput="updatePassLength(this.value)">
-                    <span id="length-display">12</span> characters
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.8rem;">
-                        <label><input type="checkbox" id="inc-uppercase" checked> Uppercase</label>
-                        <label><input type="checkbox" id="inc-lowercase" checked> Lowercase</label>
-                        <label><input type="checkbox" id="inc-numbers" checked> Numbers</label>
-                        <label><input type="checkbox" id="inc-symbols"> Symbols</label>
-                    </div>
-                    <button onclick="generatePassword()">Generate</button>
-                    <input type="text" id="pass-output" readonly placeholder="Generated password..." onclick="this.select();document.execCommand('copy');alert('Copied!')">
-                    <button class="reset-btn" onclick="resetPasswordGen()">Reset</button>
-                </div>
-            </div>
-
-            <!-- Word Counter -->
-            <div class="card">
-                <h3>Word Counter</h3>
-                <div class="card-content">
-                    <textarea id="text-input" placeholder="Paste your text here..." rows="6" oninput="countWords()"></textarea>
-                    <div class="output" id="word-counter-result">
-                        <span id="word-count">0</span> words | <span id="char-count">0</span> characters
-                    </div>
-                    <button class="reset-btn" onclick="resetWordCounter()">Reset</button>
-                </div>
-            </div>
-
-            <!-- Text Case Converter -->
-            <div class="card">
-                <h3>Text Case Converter</h3>
-                <div class="card-content">
-                    <textarea id="case-input" placeholder="Enter text..." rows="3"></textarea>
-                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                        <button onclick="convertCase('uppercase')">UPPER</button>
-                        <button onclick="convertCase('lowercase')">lower</button>
-                        <button onclick="convertCase('capitalize')">Capitalize</button>
-                        <button onclick="convertCase('title')">Title Case</button>
-                    </div>
-                    <textarea id="case-output" rows="3" readonly placeholder="Output here..." onclick="this.select();document.execCommand('copy');alert('Copied!')"></textarea>
-                    <button class="reset-btn" onclick="resetCaseConverter()">Reset</button>
-                </div>
-            </div>
-
-            <!-- Stopwatch -->
-            <div class="card">
-                <h3>Stopwatch</h3>
-                <div class="card-content">
-                    <div class="output" id="stopwatch-display" style="font-size: 2rem;">00:00:00</div>
-                    <div style="display: flex; gap: 0.5rem; justify-content: center;">
-                        <button onclick="startStopwatch()">Start</button>
-                        <button onclick="pauseStopwatch()">Pause</button>
-                        <button onclick="resetStopwatch()">Reset</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Notes App -->
-            <div class="card">
-                <h3>Notes App</h3>
-                <div class="card-content">
-                    <input type="text" id="note-title" placeholder="Note title..." style="margin-bottom: 0.5rem;">
-                    <textarea id="note-content" placeholder="Write your note..." rows="4"></textarea>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button onclick="saveNote()">Save</button>
-                        <button onclick="loadNotes()">Load Notes</button>
-                    </div>
-                    <select id="notes-list" onchange="loadSelectedNote()" style="margin-top: 0.5rem;">
-                        <option value="">Select a note</option>
-                    </select>
-                    <button class="reset-btn" onclick="clearLocalStorage()">Reset All Notes</button>
-                </div>
-            </div>
-
-            <!-- Random Number Generator -->
-            <div class="card">
-                <h3>Random Number</h3>
-                <div class="card-content">
-                    <input type="number" id="min-val" placeholder="Min (e.g., 1)" value="1">
-                    <input type="number" id="max-val" placeholder="Max (e.g., 100)" value="100">
-                    <button onclick="generateRandom()">Generate</button>
-                    <div class="output" id="random-result">-</div>
-                    <button class="reset-btn" onclick="resetRandom()">Reset</button>
-                </div>
-            </div>
-
-            <!-- Currency Converter -->
-            <div class="card">
-                <h3>Currency Converter</h3>
-                <div class="card-content">
-                    <input type="number" id="currency-amount" placeholder="Amount" value="1">
-                    <div style="display: flex; gap: 0.5rem; align-items: center;">
-                        <select id="from-curr"><option>USD</option><option>EUR</option><option>GBP</option></select>
-                        <span>→</span>
-                        <select id="to-curr"><option>EUR</option><option>USD</option><option>GBP</option></select>
-                    </div>
-                    <button onclick="convertCurrency()">Convert</button>
-                    <div class="output" id="currency-result">-</div>
-                    <button class="reset-btn" onclick="resetCurrency()">Reset</button>
-                </div>
-            </div>
-
-            <!-- BMI Calculator -->
-            <div class="card">
-                <h3>BMI Calculator</h3>
-                <div class="card-content">
-                    <input type="number" id="weight" placeholder="Weight (kg)" step="0.1">
-                    <input type="number" id="height" placeholder="Height (cm)" step="0.1">
-                    <button onclick="calculateBMI()">Calculate</button>
-                    <div class="output" id="bmi-result">Enter details</div>
-                    <button class="reset-btn" onclick="resetBMI()">Reset</button>
-                </div>
-            </div>
-
-            <!-- QR Generator (Simple) -->
-            <div class="card">
-                <h3>QR Code Generator</h3>
-                <div class="card-content">
-                    <input type="text" id="qr-input" placeholder="Enter text/URL..." onkeyup="updateQRPreview()">
-                    <canvas id="qr-preview" width="120" height="120" style="background: black; border-radius: 8px;"></canvas>
-                    <button onclick="downloadQR()">Download QR</button>
-                    <button class="reset-btn" onclick="resetQR()">Reset</button>
-                </div>
-            </div>
+  <div class="grid">
+    <!-- 1. Calculator -->
+    <div class="card">
+      <h3>Calculator</h3>
+      <div class="card-content">
+        <div class="calc-display" id="calc-display">0</div>
+        <div class="calculator-buttons">
+          <button onclick="calcClear()">C</button>
+          <button onclick="calcDel()">Del</button>
+          <button onclick="setOp('/')">/</button>
+          <button onclick="setOp('*')">×</button>
+          <button onclick="append('7')">7</button>
+          <button onclick="append('8')">8</button>
+          <button onclick="append('9')">9</button>
+          <button onclick="setOp('-')">−</button>
+          <button onclick="append('4')">4</button>
+          <button onclick="append('5')">5</button>
+          <button onclick="append('6')">6</button>
+          <button onclick="setOp('+')">+</button>
+          <button onclick="append('1')">1</button>
+          <button onclick="append('2')">2</button>
+          <button onclick="append('3')">3</button>
+          <button onclick="calcEquals()" style="grid-row:span 2;">=</button>
+          <button onclick="append('0')" style="grid-column:span 2;">0</button>
+          <button onclick="append('.')">.</button>
         </div>
+        <button class="reset-btn" onclick="calcClear()">Reset</button>
+      </div>
     </div>
 
-    <footer>
-        <div class="footer-links">
-            <a href="#privacy">Privacy Policy</a>
-            <a href="#terms">Terms & Conditions</a>
-            <a href="#disclaimer">Disclaimer</a>
-            <a href="#about">About Us</a>
+    <!-- 2. Password Generator -->
+    <div class="card">
+      <h3>Password</h3>
+      <div class="card-content">
+        <input type="range" id="passLen" min="8" max="32" value="12" oninput="updateLen(this.value)">
+        <span id="lenDisp">12</span> chars
+        <label><input type="checkbox" id="upper" checked> Upper</label>
+        <label><input type="checkbox" id="lower" checked> Lower</label>
+        <label><input type="checkbox" id="num" checked> Numbers</label>
+        <label><input type="checkbox" id="sym"> Symbols</label>
+        <button onclick="genPass()">Generate</button>
+        <input type="text" id="passOut" readonly onclick="copy(this)">
+        <button class="reset-btn" onclick="resetPass()">Reset</button>
+      </div>
+    </div>
+
+    <!-- 3. Word Counter -->
+    <div class="card">
+      <h3>Word Counter</h3>
+      <div class="card-content">
+        <textarea id="wText" rows="5" placeholder="Paste text to analyze..." oninput="countWords()"></textarea>
+        <div class="output" id="wOut">0 words | 0 characters</div>
+        <button class="reset-btn" onclick="resetWords()">Reset</button>
+      </div>
+    </div>
+
+    <!-- 4. Case Converter -->
+    <div class="card">
+      <h3>Case Converter</h3>
+      <div class="card-content">
+        <textarea id="caseIn" rows="3" placeholder="Enter text..."></textarea>
+        <div style="display:flex;gap:.25rem;flex-wrap:wrap">
+          <button onclick="caseConv('upper')">UPPER</button>
+          <button onclick="caseConv('lower')">lower</button>
+          <button onclick="caseConv('cap')">Capitalize</button>
         </div>
-        <p>&copy; 2024 CyberTool X. Built with love and neon lights ⚡</p>
-    </footer>
+        <textarea id="caseOut" rows="3" readonly onclick="copy(this)"></textarea>
+        <button class="reset-btn" onclick="resetCase()">Reset</button>
+      </div>
+    </div>
 
-    <script>
-        // Particles
-        for (let i = 0; i < 50; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDelay = Math.random() * 15 + 's';
-            document.getElementById('particles').appendChild(p);
-        }
+    <!-- 5. Stopwatch / Timer -->
+    <div class="card">
+      <h3>Stopwatch</h3>
+      <div class="card-content">
+        <div class="output" id="stopOut" style="font-size:2rem">00:00:00</div>
+        <div style="display:flex;gap:.25rem">
+          <button onclick="startSW()">Start</button>
+          <button onclick="pauseSW()">Pause</button>
+          <button onclick="resetSW()">Reset</button>
+        </div>
+      </div>
+    </div>
 
-        // Calculator
-        let calcDisplay = '0';
-        let calcOperand1 = null, calcOperator = null, waitingForOperand = false;
+    <!-- 6. Notes App -->
+    <div class="card">
+      <h3>Notes App</h3>
+      <div class="card-content">
+        <input type="text" id="noteTitle" placeholder="Note title...">
+        <textarea id="noteBody" rows="4" placeholder="Note body..."></textarea>
+        <button onclick="saveNote()">Save</button>
+        <select id="noteList" onchange="loadNote()"><option>Select...</option></select>
+        <button class="reset-btn" onclick="delAllNotes()">Reset All</button>
+      </div>
+    </div>
 
-        function calculatorPress(digit) {
-            if (waitingForOperand) {
-                calcDisplay = digit;
-                waitingForOperand = false;
-            } else {
-                calcDisplay = calcDisplay === '0' ? digit : calcDisplay + digit;
-            }
-            updateDisplay();
-        }
-        function calculateResult() {
-            if (calcOperator === null) return;
-            const inputVal = parseFloat(calcDisplay);
-            calcDisplay = 0;
-            switch(calcOperator) {
-                case '+': calcDisplay = calcOperand1 + inputVal; break;
-                case '-': calcDisplay = calcOperand1 - inputVal; break;
-                case '*': calcDisplay = calcOperand1 * inputVal; break;
-                case '/': calcDisplay = calcOperand1 / inputVal; break;
-            }
-            calcDisplay = calcDisplay.toString();
-            calcOperator = null;
-            calcOperand1 = null;
-            waitingForOperand = true;
-            updateDisplay();
-        }
-        function computeOperation() {
-            if (calcOperator && !waitingForOperand) {
-                calculateResult();
-                calcOperand1 = parseFloat(calcDisplay);
-                waitingForOperand = true;
-            } else {
-                calcOperator = this.value;
-                calcOperand1 = parseFloat(calcDisplay);
-                waitingForOperand = true;
-            }
-        }
-        function calculatorClear() {
-            calcDisplay = '0'; calcOperand1 = null; calcOperator = null; waitingForOperand = false;
-            updateDisplay();
-        }
-        const operators = document.querySelectorAll('[data-operator]');
-        operators.forEach(op => op.addEventListener('click', computeOperation));
+    <!-- 7. Random Number -->
+    <div class="card">
+      <h3>Random Number</h3>
+      <div class="card-content">
+        <input type="number" id="rMin" value="1" placeholder="Min">
+        <input type="number" id="rMax" value="100" placeholder="Max">
+        <button onclick="genRandom()">Generate</button>
+        <div class="output" id="rOut">-</div>
+        <input type="number" id="rQty" value="1" min="1" max="10" placeholder="Qty">
+        <button onclick="genRandomList()">List</button>
+        <button class="reset-btn" onclick="resetRandom()">Reset</button>
+      </div>
+    </div>
 
-        function calculatorDelete() {
-            if (calcDisplay.length > 1) {
-                calcDisplay = calcDisplay.slice(0, -1);
-            } else {
-                calcDisplay = '0';
-            }
-            updateDisplay();
-        }
+    <!-- 8. Currency Converter -->
+    <div class="card">
+      <h3>Currency Converter</h3>
+      <div class="card-content">
+        <input type="number" id="curAmt" value="1" placeholder="Amount">
+        <div style="display:flex;gap:.25rem;align-items:center">
+          <select id="fromCur"><option>USD</option><option>EUR</option><option>GBP</option></select>
+          <span>→</span>
+          <select id="toCur"><option>EUR</option><option>USD</option><option>GBP</option></select>
+        </div>
+        <button onclick="convertCur()">Convert</button>
+        <div class="output" id="curOut">-</div>
+        <button class="reset-btn" onclick="resetCur()">Reset</button>
+      </div>
+    </div>
 
-        function updateDisplay() {
-            document.getElementById('calc-display').textContent = calcDisplay;
-        }
+    <!-- 9. BMI Calculator -->
+    <div class="card">
+      <h3>BMI Calculator</h3>
+      <div class="card-content">
+        <select id="unit" onchange="toggleUnit()">
+          <option value="metric">Metric (kg / cm)</option>
+          <option value="imperial">Imperial (lbs / in)</option>
+        </select>
+        <input type="number" id="wVal" placeholder="Weight" step="0.1">
+        <input type="number" id="hVal" placeholder="Height" step="0.1">
+        <button onclick="calcBMI()">Calculate</button>
+        <div class="output" id="bmiOut">Enter details</div>
+        <button class="reset-btn" onclick="resetBMI()">Reset</button>
+      </div>
+    </div>
 
-        function resetCalculator() {
-            calcDisplay = '0'; calcOperand1 = null; calcOperator = null; waitingForOperand = false;
-            updateDisplay();
-        }
+    <!-- 10. QR Generator -->
+    <div class="card">
+      <h3>QR Generator</h3>
+      <div class="card-content">
+        <input type="text" id="qrText" placeholder="Text / URL..." oninput="mkQR()">
+        <canvas id="qrCanvas" width="80" height="80" style="background:#000;margin:auto;border-radius:8px"></canvas>
+        <button onclick="dlQR()">Download</button>
+        <button class="reset-btn" onclick="resetQR()">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        // Password Generator
-        function generatePassword() {
-            const length = parseInt(document.getElementById('pass-length').value);
-            const upper = document.getElementById('inc-uppercase').checked;
-            const lower = document.getElementById('inc-lowercase').checked;
-            const numbers = document.getElementById('inc-numbers').checked;
-            const symbols = document.getElementById('inc-symbols').checked;
-            
-            let chars = '';
-            if (upper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            if (lower) chars += 'abcdefghijklmnopqrstuvwxyz';
-            if (numbers) chars += '0123456789';
-            if (symbols) chars += '!@#$%^&*';
-            
-            let result = '';
-            for (let i = 0; i < length; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            document.getElementById('pass-output').value = result;
-        }
-        function updatePassLength(val) {
-            document.getElementById('length-display').textContent = val;
-        }
-        function resetPasswordGen() {
-            document.getElementById('pass-length').value = 12;
-            document.getElementById('length-display').textContent = 12;
-            document.getElementById('pass-output').value = '';
-        }
+<footer>
+  <div class="footer-links">
+    <a href="#privacy">Privacy Policy</a>
+    <a href="#terms">Terms &amp; Conditions</a>
+    <a href="#disclaimer">Disclaimer</a>
+    <a href="#about">About Us</a>
+  </div>
+  <p>&copy; 2024 C Y B E R&nbsp;&nbsp;&nbsp;T O O L&nbsp;&nbsp;&nbsp;X ⚡</p>
+</footer>
 
-        // Word Counter
-        function countWords() {
-            const text = document.getElementById('text-input').value;
-            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-            const chars = text.length;
-            document.getElementById('word-count').textContent = words;
-            document.getElementById('char-count').textContent = chars;
-        }
-        function resetWordCounter() {
-            document.getElementById('text-input').value = '';
-            countWords();
-        }
+<script>
+/* ===  PARTICLES  === */
+for(let i=0;i<50;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  p.style.left=Math.random()*100+'%';
+  p.style.animationDelay=Math.random()*15+'s';
+  document.getElementById('particles').appendChild(p);
+}
 
-        // Case Converter
-        function convertCase(type) {
-            const text = document.getElementById('case-input').value;
-            let result = text;
-            switch(type) {
-                case 'uppercase': result = text.toUpperCase(); break;
-                case 'lowercase': result = text.toLowerCase(); break;
-                case 'capitalize': result = text.replace(/\b\w/g, l => l.toUpperCase()); break;
-                case 'title': result = text.toLowerCase().replace(/(?:^|\s)\w/g, l => l.toUpperCase()); break;
-            }
-            document.getElementById('case-output').value = result;
-        }
-        function resetCaseConverter() {
-            document.getElementById('case-input').value = '';
-            document.getElementById('case-output').value = '';
-        }
+/* ===  CALCULATOR  === */
+let display='0', operand1=null, operator=null, fresh=false;
+function update(value){ document.getElementById('calc-display').innerText=value; }
+function calcClear(){ display='0'; operand1=operator=fresh=null; update(display); }
+function calcDel(){ display=display.slice(0,-1)||'0'; update(display); }
+function append(num){ display=(fresh||display==='0')?num:display+num; fresh=false; update(display); }
+function setOp(op){ operand1=parseFloat(display); operator=op; fresh=true; }
+function calcEquals(){
+  if(operator!==null){
+    const val2=parseFloat(display), map={'+':operand1+val2,'-':operand1-val2,'*':operand1*val2,'/':operand1/val2};
+    display=String(map[operator]);
+    update(display);
+    operator=null; operand1=null; fresh=true;
+  }
+}
 
-        // Stopwatch
-        let stopwatchInterval = null, stopwatchSeconds = 0;
-        function startStopwatch() {
-            if (!stopwatchInterval) {
-                stopwatchInterval = setInterval(() => {
-                    stopwatchSeconds++;
-                    updateStopwatchDisplay();
-                }, 1000);
-            }
-        }
-        function pauseStopwatch() {
-            clearInterval(stopwatchInterval);
-            stopwatchInterval = null;
-        }
-        function resetStopwatch() {
-            clearInterval(stopwatchInterval);
-            stopwatchInterval = null;
-            stopwatchSeconds = 0;
-            updateStopwatchDisplay();
-        }
-        function updateStopwatchDisplay() {
-            const h = Math.floor(stopwatchSeconds/3600).toString().padStart(2,0);
-            const m = Math.floor((stopwatchSeconds%3600)/60).toString().padStart(2,0);
-            const s = (stopwatchSeconds%60).toString().padStart(2,0);
-            document.getElementById('stopwatch-display').textContent = `${h}:${m}:${s}`;
-        }
+/* ===  PASSWORD  === */
+function genPass(){
+  const l=+document.getElementById('passLen').value, u=document.getElementById('upper').checked,
+        lo=document.getElementById('lower').checked, n=document.getElementById('num').checked,
+        s=document.getElementById('sym').checked;
+  let chars=''; if(u)chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';if(lo)chars+='abcdefghijklmnopqrstuvwxyz';
+  if(n)chars+='0123456789';if(s)chars+='!@#$%^&*_-';
+  let pwd=''; if(!chars)return;for(let i=0;i<l;i++)pwd+=chars[Math.floor(Math.random()*chars.length)];
+  document.getElementById('passOut').value=pwd;
+}
+function updateLen(v){document.getElementById('lenDisp').innerText=v;}
+function resetPass(){document.getElementById('passLen').value=12; updateLen(12); document.getElementById('passOut').value='';}
+genPass();
 
-        // Notes App with LocalStorage
-        function saveNote() {
-            const title = document.getElementById('note-title').value;
-            const content = document.getElementById('note-content').value;
-            if (!title || !content) return alert('Enter title and content');
-            localStorage.setItem(title, content);
-            loadNotes();
-            alert('Note saved!');
-        }
-        function loadNotes() {
-            const select = document.getElementById('notes-list');
-            select.innerHTML = '<option value="">Select...</option>';
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                const opt = document.createElement('option');
-                opt.value = key; opt.textContent = key; select.appendChild(opt);
-            }
-        }
-        function loadSelectedNote() {
-            const title = document.getElementById('notes-list').value;
-            if (title) {
-                document.getElementById('note-title').value = title;
-                document.getElementById('note-content').value = localStorage[title] || '';
-            }
-        }
-        function clearLocalStorage() {
-            if (confirm('Delete all notes?')) { localStorage.clear(); loadNotes(); }
-        }
-        loadNotes();
+/* ===  WORD / CHAR  === */
+function countWords(){
+  const t=document.getElementById('wText').value;
+  const w=t.trim()===''?0:t.trim().split(/\s+/).length;
+  document.getElementById('wOut').innerText=`${w} words | ${t.length} characters`;
+}
+countWords(); function resetWords(){document.getElementById('wText').value='';countWords();}
 
-        // Random Number Generator
-        function generateRandom() {
-            const min = parseInt(document.getElementById('min-val').value) || 1;
-            const max = parseInt(document.getElementById('max-val').value) || 100;
-            const result = Math.floor(Math.random() * (max - min + 1)) + min;
-            document.getElementById('random-result').textContent = result;
-        }
-        function resetRandom() {
-            document.getElementById('min-val').value = '1';
-            document.getElementById('max-val').value = '100';
-            document.getElementById('random-result').textContent = '-';
-        }
+/* ===  CASE CONVERTER === */
+function caseConv(type){
+  const inp=document.getElementById('caseIn').value;
+  let out=inp;
+  if(type==='upper') out=inp.toUpperCase();
+  else if(type==='lower') out=inp.toLowerCase();
+  else if(type==='cap') out=inp.replace(/\b\w/g, a=>a.toUpperCase());
+  document.getElementById('caseOut').value=out;
+}
+function resetCase(){document.getElementById('caseIn').value=document.getElementById('caseOut').value='';}
 
-        // Currency Converter
-        function convertCurrency() {
-            const amount = parseFloat(document.getElementById('currency-amount').value);
-            const from = document.getElementById('from-curr').value;
-            const to = document.getElementById('to-curr').value;
-            const rates = { 'USD': { 'EUR': 0.91, 'GBP': 0.79, 'USD': 1 }, 'EUR': { 'USD': 1.1, 'GBP': 0.87, 'EUR': 1 }, 'GBP': { 'USD': 1.27, 'EUR': 1.15, 'GBP': 1 } };
-            if (isNaN(amount)) return alert('Enter amount');
-            const result = amount * rates[from][to];
-            document.getElementById('currency-result').textContent = `${amount} ${from} = ${result.toFixed(2)} ${to}`;
-        }
-        function resetCurrency() {
-            document.getElementById('currency-amount').value = '1';
-            document.getElementById('from-curr').value = 'USD';
-            document.getElementById('to-curr').value = 'EUR';
-            document.getElementById('currency-result').textContent = '-';
-        }
+/* ===  STOPWATCH === */
+let sw=null, sec=0; function fmt(s){ return [s/3600|0,(s/60|0)%60,s%60].map(v=>v.toString().padStart(2,'0')).join(':'); }
+function startSW(){ if(!sw) sw=setInterval(()=>{sec++;document.getElementById('stopOut').innerText=fmt(sec);},1000); }
+function pauseSW(){ clearInterval(sw); sw=null; }
+function resetSW(){ clearInterval(sw); sec=0; document.getElementById('stopOut').innerText='00:00:00'; }
 
-        // BMI Calculator
-        function calculateBMI() {
-            const weight = parseFloat(document.getElementById('weight').value);
-            const height = parseFloat(document.getElementById('height').value);
-            if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) return alert('Enter valid values');
-            const bmi = (weight / ((height/100) ** 2)).toFixed(1);
-            let category = 'Normal';
-            if (bmi < 18.5) category = 'Underweight';
-            else if (bmi >= 25 && bmi < 30) category = 'Overweight';
-            else if (bmi >= 30) category = 'Obese';
-            document.getElementById('bmi-result').textContent = `BMI: ${bmi} (${category})`;
-        }
-        function resetBMI() {
-            document.getElementById('weight').value = '';
-            document.getElementById('height').value = '';
-            document.getElementById('bmi-result').textContent = 'Enter details';
-        }
+/* ===  NOTES (LOCALSTORAGE) === */
+function saveNote(){
+  const t=document.getElementById('noteTitle').value,b=document.getElementById('noteBody').value;
+  if(!t||!b){alert('Fill title & body');return;}
+  localStorage.setItem(t,b); loadNotes();
+}
+function loadNotes(){
+  const s=document.getElementById('noteList');
+  s.innerHTML='<option value="">Select...</option>';
+  for(let i=0;i<localStorage.length;i++){
+    const n=localStorage.key(i);
+    const opt=document.createElement('option'); opt.value=n; opt.text=n; s.appendChild(opt);
+  }
+}
+function loadNote(){
+  const k=document.getElementById('noteList').value;
+  if(!k)return;
+  document.getElementById('noteTitle').value=k;
+  document.getElementById('noteBody').value=localStorage[k]||'';
+}
+function delAllNotes(){if(confirm('Delete ALL stored notes?')){localStorage.clear();loadNotes();}}
+loadNotes();
 
-        // QR Code - Simple Visual Generator
-        function updateQRPreview() {
-            const canvas = document.getElementById('qr-preview');
-            const ctx = canvas.getContext('2d');
-            const text = document.getElementById('qr-input').value;
-            
-            ctx.fillStyle = '#000000'; ctx.fillRect(0, 0, 120, 120);
-            
-            if (text) {
-                // Simple checker pattern simulation
-                ctx.fillStyle = '#00ff00';
-                for (let x = 5; x < 115; x += 10) {
-                    for (let y = 5; y < 115; y += 10) {
-                        if ((x + y) % 20 === 0) ctx.fillRect(x, y, 8, 8);
-                    }
-                }
-                ctx.fillStyle = '#ffffff'; ctx.font = '8px monospace';
-                ctx.fillText('QR Coded', 15, 60);
-            }
-        }
-        function downloadQR() {
-            const canvas = document.getElementById('qr-preview');
-            const link = document.createElement('a');
-            link.download = 'qr-code.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        }
-        function resetQR() {
-            document.getElementById('qr-input').value = '';
-            updateQRPreview();
-        }
-    </script>
+/* ===  RANDOM NUMBER GENERATOR === */
+function genRandom(){
+  const min=+document.getElementById('rMin').value; const max=+document.getElementById('rMax').value;
+  if(min>=max){alert('Min must be < Max');return;}
+  const r=Math.floor(Math.random()*(max-min+1))+min;
+  document.getElementById('rOut').innerText=r;
+}
+function genRandomList(){
+  const min=+document.getElementById('rMin').value;
+  const max=+document.getElementById('rMax').value;
+  const qty=Math.min(+document.getElementById('rQty').value||(max-min+1),max-min+1);
+  if(min>=max){alert('Min must be < Max');return;}
+  const arr=[];
+  while(arr.length<qty){
+    const n=Math.floor(Math.random()*(max-min+1))+min;
+    if(!arr.includes(n))arr.push(n);
+  }
+  document.getElementById('rOut').innerText=arr.join(', ');
+}
+function resetRandom(){document.getElementById('rMin').value=1;document.getElementById('rMax').value=100;document.getElementById('rOut').innerText='-';}
+
+/* ===  CURRENCY CONVERTER === */
+const ratesUSD={USD:1,EUR:0.91,GBP:0.79};
+function convertCur(){
+  const amt=+document.getElementById('curAmt').value;
+  const from=document.getElementById('fromCur').value;
+  const to=document.getElementById('toCur').value;
+  if(isNaN(amt)){alert('Enter amount');return;}
+  const out=amt*ratesUSD[to]/ratesUSD[from];
+  document.getElementById('curOut').innerText=`${amt} ${from} = ${out.toFixed(2)} ${to}`;
+}
+function resetCur(){document.getElementById('curAmt').value=1;convertCur();}
+
+/* ===  BMI CALCULATOR === */
+function toggleUnit(){
+  const unit=document.getElementById('unit');
+  const w=document.getElementById('wVal');
+  const h=document.getElementById('hVal');
+  w.placeholder=h.placeholder=unit.value==='metric'?'kg':'lbs';
+  h.placeholderg=unit.value==='metric'?'cm':'in';
+}
+function calcBMI(){
+  let w=document.getElementById('wVal').value, h=document.getElementById('hVal').value;
+  if(!w||!h){alert('Enter both weight and height');return;}
+  w=+w; h=+h;
+  let bmi;
+  if(document.getElementById('unit').value==='metric'){bmi=w/((h/100)**2);}
+  else{bmi=(w*703)/(h**2);}
+  let cat='';const v=bmi.toFixed(1);
+  if(v<18.5)cat='Underweight';else if(v<25)cat='Normal';else if(v<30)cat='Overweight';else cat='Obese';
+  document.getElementById('bmiOut').innerText=`BMI: ${v} (${cat})`;
+}
+function resetBMI(){document.getElementById('wVal').value=document.getElementById('hVal').value='';document.getElementById('bmiOut').innerText='Enter details';}
+
+/* ===  QR CANVAS === */
+const qrCan=document.getElementById('qrCanvas'),qrCtx=qrCan.getContext('2d');
+function mkQR(){
+  const txt=document.getElementById('qrText').value;
+  if(!txt){qrCtx.clearRect(0,0,80,80);return;}
+  qrCtx.fillStyle='#000';qrCtx.fillRect(0,0,80,80);
+  qrCtx.fillStyle='#0ff';qrCtx.font='8px monospace';
+  qrCtx.fillText(txt.length>12?txt.substr(0,9)+'...':txt,5,15);
+  let x,y,k=0;
+  for(y=5;y<70;y+=10){for(x=5;x<70;x+=10){
+    if( (txt.charCodeAt(k%txt.length) & (1<<((k/txt.length|0)&7))) )qrCtx.fillRect(x,y,8,8);
+    k++;
+  }}
+}
+function dlQR(){
+  const url=qrCan.toDataURL('image/png');
+  const a=document.createElement('a');a.href=url;a.download='qr.png';a.click();
+}
+function resetQR(){document.getElementById('qrText').value='';mkQR();}
+
+/* universal copy helper */
+function copy(el){el.focus();el.select();try{navigator.clipboard.writeText(el.value||el.innerText);}catch{document.execCommand('copy');}alert('Copied!');}
+toggleUnit();convertCur();              /* defaults */
+</script>
 </body>
 </html>
 ```
-
