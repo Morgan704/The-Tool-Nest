@@ -140,26 +140,33 @@
             color: var(--primary);
             border-color: var(--accent);
         }
-      .tool-card {
+      /* Smaller tool cards */
+.tool-card {
     background: var(--card-bg);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
     border: 1px solid var(--light-gray);
     padding: 0.6rem; /* less padding */
-    transform: scale(0.95);
-    opacity: 0;
-    animation: fadeInScale 0.6s ease forwards;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.tool-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.15);
+}
+
+/* Smaller tool embed (inside card) */
 .tool-embed {
     background: var(--light);
-    padding: 0.6rem;   /* smaller inside space */
-    min-height: 120px; /* much smaller height */
+    padding: 0.6rem;     /* less padding */
+    min-height: 120px;   /* smaller height */
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 6px;
+}
+
 }
 
         
