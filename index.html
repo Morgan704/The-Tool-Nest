@@ -1,123 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Neon Pocket Tools</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --neon:#39ff14;
-  --black:#000;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{
-  background:var(--black);
-  color:var(--neon);
-  font-family:'JetBrains Mono',monospace;
-  line-height:1.5;
-  font-size:15px;
-  padding:10px;
-}
-header{
-  text-align:center;
-  margin-bottom:40px;
-}
-h1 span{color:var(--neon)}
-h1{font-size:1.7rem;font-weight:600}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚡ Neon Tool Hub</title>
 
-/* -------- responsive grid -------- */
-.tool-grid{
-  display:grid;
-  gap:12px;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-}
-.tool-card{
-  border:1px solid var(--neon);
-  border-radius:2px;
-  background:transparent;
-  padding:8px 10px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  transition:transform .25s ease,box-shadow .25s ease;
-}
-.tool-card:hover,
-.tool-card:focus-within{
-  transform:scale(1.01) translateY(-1px);
-  box-shadow:0 0 8px var(--neon),0 0 14px var(--neon);
-}
-label{font-size:.8rem;display:block;margin-bottom:3px}
-button,input,select,textarea{
-  font-family:inherit;
-  color:var(--neon);
-  background:transparent;
-  border:1px solid var(--neon);
-  border-radius:1px;
-  padding:3px 6px;
-  transition:border .2s;
-}
-input:focus,select:focus,textarea:focus,button:focus{outline:none;border-width:2px}
-button{cursor:pointer}
-.mono-input{width:100%;resize:vertical}
-.output{margin-top:5px;font-size:.9rem;}
-.list-item{display:flex;justify-content:space-between;align-items:center;margin:3px 0}
-.del-btn{color:#ff5454;border:1px solid #ff5454;padding:1px 4px;font-size:.75rem}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #39ff14;
+    }
 
-@media(min-width:600px){h1{font-size:2.2rem}}
-</style>
+    h1 {
+      text-align: center;
+      padding: 1rem;
+      text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
+    }
+
+    /* Category Buttons */
+    .category-buttons {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .category-buttons button {
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      padding: 0.5rem 1rem;
+      margin: 0.3rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-shadow: 0 0 5px #39ff14;
+    }
+
+    .category-buttons button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 20px #39ff14;
+    }
+
+    /* Tools Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    /* Tool Card */
+    .tool-card {
+      background: rgba(20, 20, 20, 0.95);
+      border: 2px solid #39ff14;
+      border-radius: 12px;
+      padding: 0.5rem;
+      box-shadow: 0 0 10px #39ff14;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .tool-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #39ff14, 0 0 50px #39ff14;
+    }
+
+    /* Tool Frame */
+    .tool-embed {
+      background: #111;
+      border-radius: 8px;
+      padding: 0.5rem;
+      min-height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tool-embed iframe {
+      width: 100%;
+      height: 150px;
+      border: none;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    @media (max-width: 600px) {
+      h1 {font-size: 1.4rem;}
+      .tool-embed iframe {height: 130px;}
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <h1><span>Neon&nbsp;Pocket&nbsp;Tools</span></h1>
-  <p>Your daily utilities, pocket-size</p>
-</header>
+  <h1>⚡ Neon Tool Hub</h1>
 
-<div class="tool-grid">
+  <div class="category-buttons">
+    <button onclick="filterTools('all')">All Tools</button>
+    <button onclick="filterTools('calculators')">Calculators</button>
+    <button onclick="filterTools('converters')">Converters</button>
+    <button onclick="filterTools('productivity')">Productivity</button>
+    <button onclick="filterTools('design')">Design</button>
+  </div>
 
-  <!-- 1. Calculator -->
-  <div class="tool-card">
-    <h2>Calculator</h2>
-    <input type="text" id="calc-result" class="mono-input" readonly value="0">
-    <div class="calc-buttons" style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-size:13px;">
-      <button onclick="calcAdd('7')">7</button>
-      <button onclick="calcAdd('8')">8</button>
-      <button onclick="calcAdd('9')">9</button>
-      <button onclick="calcAdd('/')">/</button>
-      <button onclick="calcAdd('4')">4</button>
-      <button onclick="calcAdd('5')">5</button>
-      <button onclick="calcAdd('6')">6</button>
-      <button onclick="calcAdd('*')">*</button>
-      <button onclick="calcAdd('1')">1</button>
-      <button onclick="calcAdd('2')">2</button>
-      <button onclick="calcAdd('3')">3</button>
-      <button onclick="calcAdd('-')">-</button>
-      <button onclick="calcAdd('0')">0</button>
-      <button onclick="calcAdd('.')">.</button>
-      <button onclick="calcClear()">C</button>
-      <button onclick="calcEquals()">=</button>
+  <div class="tools-grid">
+
+    <!-- 1 Calculator -->
+    <div class="tool-card" data-category="calculators">
+      <h3>Calculator</h3>
+      <div class="tool-embed"><iframe src="https://www.calculator.net/"></iframe></div>
     </div>
-  </div>
 
-  <!-- 2. To-Do List -->
-  <div class="tool-card">
-    <h2>To-Do List</h2>
-    <div>
-      <input type="text" id="todo-text" placeholder="Add task…" onkeydown="if(event.key==='Enter')addTodo()">
-      <button onclick="addTodo()" style="margin-top:4px;width:100%">Add</button>
+    <!-- 2 Currency Converter -->
+    <div class="tool-card" data-category="converters">
+      <h3>Currency Converter</h3>
+      <div class="tool-embed"><iframe src="https://www.unitconverters.net/currency/"></iframe></div>
     </div>
-    <div id="todo-list" class="output"></div>
+
+    <!-- 3 Stopwatch -->
+    <div class="tool-card" data-category="productivity">
+      <h3>Stopwatch</h3>
+      <div class="tool-embed"><iframe src="https://www.online-stopwatch.com/"></iframe></div>
+    </div>
+
+    <!-- 4 QR Generator -->
+    <div class="tool-card" data-category="design">
+      <h3>QR Generator</h3>
+      <div class="tool-embed"><iframe src="https://www.qr-code-generator.com/"></iframe></div>
+    </div>
+
+    <!-- 5 Unit Converter -->
+    <div class="tool-card" data-category="converters">
+      <h3>Unit Converter</h3>
+      <div class="tool-embed"><iframe src="https://www.unitconverters.net/"></iframe></div>
+    </div>
+
+    <!-- 6 Notes -->
+    <div class="tool-card" data-category="productivity">
+      <h3>Notes</h3>
+      <div class="tool-embed"><iframe src="https://editpad.org/"></iframe></div>
+    </div>
+
+    <!-- 7 Password Generator -->
+    <div class="tool-card" data-category="productivity">
+      <h3>Password Generator</h3>
+      <div class="tool-embed"><iframe src="https://passwordsgenerator.net/"></iframe></div>
+    </div>
+
+    <!-- 8 Online Text Case Converter -->
+    <div class="tool-card" data-category="productivity">
+      <h3>Text Case Converter</h3>
+      <div class="tool-embed"><iframe src="https://convertcase.net/"></iframe></div>
+    </div>
+
+    <!-- 9 Word Counter -->
+    <div class="tool-card" data-category="productivity">
+      <h3>Word Counter</h3>
+      <div class="tool-embed"><iframe src="https://wordcounter.net/"></iframe></div>
+    </div>
+
+    <!-- 10 Image Compressor -->
+    <div class="tool-card" data-category="design">
+      <h3>Image Compressor</h3>
+      <div class="tool-embed"><iframe src="https://www.iloveimg.com/compress-image"></iframe></div>
+    </div>
+
   </div>
 
-  <!-- 3. Live Clock -->
-  <div class="tool-card">
-    <h2>Live Clock</h2>
-    <div id="clock" class="output" style="font-size:1.4rem;text-align:center"></div>
-  </div>
+  <script>
+    function filterTools(category) {
+      const tools = document.querySelectorAll(".tool-card");
+      tools.forEach(tool => {
+        if (category === "all" || tool.dataset.category === category) {
+          tool.style.display = "block";
+        } else {
+          tool.style.display = "none";
+        }
+      });
+    }
+  </script>
 
-  <!-- 4. Stopwatch -->
-  <div class="tool-card">
-    <h2>Stopwatch</h2>
-    <div id="stopwatch" class="output" style="font-size:
+</body>
+</html>
