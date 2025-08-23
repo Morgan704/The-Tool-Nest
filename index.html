@@ -435,54 +435,24 @@
             <button class="category-btn">Design</button>
         </div>
         
-        <div class="tools-grid">
-            <!-- Calculator Tool -->
-           <!-- Calculator Tool -->
-<div class="tool-card" data-category="calculators">
-  <h3 class="tool-title">Calculator</h3>
-  <div class="tool-embed">
-    <iframe src="https://www.calculator.net/" width="100%" height="300" frameborder="0"></iframe>
-  </div>
-</div>
+       /* Tool box styling */
+.tool-embed {
+    background: var(--light);
+    padding: 0.6rem;
+    min-height: 180px;   /* har frame ki fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
 
-<!-- Currency Converter -->
-<div class="tool-card" data-category="converters">
-  <h3 class="tool-title">Currency Converter</h3>
-  <div class="tool-embed">
-    <iframe src="https://www.unitconverters.net/currency/" width="100%" height="300" frameborder="0"></iframe>
-  </div>
-</div>
+/* Iframe inside tool box */
+.tool-embed iframe {
+    width: 100%;
+    height: 180px;   /* sab iframe same height */
+    border: none;
+}
 
-<!-- Text Editor -->
-<div class="tool-card" data-category="productivity">
-  <h3 class="tool-title">Online Text Editor</h3>
-  <div class="tool-embed">
-    <iframe src="https://editpad.org/" width="100%" height="300" frameborder="0"></iframe>
-  </div>
-</div>
-
-<!-- QR Code Generator -->
-<div class="tool-card" data-category="design">
-  <h3 class="tool-title">QR Code Generator</h3>
-  <div class="tool-embed">
-    <iframe src="https://www.qr-code-generator.com/" width="100%" height="300" frameborder="0"></iframe>
-  </div>
-</div>
-
-<!-- Unit Converter -->
-<div class="tool-card" data-category="converters">
-  <h3 class="tool-title">Unit Converter</h3>
-  <div class="tool-embed">
-    <iframe src="https://www.unitconverters.net/" width="100%" height="300" frameborder="0"></iframe>
-  </div>
-</div>
-
-<!-- Stopwatch -->
-<div class="tool-card" data-category="productivity">
-  <h3 class="tool-title">Online Stopwatch</h3>
-  <div class="tool-embed">
-    <iframe src="https://www.online-stopwatch.com/" width="100%" height="300" frameborder="0"></iframe>
-  </div>
 </div>
 
                     </div>
