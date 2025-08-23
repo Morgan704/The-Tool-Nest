@@ -1,356 +1,992 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Cyber-Neon Tool Suite • Spectral Edition</title>
-<style>
-  :root{
-    --ng:#39ff14;
-    --np:#bf00ff;
-    --nb:#00c3ff;
-    --glass:rgba(0,0,0,.55);
-  }
-  @font-face{font-family:orbitron;src:url(data:font/woff2;base64,)} /* fallback */
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;font-family:'Orbitron',monospace;color:#fff}
-  body{background:#000;display:flex;flex-direction:column;position:relative}
-  .bg{position:absolute;top:0;left:0;width:100%;height:120%;background:radial-gradient(circle at 20% 80%,rgba(191,0,255,.15),transparent 55%),radial-gradient(circle at 80% 20%,rgba(0,195,255,.15),transparent 50%),radial-gradient(circle at 40% 50%,rgba(57,255,20,.1),transparent 70%);animation:bgPan 18s linear infinite alternate}
-  #particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
-  @keyframes bgPan{0%{background-position:0% 50%}100%{background-position:100% 50%}}
-  .glitchTitle{
-    font-size:clamp(2.1rem,5vw,3.8rem);
-    font-weight:900;
-    text-transform:uppercase;
-    text-align:center;
-    margin:60px 0 45px;
-    animation:pulseGlow 3.2s ease-in-out infinite alternate;
-    letter-spacing:2px;
-  }
-  @keyframes pulseGlow{
-    0%{text-shadow:0 0 4px var(--ng),0 0 8px var(--ng),0 0 14px var(--ng)}
-    50%{text-shadow:0 0 6px var(--np),0 0 12px var(--np),0 0 26px var(--np)}
-    100%{text-shadow:0 0 8px var(--nb),0 0 16px var(--nb),0 0 32px var(--nb)}
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberLab Tool Suite</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --neon-green: #39ff14;
+            --neon-purple: #9b30ff;
+            --neon-blue: #00c3ff;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
 
-  /* ---------- glass-grid ---------- */
-  .grid{
-    padding:0 20px 50px;
-    display:grid;
-    gap:22px;
-    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-    max-width:1400px;width:100%;margin:0 auto;
-    animation:fadeUp .8s .35s both;
-  }
-  @keyframes fadeUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
-  .glass{
-    position:relative;
-    border:1.5px solid rgba(255,255,255,.2);
-    border-radius:16px;
-    background:var(--glass);
-    backdrop-filter:blur(16px) saturate(180%);
-    padding:20px 18px;
-    transition:transform .28s ease,box-shadow .25s ease;
-    box-shadow:0 4px 20px rgba(0,0,0,.4);
-  }
-  .glass:hover,.glass:focus-within{
-    transform:scale(1.055) translateY(-7px);
-    box-shadow:0 0 18px var(--ng),0 0 40px rgba(57,255,20,.35);
-  }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', 'Courier New', monospace;
+        }
 
-  h3{color:var(--nb);font-size:1.1rem;margin-bottom:10px}
-  input,textarea,button{
-    font-family:inherit;
-    color:#fff;
-    background:rgba(255,255,255,.1);
-    border:1px solid rgba(255,255,255,.15);
-    border-radius:8px;
-    padding:7px 10px;
-    font-size:.95rem;
-    transition:border .2s;
-  }
-  input:focus,textarea:focus{outline:none;border-color:var(--ng)}
-  button{
-    cursor:pointer;
-    background:linear-gradient(100deg,var(--ng),rgba(0,195,255,.9));
-    border:none;
-    color:#000;
-    font-weight:600;
-    position:relative;
-    overflow:hidden;
-  }
-  button::before{
-    content:'';
-    position:absolute;
-    top:-50%;left:-50%;
-    width:200%;height:200%;
-    background:radial-gradient(circle,rgba(255,255,255,.3),transparent 70%);
-    opacity:0;
-    transition:.25s;
-  }
-  button:hover::before{opacity:1}
+        body {
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-  /* ---------- footer ---------- */
-  footer{
-    margin-top:auto;
-    padding:25px 20px;
-    background:#0a0a0a;
-    text-align:center;
-    font-size:.8rem;
-    color:#aaa;
-  }
-  .footerNav a{
-    color:#39ff14;
-    margin:0 12px;
-    text-decoration:none;
-    transition:color .2s
-  }
-  .footerNav a:hover{color:#00c3ff}
-  .topBtn{
-    position:fixed;
-    bottom:25px;right:25px;
-    width:44px;height:44px;
-    border-radius:50%;
-    background:linear-gradient(135deg,var(--ng),var(--nb));
-    color:#000;
-    font-weight:700;
-    font-size:1.2rem;
-    text-decoration:none;
-    display:flex;align-items:center;justify-content:center;
-    opacity:0;
-    transition:.25s;
-  }
-  .topBtn.active{opacity:1;transform:translateY(0)}
-  .topBtn:hover{transform:scale(1.15);box-shadow:0 0 12px var(--ng)}
-  @media(max-width:600px){ .glitchTitle{margin-top:40px} .grid{gap:16px} }
-</style>
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(57, 255, 20, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(155, 48, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(0, 195, 255, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+            z-index: -2;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-green);
+            animation: float 20s infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100vw) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate, fadeIn 1.5s ease-out;
+            text-shadow: 0 0 30px rgba(57, 255, 20, 0.8);
+            letter-spacing: 2px;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px var(--neon-green), 0 0 30px var(--neon-green), 0 0 40px var(--neon-blue);
+            }
+            to {
+                text-shadow: 0 0 30px var(--neon-purple), 0 0 40px var(--neon-purple), 0 0 50px var(--neon-blue);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Grid Layout */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Glassmorphism Cards */
+        .tool-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            animation: slideUp 0.6s ease forwards;
+            opacity: 0;
+            transform: translateY(50px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(57, 255, 20, 0.05), transparent);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+            animation: scan 1.5s infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tool-card:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.3);
+            border-color: rgba(57, 255, 20, 0.3);
+        }
+
+        .tool-card:nth-child(1) { animation-delay: 0.1s; }
+        .tool-card:nth-child(2) { animation-delay: 0.2s; }
+        .tool-card:nth-child(3) { animation-delay: 0.3s; }
+        .tool-card:nth-child(4) { animation-delay: 0.4s; }
+        .tool-card:nth-child(5) { animation-delay: 0.5s; }
+        .tool-card:nth-child(6) { animation-delay: 0.6s; }
+        .tool-card:nth-child(7) { animation-delay: 0.7s; }
+        .tool-card:nth-child(8) { animation-delay: 0.8s; }
+        .tool-card:nth-child(9) { animation-delay: 0.9s; }
+        .tool-card:nth-child(10) { animation-delay: 1.0s; }
+
+        .tool-title {
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Form Elements */
+        input, textarea, select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            border-radius: 10px;
+            padding: 0.7rem;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+        }
+
+        button {
+            background: linear-gradient(45deg, rgba(57, 255, 20, 0.2), rgba(155, 48, 255, 0.2));
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        button:hover {
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+            transform: translateY(-2px);
+            background: linear-gradient(45deg, rgba(57, 255, 20, 0.3), rgba(155, 48, 255, 0.3));
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--neon-blue);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+        }
+
+        /* BMI Calculator Special Styles */
+        .bmi-result {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(57, 255, 20, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(57, 255, 20, 0.3);
+        }
+
+        /* QR Code Container */
+        #qr-code-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        /* Stopwatch Display */
+        .stopwatch-display {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--neon-purple);
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Notes App */
+        .notes-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+
+        .note-item {
+            padding: 0.5rem;
+            background: rgba(155, 48, 255, 0.1);
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-note {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.7rem;
+        }
+
+        .delete-note:hover {
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            background: rgba(255, 0, 0, 0.3);
+        }
+
+        /* Currency Converter */
+        .currency-result {
+            background: rgba(0, 195, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            margin-top: 1rem;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--neon-purple), var(--neon-blue));
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-<div class="bg"></div>
-<canvas id="particles"></canvas>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
 
-<h1 class="glitchTitle">Cyber-Neon Tool Suite</h1>
+    <!-- Header -->
+    <header>
+        <h1>CYBER LAB TOOL SUITE</h1>
+    </header>
 
-<div class="grid">
-  <!-- 1   Calculator -->
-  <div class="glass">
-    <h3>Calculator</h3>
-    <input id="calcDisplay" readonly style="width:100%">
-    <button onclick="calcClear()" style="width:100%">AC</button>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:8px;font-size:12px">
-      <button onclick="calcType('7')">7</button><button onclick="calcType('8')">8</button><button onclick="calcType('9')">9</button><button onclick="calcType('/')">/</button>
-      <button onclick="calcType('4')">4</button><button onclick="calcType('5')">5</button><button onclick="calcType('6')">6</button><button onclick="calcType('*')">*</button>
-      <button onclick="calcType('1')">1</button><button onclick="calcType('2')">2</button><button onclick="calcType('3')">3</button><button onclick="calcType('-')">-</button>
-      <button onclick="calcType('0')">0</button><button onclick="calcType('.')">.</button><button onclick="calcEval()">=</button><button onclick="calcType('+')">+</button>
-    </div>
-  </div>
+    <!-- Main Content -->
+    <main class="tools-grid">
+        <!-- Calculator -->
+        <div class="tool-card">
+            <h2 class="tool-title">Calculator</h2>
+            <input type="text" id="calc-display" placeholder="0" readonly>
+            <div class="button-group">
+                <button onclick="calcClear()">C</button>
+                <button onclick="calcDelete()">⌫</button>
+                <button onclick="calcAppend('/')">/</button>
+                <button onclick="calcAppend('*')">×</button>
+                <button onclick="calcAppend('7')">7</button>
+                <button onclick="calcAppend('8')">8</button>
+                <button onclick="calcAppend('9')">9</button>
+                <button onclick="calcAppend('-')">-</button>
+                <button onclick="calcAppend('4')">4</button>
+                <button onclick="calcAppend('5')">5</button>
+                <button onclick="calcAppend('6')">6</button>
+                <button onclick="calcAppend('+')">+</button>
+                <button onclick="calcAppend('1')">1</button>
+                <button onclick="calcAppend('2')">2</button>
+                <button onclick="calcAppend('3')">3</button>
+                <button onclick="calcAppend('.')">.</button>
+                <button onclick="calcAppend('0')">0</button>
+                <button onclick="calcEquals()" style="flex: 2;">=</button>
+            </div>
+            <button onclick="resetCalc()" style="width: 100%; margin-top: 10px;">Reset</button>
+        </div>
 
-  <!-- 2   Password Generator -->
-  <div class="glass">
-    <h3>Password Generator</h3>
-    <label>Length: <input type="number" id="pwLen" value="16" min="6" max="128" style="width:60px"></label>
-    <button onclick="genPassword()" style="width:100%">Create & Copy</button>
-    <input id="pwOut" readonly style="width:100%;font-size:.8rem">
-  </div>
+        <!-- Password Generator -->
+        <div class="tool-card">
+            <h2 class="tool-title">Password Generator</h2>
+            <input type="range" id="pass-length" min="4" max="32" value="12" oninput="updatePassLength(this.value)">
+            <label>Length: <span id="length-display">12</span></label>
+            <div style="margin: 1rem 0;">
+                <label><input type="checkbox" id="include-uppercase" checked> Uppercase</label>
+                <label><input type="checkbox" id="include-lowercase" checked> Lowercase</label>
+                <label><input type="checkbox" id="include-numbers" checked> Numbers</label>
+                <label><input type="checkbox" id="include-symbols"> Symbols</label>
+            </div>
+            <input type="text" id="generated-password" readonly placeholder="Generated password">
+            <div class="button-group">
+                <button onclick="generatePassword()">Generate</button>
+                <button onclick="copyPassword()">Copy</button>
+                <button onclick="resetPassword()">Reset</button>
+            </div>
+        </div>
 
-  <!-- 3   Word Counter -->
-  <div class="glass">
-    <h3>Word / Char Counter</h3>
-    <textarea id="wordText" rows="4" style="width:100%" placeholder="Start typing…"></textarea>
-    <div style="font-size:.9rem;color:#39ff14"><span id="wWords">0</span> words, <span id="wChars">0</span> chars</div>
-  </div>
+        <!-- Word Counter -->
+        <div class="tool-card">
+            <h2 class="tool-title">Word Counter</h2>
+            <textarea id="text-content" rows="6" placeholder="Paste or type your text here..." oninput="countWords()"></textarea>
+            <div id="word-stats">
+                <p>Characters: <span id="char-count">0</span></p>
+                <p>Words: <span id="word-count">0</span></p>
+                <p>Sentences: <span id="sentence-count">0</span></p>
+            </div>
+            <button onclick="clearText()" style="width: 100%;">Reset</button>
+        </div>
 
-  <!-- 4   Case Converter -->
-  <div class="glass">
-    <h3>Case Converter</h3>
-    <textarea id="caseText" rows="4" style="width:100%"></textarea>
-    <div style="display:flex;gap:4px;margin-top:6px">
-      <button onclick="convertCase('lower')" style="flex:1">lower</button>
-      <button onclick="convertCase('upper')" style="flex:1">UPPER</button>
-      <button onclick="convertCase('capital')" style="flex:1">Capitalize</button>
-    </div>
-  </div>
+        <!-- Text Case Converter -->
+        <div class="tool-card">
+            <h2 class="tool-title">Text Case Converter</h2>
+            <textarea id="case-text" rows="4" placeholder="Enter text to convert..."></textarea>
+            <div class="button-group">
+                <button onclick="convertCase('upper')">UPPERCASE</button>
+                <button onclick="convertCase('lower')">lowercase</button>
+                <button onclick="convertCase('capitalize')">Capitalize</button>
+                <button onclick="convertCase('sentence')">Sentence case</button>
+            </div>
+            <input type="text" id="case-result" readonly placeholder="Converted text">
+            <div class="button-group">
+                <button onclick="copy('case-result')">Copy Result</button>
+                <button onclick="resetCase()">Reset</button>
+            </div>
+        </div>
 
-  <!-- 5   Stopwatch / Timer -->
-  <div class="glass">
-    <h3>Stopwatch & Timer</h3>
-    <div style="font-size:1.1rem;text-align:center;margin-bottom:6px" id="swClock">00:00:00</div>
-    <input type="number" id="timerSet" placeholder="Timer min (optional)" min="0" style="width:100%">
-    <div style="display:flex;gap:4px">
-      <button onclick="swStart()" style="flex:1">Start</button>
-      <button onclick="swPause()" style="flex:1">Pause</button>
-      <button onclick="swReset()" style="flex:1">Reset</button>
-    </div>
-  </div>
+        <!-- Stopwatch / Timer -->
+        <div class="tool-card">
+            <h2 class="tool-title">Stopwatch</h2>
+            <div class="stopwatch-display" id="stopwatch">00:00:00</div>
+            <div class="button-group">
+                <button onclick="startStopwatch()">Start</button>
+                <button onclick="pauseStopwatch()">Pause</button>
+                <button onclick="resetStopwatch()">Reset</button>
+                <button onclick="lapTime()">Lap</button>
+            </div>
+            <div id="lap-times" style="margin-top: 1rem; font-size: 0.8rem; color: var(--neon-blue);"></div>
+        </div>
 
-  <!-- 6   Notes (localStorage) -->
-  <div class="glass">
-    <h3>Notes (saved locally)</h3>
-    <textarea id="notesArea" rows="4" style="width:100%"></textarea>
-    <button onclick="saveNotes()" style="width:100%">Save</button>
-  </div>
+        <!-- Notes App -->
+        <div class="tool-card">
+            <h2 class="tool-title">Notes</h2>
+            <input type="text" id="note-title" placeholder="Note title">
+            <textarea id="note-content" rows="3" placeholder="Your note..."></textarea>
+            <button onclick="addNote()" style="width: 100%; margin-bottom: 1rem;">Save Note</button>
+            <div class="notes-list" id="notes-list"></div>
+        </div>
 
-  <!-- 7   Random Number -->
-  <div class="glass">
-    <h3>Random Number</h3>
-    <label>Min <input id="randMin" type="number" value="1" style="width:60px"></label>
-    <label>Max <input id="randMax" type="number" value="100" style="width:60px"></label>
-    <button onclick="randNum()" style="width:100%">Roll</button>
-    <div style="margin-top:5px;color:#39ff14;font-size:1.1rem" id="randRes"></div>
-  </div>
+        <!-- Random Number Generator -->
+        <div class="tool-card">
+            <h2 class="tool-title">Random Number Generator</h2>
+            <input type="number" id="rand-min" placeholder="Minimum (inclusive)">
+            <input type="number" id="rand-max" placeholder="Maximum (inclusive)">
+            <input type="text" id="random-result" readonly placeholder="Generated number">
+            <div class="button-group">
+                <button onclick="generateRandom()">Generate</button>
+                <button onclick="copy('random-result')">Copy</button>
+                <button onclick="resetRandom()">Reset</button>
+            </div>
+        </div>
 
-  <!-- 8   Currency Converter -->
-  <div class="glass">
-    <h3>Speed Currency</h3>
-    <input id="curAmount" type="number" value="10" min="0" style="width:100%">
-    <div style="display:flex;gap:4px">
-      <select id="curFrom" style="flex:1"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="JPY">JPY</option></select>
-      <select id="curTo" style="flex:1"><option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="JPY">JPY</option></select>
-    </div>
-    <button onclick="convertCur()" style="width:100%">Convert</button>
-    <div style="font-size:1rem" id="curResult"></div>
-  </div>
+        <!-- Currency Converter -->
+        <div class="tool-card">
+            <h2 class="tool-title">Currency Converter</h2>
+            <input type="number" id="amount" placeholder="Enter amount">
+            <select id="from-currency">
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="INR">INR - Indian Rupee</option>
+            </select>
+            <select id="to-currency">
+                <option value="EUR">EUR - Euro</option>
+                <option value="USD">USD - US Dollar</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="INR">INR - Indian Rupee</option>
+            </select>
+            <button onclick="convertCurrency()" style="width: 100%; margin-bottom: 1rem;">Convert</button>
+            <div id="currency-result" class="currency-result">
+                <p>Converted amount will appear here</p>
+            </div>
+            <button onclick="resetCurrency()" style="width: 100%;">Reset</button>
+        </div>
 
-  <!-- 9   BMI -->
-  <div class="glass">
-    <h3>BMI Calculator</h3>
-    <label>Weight (kg) <input id="bmiW" type="number" min="20" value="75" style="width:70px"></label>
-    <label>Height (cm) <input id="bmiH" type="number" min="100" value="175" style="width:70px"></label>
-    <button onclick="calcBMI()" style="width:100%">Calculate</button>
-    <div id="bmiResult" style="font-size:.95rem"></div>
-  </div>
+        <!-- BMI Calculator -->
+        <div class="tool-card">
+            <h2 class="tool-title">BMI Calculator</h2>
+            <select id="bmi-unit" onchange="switchBMIUnit()">
+                <option value="metric">Metric (kg, cm)</option>
+                <option value="imperial">Imperial (lbs, inches)</option>
+            </select>
+            <input type="number" id="weight" placeholder="Weight">
+            <input type="number" id="height" placeholder="Height">
+            <button onclick="calculateBMI()" style="width: 100%; margin-bottom: 1rem;">Calculate BMI</button>
+            <div id="bmi-result" class="bmi-result"></div>
+            <button onclick="resetBMI()" style="width: 100%; margin-top: 1rem;">Reset</button>
+        </div>
 
-  <!-- 10  QR Code -->
-  <div class="glass">
-    <h3>QR Maker</h3>
-    <input id="qrText" placeholder="Text / URL" style="width:100%">
-    <button onclick="genQR()" style="width:100%"> → create</button>
-    <img id="qrImg" style="max-width:100%;height:auto;border-radius:8px"/>
-  </div>
+        <!-- QR Code Generator -->
+        <div class="tool-card">
+            <h2 class="tool-title">QR Code Generator</h2>
+            <input type="text" id="qr-text" placeholder="Enter text or URL">
+            <button onclick="generateQR()" style="width: 100%; margin-bottom: 1rem;">Generate QR</button>
+            <div id="qr-code-container"></div>
+            <button onclick="resetQR()" style="width: 100%; margin-top: 1rem;">Reset</button>
+        </div>
+    </main>
 
-</div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#disclaimer">Disclaimer</a>
+                <a href="#about">About Us</a>
+                <a href="#terms">Terms & Conditions</a>
+            </div>
+            <p>&copy; 2024 CyberLab Tool Suite. All rights reserved.</p>
+        </div>
+    </footer>
 
-<footer>
-  <div class="footerNav">
-    <a href="#">Home</a>
-    <a href="#">Tools</a>
-    <a href="#about">About</a>
-    <a href="#privacy">Privacy</a>
-    <a href="#contact">Contact</a>
-  </div>
-  <p>&copy; 2024 Cyber-Neon Tool Suite • Crafted in Matrix</p>
-</footer>
-<a href="#top" class="topBtn" id="topBtn">↑</a>
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                const colors = ['#39ff14', '#9b30ff', '#00c3ff'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = color;
+                particle.style.boxShadow = `0 0 10px ${color}`;
+                particlesContainer.appendChild(particle);
+            }
+        }
 
-<script>
-/* ----------   10 LIVE TOOLS   ---------- */
-// CALC -------------------------------------------------
-let expr='';const cDisp=document.getElementById('calcDisplay');
-function calcType(c){expr+=c;cDisp.value=expr}
-function calcClear(){expr='';cDisp.value='0';}
-function calcEval(){try{expr=(''+eval(expr)).slice(0,10)}catch{expr='!'}cDisp.value=expr}
-// PASSWORD ---------------------------------------------
-function genPassword(){
-  const len=+document.getElementById('pwLen').value,n='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
-  let pw='';
-  for(let i=0;i<len;i++)pw+=n[Math.floor(Math.random()*n.length)];
-  document.getElementById('pwOut').value=pw;
-  navigator.clipboard?.writeText(pw);
-}
-// WORD COUNTER -----------------------------------------
-document.getElementById('wordText').oninput=e=>{
-  const t=e.target.value;
-  const wc=t.trim().split(/\s/).filter(b=>b).length||0;
-  document.getElementById('wWords').textContent=wc;
-  document.getElementById('wChars').textContent=t.length;
-}
-// CASE -------------------------------------------------
-function convertCase(mode){
-  const t=document.getElementById('caseText');
-  t.value = mode==='lower' ? t.value.toLowerCase() :
-            mode==='upper' ? t.value.toUpperCase() :
-            t.value.toLowerCase().replace(/\b\w/g,l=>l.toUpperCase());
-}
-// STOPWATCH -------------------------------------------
-let sec=0,run=false,si=null;
-const sw=document.getElementById('swClock');
-function swUpdate(){
-  sw.textContent = [Math.floor(sec/3600)%99,Math.floor(sec/60)%60,sec%60]
-  .map(v=>v.toString().padStart(2,'0')).join(':');
-}
-function swStart(){ if(!run){run=true;si=setInterval(()=>{sec++;swUpdate()},1000)}}
-function swPause(){ clearInterval(si); run=false; }
-function swReset(){ swPause(); sec=0; swUpdate(); }
-// NOTES -----------------------------------------------
-document.getElementById('notesArea').value=localStorage.getItem('neon-notes')||'';
-function saveNotes(){localStorage.setItem('neon-notes',document.getElementById('notesArea').value).value;}
-// RANDOM ----------------------------------------------
-function randNum(){
-  const min=+document.getElementById('randMin').value,
-        max=+document.getElementById('randMax').value;
-  document.getElementById('randRes').textContent=Math.floor(Math.random()*(max-min+1))+min;
-}
-// CURRENCY --------------------------------------------
-const rates={USD:{EUR:0.92,GBP:0.81,JPY:149},EUR:{USD:1.09,GBP:0.88,JPY:163},GBP:{USD:1.23,EUR:1.14,JPY:189},JPY:{USD:0.0067,EUR:0.0061,GBP:0.0053}};
-function convertCur(){
-  const from=document.getElementById('curFrom').value;
-  const to=document.getElementById('curTo').value;
-  const amt=+document.getElementById('curAmount').value;
-  if(amt<0){document.getElementById('curResult').textContent='Enter >0';return;}
-  const res=(amt*rates[from][to]).toFixed(2);
-  document.getElementById('curResult').textContent=`${amt} ${from} = ${res} ${to}`;
-}
-// BMI --------------------------------------------------
-function calcBMI(){
-  const w=+document.getElementById('bmiW').value;
-  const h=+document.getElementById('bmiH').value/100;
-  if(!h || !w){document.getElementById('bmiResult').textContent='Enter weight & height';return;}
-  const b=(w/(h*h)).toFixed(2);
-  let cat='';
-  if(b<18.5) cat='Underweight'; else if(b<25) cat='Normal'; else if(b<30) cat='Overweight'; else cat='Obese';
-  document.getElementById('bmiResult').textContent=`BMI: ${b} (${cat})`;
-}
-// QR ---------------------------------------------------
-function genQR(){
-  const t=document.getElementById('qrText').value.trim();
-  if(!t){alert('Text needed');return;}
-  document.getElementById('qrImg').src=`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(t)}`;
-}
-// BACKGROUND CANVAS PARTICLES --------------------------
-const cvs = document.getElementById('particles');
-const ctx = cvs.getContext('2d');
-let w = cvs.width = innerWidth;
-let h = cvs.height = innerHeight;
-let dots=[];
-const cols=[`#39ff14`,`#bf00ff`,`#00c3ff`];
-addEventListener('resize',()=>{w=cvs.width=innerWidth;h=cvs.height=innerHeight;init()});
-function init(){
-  dots=[];
-  for(let i=0;i<Math.floor(w/7);i++){
-    dots.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+0.3,dx:(Math.random()-0.5)*0.8,dy:(Math.random()-0.5)*0.8,color:cols[i%cols.length]});
-  }
-}
-function draw(){
-  ctx.clearRect(0,0,w,h);
-  dots.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,2*Math.PI);
-    ctx.fillStyle=p.color;
-    ctx.fill();
-    ctx.shadowColor=p.color;
-    ctx.shadowBlur=12;
-    p.x+=p.dx;
-    p.y+=p.dy;
-    if(p.x<0||p.x>w)p.dx*=-1;
-    if(p.y<0||p.y>h)p.dy*=-1;
-  });
-  requestAnimationFrame(draw);
-}
-init();draw();
+        createParticles();
 
-/* ---- footer top-scroll button ---- */
-const topBtn=document.getElementById('topBtn');
-window.onscroll=()=>topBtn.classList.toggle('active',scrollY>260);
-</script>
+        // Calculator Functions
+        let calcString = '';
+        function calcAppend(value) {
+            calcString += value;
+            document.getElementById('calc-display').value = calcString;
+        }
+        
+        function calcClear() {
+            calcString = '';
+            document.getElementById('calc-display').value = '';
+        }
+        
+        function calcDelete() {
+            calcString = calcString.slice(0, -1);
+            document.getElementById('calc-display').value = calcString;
+        }
+        
+        function calcEquals() {
+            try {
+                calcString = eval(calcString).toString();
+                document.getElementById('calc-display').value = calcString;
+            } catch (e) {
+                document.getElementById('calc-display').value = 'Error';
+                setTimeout(() => {
+                    calcString = '';
+                    document.getElementById('calc-display').value = '';
+                }, 1000);
+            }
+        }
+
+        function resetCalc() {
+            calcClear();
+        }
+
+        // Password Generator Functions
+        function updatePassLength(value) {
+            document.getElementById('length-display').textContent = value;
+        }
+
+        function generatePassword() {
+            const length = document.getElementById('pass-length').value;
+            const includeUppercase = document.getElementById('include-uppercase').checked;
+            const includeLowercase = document.getElementById('include-lowercase').checked;
+            const includeNumbers = document.getElementById('include-numbers').checked;
+            const includeSymbols = document.getElementById('include-symbols').checked;
+
+            let charset = '';
+            if (includeUppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (includeLowercase) charset += 'abcdefghijklmnopqrstuvwxyz';
+            if (includeNumbers) charset += '0123456789';
+            if (includeSymbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+
+            document.getElementById('generated-password').value = password;
+        }
+
+        function copyPassword() {
+            const passField = document.getElementById('generated-password');
+            passField.select();
+            document.execCommand('copy');
+            showToast('Password copied to clipboard!');
+        }
+
+        function resetPassword() {
+            document.getElementById('generated-password').value = '';
+            document.getElementById('pass-length').value = 12;
+            document.getElementById('length-display').textContent = '12';
+            document.getElementById('include-uppercase').checked = true;
+            document.getElementById('include-lowercase').checked = true;
+            document.getElementById('include-numbers').checked = true;
+            document.getElementById('include-symbols').checked = false;
+        }
+
+        // Word Counter Functions
+        function countWords() {
+            const text = document.getElementById('text-content').value;
+            const chars = text.length;
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim() !== '').length;
+
+            document.getElementById('char-count').textContent = chars;
+            document.getElementById('word-count').textContent = words;
+            document.getElementById('sentence-count').textContent = sentences;
+        }
+
+        function clearText() {
+            document.getElementById('text-content').value = '';
+            countWords();
+        }
+
+        // Text Case Converter Functions
+        function convertCase(type) {
+            const text = document.getElementById('case-text').value;
+            let result = '';
+
+            switch(type) {
+                case 'upper':
+                    result = text.toUpperCase();
+                    break;
+                case 'lower':
+                    result = text.toLowerCase();
+                    break;
+                case 'capitalize':
+                    result = text.replace(/\b\w/g, l => l.toUpperCase());
+                    break;
+                case 'sentence':
+                    result = text.toLowerCase().replace(/.+?[\.\?\!](\s|$)/g, function(t) {
+                        return t.charAt(0).toUpperCase() + t.slice(1);
+                    });
+                    break;
+            }
+
+            document.getElementById('case-result').value = result;
+        }
+
+        function copy(id) {
+            const element = document.getElementById(id);
+            element.select();
+            document.execCommand('copy');
+            showToast('Copied to clipboard!');
+        }
+
+        function resetCase() {
+            document.getElementById('case-text').value = '';
+            document.getElementById('case-result').value = '';
+        }
+
+        // Stopwatch Functions
+        let stopwatchInterval;
+        let stopwatchTime = 0;
+        let isRunning = false;
+        let lapCount = 0;
+
+        function updateStopwatch() {
+            stopwatchTime++;
+            const hours = Math.floor(stopwatchTime / 3600);
+            const minutes = Math.floor((stopwatchTime % 3600) / 60);
+            const seconds = stopwatchTime % 60;
+            
+            const display = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('stopwatch').textContent = display;
+        }
+
+        function startStopwatch() {
+            if (!isRunning) {
+                stopwatchInterval = setInterval(updateStopwatch, 1000);
+                isRunning = true;
+            }
+        }
+
+        function pauseStopwatch() {
+            clearInterval(stopwatchInterval);
+            isRunning = false;
+        }
+
+        function resetStopwatch() {
+            clearInterval(stopwatchInterval);
+            isRunning = false;
+            stopwatchTime = 0;
+            lapCount = 0;
+            document.getElementById('stopwatch').textContent = '00:00:00';
+            document.getElementById('lap-times').innerHTML = '';
+        }
+
+        function lapTime() {
+            if (isRunning) {
+                lapCount++;
+                const lapTime = document.getElementById('stopwatch').textContent;
+                document.getElementById('lap-times').innerHTML += `<div>Lap ${lapCount}: ${lapTime}</div>`;
+            }
+        }
+
+        // Notes App Functions
+        function addNote() {
+            const title = document.getElementById('note-title').value;
+            const content = document.getElementById('note-content').value;
+            
+            if (!title) {
+                alert('Please enter a note title');
+                return;
+            }
+
+            const notes = getNotes();
+            notes.push({ title, content });
+            localStorage.setItem('cyberNotes', JSON.stringify(notes));
+            
+            displayNotes();
+            document.getElementById('note-title').value = '';
+            document.getElementById('note-content').value = '';
+        }
+
+        function getNotes() {
+            return JSON.parse(localStorage.getItem('cyberNotes') || '[]');
+        }
+
+        function displayNotes() {
+            const notes = getNotes();
+            const container = document.getElementById('notes-list');
+            container.innerHTML = '';
+
+            notes.forEach((note, index) => {
+                const noteDiv = document.createElement('div');
+                noteDiv.className = 'note-item';
+                noteDiv.innerHTML = `
+                    <div>
+                        <strong>${note.title}</strong><br>
+                        <small>${note.content.substring(0, 50)}${note.content.length > 50 ? '...' : ''}</small>
+                    </div>
+                    <button class="delete-note" onclick="deleteNote(${index})">×</button>
+                `;
+                container.appendChild(noteDiv);
+            });
+        }
+
+        function deleteNote(index) {
+            const notes = getNotes();
+            notes.splice(index, 1);
+            localStorage.setItem('cyberNotes', JSON.stringify(notes));
+            displayNotes();
+        }
+
+        // Random Number Generator Functions
+        function generateRandom() {
+            const min = parseInt(document.getElementById('rand-min').value) || 0;
+            const max = parseInt(document.getElementById('rand-max').value) || 100;
+            
+            if (min >= max) {
+                alert('Minimum must be less than maximum');
+                return;
+            }
+
+            const result = Math.floor(Math.random() * (max - min + 1)) + min;
+            document.getElementById('random-result').value = result;
+        }
+
+        function resetRandom() {
+            document.getElementById('rand-min').value = '';
+            document.getElementById('rand-max').value = '';
+            document.getElementById('random-result').value = '';
+        }
+
+        // Currency Converter Functions
+        const fxRates = {
+            "USD": { "USD": 1.0, "EUR": 0.85, "GBP": 0.75, "JPY": 110.0, "CAD": 1.25, "INR": 75.0 },
+            "EUR": { "USD": 1.18, "EUR": 1.0, "GBP": 0.88, "JPY": 129.0, "CAD": 1.47, "INR": 88.0 },
+            "GBP": { "USD": 1.33, "EUR": 1.14, "GBP": 1.0, "JPY": 147.0, "CAD": 1.67, "INR": 100.0 },
+            "JPY": { "USD": 0.0091, "EUR": 0.0078, "GBP": 0.0068, "JPY": 1.0, "CAD": 0.0114, "INR": 0.68 },
+            "CAD": { "USD": 0.80, "EUR": 0.68, "GBP": 0.60, "JPY": 87.2, "CAD": 1.0, "INR": 60.0 },
+            "INR": { "USD": 0.0133, "EUR": 0.0114, "GBP": 0.0100, "JPY": 1.467, "CAD": 0.0167, "INR": 1.0 }
+        };
+
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const fromCurrency = document.getElementById('from-currency').value;
+            const toCurrency = document.getElementById('to-currency').value;
+
+            if (!amount || isNaN(amount)) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            const converted = amount * fxRates[fromCurrency][toCurrency];
+            document.getElementById('currency-result').innerHTML = 
+                `<p>${amount.toFixed(2)} ${fromCurrency} = ${converted.toFixed(2)} ${toCurrency}</p>`;
+        }
+
+        function resetCurrency() {
+            document.getElementById('amount').value = '';
+            document.getElementById('currency-result').innerHTML = '<p>Converted amount will appear here</p>';
+        }
+
+        // BMI Calculator Functions
+        function switchBMIUnit() {
+            const unit = document.getElementById('bmi-unit').value;
+            const weightPlaceholder = unit === 'metric' ? 'Weight (kg)' : 'Weight (lbs)';
+            const heightPlaceholder = unit === 'metric' ? 'Height (cm)' : 'Height (inches)';
+            
+            document.getElementById('weight').placeholder = weightPlaceholder;
+            document.getElementById('height').placeholder = heightPlaceholder;
+        
+            document.getElementById('weight').value = '';
+            document.getElementById('height').value = '';
+        }
+
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const unit = document.getElementById('bmi-unit').value;
+
+            if (!weight || !height) {
+                alert('Please enter valid weight and height');
+                return;
+            }
+
+            let bmi;
+            if (unit === 'metric') {
+                bmi = weight / ((height / 100) ** 2);
+            } else {
+                bmi = (weight * 703) / (height ** 2);
+            }
+
+            let category = '';
+            if (bmi < 18.5) category = 'Underweight';
+            else if (bmi < 24.9) category = 'Normal weight';
+            else if (bmi < 29.9) category = 'Overweight';
+            else category = 'Obese';
+
+            document.getElementById('bmi-result').innerHTML = `
+                <h3 style="color: var(--neon-green); margin-bottom: 0.5rem;">Your BMI: ${bmi.toFixed(1)}</h3>
+                <p>Category: ${category}</p>
+                <small>Remember, BMI is a screening tool and doesn't account for muscle mass, bone density, etc.</small>
+            `;
+        }
+
+        function resetBMI() {
+            document.getElementById('weight').value = '';
+            document.getElementById('height').value = '';
+            document.getElementById('bmi-result').innerHTML = '';
+        }
+
+        // QR Code Generator Functions
+        let qrInstance = null;
+
+        function generateQR() {
+            const text = document.getElementById('qr-text').value;
+            if (!text) {
+                alert('Please enter text or URL');
+                return;
+            }
+
+            const container = document.getElementById('qr-code-container');
+            
+            if (qrInstance) {
+                qrInstance.clear();
+                qrInstance = null;
+            }
+
+            qrInstance = new QRCode(container, {
+                text: text,
+                width: 200,
+                height: 200,
+                colorDark: "#39ff14",
+                colorLight: "#000000",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        function resetQR() {
+            document.getElementById('qr-text').value = '';
+            if (qrInstance) {
+                qrInstance.clear();
+                qrInstance = null;
+            }
+            document.getElementById('qr-code-container').innerHTML = '';
+        }
+
+        // Utility Functions
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(57, 255, 20, 0.8);
+                color: #000;
+                padding: 1rem 2rem;
+                border-radius: 5px;
+                z-index: 1000;
+                animation: fadeInOut 2s ease;
+            `;
+
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translateY(-20px); }
+                    10% { opacity: 1; transform: translateY(0); }
+                    90% { opacity: 1; transform: translateY(0); }
+                    100% { opacity: 0; transform: translateY(-20px); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        // Initialize
+        displayNotes();
+    </script>
 </body>
 </html>
+```
