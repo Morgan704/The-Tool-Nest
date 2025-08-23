@@ -140,23 +140,22 @@
             color: var(--primary);
             border-color: var(--accent);
         }
-        .tool-card {
+      .tool-card {
     background: var(--card-bg);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
     border: 1px solid var(--light-gray);
-    padding: 0.6rem; /* tighter spacing */
+    padding: 0.6rem; /* less padding */
     transform: scale(0.95);
     opacity: 0;
     animation: fadeInScale 0.6s ease forwards;
 }
 
-/* Tool embed (inside frame) */
 .tool-embed {
     background: var(--light);
-    padding: 0.8rem;   /* smaller padding */
-    min-height: 140px; /* was 220px, reduced */
+    padding: 0.6rem;   /* smaller inside space */
+    min-height: 120px; /* much smaller height */
     display: flex;
     align-items: center;
     justify-content: center;
