@@ -1,533 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Tool Nest - Your Productivity Hub</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
- <style>
-/* ------ BLACK + NEON GREEN MAKEOVER ------- */
-:root{ 
-    --neon:#39ff14;
-    --bg:#000;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Neon Pocket Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --neon:#39ff14;
+  --black:#000;
 }
-
-*{
-    box-sizing:border-box;
-}
-
+*{box-sizing:border-box;margin:0;padding:0;}
 body{
-    margin:0;
-    background:var(--bg);
-    color:var(--neon);
-    font-family: "Courier New", monospace;
-    font-size:0.95rem;
-    line-height:1.4;
+  background:var(--black);
+  color:var(--neon);
+  font-family:'JetBrains Mono',monospace;
+  line-height:1.5;
+  font-size:15px;
+  padding:10px;
 }
+header{
+  text-align:center;
+  margin-bottom:40px;
+}
+h1 span{color:var(--neon)}
+h1{font-size:1.7rem;font-weight:600}
 
-header,
-.hero,
-footer,
-nav,
-.container{
-    background:var(--bg);
-    color:var(--neon);
+/* -------- responsive grid -------- */
+.tool-grid{
+  display:grid;
+  gap:12px;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
 }
+.tool-card{
+  border:1px solid var(--neon);
+  border-radius:2px;
+  background:transparent;
+  padding:8px 10px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.tool-card:hover,
+.tool-card:focus-within{
+  transform:scale(1.01) translateY(-1px);
+  box-shadow:0 0 8px var(--neon),0 0 14px var(--neon);
+}
+label{font-size:.8rem;display:block;margin-bottom:3px}
+button,input,select,textarea{
+  font-family:inherit;
+  color:var(--neon);
+  background:transparent;
+  border:1px solid var(--neon);
+  border-radius:1px;
+  padding:3px 6px;
+  transition:border .2s;
+}
+input:focus,select:focus,textarea:focus,button:focus{outline:none;border-width:2px}
+button{cursor:pointer}
+.mono-input{width:100%;resize:vertical}
+.output{margin-top:5px;font-size:.9rem;}
+.list-item{display:flex;justify-content:space-between;align-items:center;margin:3px 0}
+.del-btn{color:#ff5454;border:1px solid #ff5454;padding:1px 4px;font-size:.75rem}
 
-/* --- Compress every tool card/box --- */
-.tool-card,
-.tool-embed,
-.unit-converter,
-.notes-app,
-.calculator,
-input,
-select,
-button,
-textarea,
-.card,
-.module,
-.panel{
-    border:1px solid var(--neon);
-    border-radius:1px;          /* absolute smallest */
-    background:transparent;
-    margin:2px;
-    padding:2px 4px;
-}
-
-/* input & button styling */
-input,
-select,
-button,
-textarea{
-    color:var(--neon);
-    outline:none;
-    background:transparent;
-    font-family:inherit;
-}
-input[type=submit],
-button{
-    cursor:pointer;
-}
-input::placeholder,
-textarea::placeholder{
-    color:var(--neon);
-    opacity:.6;
-}
+@media(min-width:600px){h1{font-size:2.2rem}}
 </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <i class="fas fa-toolbox"></i>
-                    <span>The Tool Nest</span>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#"><i class="fas fa-folder"></i> Categories</a></li>
-                    <li><a href="#"><i class="fas fa-plus"></i> Add Tool</a></li>
-                    <li><a href="#"><i class="fas fa-user"></i> My Account</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    
-    <div class="hero">
-        <div class="container">
-            <h1>Your Productivity Hub</h1>
-            <p>All your essential tools in one convenient place. Streamline your workflow with our curated collection of utilities.</p>
-        </div>
+
+<header>
+  <h1><span>Neon&nbsp;Pocket&nbsp;Tools</span></h1>
+  <p>Your daily utilities, pocket-size</p>
+</header>
+
+<div class="tool-grid">
+
+  <!-- 1. Calculator -->
+  <div class="tool-card">
+    <h2>Calculator</h2>
+    <input type="text" id="calc-result" class="mono-input" readonly value="0">
+    <div class="calc-buttons" style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-size:13px;">
+      <button onclick="calcAdd('7')">7</button>
+      <button onclick="calcAdd('8')">8</button>
+      <button onclick="calcAdd('9')">9</button>
+      <button onclick="calcAdd('/')">/</button>
+      <button onclick="calcAdd('4')">4</button>
+      <button onclick="calcAdd('5')">5</button>
+      <button onclick="calcAdd('6')">6</button>
+      <button onclick="calcAdd('*')">*</button>
+      <button onclick="calcAdd('1')">1</button>
+      <button onclick="calcAdd('2')">2</button>
+      <button onclick="calcAdd('3')">3</button>
+      <button onclick="calcAdd('-')">-</button>
+      <button onclick="calcAdd('0')">0</button>
+      <button onclick="calcAdd('.')">.</button>
+      <button onclick="calcClear()">C</button>
+      <button onclick="calcEquals()">=</button>
     </div>
-    
-    <main class="container">
-        <div class="categories">
-            <button class="category-btn active">All Tools</button>
-            <button class="category-btn">Calculators</button>
-            <button class="category-btn">Converters</button>
-            <button class="category-btn">Productivity</button>
-            <button class="category-btn">Design</button>
-        </div>
-        
-        <div class="tools-grid">
-            <!-- Calculator Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-calculator"></i> Calculator</h3>
-                    <p>Perform basic calculations</p>
-                </div>
-                <div class="tool-content">
-                    <p>A simple calculator for everyday use. Supports basic arithmetic operations.</p>
-                    <div class="tool-embed">
-                        <div class="calculator">
-                            <div class="calculator-display">0</div>
-                            <button class="calculator-btn">C</button>
-                            <button class="calculator-btn">←</button>
-                            <button class="calculator-btn operator">%</button>
-                            <button class="calculator-btn operator">÷</button>
-                            <button class="calculator-btn">7</button>
-                            <button class="calculator-btn">8</button>
-                            <button class="calculator-btn">9</button>
-                            <button class="calculator-btn operator">×</button>
-                            <button class="calculator-btn">4</button>
-                            <button class="calculator-btn">5</button>
-                            <button class="calculator-btn">6</button>
-                            <button class="calculator-btn operator">-</button>
-                            <button class="calculator-btn">1</button>
-                            <button class="calculator-btn">2</button>
-                            <button class="calculator-btn">3</button>
-                            <button class="calculator-btn operator">+</button>
-                            <button class="calculator-btn">0</button>
-                            <button class="calculator-btn">.</button>
-                            <button class="calculator-btn equals">=</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Unit Converter Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-exchange-alt"></i> Unit Converter</h3>
-                    <p>Convert between different units</p>
-                </div>
-                <div class="tool-content">
-                    <p>Convert length, weight, temperature, and more between different unit systems.</p>
-                    <div class="tool-embed">
-                        <div class="unit-converter">
-                            <select id="conversion-type">
-                                <option value="length">Length</option>
-                                <option value="weight">Weight</option>
-                                <option value="temperature">Temperature</option>
-                            </select>
-                            <div class="input-group">
-                                <input type="number" id="from-value" placeholder="Enter value">
-                                <select id="from-unit">
-                                    <option value="meter">Meters</option>
-                                    <option value="inch">Inches</option>
-                                    <option value="foot">Feet</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <input type="number" id="to-value" placeholder="Result" readonly>
-                                <select id="to-unit">
-                                    <option value="foot">Feet</option>
-                                    <option value="meter">Meters</option>
-                                    <option value="inch">Inches</option>
-                                </select>
-                            </div>
-                            <button id="convert-btn">Convert</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Notes Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-sticky-note"></i> Quick Notes</h3>
-                    <p>Jot down your thoughts</p>
-                </div>
-                <div class="tool-content">
-                    <p>A simple note-taking app. Your notes are saved in your browser's local storage.</p>
-                    <div class="tool-embed">
-                        <div class="notes-app">
-                            <textarea id="notes-area" placeholder="Type your notes here..."></textarea>
-                            <button id="save-notes">Save Notes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Currency Converter Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-money-bill-wave"></i> Currency Converter</h3>
-                    <p>Convert between currencies</p>
-                </div>
-                <div class="tool-content">
-                    <p>Check latest exchange rates and convert between world currencies. (Note: uses mock data)</p>
-                    <div class="tool-embed">
-                        <div class="unit-converter">
-                            <div class="input-group">
-                                <input type="number" id="currency-amount" placeholder="Amount" value="1">
-                                <select id="from-currency">
-                                    <option value="USD">USD</option>
-                                    <option value="EUR">EUR</option>
-                                    <option value="GBP">GBP</option>
-                                    <option value="JPY">JPY</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <input type="number" id="currency-result" placeholder="Result" readonly>
-                                <select id="to-currency">
-                                    <option value="EUR">EUR</option>
-                                    <option value="USD">USD</option>
-                                    <option value="GBP">GBP</option>
-                                    <option value="JPY">JPY</option>
-                                </select>
-                            </div>
-                            <button id="convert-currency">Convert</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Timer Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-stopwatch"></i> Timer</h3>
-                    <p>Countdown timer</p>
-                </div>
-                <div class="tool-content">
-                    <p>Set a countdown timer for any duration. Get notified when time is up.</p>
-                    <div class="tool-embed">
-                        <div class="unit-converter">
-                            <input type="number" id="timer-minutes" placeholder="Minutes" value="5" min="0">
-                            <input type="number" id="timer-seconds" placeholder="Seconds" value="0" min="0" max="59">
-                            <div id="timer-display">05:00</div>
-                            <button id="start-timer">Start Timer</button>
-                            <button id="reset-timer">Reset</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Color Picker Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-palette"></i> Color Picker</h3>
-                    <p>Choose and customize colors</p>
-                </div>
-                <div class="tool-content">
-                    <p>Select a color and get its HEX and RGB values. Useful for design work.</p>
-                    <div class="tool-embed">
-                        <div class="unit-converter">
-                            <input type="color" id="color-picker" value="#ff6b6b">
-                            <div id="color-values">
-                                <p>HEX: <span id="hex-value">#ff6b6b</span></p>
-                                <p>RGB: <span id="rgb-value">255, 107, 107</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-    
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-toolbox"></i> The Tool Nest
-                </div>
-                <div class="footer-links">
-                    <a href="#">Home</a>
-                    <a href="#">Tools</a>
-                    <a href="#">About</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                </div>
-                <div class="copyright">
-                    © 2023 The Tool Nest. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
+  </div>
 
-    <script>
-        // Calculator functionality
-        const calculatorDisplay = document.querySelector('.calculator-display');
-        const calculatorButtons = document.querySelectorAll('.calculator-btn');
-        let firstOperand = null;
-        let operator = null;
-        let waitingForSecondOperand = false;
+  <!-- 2. To-Do List -->
+  <div class="tool-card">
+    <h2>To-Do List</h2>
+    <div>
+      <input type="text" id="todo-text" placeholder="Add task…" onkeydown="if(event.key==='Enter')addTodo()">
+      <button onclick="addTodo()" style="margin-top:4px;width:100%">Add</button>
+    </div>
+    <div id="todo-list" class="output"></div>
+  </div>
 
-        calculatorButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const value = button.textContent;
-                
-                if (value === 'C') {
-                    calculatorDisplay.textContent = '0';
-                    firstOperand = null;
-                    operator = null;
-                    waitingForSecondOperand = false;
-                    return;
-                }
-                
-                if (value === '←') {
-                    calculatorDisplay.textContent = calculatorDisplay.textContent.slice(0, -1) || '0';
-                    return;
-                }
-                
-                if (value === '=') {
-                    if (operator && firstOperand !== null) {
-                        const result = calculate(firstOperand, parseFloat(calculatorDisplay.textContent), operator);
-                        calculatorDisplay.textContent = result;
-                        firstOperand = result;
-                        operator = null;
-                        waitingForSecondOperand = true;
-                    }
-                    return;
-                }
-                
-                if (['+', '-', '×', '÷', '%'].includes(value)) {
-                    if (firstOperand === null) {
-                        firstOperand = parseFloat(calculatorDisplay.textContent);
-                    } else if (operator) {
-                        const result = calculate(firstOperand, parseFloat(calculatorDisplay.textContent), operator);
-                        calculatorDisplay.textContent = result;
-                        firstOperand = result;
-                    }
-                    operator = value;
-                    waitingForSecondOperand = true;
-                    return;
-                }
-                
-                if (waitingForSecondOperand) {
-                    calculatorDisplay.textContent = value;
-                    waitingForSecondOperand = false;
-                } else {
-                    calculatorDisplay.textContent = calculatorDisplay.textContent === '0' ? value : calculatorDisplay.textContent + value;
-                }
-            });
-        });
+  <!-- 3. Live Clock -->
+  <div class="tool-card">
+    <h2>Live Clock</h2>
+    <div id="clock" class="output" style="font-size:1.4rem;text-align:center"></div>
+  </div>
 
-        function calculate(a, b, operator) {
-            switch (operator) {
-                case '+': return a + b;
-                case '-': return a - b;
-                case '×': return a * b;
-                case '÷': return a / b;
-                case '%': return a % b;
-                default: return b;
-            }
-        }
-
-        // Unit Converter functionality
-        document.getElementById('convert-btn').addEventListener('click', () => {
-            const value = parseFloat(document.getElementById('from-value').value);
-            const fromUnit = document.getElementById('from-unit').value;
-            const toUnit = document.getElementById('to-unit').value;
-            const conversionType = document.getElementById('conversion-type').value;
-            
-            if (isNaN(value)) {
-                alert('Please enter a valid number');
-                return;
-            }
-            
-            // Simple conversion factors for demonstration
-            let result;
-            if (conversionType === 'length') {
-                const toMeters = {
-                    meter: 1,
-                    inch: 0.0254,
-                    foot: 0.3048
-                };
-                
-                const meters = value * toMeters[fromUnit];
-                result = meters / toMeters[toUnit];
-            } else if (conversionType === 'weight') {
-                const toKilos = {
-                    kilogram: 1,
-                    pound: 0.453592,
-                    ounce: 0.0283495
-                };
-                
-                const kilos = value * toKilos[fromUnit];
-                result = kilos / toKilos[toUnit];
-            } else if (conversionType === 'temperature') {
-                if (fromUnit === 'celsius' && toUnit === 'fahrenheit') {
-                    result = (value * 9/5) + 32;
-                } else if (fromUnit === 'fahrenheit' && toUnit === 'celsius') {
-                    result = (value - 32) * 5/9;
-                } else {
-                    result = value; // Same unit
-                }
-            }
-            
-            document.getElementById('to-value').value = result.toFixed(2);
-        });
-
-        // Notes functionality
-        const notesArea = document.getElementById('notes-area');
-        const saveNotesButton = document.getElementById('save-notes');
-
-        // Load saved notes from localStorage
-        if (localStorage.getItem('toolsShelfNotes')) {
-            notesArea.value = localStorage.getItem('toolsShelfNotes');
-        }
-
-        saveNotesButton.addEventListener('click', () => {
-            localStorage.setItem('toolsShelfNotes', notesArea.value);
-            alert('Notes saved!');
-        });
-
-        // Currency Converter functionality
-        document.getElementById('convert-currency').addEventListener('click', () => {
-            const amount = parseFloat(document.getElementById('currency-amount').value);
-            const fromCurrency = document.getElementById('from-currency').value;
-            const toCurrency = document.getElementById('to-currency').value;
-            
-            if (isNaN(amount)) {
-                alert('Please enter a valid amount');
-                return;
-            }
-            
-            // Mock exchange rates for demonstration
-            const rates = {
-                USD: { EUR: 0.85, GBP: 0.75, JPY: 110.0, USD: 1 },
-                EUR: { USD: 1.18, GBP: 0.88, JPY: 129.5, EUR: 1 },
-                GBP: { USD: 1.33, EUR: 1.14, JPY: 147.0, GBP: 1 },
-                JPY: { USD: 0.0091, EUR: 0.0077, GBP: 0.0068, JPY: 1 }
-            };
-            
-            const result = amount * rates[fromCurrency][toCurrency];
-            document.getElementById('currency-result').value = result.toFixed(2);
-        });
-
-        // Timer functionality
-        const timerDisplay = document.getElementById('timer-display');
-        const startTimerButton = document.getElementById('start-timer');
-        const resetTimerButton = document.getElementById('reset-timer');
-        let timerInterval = null;
-        let timeLeft = 5 * 60; // 5 minutes in seconds
-
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        startTimerButton.addEventListener('click', () => {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-                startTimerButton.textContent = 'Start Timer';
-                return;
-            }
-            
-            const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
-            const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
-            timeLeft = minutes * 60 + seconds;
-            
-            if (timeLeft <= 0) {
-                alert('Please enter a valid time');
-                return;
-            }
-            
-            updateTimerDisplay();
-            startTimerButton.textContent = 'Pause Timer';
-            
-            timerInterval = setInterval(() => {
-                if (timeLeft > 0) {
-                    timeLeft--;
-                    updateTimerDisplay();
-                } else {
-                    clearInterval(timerInterval);
-                    timerInterval = null;
-                    startTimerButton.textContent = 'Start Timer';
-                    alert('Timer finished!');
-                }
-            }, 1000);
-        });
-
-        resetTimerButton.addEventListener('click', () => {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
-            startTimerButton.textContent = 'Start Timer';
-            const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
-            const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
-            timeLeft = minutes * 60 + seconds;
-            updateTimerDisplay();
-        });
-
-        // Color Picker functionality
-        const colorPicker = document.getElementById('color-picker');
-        const hexValue = document.getElementById('hex-value');
-        const rgbValue = document.getElementById('rgb-value');
-
-        colorPicker.addEventListener('input', () => {
-            const color = colorPicker.value;
-            hexValue.textContent = color;
-            
-            // Convert hex to RGB
-            const r = parseInt(color.substr(1, 2), 16);
-            const g = parseInt(color.substr(3, 2), 16);
-            const b = parseInt(color.substr(5, 2), 16);
-            
-            rgbValue.textContent = `${r}, ${g}, ${b}`;
-        });
-
-        // Initialize with current color
-        const initialColor = colorPicker.value;
-        const r = parseInt(initialColor.substr(1, 2), 16);
-        const g = parseInt(initialColor.substr(3, 2), 16);
-        const b = parseInt(initialColor.substr(5, 2), 16);
-        rgbValue.textContent = `${r}, ${g}, ${b}`;
-    </script>
-</body>
-</html>
+  <!-- 4. Stopwatch -->
+  <div class="tool-card">
+    <h2>Stopwatch</h2>
+    <div id="stopwatch" class="output" style="font-size:
