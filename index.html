@@ -3,343 +3,354 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Cyber-Neon Tool Suite</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+<title>Cyber-Neon Tool Suite • Spectral Edition</title>
 <style>
   :root{
-    --neon-green:#39ff14;
-    --neon-purple:#bf00ff;
-    --neon-blue:#00c3ff;
-    --glass-bg:rgba(0,0,0,.65);
-    --glass-border:rgba(255,255,255,.15);
+    --ng:#39ff14;
+    --np:#bf00ff;
+    --nb:#00c3ff;
+    --glass:rgba(0,0,0,.55);
   }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    font-family:"Exo 2",sans-serif;
-    background:#000;
-    color:#fff;
-    overflow-x:hidden;
+  @font-face{font-family:orbitron;src:url(data:font/woff2;base64,)} /* fallback */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;font-family:'Orbitron',monospace;color:#fff}
+  body{background:#000;display:flex;flex-direction:column;position:relative}
+  .bg{position:absolute;top:0;left:0;width:100%;height:120%;background:radial-gradient(circle at 20% 80%,rgba(191,0,255,.15),transparent 55%),radial-gradient(circle at 80% 20%,rgba(0,195,255,.15),transparent 50%),radial-gradient(circle at 40% 50%,rgba(57,255,20,.1),transparent 70%);animation:bgPan 18s linear infinite alternate}
+  #particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
+  @keyframes bgPan{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+  .glitchTitle{
+    font-size:clamp(2.1rem,5vw,3.8rem);
+    font-weight:900;
+    text-transform:uppercase;
+    text-align:center;
+    margin:60px 0 45px;
+    animation:pulseGlow 3.2s ease-in-out infinite alternate;
+    letter-spacing:2px;
+  }
+  @keyframes pulseGlow{
+    0%{text-shadow:0 0 4px var(--ng),0 0 8px var(--ng),0 0 14px var(--ng)}
+    50%{text-shadow:0 0 6px var(--np),0 0 12px var(--np),0 0 26px var(--np)}
+    100%{text-shadow:0 0 8px var(--nb),0 0 16px var(--nb),0 0 32px var(--nb)}
   }
 
-  /*-- animated neon background --*/
-  .bg-particles{
-    position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;overflow:hidden;
+  /* ---------- glass-grid ---------- */
+  .grid{
+    padding:0 20px 50px;
+    display:grid;
+    gap:22px;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    max-width:1400px;width:100%;margin:0 auto;
+    animation:fadeUp .8s .35s both;
   }
-  .particle{
-    position:absolute;border-radius:50%;opacity:.9;pointer-events:none;mix-blend-mode:screen;
-  }
-
- /*-- glowing title --*/
- .neon-title{
-   margin:3rem 0 2rem;
-   font-family:"Orbitron",monospace;
-   font-weight:900;
-   font-size:clamp(2.3rem,7vw,4.5rem);
-   text-align:center;
-   text-transform:uppercase;
-   animation:neonFlicker 2s linear infinite alternate;
- }
- @keyframes neonFlicker{
-   0%{text-shadow:0 0 8px var(--neon-blue),0 0 12px var(--neon-blue),0 0 25px var(--neon-blue)}
-   50%{text-shadow:0 0 6px var(--neon-purple),0 0 14px var(--neon-purple),0 0 30px var(--neon-purple)}
-   100%{text-shadow:0 0 10px var(--neon-green),0 0 18px var(--neon-green),0 0 35px var(--neon-green)}
- }
-
- /*-- glass card grid --*/
- .grid{
-   display:grid;
-   gap:24px;
-   padding:0 20px 40px;
-   grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-   animation:fadeInGrid .8s cubic-bezier(.68,-0.55,.27,1.55) forwards;
- }
- @keyframes fadeInGrid{from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)}}
- .card{
-    background:var(--glass-bg);
-    border:1px solid var(--neon-green);
-    border-radius:12px;
-    backdrop-filter:blur(8px) saturate(170%);
-    padding:18px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
+  @keyframes fadeUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
+  .glass{
     position:relative;
-    transition:transform .25s cubic-bezier(.17,.84,.44,1),box-shadow .25s;
-    animation:slideCard .7s backwards;
- }
- .card:hover,.card:focus-within{
-   transform:scale(1.04) translateY(-6px);
-   box-shadow:0 0 20px var(--neon-green),0 0 30px var(--neon-green);
- }
- /* staggered card entrance */
- .card:nth-child(n){animation-delay:calc(.05s*var(--i))}
- @keyframes slideCard{from{opacity:0;transform:translateY(40px) rotateX(6deg)}}
- .card h3{font-family:"Orbitron",monospace;color:var(--neon-blue);font-weight:700;font-size:1.1rem}
- .card input,.card textarea{
-   color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
-   border-radius:6px;padding:7px;font-family:"Exo 2",sans-serif;resize:vertical;transition:border .2s;
- }
- .card button{
-   cursor:pointer;border:none;border-radius:6px;
-   background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));
-   color:#000;font-weight:600;padding:6px 0;font-size:.9rem;
-   position:relative;overflow:hidden;transition:filter .25s;
-   z-index:1;
- }
- .card button::before{
-   content:"";position:absolute;inset:-150%;z-index:-1;opacity:.6;
-   background:radial-gradient(circle,var(--neon-green),transparent 65%);
-   transition:opacity .3s;
- }
- .card button:hover::before{opacity:1}
- .card button:hover{filter:brightness(1.4) drop-shadow(0 0 8px var(--neon-green))}
- .output{
-   font-family:"Orbitron",monospace;font-size:1rem;word-break:break-all;
- }
+    border:1.5px solid rgba(255,255,255,.2);
+    border-radius:16px;
+    background:var(--glass);
+    backdrop-filter:blur(16px) saturate(180%);
+    padding:20px 18px;
+    transition:transform .28s ease,box-shadow .25s ease;
+    box-shadow:0 4px 20px rgba(0,0,0,.4);
+  }
+  .glass:hover,.glass:focus-within{
+    transform:scale(1.055) translateY(-7px);
+    box-shadow:0 0 18px var(--ng),0 0 40px rgba(57,255,20,.35);
+  }
+
+  h3{color:var(--nb);font-size:1.1rem;margin-bottom:10px}
+  input,textarea,button{
+    font-family:inherit;
+    color:#fff;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:8px;
+    padding:7px 10px;
+    font-size:.95rem;
+    transition:border .2s;
+  }
+  input:focus,textarea:focus{outline:none;border-color:var(--ng)}
+  button{
+    cursor:pointer;
+    background:linear-gradient(100deg,var(--ng),rgba(0,195,255,.9));
+    border:none;
+    color:#000;
+    font-weight:600;
+    position:relative;
+    overflow:hidden;
+  }
+  button::before{
+    content:'';
+    position:absolute;
+    top:-50%;left:-50%;
+    width:200%;height:200%;
+    background:radial-gradient(circle,rgba(255,255,255,.3),transparent 70%);
+    opacity:0;
+    transition:.25s;
+  }
+  button:hover::before{opacity:1}
+
+  /* ---------- footer ---------- */
+  footer{
+    margin-top:auto;
+    padding:25px 20px;
+    background:#0a0a0a;
+    text-align:center;
+    font-size:.8rem;
+    color:#aaa;
+  }
+  .footerNav a{
+    color:#39ff14;
+    margin:0 12px;
+    text-decoration:none;
+    transition:color .2s
+  }
+  .footerNav a:hover{color:#00c3ff}
+  .topBtn{
+    position:fixed;
+    bottom:25px;right:25px;
+    width:44px;height:44px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--ng),var(--nb));
+    color:#000;
+    font-weight:700;
+    font-size:1.2rem;
+    text-decoration:none;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;
+    transition:.25s;
+  }
+  .topBtn.active{opacity:1;transform:translateY(0)}
+  .topBtn:hover{transform:scale(1.15);box-shadow:0 0 12px var(--ng)}
+  @media(max-width:600px){ .glitchTitle{margin-top:40px} .grid{gap:16px} }
 </style>
 </head>
 <body>
-<!-- floating neon dots -->
-<div class="bg-particles" id="particles"></div>
+<div class="bg"></div>
+<canvas id="particles"></canvas>
 
-<!-- glowing title -->
-<h1 class="neon-title">Cyber-Neon Tools</h1>
+<h1 class="glitchTitle">Cyber-Neon Tool Suite</h1>
 
 <div class="grid">
-  <!--1   Calculator-->
-  <div class="card" style="--i:1">
-     <h3>Calculator</h3>
-     <input type="text" id="calcDisplay" readonly>
-     <button onclick="calcClear()">AC</button>
-     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-size:12px">
-       <button onclick="calcType('7')">7</button><button onclick="calcType('8')">8</button><button onclick="calcType('9')">9</button><button onclick="calcType('/')">/</button>
-       <button onclick="calcType('4')">4</button><button onclick="calcType('5')">5</button><button onclick="calcType('6')">6</button><button onclick="calcType('*')">*</button>
-       <button onclick="calcType('1')">1</button><button onclick="calcType('2')">2</button><button onclick="calcType('3')">3</button><button onclick="calcType('-')">-</button>
-       <button onclick="calcType('0')">0</button><button onclick="calcType('.')">.</button><button onclick="calcEval()">=</button><button onclick="calcType('+')">+</button>
-     </div>
+  <!-- 1   Calculator -->
+  <div class="glass">
+    <h3>Calculator</h3>
+    <input id="calcDisplay" readonly style="width:100%">
+    <button onclick="calcClear()" style="width:100%">AC</button>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:8px;font-size:12px">
+      <button onclick="calcType('7')">7</button><button onclick="calcType('8')">8</button><button onclick="calcType('9')">9</button><button onclick="calcType('/')">/</button>
+      <button onclick="calcType('4')">4</button><button onclick="calcType('5')">5</button><button onclick="calcType('6')">6</button><button onclick="calcType('*')">*</button>
+      <button onclick="calcType('1')">1</button><button onclick="calcType('2')">2</button><button onclick="calcType('3')">3</button><button onclick="calcType('-')">-</button>
+      <button onclick="calcType('0')">0</button><button onclick="calcType('.')">.</button><button onclick="calcEval()">=</button><button onclick="calcType('+')">+</button>
+    </div>
   </div>
 
-  <!--2   Password Generator-->
-  <div class="card" style="--i:2">
-     <h3>Password Generator</h3>
-     <label>Length:<input type="number" id="passLen" value="12" min="4" max="128"></label>
-     <button onclick="genPass()">✦ Generate & Copy ✦</button>
-     <input type="text" id="passOut" readonly>
+  <!-- 2   Password Generator -->
+  <div class="glass">
+    <h3>Password Generator</h3>
+    <label>Length: <input type="number" id="pwLen" value="16" min="6" max="128" style="width:60px"></label>
+    <button onclick="genPassword()" style="width:100%">Create & Copy</button>
+    <input id="pwOut" readonly style="width:100%;font-size:.8rem">
   </div>
 
-  <!--3   Word Counter-->
-  <div class="card" style="--i:3">
-     <h3>Word / Char Counter</h3>
-     <textarea rows="5" id="wordInput" placeholder="Type something…"></textarea>
-     <div class="output" id="wordCount">0 words, 0 chars</div>
+  <!-- 3   Word Counter -->
+  <div class="glass">
+    <h3>Word / Char Counter</h3>
+    <textarea id="wordText" rows="4" style="width:100%" placeholder="Start typing…"></textarea>
+    <div style="font-size:.9rem;color:#39ff14"><span id="wWords">0</span> words, <span id="wChars">0</span> chars</div>
   </div>
 
-  <!--4   Case Converter-->
-  <div class="card" style="--i:4">
-     <h3>Case Converter</h3>
-     <textarea rows="4" id="textCase"></textarea>
-     <div style="display:flex;gap:4px"><button onclick="caseStyle('lower')">lower</button><button onclick="caseStyle('upper')">UPPER</button><button onclick="caseStyle('cap')">Capitalize</button></div>
+  <!-- 4   Case Converter -->
+  <div class="glass">
+    <h3>Case Converter</h3>
+    <textarea id="caseText" rows="4" style="width:100%"></textarea>
+    <div style="display:flex;gap:4px;margin-top:6px">
+      <button onclick="convertCase('lower')" style="flex:1">lower</button>
+      <button onclick="convertCase('upper')" style="flex:1">UPPER</button>
+      <button onclick="convertCase('capital')" style="flex:1">Capitalize</button>
+    </div>
   </div>
 
-  <!--5   Stopwatch / Timer-->
-  <div class="card" style="--i:5">
-     <h3>Stopwatch & Timer</h3>
-     <div class="output" id="swDisplay">00:00:00</div>
-     <input type="number" id="swMin" placeholder="min(optional)" min="0">
-     <button onclick="swStart()">Start</button>
-     <button onclick="swPause()">Pause</button>
-     <button onclick="swReset()">Reset</button>
+  <!-- 5   Stopwatch / Timer -->
+  <div class="glass">
+    <h3>Stopwatch & Timer</h3>
+    <div style="font-size:1.1rem;text-align:center;margin-bottom:6px" id="swClock">00:00:00</div>
+    <input type="number" id="timerSet" placeholder="Timer min (optional)" min="0" style="width:100%">
+    <div style="display:flex;gap:4px">
+      <button onclick="swStart()" style="flex:1">Start</button>
+      <button onclick="swPause()" style="flex:1">Pause</button>
+      <button onclick="swReset()" style="flex:1">Reset</button>
+    </div>
   </div>
 
-  <!--6   Notes Store-->
-  <div class="card" style="--i:6">
-     <h3>Quick Notes</h3>
-     <textarea rows="4" id="notesText"></textarea>
-     <button onclick="saveNotes()">Save (Local/∞)</button>
+  <!-- 6   Notes (localStorage) -->
+  <div class="glass">
+    <h3>Notes (saved locally)</h3>
+    <textarea id="notesArea" rows="4" style="width:100%"></textarea>
+    <button onclick="saveNotes()" style="width:100%">Save</button>
   </div>
 
-  <!--7   Random Number-->
-  <div class="card" style="--i:7">
-     <h3>Random Number</h3>
-     <label>Min: <input type="number" id="randMin" value="1"></label>
-     <label>Max: <input type="number" id="randMax" value="100"></label>
-     <button onclick="randNumber()">Roll</button>
-     <div class="output" id="randOut"></div>
+  <!-- 7   Random Number -->
+  <div class="glass">
+    <h3>Random Number</h3>
+    <label>Min <input id="randMin" type="number" value="1" style="width:60px"></label>
+    <label>Max <input id="randMax" type="number" value="100" style="width:60px"></label>
+    <button onclick="randNum()" style="width:100%">Roll</button>
+    <div style="margin-top:5px;color:#39ff14;font-size:1.1rem" id="randRes"></div>
   </div>
 
-  <!--8   Currency Converter (mock rates)-->
-  <div class="card" style="--i:8">
-     <h3>Currency Converter</h3>
-     <input type="number" id="curIn" value="10">
-     <select id="curBase"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="JPY">JPY</option></select>
-     <select id="curOut"><option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="JPY">JPY</option></select>
-     <button onclick="convertCurrency()">Convert</button>
-     <div class="output" id="curResult"></div>
+  <!-- 8   Currency Converter -->
+  <div class="glass">
+    <h3>Speed Currency</h3>
+    <input id="curAmount" type="number" value="10" min="0" style="width:100%">
+    <div style="display:flex;gap:4px">
+      <select id="curFrom" style="flex:1"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="JPY">JPY</option></select>
+      <select id="curTo" style="flex:1"><option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="JPY">JPY</option></select>
+    </div>
+    <button onclick="convertCur()" style="width:100%">Convert</button>
+    <div style="font-size:1rem" id="curResult"></div>
   </div>
 
-  <!--9   BMI Calculator-->
-  <div class="card" style="--i:9">
-     <h3>BMI Calculator</h3>
-     <label>Weight (kg) <input id="bmiWeight" type="number" min="1"></label>
-     <label>Height (cm) <input id="bmiHeight" type="number" min="10"></label>
-     <button onclick="calcBMI()">Calculate BMI</button>
-     <div class="output" id="bmiOut"></div>
+  <!-- 9   BMI -->
+  <div class="glass">
+    <h3>BMI Calculator</h3>
+    <label>Weight (kg) <input id="bmiW" type="number" min="20" value="75" style="width:70px"></label>
+    <label>Height (cm) <input id="bmiH" type="number" min="100" value="175" style="width:70px"></label>
+    <button onclick="calcBMI()" style="width:100%">Calculate</button>
+    <div id="bmiResult" style="font-size:.95rem"></div>
   </div>
 
-  <!--10  QR Code Generator 💎-->
-  <div class="card" style="--i:10">
-     <h3>QR Generator</h3>
-     <input type="text" id="qrInput" placeholder="Enter text / URL">
-     <button onclick="genQR()">Create QR</button>
-     <div class="output"><img id="qrCanvas" style="filter:drop-shadow(0 0 5px var(--neon-green));max-width:100%;height:auto;"></div>
+  <!-- 10  QR Code -->
+  <div class="glass">
+    <h3>QR Maker</h3>
+    <input id="qrText" placeholder="Text / URL" style="width:100%">
+    <button onclick="genQR()" style="width:100%"> → create</button>
+    <img id="qrImg" style="max-width:100%;height:auto;border-radius:8px"/>
   </div>
 
 </div>
 
-<!-- ======  JavaScript beneath the glow  ======= -->
+<footer>
+  <div class="footerNav">
+    <a href="#">Home</a>
+    <a href="#">Tools</a>
+    <a href="#about">About</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p>&copy; 2024 Cyber-Neon Tool Suite • Crafted in Matrix</p>
+</footer>
+<a href="#top" class="topBtn" id="topBtn">↑</a>
 
 <script>
-/* ---------- Calculator ---------- */
-let expr='';
-function calcType(c){expr+=c;document.getElementById('calcDisplay').value=expr}
-function calcClear(){expr='';document.getElementById('calcDisplay').value='0';}
-function calcEval(){try{expr=(''+eval(expr));}catch{expr='Error'}calcType('')}
-
-/* ---------- Password ---------- */
-function genPass(){
-  const len = +document.getElementById('passLen').value;
-  const charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-  let pass='';
-  for(let i=0;i<len;i++)pass+=charset[Math.floor(Math.random()*charset.length)];
-  document.getElementById('passOut').value=pass;
-  navigator.clipboard?.writeText(pass);
+/* ----------   10 LIVE TOOLS   ---------- */
+// CALC -------------------------------------------------
+let expr='';const cDisp=document.getElementById('calcDisplay');
+function calcType(c){expr+=c;cDisp.value=expr}
+function calcClear(){expr='';cDisp.value='0';}
+function calcEval(){try{expr=(''+eval(expr)).slice(0,10)}catch{expr='!'}cDisp.value=expr}
+// PASSWORD ---------------------------------------------
+function genPassword(){
+  const len=+document.getElementById('pwLen').value,n='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+  let pw='';
+  for(let i=0;i<len;i++)pw+=n[Math.floor(Math.random()*n.length)];
+  document.getElementById('pwOut').value=pw;
+  navigator.clipboard?.writeText(pw);
 }
-
-/* ---------- Word Counter ---------- */
-document.getElementById('wordInput').addEventListener('input',ev=>{
-  const words=ev.target.value.trim().split(/\s+/).filter(Boolean).length||0;
-  const chars=ev.target.value.length;
-  document.getElementById('wordCount').textContent=`${words} words, ${chars} chars`;
-});
-
-/* ---------- Case Converter ---------- */
-function caseStyle(mode){
-  let txt=document.getElementById('textCase').value;
-  switch(mode){
-    case 'lower': txt=txt.toLowerCase();break;
-    case 'upper': txt=txt.toUpperCase();break;
-    case 'cap':   txt=txt.toLowerCase().replace(/\b\w/g,l=>l.toUpperCase());break;
-  }
-  document.getElementById('textCase').value=txt;
+// WORD COUNTER -----------------------------------------
+document.getElementById('wordText').oninput=e=>{
+  const t=e.target.value;
+  const wc=t.trim().split(/\s/).filter(b=>b).length||0;
+  document.getElementById('wWords').textContent=wc;
+  document.getElementById('wChars').textContent=t.length;
 }
-
-/* ---------- Stopwatch ---------- */
-let swTime=0, swRunning=false, swInterval=null;
+// CASE -------------------------------------------------
+function convertCase(mode){
+  const t=document.getElementById('caseText');
+  t.value = mode==='lower' ? t.value.toLowerCase() :
+            mode==='upper' ? t.value.toUpperCase() :
+            t.value.toLowerCase().replace(/\b\w/g,l=>l.toUpperCase());
+}
+// STOPWATCH -------------------------------------------
+let sec=0,run=false,si=null;
+const sw=document.getElementById('swClock');
 function swUpdate(){
-  const hrs=String(Math.floor(swTime/3600)).padStart(2,'0');
-  const mins=String(Math.floor(swTime/60)%60).padStart(2,'0');
-  const secs=String(swTime%60).padStart(2,'0');
-  document.getElementById('swDisplay').textContent=`${hrs}:${mins}:${secs}`;
+  sw.textContent = [Math.floor(sec/3600)%99,Math.floor(sec/60)%60,sec%60]
+  .map(v=>v.toString().padStart(2,'0')).join(':');
 }
-function swStart(){
-  if(swRunning) return;
-  const presetMin=+document.getElementById('swMin').value;
-  if(presetMin && swTime===0) swTime=presetMin*60;
-  swRunning=true;
-  swInterval=setInterval(()=>{swTime++;if(swTime<0){swTime=0;swPause();} swUpdate()},1000);
+function swStart(){ if(!run){run=true;si=setInterval(()=>{sec++;swUpdate()},1000)}}
+function swPause(){ clearInterval(si); run=false; }
+function swReset(){ swPause(); sec=0; swUpdate(); }
+// NOTES -----------------------------------------------
+document.getElementById('notesArea').value=localStorage.getItem('neon-notes')||'';
+function saveNotes(){localStorage.setItem('neon-notes',document.getElementById('notesArea').value).value;}
+// RANDOM ----------------------------------------------
+function randNum(){
+  const min=+document.getElementById('randMin').value,
+        max=+document.getElementById('randMax').value;
+  document.getElementById('randRes').textContent=Math.floor(Math.random()*(max-min+1))+min;
 }
-function swPause(){ clearInterval(swInterval); swRunning=false; }
-function swReset(){ swPause(); swTime=0; swUpdate(); }
-
-/* ---------- Notes ---------- */
-const notesArea=document.getElementById('notesText');
-notesArea.value=localStorage.getItem('myNotes')||'';
-function saveNotes(){
-  localStorage.setItem('myNotes', notesArea.value);
-  notesArea.style.border='1px solid var(--neon-green)';
-  setTimeout(()=>notesArea.style.border='',600);
+// CURRENCY --------------------------------------------
+const rates={USD:{EUR:0.92,GBP:0.81,JPY:149},EUR:{USD:1.09,GBP:0.88,JPY:163},GBP:{USD:1.23,EUR:1.14,JPY:189},JPY:{USD:0.0067,EUR:0.0061,GBP:0.0053}};
+function convertCur(){
+  const from=document.getElementById('curFrom').value;
+  const to=document.getElementById('curTo').value;
+  const amt=+document.getElementById('curAmount').value;
+  if(amt<0){document.getElementById('curResult').textContent='Enter >0';return;}
+  const res=(amt*rates[from][to]).toFixed(2);
+  document.getElementById('curResult').textContent=`${amt} ${from} = ${res} ${to}`;
 }
-
-/* ---------- Random Number ---------- */
-function randNumber(){
-  const min=+document.getElementById('randMin').value;
-  const max=+document.getElementById('randMax').value;
-  if(min>=max){ alert('Min must be < Max'); return; }
-  const num=Math.floor(Math.random()*(max-min+1))+min;
-  document.getElementById('randOut').textContent=num;
-}
-
-/* ---------- Currency Converter ---------- */
-const rates={
-  USD:{EUR:0.92,GBP:0.80,JPY:150},
-  EUR:{USD:1.09,GBP:0.87,JPY:163},
-  GBP:{USD:1.25,EUR:1.15,JPY:189},
-  JPY:{USD:0.0067,EUR:0.0061,GBP:0.0053}
-};
-function convertCurrency(){
-  const amount=+document.getElementById('curIn').value;
-  const base=document.getElementById('curBase').value;
-  const target=document.getElementById('curOut').value;
-  const result = (amount*rates[base][target]).toFixed(2);
-  document.getElementById('curResult').textContent=`${amount} ${base} = ${result} ${target}`;
-}
-
-/* ---------- BMI ---------- */
+// BMI --------------------------------------------------
 function calcBMI(){
-  const h=+document.getElementById('bmiHeight').value/100;
-  const w=+document.getElementById('bmiWeight').value;
-  if(!h || !w){ alert('Enter weight & height'); return; }
-  const bmi=(w/(h*h)).toFixed(2);
+  const w=+document.getElementById('bmiW').value;
+  const h=+document.getElementById('bmiH').value/100;
+  if(!h || !w){document.getElementById('bmiResult').textContent='Enter weight & height';return;}
+  const b=(w/(h*h)).toFixed(2);
   let cat='';
-  if(bmi<18.5) cat='Underweight';
-  else if(bmi<25) cat='Normal';
-  else if(bmi<30) cat='Overweight';
-  else cat='Obese';
-  document.getElementById('bmiOut').textContent=`BMI: ${bmi} (${cat})`;
+  if(b<18.5) cat='Underweight'; else if(b<25) cat='Normal'; else if(b<30) cat='Overweight'; else cat='Obese';
+  document.getElementById('bmiResult').textContent=`BMI: ${b} (${cat})`;
 }
-
-/* ---------- QR Generator ---------- */
+// QR ---------------------------------------------------
 function genQR(){
-  const text=document.getElementById('qrInput').value.trim();
-  if(!text){alert('Enter text');return;}
-  const qrImg=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`;
-  document.getElementById('qrCanvas').src=qrImg;
+  const t=document.getElementById('qrText').value.trim();
+  if(!t){alert('Text needed');return;}
+  document.getElementById('qrImg').src=`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(t)}`;
 }
+// BACKGROUND CANVAS PARTICLES --------------------------
+const cvs = document.getElementById('particles');
+const ctx = cvs.getContext('2d');
+let w = cvs.width = innerWidth;
+let h = cvs.height = innerHeight;
+let dots=[];
+const cols=[`#39ff14`,`#bf00ff`,`#00c3ff`];
+addEventListener('resize',()=>{w=cvs.width=innerWidth;h=cvs.height=innerHeight;init()});
+function init(){
+  dots=[];
+  for(let i=0;i<Math.floor(w/7);i++){
+    dots.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+0.3,dx:(Math.random()-0.5)*0.8,dy:(Math.random()-0.5)*0.8,color:cols[i%cols.length]});
+  }
+}
+function draw(){
+  ctx.clearRect(0,0,w,h);
+  dots.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,2*Math.PI);
+    ctx.fillStyle=p.color;
+    ctx.fill();
+    ctx.shadowColor=p.color;
+    ctx.shadowBlur=12;
+    p.x+=p.dx;
+    p.y+=p.dy;
+    if(p.x<0||p.x>w)p.dx*=-1;
+    if(p.y<0||p.y>h)p.dy*=-1;
+  });
+  requestAnimationFrame(draw);
+}
+init();draw();
 
-/* ---------- Animated background particles ---------- */
-function makeParticles(){
-  const c=document.createElement('canvas');
-  const gl=c.getContext('2d');
-  c.id='bgCanvas';
-  document.querySelector('.bg-particles').appendChild(c);
-  const resize=()=>c.setAttribute('width',innerWidth)&&c.setAttribute('height',innerHeight);
-  resize();addEventListener('resize',resize);
-  const cols=[`#39ff14`,`#bf00ff`,`#00c3ff`]; //neon palette
-  const dots=[];
-  const count=Math.floor(innerWidth/9);
-  for(let i=0;i<count;i++){
-    dots.push({
-      x:Math.random()*innerWidth,
-      y:Math.random()*innerHeight,
-      r:Math.random()*1.8+0.4,
-      d:Math.random()*0.5,
-      color:cols[Math.floor(Math.random()*cols.length)]
-    })
-  }
-  function draw(){
-    gl.clearRect(0,0,innerWidth,innerHeight);
-    dots.forEach(p=>{
-      gl.beginPath();gl.arc(p.x,p.y,p.r,0,Math.PI*2);
-      gl.fillStyle=p.color;gl.fill();
-      p.y-=p.d;
-      if(p.y<-50)p.y=innerHeight+50;
-    });
-    requestAnimationFrame(draw);
-  }
-  draw();
-}
-addEventListener('DOMContentLoaded',makeParticles);
+/* ---- footer top-scroll button ---- */
+const topBtn=document.getElementById('topBtn');
+window.onscroll=()=>topBtn.classList.toggle('active',scrollY>260);
 </script>
 </body>
 </html>
