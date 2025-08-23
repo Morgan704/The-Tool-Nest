@@ -4,11 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>⚡ Neon Tool Hub</title>
-
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: "Poppins", sans-serif;
       background: #000;
       color: #39ff14;
     }
@@ -16,82 +15,65 @@
     h1 {
       text-align: center;
       padding: 1rem;
+      font-size: 2rem;
       text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
     }
 
-    /* Category Buttons */
-    .category-buttons {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .category-buttons button {
-      background: transparent;
-      border: 2px solid #39ff14;
-      color: #39ff14;
-      padding: 0.5rem 1rem;
-      margin: 0.3rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-      text-shadow: 0 0 5px #39ff14;
-    }
-
-    .category-buttons button:hover {
-      background: #39ff14;
-      color: #000;
-      box-shadow: 0 0 20px #39ff14;
-    }
-
-    /* Tools Grid */
     .tools-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
     }
 
-    /* Tool Card */
     .tool-card {
-      background: rgba(20, 20, 20, 0.95);
-      border: 2px solid #39ff14;
-      border-radius: 12px;
-      padding: 0.5rem;
-      box-shadow: 0 0 10px #39ff14;
+      background: rgba(20, 20, 20, 0.6);
+      border: 2px solid rgba(57, 255, 20, 0.6);
+      border-radius: 15px;
+      padding: 1rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px #39ff14;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeIn 0.8s ease;
+      animation: fadeIn 1s ease;
     }
 
     .tool-card:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 25px #39ff14, 0 0 50px #39ff14;
+      box-shadow: 0 0 30px #39ff14, 0 0 60px #39ff14;
     }
 
-    /* Tool Frame */
-    .tool-embed {
-      background: #111;
-      border-radius: 8px;
-      padding: 0.5rem;
-      min-height: 150px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .tool-card h3 {
+      text-align: center;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 8px #39ff14;
     }
 
-    .tool-embed iframe {
+    input, button, textarea {
       width: 100%;
-      height: 150px;
+      padding: 0.5rem;
+      margin: 0.4rem 0;
+      border-radius: 8px;
       border: none;
+      outline: none;
+      font-size: 1rem;
+      background: #111;
+      color: #39ff14;
+      box-shadow: 0 0 8px #39ff14 inset;
+    }
+
+    button {
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px #39ff14;
     }
 
     @keyframes fadeIn {
       from {opacity: 0; transform: translateY(20px);}
       to {opacity: 1; transform: translateY(0);}
-    }
-
-    @media (max-width: 600px) {
-      h1 {font-size: 1.4rem;}
-      .tool-embed iframe {height: 130px;}
     }
   </style>
 </head>
@@ -99,88 +81,74 @@
 
   <h1>⚡ Neon Tool Hub</h1>
 
-  <div class="category-buttons">
-    <button onclick="filterTools('all')">All Tools</button>
-    <button onclick="filterTools('calculators')">Calculators</button>
-    <button onclick="filterTools('converters')">Converters</button>
-    <button onclick="filterTools('productivity')">Productivity</button>
-    <button onclick="filterTools('design')">Design</button>
-  </div>
-
   <div class="tools-grid">
 
-    <!-- 1 Calculator -->
-    <div class="tool-card" data-category="calculators">
-      <h3>Calculator</h3>
-      <div class="tool-embed"><iframe src="https://www.calculator.net/"></iframe></div>
+    <!-- Tool 1: Calculator -->
+    <div class="tool-card">
+      <h3>🧮 Calculator</h3>
+      <input type="text" id="calc-display" readonly>
+      <div>
+        <button onclick="clearCalc()">C</button>
+        <button onclick="appendCalc('/')">/</button>
+        <button onclick="appendCalc('*')">*</button>
+        <button onclick="appendCalc('-')">-</button>
+      </div>
+      <div>
+        <button onclick="appendCalc('7')">7</button>
+        <button onclick="appendCalc('8')">8</button>
+        <button onclick="appendCalc('9')">9</button>
+        <button onclick="appendCalc('+')">+</button>
+      </div>
+      <div>
+        <button onclick="appendCalc('4')">4</button>
+        <button onclick="appendCalc('5')">5</button>
+        <button onclick="appendCalc('6')">6</button>
+        <button onclick="calculate()">=</button>
+      </div>
+      <div>
+        <button onclick="appendCalc('1')">1</button>
+        <button onclick="appendCalc('2')">2</button>
+        <button onclick="appendCalc('3')">3</button>
+        <button onclick="appendCalc('0')">0</button>
+      </div>
     </div>
 
-    <!-- 2 Currency Converter -->
-    <div class="tool-card" data-category="converters">
-      <h3>Currency Converter</h3>
-      <div class="tool-embed"><iframe src="https://www.unitconverters.net/currency/"></iframe></div>
-    </div>
-
-    <!-- 3 Stopwatch -->
-    <div class="tool-card" data-category="productivity">
-      <h3>Stopwatch</h3>
-      <div class="tool-embed"><iframe src="https://www.online-stopwatch.com/"></iframe></div>
-    </div>
-
-    <!-- 4 QR Generator -->
-    <div class="tool-card" data-category="design">
-      <h3>QR Generator</h3>
-      <div class="tool-embed"><iframe src="https://www.qr-code-generator.com/"></iframe></div>
-    </div>
-
-    <!-- 5 Unit Converter -->
-    <div class="tool-card" data-category="converters">
-      <h3>Unit Converter</h3>
-      <div class="tool-embed"><iframe src="https://www.unitconverters.net/"></iframe></div>
-    </div>
-
-    <!-- 6 Notes -->
-    <div class="tool-card" data-category="productivity">
-      <h3>Notes</h3>
-      <div class="tool-embed"><iframe src="https://editpad.org/"></iframe></div>
-    </div>
-
-    <!-- 7 Password Generator -->
-    <div class="tool-card" data-category="productivity">
-      <h3>Password Generator</h3>
-      <div class="tool-embed"><iframe src="https://passwordsgenerator.net/"></iframe></div>
-    </div>
-
-    <!-- 8 Online Text Case Converter -->
-    <div class="tool-card" data-category="productivity">
-      <h3>Text Case Converter</h3>
-      <div class="tool-embed"><iframe src="https://convertcase.net/"></iframe></div>
-    </div>
-
-    <!-- 9 Word Counter -->
-    <div class="tool-card" data-category="productivity">
-      <h3>Word Counter</h3>
-      <div class="tool-embed"><iframe src="https://wordcounter.net/"></iframe></div>
-    </div>
-
-    <!-- 10 Image Compressor -->
-    <div class="tool-card" data-category="design">
-      <h3>Image Compressor</h3>
-      <div class="tool-embed"><iframe src="https://www.iloveimg.com/compress-image"></iframe></div>
+    <!-- Tool 2: Password Generator -->
+    <div class="tool-card">
+      <h3>🔑 Password Generator</h3>
+      <input type="number" id="pass-length" value="12" min="4" max="32">
+      <button onclick="generatePassword()">Generate</button>
+      <input type="text" id="password-output" readonly>
     </div>
 
   </div>
 
   <script>
-    function filterTools(category) {
-      const tools = document.querySelectorAll(".tool-card");
-      tools.forEach(tool => {
-        if (category === "all" || tool.dataset.category === category) {
-          tool.style.display = "block";
-        } else {
-          tool.style.display = "none";
-        }
-      });
+    // Calculator
+    let calcDisplay = document.getElementById("calc-display");
+    function appendCalc(value) {
+      calcDisplay.value += value;
+    }
+    function clearCalc() {
+      calcDisplay.value = "";
+    }
+    function calculate() {
+      try {
+        calcDisplay.value = eval(calcDisplay.value);
+      } catch {
+        calcDisplay.value = "Error";
+      }
+    }
+
+    // Password Generator
+    function generatePassword() {
+      const length = document.getElementById("pass-length").value;
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+      let password = "";
+      for (let i = 0; i < length; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      document.getElementById("password-output").value = password;
     }
   </script>
 
