@@ -140,35 +140,27 @@
             color: var(--primary);
             border-color: var(--accent);
         }
-      /* Smaller tool cards */
-.tool-card {
-    background: var(--card-bg);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--light-gray);
-    padding: 0.6rem; /* less padding */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.tool-card:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.15);
-}
-
-/* Smaller tool embed (inside card) */
-.tool-embed {
-    background: var(--light);
-    padding: 0.6rem;     /* less padding */
-    min-height: 120px;   /* smaller height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-}
-
-}
-
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+            padding: 0 0 3rem;
+        }
+        
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
+        }
         
         .tool-header {
             padding: 1.2rem;
@@ -435,26 +427,38 @@
             <button class="category-btn">Design</button>
         </div>
         
-       /* Tool box styling */
-.tool-embed {
-    background: var(--light);
-    padding: 0.6rem;
-    min-height: 180px;   /* har frame ki fixed height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-}
-
-/* Iframe inside tool box */
-.tool-embed iframe {
-    width: 100%;
-    height: 180px;   /* sab iframe same height */
-    border: none;
-}
-
-</div>
-
+        <div class="tools-grid">
+            <!-- Calculator Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h3><i class="fas fa-calculator"></i> Calculator</h3>
+                    <p>Perform basic calculations</p>
+                </div>
+                <div class="tool-content">
+                    <p>A simple calculator for everyday use. Supports basic arithmetic operations.</p>
+                    <div class="tool-embed">
+                        <div class="calculator">
+                            <div class="calculator-display">0</div>
+                            <button class="calculator-btn">C</button>
+                            <button class="calculator-btn">←</button>
+                            <button class="calculator-btn operator">%</button>
+                            <button class="calculator-btn operator">÷</button>
+                            <button class="calculator-btn">7</button>
+                            <button class="calculator-btn">8</button>
+                            <button class="calculator-btn">9</button>
+                            <button class="calculator-btn operator">×</button>
+                            <button class="calculator-btn">4</button>
+                            <button class="calculator-btn">5</button>
+                            <button class="calculator-btn">6</button>
+                            <button class="calculator-btn operator">-</button>
+                            <button class="calculator-btn">1</button>
+                            <button class="calculator-btn">2</button>
+                            <button class="calculator-btn">3</button>
+                            <button class="calculator-btn operator">+</button>
+                            <button class="calculator-btn">0</button>
+                            <button class="calculator-btn">.</button>
+                            <button class="calculator-btn equals">=</button>
+                        </div>
                     </div>
                 </div>
             </div>
