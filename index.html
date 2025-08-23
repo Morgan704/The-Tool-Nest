@@ -1,156 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚡ Neon Tool Hub</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: #000;
-      color: #39ff14;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Cyber-Neon Tool Suite</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --neon-green:#39ff14;
+    --neon-purple:#bf00ff;
+    --neon-blue:#00c3ff;
+    --glass-bg:rgba(0,0,0,.65);
+    --glass-border:rgba(255,255,255,.15);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:"Exo 2",sans-serif;
+    background:#000;
+    color:#fff;
+    overflow-x:hidden;
+  }
 
-    h1 {
-      text-align: center;
-      padding: 1rem;
-      font-size: 2rem;
-      text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
-    }
+  /*-- animated neon background --*/
+  .bg-particles{
+    position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;overflow:hidden;
+  }
+  .particle{
+    position:absolute;border-radius:50%;opacity:.9;pointer-events:none;mix-blend-mode:screen;
+  }
 
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 1.5rem;
-    }
+ /*-- glowing title --*/
+ .neon-title{
+   margin:3rem 0 2rem;
+   font-family:"Orbitron",monospace;
+   font-weight:900;
+   font-size:clamp(2.3rem,7vw,4.5rem);
+   text-align:center;
+   text-transform:uppercase;
+   animation:neonFlicker 2s linear infinite alternate;
+ }
+ @keyframes neonFlicker{
+   0%{text-shadow:0 0 8px var(--neon-blue),0 0 12px var(--neon-blue),0 0 25px var(--neon-blue)}
+   50%{text-shadow:0 0 6px var(--neon-purple),0 0 14px var(--neon-purple),0 0 30px var(--neon-purple)}
+   100%{text-shadow:0 0 10px var(--neon-green),0 0 18px var(--neon-green),0 0 35px var(--neon-green)}
+ }
 
-    .tool-card {
-      background: rgba(20, 20, 20, 0.6);
-      border: 2px solid rgba(57, 255, 20, 0.6);
-      border-radius: 15px;
-      padding: 1rem;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 15px #39ff14;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeIn 1s ease;
-    }
-
-    .tool-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 30px #39ff14, 0 0 60px #39ff14;
-    }
-
-    .tool-card h3 {
-      text-align: center;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 8px #39ff14;
-    }
-
-    input, button, textarea {
-      width: 100%;
-      padding: 0.5rem;
-      margin: 0.4rem 0;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      font-size: 1rem;
-      background: #111;
-      color: #39ff14;
-      box-shadow: 0 0 8px #39ff14 inset;
-    }
-
-    button {
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: #39ff14;
-      color: #000;
-      box-shadow: 0 0 15px #39ff14;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-  </style>
+ /*-- glass card grid --*/
+ .grid{
+   display:grid;
+   gap:24px;
+   padding:0 20px 40px;
+   grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+   animation:fadeInGrid .8s cubic-bezier(.68,-0.55,.27,1.55) forwards;
+ }
+ @keyframes fadeInGrid{from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)}}
+ .card{
+    background:var(--glass-bg);
+    border:1px solid var(--neon-green);
+    border-radius:12px;
+    backdrop-filter:blur(8px) saturate(170%);
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    position:relative;
+    transition:transform .25s cubic-bezier(.17,.84,.44,1),box-shadow .25s;
+    animation:slideCard .7s backwards;
+ }
+ .card:hover,.card:focus-within{
+   transform:scale(1.04) translateY(-6px);
+   box-shadow:0 0 20px var(--neon-green),0 0 30px var(--neon-green);
+ }
+ /* staggered card entrance */
+ .card:nth-child(n){animation-delay:calc(.05s*var(--i))}
+ @keyframes slideCard{from{opacity:0;transform:translateY(40px) rotateX(6deg)}}
+ .card h3{font-family:"Orbitron",monospace;color:var(--neon-blue);font-weight:700;font-size:1.1rem}
+ .card input,.card textarea{
+   color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
+   border-radius:6px;padding:7px;font-family:"Exo 2",sans-serif;resize:vertical;transition:border .2s;
+ }
+ .card button{
+   cursor:pointer;border:none;border-radius:6px;
+   background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));
+   color:#000;font-weight:600;padding:6px 0;font-size:.9rem;
+   position:relative;overflow:hidden;transition:filter .25s;
+   z-index:1;
+ }
+ .card button::before{
+   content:"";position:absolute;inset:-150%;z-index:-1;opacity:.6;
+   background:radial-gradient(circle,var(--neon-green),transparent 65%);
+   transition:opacity .3s;
+ }
+ .card button:hover::before{opacity:1}
+ .card button:hover{filter:brightness(1.4) drop-shadow(0 0 8px var(--neon-green))}
+ .output{
+   font-family:"Orbitron",monospace;font-size:1rem;word-break:break-all;
+ }
+</style>
 </head>
 <body>
+<!-- floating neon dots -->
+<div class="bg-particles" id="particles"></div>
 
-  <h1>⚡ Neon Tool Hub</h1>
+<!-- glowing title -->
+<h1 class="neon-title">Cyber-Neon Tools</h1>
 
-  <div class="tools-grid">
-
-    <!-- Tool 1: Calculator -->
-    <div class="tool-card">
-      <h3>🧮 Calculator</h3>
-      <input type="text" id="calc-display" readonly>
-      <div>
-        <button onclick="clearCalc()">C</button>
-        <button onclick="appendCalc('/')">/</button>
-        <button onclick="appendCalc('*')">*</button>
-        <button onclick="appendCalc('-')">-</button>
-      </div>
-      <div>
-        <button onclick="appendCalc('7')">7</button>
-        <button onclick="appendCalc('8')">8</button>
-        <button onclick="appendCalc('9')">9</button>
-        <button onclick="appendCalc('+')">+</button>
-      </div>
-      <div>
-        <button onclick="appendCalc('4')">4</button>
-        <button onclick="appendCalc('5')">5</button>
-        <button onclick="appendCalc('6')">6</button>
-        <button onclick="calculate()">=</button>
-      </div>
-      <div>
-        <button onclick="appendCalc('1')">1</button>
-        <button onclick="appendCalc('2')">2</button>
-        <button onclick="appendCalc('3')">3</button>
-        <button onclick="appendCalc('0')">0</button>
-      </div>
-    </div>
-
-    <!-- Tool 2: Password Generator -->
-    <div class="tool-card">
-      <h3>🔑 Password Generator</h3>
-      <input type="number" id="pass-length" value="12" min="4" max="32">
-      <button onclick="generatePassword()">Generate</button>
-      <input type="text" id="password-output" readonly>
-    </div>
-
+<div class="grid">
+  <!--1   Calculator-->
+  <div class="card" style="--i:1">
+     <h3>Calculator</h3>
+     <input type="text" id="calcDisplay" readonly>
+     <button onclick="calcClear()">AC</button>
+     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-size:12px">
+       <button onclick="calcType('7')">7</button><button onclick="calcType('8')">8</button><button onclick="calcType('9')">9</button><button onclick="calcType('/')">/</button>
+       <button onclick="calcType('4')">4</button><button onclick="calcType('5')">5</button><button onclick="calcType('6')">6</button><button onclick="calcType('*')">*</button>
+       <button onclick="calcType('1')">1</button><button onclick="calcType('2')">2</button><button onclick="calcType('3')">3</button><button onclick="calcType('-')">-</button>
+       <button onclick="calcType('0')">0</button><button onclick="calcType('.')">.</button><button onclick="calcEval()">=</button><button onclick="calcType('+')">+</button>
+     </div>
   </div>
 
-  <script>
-    // Calculator
-    let calcDisplay = document.getElementById("calc-display");
-    function appendCalc(value) {
-      calcDisplay.value += value;
-    }
-    function clearCalc() {
-      calcDisplay.value = "";
-    }
-    function calculate() {
-      try {
-        calcDisplay.value = eval(calcDisplay.value);
-      } catch {
-        calcDisplay.value = "Error";
-      }
-    }
+  <!--2   Password Generator-->
+  <div class="card" style="--i:2">
+     <h3>Password Generator</h3>
+     <label>Length:<input type="number" id="passLen" value="12" min="4" max="128"></label>
+     <button onclick="genPass()">✦ Generate & Copy ✦</button>
+     <input type="text" id="passOut" readonly>
+  </div>
 
-    // Password Generator
-    function generatePassword() {
-      const length = document.getElementById("pass-length").value;
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-      let password = "";
-      for (let i = 0; i < length; i++) {
-        password += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      document.getElementById("password-output").value = password;
-    }
-  </script>
+  <!--3   Word Counter-->
+  <div class="card" style="--i:3">
+     <h3>Word / Char Counter</h3>
+     <textarea rows="5" id="wordInput" placeholder="Type something…"></textarea>
+     <div class="output" id="wordCount">0 words, 0 chars</div>
+  </div>
 
+  <!--4   Case Converter-->
+  <div class="card" style="--i:4">
+     <h3>Case Converter</h3>
+     <textarea rows="4" id="textCase"></textarea>
+     <div style="display:flex;gap:4px"><button onclick="caseStyle('lower')">lower</button><button onclick="caseStyle('upper')">UPPER</button><button onclick="caseStyle('cap')">Capitalize</button></div>
+  </div>
+
+  <!--5   Stopwatch / Timer-->
+  <div class="card" style="--i:5">
+     <h3>Stopwatch & Timer</h3>
+     <div class="output" id="swDisplay">00:00:00</div>
+     <input type="number" id="swMin" placeholder="min(optional)" min="0">
+     <button onclick="swStart()">Start</button>
+     <button onclick="swPause()">Pause</button>
+     <button onclick="swReset()">Reset</button>
+  </div>
+
+  <!--6   Notes Store-->
+  <div class="card" style="--i:6">
+     <h3>Quick Notes</h3>
+     <textarea rows="4" id="notesText"></textarea>
+     <button onclick="saveNotes()">Save (Local/∞)</button>
+  </div>
+
+  <!--7   Random Number-->
+  <div class="card" style="--i:7">
+     <h3>Random Number</h3>
+     <label>Min: <input type="number" id="randMin" value="1"></label>
+     <label>Max: <input type="number" id="randMax" value="100"></label>
+     <button onclick="randNumber()">Roll</button>
+     <div class="output" id="randOut"></div>
+  </div>
+
+  <!--8   Currency Converter (mock rates)-->
+  <div class="card" style="--i:8">
+     <h3>Currency Converter</h3>
+     <input type="number" id="curIn" value="10">
+     <select id="curBase"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="JPY">JPY</option></select>
+     <select id="curOut"><option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="JPY">JPY</option></select>
+     <button onclick="convertCurrency()">Convert</button>
+     <div class="output" id="curResult"></div>
+  </div>
+
+  <!--9   BMI Calculator-->
+  <div class="card" style="--i:9">
+     <h3>BMI Calculator</h3>
+     <label>Weight (kg) <input id="bmiWeight" type="number" min="1"></label>
+     <label>Height (cm) <input id="bmiHeight" type="number" min="10"></label>
+     <button onclick="calcBMI()">Calculate BMI</button>
+     <div class="output" id="bmiOut"></div>
+  </div>
+
+  <!--10  QR Code Generator 💎-->
+  <div class="card" style="--i:10">
+     <h3>QR Generator</h3>
+     <input type="text" id="qrInput" placeholder="Enter text / URL">
+     <button onclick="genQR()">Create QR</button>
+     <div class="output"><img id="qrCanvas" style="filter:drop-shadow(0 0 5px var(--neon-green));max-width:100%;height:auto;"></div>
+  </div>
+
+</div>
+
+<!-- ======  JavaScript beneath the glow  ======= -->
+
+<script>
+/* ---------- Calculator ---------- */
+let expr='';
+function calcType(c){expr+=c;document.getElementById('calcDisplay').value=expr}
+function calcClear(){expr='';document.getElementById('calcDisplay').value='0';}
+function calcEval(){try{expr=(''+eval(expr));}catch{expr='Error'}calcType('')}
+
+/* ---------- Password ---------- */
+function genPass(){
+  const len = +document.getElementById('passLen').value;
+  const charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+  let pass='';
+  for(let i=0;i<len;i++)pass+=charset[Math.floor(Math.random()*charset.length)];
+  document.getElementById('passOut').value=pass;
+  navigator.clipboard?.writeText(pass);
+}
+
+/* ---------- Word Counter ---------- */
+document.getElementById('wordInput').addEventListener('input',ev=>{
+  const words=ev.target.value.trim().split(/\s+/).filter(Boolean).length||0;
+  const chars=ev.target.value.length;
+  document.getElementById('wordCount').textContent=`${words} words, ${chars} chars`;
+});
+
+/* ---------- Case Converter ---------- */
+function caseStyle(mode){
+  let txt=document.getElementById('textCase').value;
+  switch(mode){
+    case 'lower': txt=txt.toLowerCase();break;
+    case 'upper': txt=txt.toUpperCase();break;
+    case 'cap':   txt=txt.toLowerCase().replace(/\b\w/g,l=>l.toUpperCase());break;
+  }
+  document.getElementById('textCase').value=txt;
+}
+
+/* ---------- Stopwatch ---------- */
+let swTime=0, swRunning=false, swInterval=null;
+function swUpdate(){
+  const hrs=String(Math.floor(swTime/3600)).padStart(2,'0');
+  const mins=String(Math.floor(swTime/60)%60).padStart(2,'0');
+  const secs=String(swTime%60).padStart(2,'0');
+  document.getElementById('swDisplay').textContent=`${hrs}:${mins}:${secs}`;
+}
+function swStart(){
+  if(swRunning) return;
+  const presetMin=+document.getElementById('swMin').value;
+  if(presetMin && swTime===0) swTime=presetMin*60;
+  swRunning=true;
+  swInterval=setInterval(()=>{swTime++;if(swTime<0){swTime=0;swPause();} swUpdate()},1000);
+}
+function swPause(){ clearInterval(swInterval); swRunning=false; }
+function swReset(){ swPause(); swTime=0; swUpdate(); }
+
+/* ---------- Notes ---------- */
+const notesArea=document.getElementById('notesText');
+notesArea.value=localStorage.getItem('myNotes')||'';
+function saveNotes(){
+  localStorage.setItem('myNotes', notesArea.value);
+  notesArea.style.border='1px solid var(--neon-green)';
+  setTimeout(()=>notesArea.style.border='',600);
+}
+
+/* ---------- Random Number ---------- */
+function randNumber(){
+  const min=+document.getElementById('randMin').value;
+  const max=+document.getElementById('randMax').value;
+  if(min>=max){ alert('Min must be < Max'); return; }
+  const num=Math.floor(Math.random()*(max-min+1))+min;
+  document.getElementById('randOut').textContent=num;
+}
+
+/* ---------- Currency Converter ---------- */
+const rates={
+  USD:{EUR:0.92,GBP:0.80,JPY:150},
+  EUR:{USD:1.09,GBP:0.87,JPY:163},
+  GBP:{USD:1.25,EUR:1.15,JPY:189},
+  JPY:{USD:0.0067,EUR:0.0061,GBP:0.0053}
+};
+function convertCurrency(){
+  const amount=+document.getElementById('curIn').value;
+  const base=document.getElementById('curBase').value;
+  const target=document.getElementById('curOut').value;
+  const result = (amount*rates[base][target]).toFixed(2);
+  document.getElementById('curResult').textContent=`${amount} ${base} = ${result} ${target}`;
+}
+
+/* ---------- BMI ---------- */
+function calcBMI(){
+  const h=+document.getElementById('bmiHeight').value/100;
+  const w=+document.getElementById('bmiWeight').value;
+  if(!h || !w){ alert('Enter weight & height'); return; }
+  const bmi=(w/(h*h)).toFixed(2);
+  let cat='';
+  if(bmi<18.5) cat='Underweight';
+  else if(bmi<25) cat='Normal';
+  else if(bmi<30) cat='Overweight';
+  else cat='Obese';
+  document.getElementById('bmiOut').textContent=`BMI: ${bmi} (${cat})`;
+}
+
+/* ---------- QR Generator ---------- */
+function genQR(){
+  const text=document.getElementById('qrInput').value.trim();
+  if(!text){alert('Enter text');return;}
+  const qrImg=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`;
+  document.getElementById('qrCanvas').src=qrImg;
+}
+
+/* ---------- Animated background particles ---------- */
+function makeParticles(){
+  const c=document.createElement('canvas');
+  const gl=c.getContext('2d');
+  c.id='bgCanvas';
+  document.querySelector('.bg-particles').appendChild(c);
+  const resize=()=>c.setAttribute('width',innerWidth)&&c.setAttribute('height',innerHeight);
+  resize();addEventListener('resize',resize);
+  const cols=[`#39ff14`,`#bf00ff`,`#00c3ff`]; //neon palette
+  const dots=[];
+  const count=Math.floor(innerWidth/9);
+  for(let i=0;i<count;i++){
+    dots.push({
+      x:Math.random()*innerWidth,
+      y:Math.random()*innerHeight,
+      r:Math.random()*1.8+0.4,
+      d:Math.random()*0.5,
+      color:cols[Math.floor(Math.random()*cols.length)]
+    })
+  }
+  function draw(){
+    gl.clearRect(0,0,innerWidth,innerHeight);
+    dots.forEach(p=>{
+      gl.beginPath();gl.arc(p.x,p.y,p.r,0,Math.PI*2);
+      gl.fillStyle=p.color;gl.fill();
+      p.y-=p.d;
+      if(p.y<-50)p.y=innerHeight+50;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+addEventListener('DOMContentLoaded',makeParticles);
+</script>
 </body>
 </html>
