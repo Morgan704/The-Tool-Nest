@@ -141,31 +141,39 @@
     <!-- 1. Calculator -->
     <div class="card">
       <h3>Calculator</h3>
-      <div class="card-content">
-        <div class="calc-display" id="calc-display">0</div>
-        <div class="calculator-buttons">
-          <button onclick="calcClear()">C</button>
-          <button onclick="calcDel()">Del</button>
-          <button onclick="setOp('/')">/</button>
-          <button onclick="setOp('*')">×</button>
-          <button onclick="append('7')">7</button>
-          <button onclick="append('8')">8</button>
-          <button onclick="append('9')">9</button>
-          <button onclick="setOp('-')">−</button>
-          <button onclick="append('4')">4</button>
-          <button onclick="append('5')">5</button>
-          <button onclick="append('6')">6</button>
-          <button onclick="setOp('+')">+</button>
-          <button onclick="append('1')">1</button>
-          <button onclick="append('2')">2</button>
-          <button onclick="append('3')">3</button>
-          <button onclick="calcEquals()" style="grid-row:span 2;">=</button>
-          <button onclick="append('0')" style="grid-column:span 2;">0</button>
-          <button onclick="append('.')">.</button>
-        </div>
-        <button class="reset-btn" onclick="calcClear()">Reset</button>
-      </div>
+      Here is your **Calculator card-content** with every button now containing `type="button"`.  
+Copy / paste the block in one shot to replace the old one.
+
+```html
+  <div class="card-content">
+    <div class="calc-display" id="calc-display">0</div>
+    <div class="calculator-buttons">
+      <button type="button" onclick="calcClear()">C</button>
+      <button type="button" onclick="calcDel()">Del</button>
+      <button type="button" onclick="setOp('/')">&divide;</button>
+      <button type="button" onclick="setOp('*')">&times;</button>
+
+      <button type="button" onclick="append('7')">7</button>
+      <button type="button" onclick="append('8')">8</button>
+      <button type="button" onclick="append('9')">9</button>
+      <button type="button" onclick="setOp('-')">&minus;</button>
+
+      <button type="button" onclick="append('4')">4</button>
+      <button type="button" onclick="append('5')">5</button>
+      <button type="button" onclick="append('6')">6</button>
+      <button type="button" onclick="setOp('+')">+</button>
+
+      <button type="button" onclick="append('1')">1</button>
+      <button type="button" onclick="append('2')">2</button>
+      <button type="button" onclick="append('3')">3</button>
+      <button type="button" onclick="calcEquals()" style="grid-row:span 2;">=</button>
+
+      <button type="button" onclick="append('0')" style="grid-column:span 2;">0</button>
+      <button type="button" onclick="append('.')">.</button>
     </div>
+    <button type="button" class="reset-btn" onclick="calcClear()">Reset</button>
+  </div>
+```
 
     <!-- 2. Password Generator -->
     <div class="card">
@@ -250,18 +258,58 @@
     <!-- 8. Currency Converter -->
     <div class="card">
       <h3>Currency Converter</h3>
+      Here’s the exact **drop-in replacement** for that Currency-Converter `<div class="card-content">`, including the three requested fixes:
+
+1) Adds modern rate list (USD, EUR, GBP, JPY, CAD, AUD)  
+2) Gives every `<option>` a `value=""` attribute so the converter knows which currency is which  
+3) Swaps the JS `ratesUSD` object (shown below so you can paste it separately)
+
+Copy / paste the whole block in one go.
+
+```html
       <div class="card-content">
-        <input type="number" id="curAmt" value="1" placeholder="Amount">
+        <input type="number" id="curAmt" value="1" placeholder="Amount" min="0" step="0.01">
         <div style="display:flex;gap:.25rem;align-items:center">
-          <select id="fromCur"><option>USD</option><option>EUR</option><option>GBP</option></select>
+          <select id="fromCur">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="JPY">JPY</option>
+            <option value="CAD">CAD</option>
+            <option value="AUD">AUD</option>
+          </select>
           <span>→</span>
-          <select id="toCur"><option>EUR</option><option>USD</option><option>GBP</option></select>
+          <select id="toCur">
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="GBP">GBP</option>
+            <option value="JPY">JPY</option>
+            <option value="CAD">CAD</option>
+            <option value="AUD">AUD</option>
+          </select>
         </div>
         <button onclick="convertCur()">Convert</button>
         <div class="output" id="curOut">-</div>
         <button class="reset-btn" onclick="resetCur()">Reset</button>
       </div>
     </div>
+```
+
+Update the associated JavaScript (find the existing `ratesUSD` block and replace it with):
+
+```js
+/* new rate set; update as needed */
+const ratesUSD = {
+  USD: 1,
+  EUR: 0.91,
+  GBP: 0.79,
+  JPY: 150.50,
+  CAD: 1.36,
+  AUD: 1.50
+};
+```
+
+Save and you’re done.
 
     <!-- 9. BMI Calculator -->
     <div class="card">
@@ -282,15 +330,56 @@
     <!-- 10. QR Generator -->
     <div class="card">
       <h3>QR Generator</h3>
+     Replace that **entire** block with the one below.  
+It keeps the same looks/card size, swaps the fake `<canvas>` for a real QR code, and adds the needed script.
+
+```html
       <div class="card-content">
-        <input type="text" id="qrText" placeholder="Text / URL..." oninput="mkQR()">
-        <canvas id="qrCanvas" width="80" height="80" style="background:#000;margin:auto;border-radius:8px"></canvas>
-        <button onclick="dlQR()">Download</button>
+        <input type="text" id="qrText" placeholder="Text / URL..." oninput="makeQR()">
+        <div id="qrDiv"
+             style="width:100%;height:220px;display:flex;justify-content:center;align-items:center;
+                    background:#fff;border-radius:8px;margin:auto"></div>
+        <button onclick="downloadQR()">Download</button>
         <button class="reset-btn" onclick="resetQR()">Reset</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- QR library & generator scripts -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+  const qrDiv = document.getElementById('qrDiv');
+  let qrCanvas;
+
+  function makeQR() {
+    const txt = document.getElementById('qrText').value.trim();
+    qrDiv.innerHTML = '';               // clear previous
+    if (!txt) return;
+
+    qrCanvas = document.createElement('canvas');
+    QRCode.toCanvas(qrCanvas, txt, { width: 200, margin: 2 }, err => {
+      if (err) alert(err);
+    });
+    qrDiv.appendChild(qrCanvas);
+  }
+
+  function downloadQR() {
+    if (!qrCanvas) return;
+    const a = document.createElement('a');
+    a.href = qrCanvas.toDataURL('image/png');
+    a.download = 'qr.png';
+    a.click();
+  }
+
+  function resetQR() {
+    document.getElementById('qrText').value = '';
+    qrDiv.innerHTML = '';
+  }
+</script>
+```
+
+Drop this in, hit Save, reload – the QR generator now outputs real codes.
 
 <footer>
   <div class="footer-links">
