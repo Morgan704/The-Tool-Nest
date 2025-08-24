@@ -4,114 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cyberpunk Tools</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Inline styles for particles */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
-    }
-    .particle {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: #00ff00;
-      border-radius: 50%;
-      box-shadow: 0 0 20px #00ff00;
-      animation: float 5s infinite ease-in-out;
-    }
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-50px); }
-      100% { transform: translateY(0px); }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1 class="glowing-title">Cyberpunk Tools</h1>
-    <nav>
-      <a href="#home" class="nav-link">Home</a>
-      <a href="#privacy" class="nav-link">Privacy Policy</a>
-      <a href="#disclaimer" class="nav-link">Disclaimer</a>
-      <a href="#about" class="nav-link">About Us</a>
-      <a href="#terms" class="nav-link">Terms & Conditions</a>
-    </nav>
-  </header>
-  <main id="home" class="active-section section">
-    <div class="tool-grid">
-      <!-- Tool 1: Calculator -->
-      <div class="tool-card">
-        <h2>Calculator</h2>
-        <input id="calc-display" type="text" value="0" readonly>
-        <div id="calc-buttons">
-          <button value="7">7</button>
-          <button value="8">8</button>
-          <button value="9">9</button>
-          <button value="/">/</button>
-          <button value="4">4</button>
-          <button value="5">5</button>
-          <button value="6">6</button>
-          <button value="*">*</button>
-          <button value="1">1</button>
-          <button value="2">2</button>
-          <button value="3">3</button>
-          <button value="-">-</button>
-          <button value="0">0</button>
-          <button value="C">C</button>
-          <button value="=">=</button>
-          <button value="+">+</button>
-        </div>
-        <button class="reset">Reset</button>
-      </div>
-      <!-- Tool 2: Notes App -->
-      <div class="tool-card">
-        <h2>Notes App</h2>
-        <textarea id="notes-textarea" placeholder="Enter note..."></textarea>
-        <button id="save-note">Save Note</button>
-        <div id="saved-notes"></div>
-        <button class="reset">Reset</button>
-      </div>
-      <!-- Tool 3: QR Code Generator -->
-      <div class="tool-card">
-        <h2>QR Code Generator</h2>
-        <input type="text" id="qr-text" placeholder="Enter text/URL">
-        <button id="generate-qr">Generate</button>
-        <canvas id="qr-canvas" width="200" height="200"></canvas>
-        <button class="reset">Reset</button>
-      </div>
-      <!-- Add remaining tools here -->
-    </div>
-  </main>
-  <section id="privacy" class="section">
-    <h2>Privacy Policy</h2>
-    <p>Our privacy policy content here.</p>
-  </section>
-  <section id="disclaimer" class="section">
-    <h2>Disclaimer</h2>
-    <p>Disclaimer content here.</p>
-  </section>
-  <section id="about" class="section">
-    <h2>About Us</h2>
-    <p>About us content here.</p>
-  </section>
-  <section id="terms" class="section">
-    <h2>Terms & Conditions</h2>
-    <p>Terms content here.</p>
-  </section>
-  <footer>
-    <p>&copy; 2023 Cyberpunk Tools</p>
-  </footer>
-  <div class="particles"></div>
-  <script src="tools.js"></script>
-</body>
-</html>
-* {
+  * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -234,145 +127,70 @@ footer {
     grid-template-columns: 1fr;
   }
 }
-document.addEventListener('DOMContentLoaded', () => {
-  // Navigation
-  document.querySelectorAll('nav a').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const target = e.target.getAttribute('href');
-      document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active-section');
-      });
-      document.querySelector(target).classList.add('active-section');
-    });
-  });
-
-  // Add particles
-  function addParticles() {
-    const particlesContainer = document.querySelector('.particles');
-    const numParticles = 50;
-    let html = '';
-    for (let i = 0; i < numParticles; i++) {
-      html += `<div class="particle" style="left: ${Math.random() * 100}%;"></div>`;
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Inline styles for particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
     }
-    particlesContainer.innerHTML = html;
-  }
-  addParticles();
-
-  // Tools
-
-  // 1. Calculator
-  const calcDisplay = document.getElementById('calc-display');
-  let calcFirstOperand = 0;
-  let calcOperator = null;
-
-  document.querySelectorAll('#calc-buttons button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const value = btn.value;
-      if (value === 'C') {
-        calcDisplay.value = '0';
-        calcFirstOperand = 0;
-        calcOperator = null;
-      } else if (value === '=') {
-        const secondOperand = parseFloat(calcDisplay.value);
-        switch (calcOperator) {
-          case '+': calcDisplay.value = calcFirstOperand + secondOperand; break;
-          case '-': calcDisplay.value = calcFirstOperand - secondOperand; break;
-          case '*': calcDisplay.value = calcFirstOperand * secondOperand; break;
-          case '/': calcDisplay.value = calcFirstOperand / secondOperand; break;
-          default: return;
-        }
-        calcFirstOperand = 0;
-        calcOperator = null;
-      } else {
-        if (calcOperator === null) {
-          calcFirstOperand = calcFirstOperand === 0 ? value : `${calcFirstOperand}${value}`;
-          calcDisplay.value = calcFirstOperand;
-        } else {
-          calcOperator = value;
-        }
-      }
-    });
-  });
-
-  // 2. Notes App
-  const notesTextarea = document.getElementById('notes-textarea');
-  const saveBtn = document.getElementById('save-note');
-  const notesContainer = document.getElementById('saved-notes');
-  saveBtn.addEventListener('click', () => {
-    const note = notesTextarea.value;
-    if (note.trim()) {
-      const notes = JSON.parse(localStorage.getItem('notes')) || [];
-      notes.push(note);
-      localStorage.setItem('notes', JSON.stringify(notes));
-      renderNotes();
-      notesTextarea.value = '';
+    .particle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #00ff00;
+      border-radius: 50%;
+      box-shadow: 0 0 20px #00ff00;
+      animation: float 5s infinite ease-in-out;
     }
-  });
-
-  function renderNotes() {
-    notesContainer.innerHTML = '';
-    const notes = JSON.parse(localStorage.getItem('notes')) || [];
-    notes.forEach(note => {
-      const noteElem = document.createElement('div');
-      noteElem.textContent = note;
-      noteElem.className = 'note';
-      noteElem.onclick = () => {
-        const confirmDelete = confirm('Delete this note?');
-        if (confirmDelete) {
-          const notes = JSON.parse(localStorage.getItem('notes')) || [];
-          const index = notes.indexOf(note);
-          if (index > -1) {
-            notes.splice(index, 1);
-            localStorage.setItem('notes', JSON.stringify(notes));
-            renderNotes();
-          }
-        }
-      };
-      notesContainer.appendChild(noteElem);
-    });
-  }
-  renderNotes();
-
-  // 3. QR Code Generator (using inline qr.js)
-  // Include the QRCode library code here (from https://github.com/davidshimjs/qrcodejs)
-  // Example:
-  // const QRCode = ...;
-
-  const qrText = document.getElementById('qr-text');
-  const qrCanvas = document.getElementById('qr-canvas');
-  const generateBtn = document.getElementById('generate-qr');
-
-  generateBtn.addEventListener('click', () => {
-    const text = qrText.value;
-    if (text) {
-      const qrcode = new QRCode(qrCanvas, {
-        text: text,
-        width: 200,
-        height: 200,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
-      });
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-50px); }
+      100% { transform: translateY(0px); }
     }
-  });
-
-  // Add remaining tool implementations here...
-
-  // Reset Functionality
-  document.querySelectorAll('.reset').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const toolCard = btn.closest('.tool-card');
-      if (toolCard) {
-        // Reset inputs and state
-        toolCard.querySelectorAll('input[type=text], textarea').forEach(input => input.value = '');
-        toolCard.querySelectorAll('canvas').forEach(canvas => {
-          const ctx = canvas.getContext('2d');
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-        });
-        // Add tool-specific reset code if needed
-      }
-    });
-  });
-});
-        
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="glowing-title">Cyberpunk Tools</h1>
+    <nav>
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#privacy" class="nav-link">Privacy Policy</a>
+      <a href="#disclaimer" class="nav-link">Disclaimer</a>
+      <a href="#about" class="nav-link">About Us</a>
+      <a href="#terms" class="nav-link">Terms & Conditions</a>
+    </nav>
+  </header>
+  <main id="home" class="active-section section">
+    <div class="tool-grid">
+      <!-- Tool cards will go here -->
+    </div>
+  </main>
+  <section id="privacy" class="section">
+    <h2>Privacy Policy</h2>
+    <p>Our privacy policy content here.</p>
+  </section>
+  <section id="disclaimer" class="section">
+    <h2>Disclaimer</h2>
+    <p>Disclaimer content here.</p>
+  </section>
+  <section id="about" class="section">
+    <h2>About Us</h2>
+    <p>About us content here.</p>
+  </section>
+  <section id="terms" class="section">
+    <h2>Terms & Conditions</h2>
+    <p>Terms content here.</p>
+  </section>
+  <footer>
+    <p>&copy; 2023 Cyberpunk Tools</p>
+  </footer>
+  <div class="particles"></div>
+  <script src="tools.js"></script>
+</body>
+</html>
