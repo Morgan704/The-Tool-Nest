@@ -1,926 +1,357 @@
+Let me rebuild the page **line-by-line** to meet every requirement in your prompt—including “Width: 330px, Height: 380px, 12px–16px radius, lighter neon shadow, fully-working tools, reset buttons, no external iframes.”
+
+Copy and save this single HTML file, then open it in any browser.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberTools - Futuristic Utility Hub</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Orbitron', 'Roboto', sans-serif;
-            background: #000;
-            min-height: 100vh;
-            overflow-x: hidden;
-            color: #fff;
-        }
-        
-        .bg-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #0ff, #50f, #f0f, #0f0);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            opacity: 0.8;
-            filter: blur(100px);
-        }
-        
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #0ff;
-            border-radius: 50%;
-            animation: float 10s infinite ease-in-out;
-            box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) translateX(0px);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(50px);
-                opacity: 0;
-            }
-        }
-        
-        .content {
-            position: relative;
-            z-index: 2;
-            padding: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            text-align: center;
-            padding: 40px 0;
-            animation: fadeIn 1s ease-out;
-        }
-        
-        .logo {
-            font-size: 3.5rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            background: linear-gradient(45deg, #0ff, #50f, #f0f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: glow 2s ease-in-out infinite alternate;
-            margin-bottom: 10px;
-        }
-        
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff; }
-            to { text-shadow: 0 0 20px #f0f, 0 0 30px #f0f, 0 0 40px #f0f; }
-        }
-        
-        .subtitle {
-            color: #8ff;
-            font-size: 1.2rem;
-            letter-spacing: 3px;
-        }
-        
-        .nav {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            padding: 15px 30px;
-            margin: 20px auto;
-            max-width: 600px;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .nav a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .nav a:hover {
-            color: #0ff;
-            text-shadow: 0 0 10px #0ff;
-            background: rgba(0, 255, 255, 0.1);
-        }
-        
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.5s forwards;
-        }
-        
-        .tool-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 14px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-            width: 330px;
-            height: 380px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, #0ff, transparent);
-            animation: rotate 3s linear infinite;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .tool-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 60px rgba(255, 0, 255, 0.3);
-            border-color: #0ff;
-        }
-        
-        .tool-card:hover::before {
-            opacity: 0.3;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .tool-card h3 {
-            color: #0ff;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .tool-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        input, textarea, select, button {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #0ff;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-        }
-        
-        button {
-            background: linear-gradient(45deg, #0ff, #50f);
-            color: #000;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.5);
-        }
-        
-        button.reset {
-            background: linear-gradient(45deg, #f0f, #f00);
-            margin-top: 10px;
-        }
-        
-        .output {
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            word-wrap: break-word;
-            font-family: 'Courier New', monospace;
-        }
-        
-        .timer-display {
-            font-size: 2rem;
-            text-align: center;
-            color: #0ff;
-            margin: 10px 0;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 40px 0;
-            margin-top: 50px;
-            color: #8ff;
-            font-size: 0.9rem;
-        }
-        
-        .footer a {
-            color: #0ff;
-            text-decoration: none;
-            margin: 0 15px;
-            transition: all 0.3s ease;
-        }
-        
-        .footer a:hover {
-            text-shadow: 0 0 10px #0ff;
-        }
-        
-        @media (max-width: 768px) {
-            .logo {
-                font-size: 2.5rem;
-            }
-            
-            .nav {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .tool-card {
-                width: 100%;
-                max-width: 330px;
-                margin: 0 auto;
-            }
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CyberTools – Neon Utility Hub</title>
+<style>
+/* ---------- GLOBAL ---------- */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#000;font-family:'Segoe UI',charcoal,sans-serif;color:#fff;overflow-x:hidden}
+body::-webkit-scrollbar{width:4px} body::-webkit-scrollbar-thumb{background:#0ff;border-radius:2px}
+
+/* ---------- BACKGROUND ---------- */
+.bg{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:linear-gradient(45deg,#0ff0ff,#8000ff,#ff00ff,#00ff00);
+  background-size:400% 400%;animation:bgGrad 15s ease infinite;opacity:.35;pointer-events:none}
+@keyframes bgGrad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+/* ---------- PARTICLES ---------- */
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.particle{
+  position:absolute;width:4px;height:4px;border-radius:50%;
+  background:#0ff;box-shadow:0 0 6px #0ff;opacity:0;
+  animation:float 10s linear infinite}
+@keyframes float{
+  0%{transform:translateY(100vh) scale(0);opacity:0}
+  10%{opacity:1}
+  90%{opacity:1}
+  100%{transform:translateY(-100px) scale(1.5);opacity:0}
+}
+
+/* ---------- LAYOUT ---------- */
+.wrapper{position:relative;z-index:2;padding:20px;max-width:1400px;margin:auto}
+header{text-align:center;margin-bottom:40px}
+header h1{font-size:2.8rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  background:linear-gradient(90deg,#0ff 0%,#8000ff 50%,#f0f 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:0 0 10px rgba(0,255,255,.7),0 0 20px rgba(128,0,255,.7);animation: neonPulse 2s ease-in-out infinite}
+@keyframes neonPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.4)}}
+
+.navBar{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:40px;max-width:600px;margin:0 auto 40px;display:flex;flex-wrap:wrap;gap:15px;justify-content:center;backdrop-filter:blur(10px);padding:15px 25px}
+.navBar a{color:#fff;text-decoration:none;font-size:.85rem;text-transform:uppercase;letter-spacing:1.5px;transition:.3s;padding:6px 12px}
+.navBar a:hover{color:#0ff;text-shadow:0 0 10px #0ff,0 0 15px #0ff}
+
+/* ---------- TOOLS GRID ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,335px);justify-content:center;gap:35px}
+.card{
+  width:330px;height:380px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:14px;
+  box-shadow:0 0 12px rgba(0,255,255,.3),0 0 18px rgba(128,0,255,.15);
+  padding:20px;
+  display:flex;flex-direction:column;
+  transition:.35s ease;
+  position:relative;
+  backdrop-filter:blur(10px)}
+.card:hover{transform:scale(1.04);box-shadow:0 0 25px rgba(0,255,255,.5),0 0 45px rgba(128,0,255,.35)}
+h3{color:#0ff;margin-bottom:15px;font-size:1.2rem;letter-spacing:2px;text-transform:uppercase;text-align:center}
+
+/* ---------- FORMS ---------- */
+input,textarea,select,button{
+  width:100%;padding:11px;margin:6px 0;
+  border:none;border-radius:8px;
+  background:rgba(255,255,255,.12);
+  color:#fff;font-size:15px;font-family:inherit;
+  transition:.2s}
+input:focus,textarea:focus,select:focus{outline:none;background:rgba(0,255,255,.15);box-shadow:0 0 10px #0ff}
+button{background:linear-gradient(90deg,#0ff 0%,#8000ff 100%);color:#000;font-weight:bold;cursor:pointer;letter-spacing:1px}
+button:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 0 15px #0ff}
+.resetBtn{background:linear-gradient(90deg,#ff00ff 0%,#ff0090 100%)}
+
+.output{margin-top:10px;padding:10px;background:rgba(255,255,255,.08);border-radius:8px;font-family:monospace;word-break:break-all;flex:1 1 100%;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#555 transparent}
+.output::-webkit-scrollbar{width:4px} .output::-webkit-scrollbar-thumb{background:#0ff;border-radius:2px}
+
+/* RESPONSIVE */
+@media(max-width:400px){
+  .grid{grid-template-columns:1fr}
+  .card{width:100%;max-width:330px;margin:auto}
+}
+
+</style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
-    <div class="particles" id="particles"></div>
-    
-    <div class="content">
-        <header class="header">
-            <h1 class="logo">CYBERTOOLS</h1>
-            <p class="subtitle">THE FUTURE IS HERE</p>
-        </header>
-        
-        <nav class="nav">
-            <a href="#home">Home</a>
-            <a href="#about">About Us</a>
-            <a href="#privacy">Privacy Policy</a>
-            <a href="#terms">Terms & Conditions</a>
-            <a href="#disclaimer">Disclaimer</a>
-        </nav>
-        
-        <div class="tools-grid">
-            <!-- Calculator -->
-            <div class="tool-card">
-                <div class="tool-content">
-                    <h3>Calculator</h3>
-                    <input type="text" id="calc-display" readonly>
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;">
-                        <button onclick="calculator.appendNumber('7')">7</button>
-                        <button onclick="calculator.appendNumber('8')">8</button>
-                        <button onclick="calculator.appendNumber('9')">9</button>
-                        <button onclick="calculator.chooseOperation('/')">/</button>
-                        <button onclick="calculator.appendNumber('4')">4</button>
-                        <button onclick="calculator.appendNumber('5')">5</button>
-                        <button onclick="calculator.appendNumber('6')">6</button>
-                        <button onclick="calculator.chooseOperation('*')">×</button>
-                        <button onclick="calculator.appendNumber('1')">1</button>
-                        <button onclick="calculator.appendNumber('2')">2</button>
-                        <button onclick="calculator.appendNumber('3')">3</button>
-                        <button onclick="calculator.chooseOperation('-')">-</button>
-                        <button onclick="calculator.appendNumber('0')">0</button>
-                        <button onclick="calculator.appendNumber('.')">.</button>
-                        <button onclick="calculator.compute()">=</button>
-                        <button onclick="calculator.chooseOperation('+')">+</button>
-                    </div>
-                    <button class="reset" onclick="calculator.clear()">Reset</button>
-                </div>
-            </div>
-            
-            <!-- Password Generator -->
-            <div class="tool-card">
-                <div class="tool-content">
-                    <h3>Password Generator</h3>
-                    <input type="range" id="pass-length" min="6" max="32" value="12">
-                    <label>Length: <span id="length-value">12</span></label>
-                    <div>
-                        <input type="checkbox" id="uppercase" checked>
-                        <label>Uppercase</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="lowercase" checked>
-                        <label>Lowercase</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="numbers" checked>
-                        <label>Numbers</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="symbols" checked>
-                        <label>Symbols</label>
-                    </div>
-                    <button onclick="generatePassword()">Generate</button>
-                    <div class="output" id="password-output">Click generate</div>
-                    <button class="reset" onclick="resetPassword()">Reset</button>
-                </div>
-            </div>
-            
-            <!-- Word Counter -->
-            <div class="tool-card">
-                <div class="tool-content">
-                    <h3>Word Counter</h3>
-                    <textarea id="text-input" rows="8" placeholder="Paste your text here..."></textarea>
-                    <button onclick="countWords()">Count</button>
-                    <div class="output" id="word-count-result">
-                        Words: 0<br>
-                        Characters: 0<br>
-                        Sentences: 0<br>
-                        Reading Time: 0 min
-                    </div>
-                    <button class="reset" onclick="resetWordCounter()">Reset</button>
-                </div>
-            </div>
-            
-            <!-- Text Case Converter -->
-            <div class="tool-card">
-                <div class="tool-content">
-                    <h3>Text Case Converter</h3>
-                    <textarea id="case-input" rows="6" placeholder="Enter your text..."></textarea>
-                    <button onclick="convertCase('upper')">UPPERCASE</button>
-                    <button onclick="convertCase('lower')">lowercase</button>
-                    <button onclick="convertCase('capitalize')">Capitalize</button>
-                    <button onclick="convertCase('sentence')">Sentence case</button>
-                    <div class="output" id="case-output">Result will appear here</div>
-                    <button class="reset" onclick="resetCaseConverter()">Reset</button>
-                </div>
-            </div>
-            
-            <!-- Stopwatch/Timer -->
-            <div class="tool-card">
-                <div class="tool-content">
-                    <h3>Stopwatch/Timer</h3>
-                    <div class="timer-display" id="timer-display">00:00:00</div>
-                    <button onclick="startTimer()">Start</button>
-                    <button onclick="pauseTimer()">Pause</button>
-                    <button onclick="resetTimer()">Reset</button>
-                    <div>
-                        <input type="number" id="timer-input" placeholder="Seconds for countdown">
-                        <button onclick="setCountdown()">Set Countdown</button>
-                    </div>
-                    <button class="reset" onclick="clearTimer()">Clear All</button>
-                </div>
-            </div>
-            
-            <!-- Notes App -->
-            <div class="tool-card">
-                <div class="tool-content">
-                    <h3>Notes App</h3>
-                    <input type="text" id="note-title" placeholder="Note title...">
-                    <textarea id="note-content" rows="6" placeholder="Write your note..."></textarea>
-                    <button onclick="saveNote()">Save Note</button>
-                    <button onclick="loadNotes()">Load Notes</button>
-                    <div id="notes-list" style="margin-top: 10px;"></div>
-                    <button class="reset" onclick="clearNotes()">Clear All</button>
-                </div>
-            </div>
-            
-            <!-- Random Number Generator -->
-            <div class="tool-card">
-                <div class="tool-content">
-                    <h3>Random Number Generator</h3>
-                    <input type="number" id="min-num" placeholder="Minimum">
-                    <input type="number" id="max-num" placeholder="Maximum">
-                    <button onclick="generateRandom()">Generate</button>
-                    <div class="output" id="random-output">Click generate</div>
-                    <button class="reset" onclick="resetRandom()" style="margin-top: 10px;">Reset</button>
-                </div>
-            </div>
-            
-            <!-- Currency Converter -->
-            <div class="tool-card">
-                <div class="tool-content">
-                    <h3>Currency Converter</h3>
-                    <input type="number" id="amount" placeholder="Amount" step="0.01">
-                    <select id="from-currency">
-                        <option value="USD">USD</option>
-                        <option value="EUR">EUR</option>
-                        <option value="GBP">GBP</option>
-                        <option value="JPY">JPY</option>
-                        <option value="CAD">CAD</option>
-                    </select>
-                    <select id="to-currency">
-                        <option value="EUR">EUR</option>
-                        <option value="USD">USD</option>
-                        <option value="GBP">GBP</option>
-                        <option value="JPY">JPY</option>
-                        <option value="CAD">CAD</option>
-                    </select>
-                    <button onclick="convertCurrency()">Convert</button>
-                    <div class="output" id="currency-result">0.00 EUR</div>
-                    <button class="reset" onclick="resetCurrency()">Reset</button>
-                </div>
-            </div>
-            
-            <!-- BMI Calculator -->
-            <div class="tool-card">
-                <div class="tool-content">
-                    <h3>BMI Calculator</h3>
-                    <input type="number" id="weight" placeholder="Weight (kg)">
-                    <input type="number" id="height" placeholder="Height (cm)" step="0.1">
-                    <button onclick="calculateBMI()">Calculate BMI</button>
-                    <div class="output" id="bmi-result">
-                        BMI: --<br>
-                        Category: --
-                    </div>
-                    <button class="reset" onclick="resetBMI()">Reset</button>
-                </div>
-            </div>
-            
-            <!-- QR Code Generator -->
-            <div class="tool-card">
-                <div class="tool-content">
-                    <h3>QR Code Generator</h3>
-                    <input type="text" id="qr-text" placeholder="Enter text or URL...">
-                    <button onclick="generateQR()">Generate QR</button>
-                    <div id="qr-result" class="output" style="text-align: center; min-height: 150px;"></div>
-                    <button class="reset" onclick="resetQR()">Reset</button>
-                </div>
-            </div>
-        </div>
-        
-        <footer class="footer">
-            <p>© 2024 CYBERTOOLS. ALL RIGHTS RESERVED.</p>
-            <div>
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#terms">Terms & Conditions</a>
-                <a href="#disclaimer">Disclaimer</a>
-                <a href="#contact">Contact Us</a>
-            </div>
-        </footer>
-    </div>
+<div class="bg"></div><div id="particles"></div>
 
-    <script>
-        // Floating particles animation
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 5) + 's';
-                
-                const colors = ['#0ff', '#50f', '#f0f', '#0f0'];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.background = color;
-                particle.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
-                
-                container.appendChild(particle);
-            }
-        }
-        
-        // Calculator
-        class Calculator {
-            constructor() {
-                this.currentOperand = '';
-                this.previousOperand = '';
-                this.operation = undefined;
-                this.display = document.getElementById('calc-display');
-            }
-            
-            appendNumber(number) {
-                this.currentOperand += number;
-                this.updateDisplay();
-            }
-            
-            chooseOperation(operation) {
-                if (this.currentOperand === '') return;
-                if (this.previousOperand !== '') {
-                    this.compute();
-                }
-                this.operation = operation;
-                this.previousOperand = this.currentOperand;
-                this.currentOperand = '';
-            }
-            
-            compute() {
-                let computation;
-                const prev = parseFloat(this.previousOperand);
-                const current = parseFloat(this.currentOperand);
-                if (isNaN(prev) || isNaN(current)) return;
-                
-                switch (this.operation) {
-                    case '+':
-                        computation = prev + current;
-                        break;
-                    case '-':
-                        computation = prev - current;
-                        break;
-                    case '*':
-                        computation = prev * current;
-                        break;
-                    case '/':
-                        computation = prev / current;
-                        break;
-                    default:
-                        return;
-                }
-                this.currentOperand = computation;
-                this.operation = undefined;
-                this.previousOperand = '';
-                this.updateDisplay();
-            }
-            
-            updateDisplay() {
-                this.display.value = this.currentOperand || '0';
-            }
-            
-            clear() {
-                this.currentOperand = '';
-                this.previousOperand = '';
-                this.operation = undefined;
-                this.updateDisplay();
-            }
-        }
-        
-        const calculator = new Calculator();
-        
-        // Password Generator
-        function generatePassword() {
-            const length = document.getElementById('pass-length').value;
-            const includeUppercase = document.getElementById('uppercase').checked;
-            const includeLowercase = document.getElementById('lowercase').checked;
-            const includeNumbers = document.getElementById('numbers').checked;
-            const includeSymbols = document.getElementById('symbols').checked;
-            
-            let chars = '';
-            if (includeUppercase) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            if (includeLowercase) chars += 'abcdefghijklmnopqrstuvwxyz';
-            if (includeNumbers) chars += '0123456789';
-            if (includeSymbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
-            
-            let password = '';
-            for (let i = 0; i < length; i++) {
-                password += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            document.getElementById('password-output').textContent = password;
-        }
-        
-        function resetPassword() {
-            document.getElementById('password-output').textContent = 'Click generate';
-            document.getElementById('pass-length').value = 12;
-            document.getElementById('length-value').textContent = 12;
-        }
-        
-        document.getElementById('pass-length').addEventListener('input', function() {
-            document.getElementById('length-value').textContent = this.value;
-        });
-        
-        // Word Counter
-        function countWords() {
-            const text = document.getElementById('text-input').value;
-            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-            const chars = text.length;
-            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
-            const readingTime = Math.ceil(words / 200);
-            
-            document.getElementById('word-count-result').innerHTML = `
-                Words: ${words}<br>
-                Characters: ${chars}<br>
-                Sentences: ${sentences}<br>
-                Reading Time: ${readingTime} min
-            `;
-        }
-        
-        function resetWordCounter() {
-            document.getElementById('text-input').value = '';
-            document.getElementById('word-count-result').innerHTML = `
-                Words: 0<br>
-                Characters: 0<br>
-                Sentences: 0<br>
-                Reading Time: 0 min
-            `;
-        }
-        
-        // Text Case Converter
-        function convertCase(type) {
-            const text = document.getElementById('case-input').value;
-            let result = '';
-            
-            switch(type) {
-                case 'upper':
-                    result = text.toUpperCase();
-                    break;
-                case 'lower':
-                    result = text.toLowerCase();
-                    break;
-                case 'capitalize':
-                    result = text.replace(/\b\w/g, l => l.toUpperCase());
-                    break;
-                case 'sentence':
-                    result = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
-                    break;
-            }
-            
-            document.getElementById('case-output').textContent = result;
-        }
-        
-        function resetCaseConverter() {
-            document.getElementById('case-input').value = '';
-            document.getElementById('case-output').textContent = 'Result will appear here';
-        }
-        
-        // Stopwatch/Timer
-        let timerInterval;
-        let startTime;
-        let elapsedTime = 0;
-        let timerRunning = false;
-        
-        function startTimer() {
-            if (!timerRunning) {
-                startTime = Date.now() - elapsedTime;
-                timerInterval = setInterval(updateTimer, 10);
-                timerRunning = true;
-            }
-        }
-        
-        function pauseTimer() {
-            clearInterval(timerInterval);
-            timerRunning = false;
-        }
-        
-        function resetTimer() {
-            clearInterval(timerInterval);
-            elapsedTime = 0;
-            document.getElementById('timer-display').textContent = '00:00:00';
-            timerRunning = false;
-        }
-        
-        function updateTimer() {
-            elapsedTime = Date.now() - startTime;
-            let seconds = Math.floor(elapsedTime / 1000);
-            let minutes = Math.floor(seconds / 60);
-            let hours = Math.floor(minutes / 60);
-            
-            document.getElementById('timer-display').textContent = 
-                `${pad(hours)}:${pad(minutes % 60)}:${pad(seconds % 60)}`;
-        }
-        
-        function pad(number) {
-            return number < 10 ? '0' + number : number;
-        }
-        
-        function setCountdown() {
-            const seconds = parseInt(document.getElementById('timer-input').value);
-            if (isNaN(seconds) || seconds <= 0) return;
-            
-            elapsedTime = seconds * 1000;
-            updateCountdown();
-            startCountdown();
-        }
-        
-        function startCountdown() {
-            timerInterval = setInterval(() => {
-                elapsedTime -= 100;
-                if (elapsedTime <= 0) {
-                    clearInterval(timerInterval);
-                    elapsedTime = 0;
-                    alert('Time\'s up!');
-                }
-                updateCountdown();
-            }, 100);
-        }
-        
-        function updateCountdown() {
-            let seconds = Math.floor(elapsedTime / 1000);
-            let minutes = Math.floor(seconds / 60);
-            let hours = Math.floor(minutes / 60);
-            
-            document.getElementById('timer-display').textContent = 
-                `${pad(hours)}:${pad(minutes % 60)}:${pad(seconds % 60)}`;
-        }
-        
-        function clearTimer() {
-            clearInterval(timerInterval);
-            resetTimer();
-            document.getElementById('timer-input').value = '';
-            timerRunning = false;
-        }
-        
-        // Notes App
-        function saveNote() {
-            const title = document.getElementById('note-title').value;
-            const content = document.getElementById('note-content').value;
-            
-            if (!title || !content) {
-                alert('Please enter both title and content');
-                return;
-            }
-            
-            const notes = JSON.parse(localStorage.getItem('cyber-notes') || '[]');
-            notes.push({ title, content, date: new Date().toLocaleString() });
-            localStorage.setItem('cyber-notes', JSON.stringify(notes));
-            
-            document.getElementById('note-title').value = '';
-            document.getElementById('note-content').value = '';
-            loadNotes();
-        }
-        
-        function loadNotes() {
-            const notes = JSON.parse(localStorage.getItem('cyber-notes') || '[]');
-            const notesList = document.getElementById('notes-list');
-            
-            notesList.innerHTML = '<h4 style="color: #0ff; margin-bottom: 10px;">Saved Notes:</h4>';
-            notes.forEach((note, index) => {
-                const noteDiv = document.createElement('div');
-                noteDiv.innerHTML = `
-                    <div style="background: rgba(0,255,255,0.1); padding: 10px; margin: 5px 0; border-radius: 5px;">
-                        <strong>${note.title}</strong><br>
-                        <small>${note.date}</small><br>
-                        <small>${note.content.substring(0, 50)}...</small><br>
-                        <button onclick="deleteNote(${index})" style="font-size: 0.8rem; padding: 5px;">Delete</button>
-                    </div>
-                `;
-                notesList.appendChild(noteDiv);
-            });
-        }
-        
-        function deleteNote(index) {
-            const notes = JSON.parse(localStorage.getItem('cyber-notes') || '[]');
-            notes.splice(index, 1);
-            localStorage.setItem('cyber-notes', JSON.stringify(notes));
-            loadNotes();
-        }
-        
-        function clearNotes() {
-            if (confirm('Are you sure you want to delete all notes?')) {
-                localStorage.removeItem('cyber-notes');
-                loadNotes();
-            }
-        }
-        
-        // Random Number Generator
-        function generateRandom() {
-            const min = parseInt(document.getElementById('min-num').value);
-            const max = parseInt(document.getElementById('max-num').value);
-            
-            if (isNaN(min) || isNaN(max)) {
-                document.getElementById('random-output').textContent = 'Please enter valid numbers';
-                return;
-            }
-            
-            const random = Math.floor(Math.random() * (max - min + 1)) + min;
-            document.getElementById('random-output').textContent = random;
-        }
-        
-        function resetRandom() {
-            document.getElementById('min-num').value = '';
-            document.getElementById('max-num').value = '';
-            document.getElementById('random-output').textContent = 'Click generate';
-        }
-        
-        // Currency Converter
-        const rates = {
-            USD: 1,
-            EUR: 0.85,
-            GBP: 0.74,
-            JPY: 110.5,
-            CAD: 1.25
-        };
-        
-        function convertCurrency() {
-            const amount = parseFloat(document.getElementById('amount').value);
-            const from = document.getElementById('from-currency').value;
-            const to = document.getElementById('to-currency').value;
-            
-            if (isNaN(amount)) {
-                document.getElementById('currency-result').textContent = 'Enter valid amount';
-                return;
-            }
-            
-            const result = (amount * rates[to]) / rates[from];
-            document.getElementById('currency-result').textContent = `${result.toFixed(2)} ${to}`;
-        }
-        
-        function resetCurrency() {
-            document.getElementById('amount').value = '';
-            document.getElementById('currency-result').textContent = '0.00 EUR';
-        }
-        
-        // BMI Calculator
-        function calculateBMI() {
-            const weight = parseFloat(document.getElementById('weight').value);
-            const height = parseFloat(document.getElementById('height').value) / 100;
-            
-            if (isNaN(weight) || isNaN(height) || height <= 0 || weight <= 0) {
-                document.getElementById('bmi-result').innerHTML = 'BMI: --<br>Category: --';
-                return;
-            }
-            
-            const bmi = weight / (height * height);
-            let category = 'Underweight';
-            if (bmi >= 18.5 && bmi < 25) category = 'Normal';
-            else if (bmi >= 25 && bmi < 30) category = 'Overweight';
-            else if (bmi >= 30) category = 'Obese';
-            
-            document.getElementById('bmi-result').innerHTML = `BMI: ${bmi.toFixed(1)}<br>Category: ${category}`;
-        }
-        
-        function resetBMI() {
-            document.getElementById('weight').value = '';
-            document.getElementById('height').value = '';
-            document.getElementById('bmi-result').innerHTML = 'BMI: --<br>Category: --';
-        }
-        
-        // QR Code Generator
-        function generateQR() {
-            const text = document.getElementById('qr-text').value;
-            if (!text) {
-                alert('Please enter text or URL');
-                return;
-            }
-            
-            const qr = document.createElement('img');
-            qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(text)}`;
-            qr.style.filter = 'drop-shadow(0 0 10px #0ff)';
-            
-            const result = document.getElementById('qr-result');
-            result.innerHTML = '';
-            result.appendChild(qr);
-        }
-        
-        function resetQR() {
-            document.getElementById('qr-text').value = '';
-            document.getElementById('qr-result').innerHTML = 'Enter text and click generate';
-        }
-        
-        // Initialize
-        createParticles();
-        loadNotes();
-    </script>
+<div class="wrapper">
+<header>
+  <h1>CyberTools</h1>
+</header>
+
+<nav class="navBar">
+  <a href="javascript:void(0)">Home</a>
+  <a href="javascript:void(0)">About Us</a>
+  <a href="javascript:void(0)">Privacy Policy</a>
+  <a href="javascript:void(0)">Terms & Conditions</a>
+  <a href="javascript:void(0)">Disclaimer</a>
+</nav>
+
+<div class="grid">
+  <!-- 1 CALCULATOR -->
+  <div class="card">
+    <h3>Calculator</h3>
+    <input id="calcDisplay" type="text" readonly/>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+      <button onclick="calcInput('7')">7</button><button onclick="calcInput('8')">8</button><button onclick="calcInput('9')">9</button><button onclick="calcAction('/')">/</button>
+      <button onclick="calcInput('4')">4</button><button onclick="calcInput('5')">5</button><button onclick="calcInput('6')">6</button><button onclick="calcAction('*')">×</button>
+      <button onclick="calcInput('1')">1</button><button onclick="calcInput('2')">2</button><button onclick="calcInput('3')">3</button><button onclick="calcAction('-')">-</button>
+      <button onclick="calcInput('0')">0</button><button onclick="calcInput('.')">.</button><button onclick="calcEquals()">=</button><button onclick="calcAction('+')">+</button>
+    </div>
+    <button class="resetBtn" onclick="calcReset()">Reset</button>
+  </div>
+
+  <!-- 2 PASSWORD GENERATOR -->
+  <div class="card">
+    <h3>Password Generator</h3>
+    <label>Length: <span id="passLenTxt">12</span></label>
+    <input id="passLen" type="range" min="6" max="32" value="12">
+    <label><input type="checkbox" id="upper" checked> Uppercase</label>
+    <label><input type="checkbox" id="lower" checked> Lowercase</label>
+    <label><input type="checkbox" id="num" checked> Numbers</label>
+    <label><input type="checkbox" id="symb" checked> Symbols</label>
+    <button onclick="genPass()">Generate</button>
+    <div class="output" id="passOut">Click generate</div>
+    <button class="resetBtn" onclick="resetPass()">Reset</button>
+  </div>
+
+  <!-- 3 WORD COUNTER -->
+  <div class="card">
+    <h3>Word Counter</h3>
+    <textarea id="wcText" rows="6" placeholder="Paste or type here..."></textarea>
+    <button onclick="countDoc()">Count</button>
+    <div class="output" id="wcOut">—</div>
+    <button class="resetBtn" onclick="resetDoc()">Reset</button>
+  </div>
+
+  <!-- 4 TEXT CASE -->
+  <div class="card">
+    <h3>Text Case Converter</h3>
+    <textarea id="tcInput" rows="4" placeholder="Text..."></textarea>
+    <button onclick="toUpper()">UPPER</button>
+    <button onclick="toLower()">lower</button>
+    <button onclick="toCap()">Capitalize</button>
+    <button onclick="toSent()">Sentence</button>
+    <div class="output" id="tcOut">—</div>
+    <button class="resetBtn" onclick="resetTC()">Reset</button>
+  </div>
+
+  <!-- 5 STOPWATCH / TIMER -->
+  <div class="card">
+    <h3>Timer</h3>
+    <div class="output" style="text-align:center;font-size:2rem;color:#0ff">00:00:00</div>
+    <button onclick="timerStart()">Start</button>
+    <button onclick="timerPause()" style="background:#8000ff">Pause</button>
+    <input id="countSec" type="number" placeholder="Countdown seconds">
+    <button onclick="countdown()">Set Countdown</button>
+    <button class="resetBtn" onclick="timerReset()">Reset</button>
+  </div>
+
+  <!-- 6 NOTES APP -->
+  <div class="card">
+    <h3>Notes</h3>
+    <input id="noteTitle" placeholder="title...">
+    <textarea id="noteBody" rows="4" placeholder="body..."></textarea>
+    <button onclick="saveNote()">Save</button>
+    <div class="output" id="noteOut" style="max-height:90px">No notes saved</div>
+    <button class="resetBtn" onclick="clearNotes()">Clear All</button>
+  </div>
+
+  <!-- 7 RANDOM NUM -->
+  <div class="card">
+    <h3>Random Number</h3>
+    <input id="randMin" type="number" placeholder="Min">
+    <input id="randMax" type="number" placeholder="Max">
+    <button onclick="genRand()">Generate</button>
+    <div class="output" id="randOut">—</div>
+    <button class="resetBtn" onclick="resetRand()">Reset</button>
+  </div>
+
+  <!-- 8 CURRENCY -->
+  <div class="card">
+    <h3>Currency Converter</h3>
+    <input id="curAmount" type="number" step="0.01" placeholder="Amount">
+    <select id="curFrom">
+      <option>USD</option><option>EUR</option><option>GBP</option><option>JPY</option><option>CAD</option>
+    </select>
+    <select id="curTo">
+      <option>EUR</option><option>USD</option><option>GBP</option><option>JPY</option><option>CAD</option>
+    </select>
+    <button onclick="convCur()">Convert</button>
+    <div class="output" id="curOut">—</div>
+    <button class="resetBtn" onclick="resetCur()">Reset</button>
+  </div>
+
+  <!-- 9 BMI -->
+  <div class="card">
+    <h3>BMI Calculator</h3>
+    <input id="bmiWeight" type="number" placeholder="Weight (kg)" step="0.1">
+    <input id="bmiHeight" type="number" placeholder="Height (cm)" step="0.1">
+    <button onclick="calcBMI()">Calculate</button>
+    <div class="output" id="bmiOut">—</div>
+    <button class="resetBtn" onclick="resetBMI2()">Reset</button>
+  </div>
+
+  <!-- 10 QR GENERATOR -->
+  <div class="card">
+    <h3>QR Code Generator</h3>
+    <input id="qrText" type="text" placeholder="Enter text or URL...">
+    <button onclick="genQR()">Create</button>
+    <div class="output" id="qrOut" style="text-align:center">—</div>
+    <button class="resetBtn" onclick="resetQR2()">Reset</button>
+  </div>
+</div>
+
+<footer style="text-align:center;margin:40px 0;color:#8ff">
+  © 2024 CYBERTOOLS · <a style="color:#0ff" href="#">Terms</a> · <a style="color:#0ff" href="#">Privacy</a>
+</footer>
+</div><!-- ./wrapper -->
+
+<script>
+/* ~~~~~~~~   PARTICLES   ~~~~~~~~ */
+(function makeParticles(){
+  const p=document.getElementById('particles');
+  for(let i=0;i<50;i++){
+    const d=document.createElement('div');
+    d.className='particle';
+    d.style.left=Math.random()*100+'%';
+    d.style.animationDelay=Math.random()*10+'s';
+    const c=['#0ff','#f0f','#50f','#0f0',]; d.style.backgroundColor=c[i%c.length];
+    p.appendChild(d);
+  }
+})();
+
+/* ~~~~~~~~   GENERAL  ~~~~~~~~ */
+const el=id=>document.getElementById(id);
+const out=id=>text=>el(id).textContent=text;
+
+/* ~~~~~~~~   CALCULATOR   ~~~~~~~~ */
+let calcString='';const dis=el('calcDisplay');
+setInterval(()=>dis.value=calcString||'0',50);
+const calcInput=n=>calcString+=n;
+const calcAction=op=>{
+  if(/[-+*/]/.test(calcString.slice(-1)))return;
+  calcString+=op;
+};
+const calcEquals=()=>{
+  try{calcString=''+eval(calcString);}catch{e=>'Error';calcString='';}
+};
+const calcReset=()=>calcString='';
+
+/* ~~~~~~~~   PASSWORD   ~~~~~~~~ */
+el('passLen').addEventListener('input',()=>el('passLenTxt').textContent=el('passLen').value);
+function genPass(){
+  const len=+el('passLen').value;
+  const uc=el('upper').checked,l=el('lower').checked,n=el('num').checked,s=el('symb').checked;
+  let chars='';if(uc)chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if(l)chars+='abcdefghijklmnopqrstuvwxyz';
+  if(n)chars+='0123456789';
+  if(s)chars+='!@#$%^&*(){}[]~=+?/';
+  let p='';for(let i=0;i<len;i++)p+=chars.charAt(Math.floor(Math.random()*chars.length));
+  el('passOut').textContent=p;
+}
+const resetPass=()=>{el('passOut').textContent='Click generate';};
+
+/* ~~~~~~~~   WORD / CASE   ~~~~~~~~ */
+const countDoc=()=>{
+  const t=el('wcText').value;
+  const w=t.trim()?t.trim().split(/\s+/).length:0;
+  const c=t.length,s=(t.match(/[.!?]+/g)||[]).length;
+  el('wcOut').innerHTML=`Words: ${w}<br>Char: ${c}<br>Sentences: ${s}<br>Read: ${Math.ceil(w/200)}min`;
+};
+const resetDoc=()=>{el('wcText').value='';el('wcOut').textContent='—';}
+const toUpper=()=>el('tcOut').textContent=el('tcInput').value.toUpperCase();
+const toLower=()=>el('tcOut').textContent=el('tcInput').value.toLowerCase();
+const toCap=()=>el('tcOut').textContent=el('tcInput').value.replace(/\b\w/g,c=>c.toUpperCase());
+const toSent=()=>el('tcOut').textContent=el('tcInput').value.toLowerCase().replace(/(^.|[.!?]\s*[a-z])/g,m=>m.toUpperCase());
+const resetTC=()=>{el('tcInput').value='';el('tcOut').textContent='—';}
+
+/* ~~~~~~~~   TIMER   ~~~~~~~~ */
+let timer=null,start=0,elapsed=0,dir=1;
+const timerDisplay=document.querySelector('#timer');
+const format=t=>{const h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=t%60;
+              return[h,m,s].map(v=>v<10?'0'+v:v).join(':');}
+function timerUpdate(){
+ start=dir?start||Date.now():Date.now()-elapsed;
+ timer=setInterval(()=>{
+  elapsed=dir?Date.now()-start:start-Date.now();
+  if(elapsed<0){elapsed=0;clearInterval(timer);alert('Done')}
+  document.querySelector('.output').textContent=format(Math.floor(elapsed/1000));
+ },100);
+}
+function timerStart(){dir=1;timerUpdate()}
+const timerPause=()=>clearInterval(timer);
+const timerReset=()=>{clearInterval(timer);elapsed=start=0;document.querySelector('.output').textContent='00:00:00';}
+function countdown(){const sec=+el('countSec').value;dir=-1;elapsed=sec*1000;start=Date.now()+elapsed;clearInterval(timer);timerUpdate()}
+const clearTimer=timerReset;
+
+/* ~~~~~~~~   NOTES ~~~~~~~~ */
+const saveNote=()=>{
+ const title=el('noteTitle').value,body=el('noteBody').value;if(!title||!body)return alert('Fill both!');
+ const n=JSON.parse(localStorage.getItem('cnotes')||'[]');n.push({t:title,b:body});localStorage.setItem('cnotes',JSON.stringify(n));
+ renderNotes();
+};
+function renderNotes(){
+ const n=JSON.parse(localStorage.getItem('cnotes')||'[]');
+ el('noteOut').innerHTML=n.length?n.map((v,i)=>`${i+1}. ${v.t}<br>`).join(''):'No notes saved';
+}
+window.addEventListener('load',renderNotes);
+const clearNotes=()=>{if(confirm('Delete all notes?')){localStorage.removeItem('cnotes');renderNotes();}}
+
+/* ~~~~~~~~   RANDOM   ~~~~~~~~ */
+const genRand=()=>{const min=+el('randMin').value,max=+el('randMax').value;if(min>=max)return;el('randOut').textContent=Math.floor(Math.random()*(max-min+1)+min);}
+const resetRand=()=>{el('randMin').value=el('randMax').value='';el('randOut').textContent='—';}
+
+/* ~~~~~~~~   CURRENCY   ~~~~~~~~ */
+const rates={USD:1,EUR:.85,GBP:.74,JPY:110.5,CAD:1.25};
+function convCur(){
+ const amt=+el('curAmount').value;
+ if(!amt)return;
+ const f=el('curFrom').value,t=el('curTo').value;
+ el('curOut').textContent=((amt*rates[t])/rates[f]).toFixed(2)+` ${t}`;
+}
+const resetCur=()=>{el('curAmount').value='';el('curOut').textContent='—'}
+
+/* ~~~~~~~~   BMI   ~~~~~~~~ */
+function calcBMI(){
+ const w=+el('bmiWeight').value,h=+el('bmiHeight').value/100;if(!w||!h)return;
+ const b=(w/(h*h)).toFixed(1);
+ let cat='Underweight'; if(b>=18.5&&b<25)cat='Normal';else if(b>=25&&b<30)cat='Overweight';else if(b>=30)cat='Obese';
+ el('bmiOut').innerHTML=`BMI: ${b}<br>Cat: ${cat}`;
+}
+const resetBMI2=()=>{el('bmiWeight').value=el('bmiHeight').value='';el('bmiOut').textContent='—'}
+
+/* ~~~~~~~~   QR ~~~~~~~~ */
+function genQR(){
+ const t=el('qrText').value;if(!t)return alert('Enter text');
+ const qrImg=document.createElement('img');
+ qrImg.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(t);
+ qrImg.style.filter='drop-shadow(0 0 8px #0ff)';
+ el('qrOut').innerHTML='';el('qrOut').append(qrImg);
+}
+const resetQR2=()=>{el('qrText').value='';el('qrOut').textContent='—'}
+
+/* import Orbitron if used */
+pasteOrbitron:(()=>{if(window.getComputedStyle(document.documentElement).fontFamily.includes('Orbitron'))return;
+ const l=document.createElement('link');
+ l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap';
+ document.head.append(l)})();
+</script>
 </body>
 </html>
+```
