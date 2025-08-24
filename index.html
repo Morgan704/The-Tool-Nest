@@ -1,91 +1,858 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Cyber-Neon Tools</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --neon-green:#39ff14;
-    --neon-purple:#bf00ff;
-    --neon-blue:#00c3ff;
-    --glass-bg:rgba(0,0,0,.65);
-    --glass-border:rgba(255,255,255,.15);
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{min-height:100vh;font-family:"Exo 2",sans-serif;background:#000;color:#fff;display:flex;flex-direction:column;align-items:center;padding:0 10px}
-  .bg-particles{position:fixed;inset:0;z-index:-1;overflow:hidden}
-  .neon-title{margin:2rem 0 1rem;font-family:"Orbitron",monospace;font-weight:900;font-size:clamp(2rem,7vw,4rem);text-transform:uppercase;text-align:center;animation:flick 1.8s linear infinite alternate}
-  @keyframes flick{
-    0%{text-shadow:0 0 8px var(--neon-blue),0 0 20px var(--neon-blue)}
-    50%{text-shadow:0 0 8px var(--neon-purple),0 0 20px var(--neon-purple)}
-    100%{text-shadow:0 0 8px var(--neon-green),0 0 20px var(--neon-green)}
-  }
-  .grid{flex:1;max-width:1100px;width:100%;display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));animation:fade .8s .4s both}
-  @keyframes fade{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
-  .card{background:var(--glass-bg);border:1px solid var(--neon-green);border-radius:10px;backdrop-filter:blur(6px);padding:12px;display:flex;flex-direction:column;gap:8px;font-size:.8rem;transition:.25s}
-  .card:hover{transform:scale(1.05) translateY(-5px);box-shadow:0 0 18px var(--neon-green)}
-  .card h3{font-family:"Orbitron",monospace;color:var(--neon-blue);font-size:1rem;margin:0 0 4px}
-  input,textarea{color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:4px;font-family:inherit;font-size:.8em;outline:none}
-  button{border:none;background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));color:#000;font-weight:600;padding:5px;border-radius:4px;cursor:pointer;font-size:.75em;transition:.2s}
-  button:hover{filter:brightness(1.3)}
-  textarea{resize:vertical;min-height:45px}
-  .output{font-family:"Orbitron",monospace;word-break:break-all;font-size:.85em}
-</style>
-</head><body>
-<div class="bg-particles" id="particles"></div>
-<h1 class="neon-title">Cyber-Neon Tools</h1>
-<div class="grid">
-  <div class="card"><h3>Calculator</h3><input id="calcDisplay" readonly size="6"/><button onclick="calcClear()">AC</button><div style="display:grid;grid:repeat(4,1fr)/repeat(4,1fr);gap:3px;font-size:.75em">
-    <button onclick="c('7')">7</button><button onclick="c('8')">8</button><button onclick="c('9')">9</button><button onclick="c('/')">/</button>
-    <button onclick="c('4')">4</button><button onclick="c('5')">5</button><button onclick="c('6')">6</button><button onclick="c('*')">*</button>
-    <button onclick="c('1')">1</button><button onclick="c('2')">2</button><button onclick="c('3')">3</button><button onclick="c('-')">-</button>
-    <button onclick="c('0')">0</button><button onclick="c('.')">.</button><button onclick="calcEval()">=</button><button onclick="c('+')">+</button>
-  </div></div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Cyber-Neon Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --neon-green: #39ff14;
+            --neon-purple: #bf00ff;
+            --neon-blue: #00c3ff;
+            --neon-pink: #ff0080;
+            --glass-bg: rgba(0, 20, 40, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --dark-bg: #0a0a0a;
+        }
 
-  <div class="card"><h3>Password</h3><label>Length:<input type="number" id="passLen" value="12" min="4" max="128" size="3"/></label><button onclick="genPass()">Create & Copy</button><input id="passOut" readonly/></div>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <div class="card"><h3>Counter</h3><textarea rows="3" id="wordInput" placeholder="Type here..."></textarea><div class="output" id="wordCount">0 w, 0 c</div></div>
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: radial-gradient(ellipse at top, #1a1a2e, #0a0a0a);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-  <div class="card"><h3>Case</h3><textarea rows="3" id="textCase"></textarea><div style="display:flex;gap:3px"><button onclick="use('l')">lower</button><button onclick="use('u')">UPPER</button><button onclick="use('t')">Title</button></div></div>
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
 
-  <div class="card"><h3>Timer</h3><div class="output" id="swDisplay">00:00:00</div><input type="number" id="swMin" placeholder="min" min="0"><div style="display:flex;gap:3px"><button onclick="swS()">Start</button><button onclick="swP()">Pause</button><button onclick="swR()">Reset</button></div></div>
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
 
-  <div class="card"><h3>Notes</h3><textarea rows="3" id="notesText"></textarea><button onclick="sN()">Save</button></div>
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
 
-  <div class="card"><h3>Random</h3><label>Min:<input type="number" id="randMin" value="1" size="4"/></label><label>Max:<input type="number" id="randMax" value="100" size="4"/></label><button onclick="rnd()">Roll</button><div class="output" id="randOut"></div></div>
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
 
-  <div class="card"><h3>Currency</h3><input type="number" id="curIn" value="10" size="4"/>
-    <div style="display:flex;gap:3px"><select id="curBase"><option>USD</option><option>EUR</option><option>GBP</option><option>JPY</option></select>→<select id="curOut"><option>EUR</option><option>USD</option><option>GBP</option><option>JPY</option></select></div>
-    <button onclick="convert()">Convert</button><div class="output" id="curResult"></div></div>
+        @keyframes titleGlow {
+            0% {
+                filter: drop-shadow(0 0 10px var(--neon-blue));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px var(--neon-purple));
+            }
+            100% {
+                filter: drop-shadow(0 0 15px var(--neon-green));
+            }
+        }
 
-  <div class="card"><h3>BMI</h3><label>kg<input type="number" id="bmiWeight" min="1"/></label><label>cm<input type="number" id="bmiHeight" min="50"/></label><button onclick="bmi()">Calc</button><div class="output" id="bmiOut"></div></div>
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(57, 255, 20, 0.1);
+            width: 320px;
+            height: 370px;
+            display: flex;
+            flex-direction: column;
+        }
 
-  <div class="card"><h3>QR</h3><input id="qrInput" placeholder="Text / URL"/><button onclick="qr()">Create</button><div class="output"><img id="qrImg" style="filter:drop-shadow(0 0 5px var(--neon-green));max-width:100%;"/></div></div>
-</div>
+        .card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 8px 25px rgba(57, 255, 20, 0.2);
+            border-color: var(--neon-green);
+        }
 
-<script>
-/* ---------- JS condensed ---------- */
-let e='';
-function c(x){(e+=x,ed(e))}function calcClear(){e='',ed('0')}function calcEval(){try{e=eval(e)+''}catch{e='Error'}ed(e);e=''}
-document.getElementById('wordInput').oninput=x=>{const t=x.target.value;ec(t.split(/\s+/).filter(v=>v).length+' w, '+t.length+' c')};
-function genPass(){const l=+document.getElementById('passLen').value,s='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';let p='';for(i=0;i<l;i++)p+=s[~~(Math.random()*s.length)];document.getElementById('passOut').value=p;navigator.clipboard&&navigator.clipboard.writeText(p)}
-function use(type){const t=document.getElementById('textCase');let v=t.value;switch(type){case'l':v=v.toLowerCase();break;case'u':v=v.toUpperCase();break;case't':v=v.replace(/\b\w/g,l=>l.toUpperCase())}t.value=v}
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
 
-/* stopwatch */
-let st=0,si=null;
-function up(){const h=('0'+Math.floor(st/3600)).slice(-2),m=('0'+Math.floor(st/60)%60).slice(-2),s=('0'+st%60).slice(-2);document.getElementById('swDisplay').textContent=`${h}:${m}:${s}`}
-function swS(){if(si)return;const m=+document.getElementById('swMin').value;!st&&m&&(st=m*60);si=setInterval(()=>{st++;up()},1000)}
-function swP(){clearInterval(si);si=null}
-function swR(){swP();st=0;up()}
-function sN(){localStorage.myNotes=document.getElementById('notesText').value;document.getElementById('notesText').style.border='1px solid var(--neon-green)';setTimeout(()=>document.getElementById('notesText').style.border='',500)}
-function rnd(){const min=+document.getElementById('randMin').value,max=+document.getElementById('randMax').value;if(min>=max)return alert('Min < Max');document.getElementById('randOut').textContent=Math.floor(Math.random()*(max-min+1))+min}
-const rates={USD:{EUR:0.92,GBP:0.8,JPY:150},EUR:{USD:1.09,GBP:0.87,JPY:163},GBP:{USD:1.25,EUR:1.15,JPY:189},JPY:{USD:0.0067,EUR:0.0061,GBP:0.0053}};
-function convert(){const a=+document.getElementById('curIn').value,b=document.getElementById('curBase').value,o=document.getElementById('curOut').value;document.getElementById('curResult').textContent=`${a} ${b} = ${(a*rates[b][o]).toFixed(2)} ${o}`}
-function bmi(){const h=+document.getElementById('bmiHeight').value/100,w=+document.getElementById('bmiWeight').value;if(!h||!w)return alert('Fill fields');let b=(w/(h*h)).toFixed(2);document.getElementById('bmiOut').textContent=`BMI ${b} ${b<18.5?'Under':b<25?'Normal':b<30?'Over':'Obese'}`}
-function qr(){const t=document.getElementById('qrInput').value.trim();if(!t)return alert('Enter text');document.getElementById('qrImg').src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(t)}`}
-/* canvas bg */
-function make(){const c=document.createElement('canvas'),g=c.getContext('2d');c.style.position='absolute';c.style.top='0';c.style.left='0';document.getElementById('particles').appendChild(c);const resize=()=>{c.width=innerWidth;c.height=innerHeight};resize();addEventListener('resize',resize);const cols=['#39ff14','#bf00ff','#00c3ff'];const dots=Array.from({length:~~(innerWidth/9)},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.5+.5,d:Math.random()*.5,c:cols[~~(Math.random()*3)]}));!function draw(){g.clearRect(0,0,c.width,c.height);dots.forEach(p=>{g.fillStyle=p.c;g.beginPath();g.arc(p.x,p.y,p.r,0,Math.PI*2);g.fill();p.y-=p.d;if(p.y<-50)p.y=innerHeight+50});requestAnimationFrame(draw)}()}addEventListener('DOMContentLoaded',make);
-function ed(v){document.getElementById('calcDisplay').value=v}
-function ec(v){document.getElementById('wordCount').textContent=v}
-document.getElementById('notesText').value=localStorage.myNotes||''
-</script></body></html>
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card-title {
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+            font-weight: 700;
+        }
+
+        .neon-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .neon-input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 195, 255, 0.3);
+        }
+
+        .neon-btn {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            border: none;
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .neon-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 195, 255, 0.4);
+        }
+
+        .neon-btn:active {
+            transform: scale(0.98);
+        }
+
+        .reset-btn {
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+        }
+
+        .calc-display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-green);
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .output-display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-green);
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-green);
+            word-break: break-all;
+        }
+
+        .timer-display {
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .tools-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        @media print {
+            .particles {
+                display: none;
+            }
+            
+            body {
+                background: #1a1a2e;
+            }
+            
+            .card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Adjust internal spacing for the new card size */
+        .card-content {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content > *:not(:last-child) {
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <h1 class="title text-4xl md:text-6xl text-center mb-8">Cyber-Neon Tools</h1>
+    
+    <div class="tools-container">
+        
+        <!-- Calculator -->
+        <div class="card">
+            <div class="card-content">
+                <h3 class="card-title text-lg text-center">
+                    <i class="fas fa-calculator mr-2"></i>Calculator
+                </h3>
+                <div class="calc-display p-2 rounded-lg text-right text-lg mb-2 h-10 flex items-center justify-end" id="calcDisplay">0</div>
+                <div class="grid grid-cols-4 gap-1 flex-1">
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="clearCalc()">C</button>
+                    <button class="reset-btn p-1 rounded text-xs font-bold" onclick="resetCalc()">Reset</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="deleteLast()">⌫</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="handleOperator('/')">/</button>
+                    
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="appendToCalc('7')">7</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="appendToCalc('8')">8</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="appendToCalc('9')">9</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="handleOperator('*')">×</button>
+                    
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="appendToCalc('4')">4</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="appendToCalc('5')">5</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="appendToCalc('6')">6</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="handleOperator('-')">-</button>
+                    
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="appendToCalc('1')">1</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="appendToCalc('2')">2</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="appendToCalc('3')">3</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold row-span-2" onclick="handleOperator('+')">+</button>
+                    
+                    <button class="neon-btn p-1 rounded text-xs font-bold col-span-2" onclick="appendToCalc('0')">0</button>
+                    <button class="neon-btn p-1 rounded text-xs font-bold" onclick="appendToCalc('.')">.</button>
+                    
+                    <button class="neon-btn p-1 rounded col-span-3 text-xs font-bold" onclick="calculate()" style="background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));">=</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password Generator -->
+        <div class="card">
+            <div class="card-content">
+                <h3 class="card-title text-lg text-center">
+                    <i class="fas fa-key mr-2"></i>Password
+                </h3>
+                <div class="mb-1">
+                    <label class="block text-xs mb-1">Length:</label>
+                    <input type="number" id="passLength" value="12" min="4" max="50" class="neon-input w-full p-1 rounded text-sm">
+                </div>
+                <div class="space-y-1 mb-2">
+                    <label class="flex items-center text-xs">
+                        <input type="checkbox" id="passUpper" checked class="mr-1"> Uppercase
+                    </label>
+                    <label class="flex items-center text-xs">
+                        <input type="checkbox" id="passLower" checked class="mr-1"> Lowercase  
+                    </label>
+                    <label class="flex items-center text-xs">
+                        <input type="checkbox" id="passNumbers" checked class="mr-1"> Numbers
+                    </label>
+                    <label class="flex items-center text-xs">
+                        <input type="checkbox" id="passSymbols" checked class="mr-1"> Symbols
+                    </label>
+                </div>
+                <div class="flex gap-1 mb-2">
+                    <button onclick="generatePassword()" class="neon-btn flex-1 py-1 px-2 rounded text-xs">Generate</button>
+                    <button onclick="resetPassword()" class="reset-btn py-1 px-2 rounded text-xs">Reset</button>
+                </div>
+                <div class="output-display p-2 rounded text-center text-xs flex-1 flex items-center justify-center" id="passOutput">Click Generate</div>
+            </div>
+        </div>
+
+        <!-- Word Counter -->
+        <div class="card">
+            <div class="card-content">
+                <h3 class="card-title text-lg text-center">
+                    <i class="fas fa-file-alt mr-2"></i>Word Counter
+                </h3>
+                <textarea id="wordText" placeholder="Type your text here..." rows="3" class="neon-input w-full p-2 rounded mb-2 resize-none text-xs"></textarea>
+                <button onclick="resetWordCounter()" class="reset-btn w-full py-1 px-2 rounded text-xs mb-2">Reset</button>
+                <div class="output-display p-1 rounded text-center text-xs mb-1" id="wordCount">0 words, 0 characters</div>
+                <div class="output-display p-1 rounded text-center text-xs" id="wordStats">0 paragraphs, 0 sentences</div>
+            </div>
+        </div>
+
+        <!-- Text Case Converter -->
+        <div class="card">
+            <div class="card-content">
+                <h3 class="card-title text-lg text-center">
+                    <i class="fas fa-text-height mr-2"></i>Text Case
+                </h3>
+                <textarea id="caseText" placeholder="Enter text to convert..." rows="2" class="neon-input w-full p-2 rounded mb-2 resize-none text-xs"></textarea>
+                <div class="grid grid-cols-2 gap-1 mb-2">
+                    <button onclick="convertCase('lower')" class="neon-btn py-1 px-1 rounded text-xs">lowercase</button>
+                    <button onclick="convertCase('upper')" class="neon-btn py-1 px-1 rounded text-xs">UPPERCASE</button>
+                    <button onclick="convertCase('title')" class="neon-btn py-1 px-1 rounded text-xs">Title Case</button>
+                    <button onclick="convertCase('sentence')" class="neon-btn py-1 px-1 rounded text-xs">Sentence</button>
+                </div>
+                <button onclick="resetTextCase()" class="reset-btn w-full py-1 px-2 rounded text-xs">Reset</button>
+            </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="card">
+            <div class="card-content">
+                <h3 class="card-title text-lg text-center">
+                    <i class="fas fa-stopwatch mr-2"></i>Timer
+                </h3>
+                <div class="timer-display text-2xl text-center mb-2" id="timerDisplay">00:00:00</div>
+                <div class="mb-2">
+                    <label class="block text-xs mb-1">Minutes:</label>
+                    <input type="number" id="timerMinutes" value="5" min="0" class="neon-input w-full p-1 rounded text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-1 mb-2">
+                    <button onclick="startTimer()" class="neon-btn py-1 px-2 rounded text-xs">Start</button>
+                    <button onclick="pauseTimer()" class="neon-btn py-1 px-2 rounded text-xs">Pause</button>
+                </div>
+                <button onclick="resetTimer()" class="reset-btn w-full py-1 px-2 rounded text-xs">Reset</button>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="card">
+            <div class="card-content">
+                <h3 class="card-title text-lg text-center">
+                    <i class="fas fa-sticky-note mr-2"></i>Notes
+                </h3>
+                <textarea id="notesText" placeholder="Your notes..." rows="3" class="neon-input w-full p-2 rounded mb-2 resize-none text-xs"></textarea>
+                <div class="grid grid-cols-2 gap-1 mb-2">
+                    <button onclick="saveNotes()" class="neon-btn py-1 px-2 rounded text-xs">Save</button>
+                    <button onclick="resetNotes()" class="reset-btn py-1 px-2 rounded text-xs">Reset</button>
+                </div>
+                <div class="output-display p-1 rounded text-center text-xs" id="notesSaved" style="display: none;">Notes saved!</div>
+            </div>
+        </div>
+
+        <!-- Random Number Generator -->
+        <div class="card">
+            <div class="card-content">
+                <h3 class="card-title text-lg text-center">
+                    <i class="fas fa-dice mr-2"></i>Random Number
+                </h3>
+                <div class="mb-2">
+                    <label class="block text-xs mb-1">Min:</label>
+                    <input type="number" id="randMin" value="1" class="neon-input w-full p-1 rounded text-sm">
+                </div>
+                <div class="mb-2">
+                    <label class="block text-xs mb-1">Max:</label>
+                    <input type="number" id="randMax" value="100" class="neon-input w-full p-1 rounded text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-1 mb-2">
+                    <button onclick="generateRandom()" class="neon-btn py-1 px-2 rounded text-xs">Generate</button>
+                    <button onclick="resetRandom()" class="reset-btn py-1 px-2 rounded text-xs">Reset</button>
+                </div>
+                <div class="output-display p-2 rounded text-center text-sm flex items-center justify-center" id="randomResult">Click Generate</div>
+            </div>
+        </div>
+
+        <!-- Currency Converter -->
+        <div class="card">
+            <div class="card-content">
+                <h3 class="card-title text-lg text-center">
+                    <i class="fas fa-exchange-alt mr-2"></i>Currency
+                </h3>
+                <input type="number" id="currencyAmount" value="100" step="0.01" class="neon-input w-full p-1 rounded mb-2 text-sm">
+                <div class="flex items-center gap-1 mb-2">
+                    <select id="fromCurrency" class="neon-input flex-1 p-1 rounded text-xs">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                        <option value="CAD">CAD</option>
+                    </select>
+                    <span class="text-purple-400">→</span>
+                    <select id="toCurrency" class="neon-input flex-1 p-1 rounded text-xs">
+                        <option value="EUR">EUR</option>
+                        <option value="USD">USD</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                        <option value="CAD">CAD</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-1 mb-2">
+                    <button onclick="convertCurrency()" class="neon-btn py-1 px-2 rounded text-xs">Convert</button>
+                    <button onclick="resetCurrency()" class="reset-btn py-1 px-2 rounded text-xs">Reset</button>
+                </div>
+                <div class="output-display p-2 rounded text-center text-xs flex items-center justify-center" id="currencyResult">Enter amount and convert</div>
+            </div>
+        </div>
+
+        <!-- BMI Calculator -->
+        <div class="card">
+            <div class="card-content">
+                <h3 class="card-title text-lg text-center">
+                    <i class="fas fa-weight mr-2"></i>BMI Calculator
+                </h3>
+                <div class="mb-2">
+                    <label class="block text-xs mb-1">Weight (kg):</label>
+                    <input type="number" id="bmiWeight" step="0.1" class="neon-input w-full p-1 rounded text-sm">
+                </div>
+                <div class="mb-2">
+                    <label class="block text-xs mb-1">Height (cm):</label>
+                    <input type="number" id="bmiHeight" class="neon-input w-full p-1 rounded text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-1 mb-2">
+                    <button onclick="calculateBMI()" class="neon-btn py-1 px-2 rounded text-xs">Calculate</button>
+                    <button onclick="resetBMI()" class="reset-btn py-1 px-2 rounded text-xs">Reset</button>
+                </div>
+                <div class="output-display p-1 rounded text-center text-xs mb-1" id="bmiResult">Enter weight and height</div>
+                <div class="output-display p-1 rounded text-center text-xs" id="bmiCategory"></div>
+            </div>
+        </div>
+
+        <!-- QR Code Generator -->
+        <div class="card">
+            <div class="card-content">
+                <h3 class="card-title text-lg text-center">
+                    <i class="fas fa-qrcode mr-2"></i>QR Generator
+                </h3>
+                <input type="text" id="qrText" placeholder="Enter text or URL" class="neon-input w-full p-1 rounded mb-2 text-sm">
+                <div class="grid grid-cols-2 gap-1 mb-2">
+                    <button onclick="generateQR()" class="neon-btn py-1 px-2 rounded text-xs">Generate</button>
+                    <button onclick="resetQR()" class="reset-btn py-1 px-2 rounded text-xs">Reset</button>
+                </div>
+                <div class="text-center mb-1 flex justify-center">
+                    <img id="qrImage" style="display: none; max-width: 100px; height: 100px; border-radius: 8px; filter: drop-shadow(0 0 10px var(--neon-green));">
+                </div>
+                <div class="output-display p-1 rounded text-center text-xs" id="qrStatus">Enter text to generate QR code</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#39ff14', '#bf00ff', '#00c3ff', '#ff0080'];
+            
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 25000);
+            }, 300);
+        }
+
+        // Enhanced Calculator functionality
+        let calcCurrentInput = '0';
+        let calcPreviousInput = '';
+        let calcOperator = '';
+        let calcShouldResetDisplay = false;
+
+        function updateCalcDisplay() {
+            document.getElementById('calcDisplay').textContent = calcCurrentInput;
+        }
+
+        function appendToCalc(value) {
+            if (calcShouldResetDisplay) {
+                calcCurrentInput = '';
+                calcShouldResetDisplay = false;
+            }
+
+            if (value === '.' && calcCurrentInput.includes('.')) {
+                return;
+            }
+
+            if (calcCurrentInput === '0' && value !== '.') {
+                calcCurrentInput = value;
+            } else {
+                calcCurrentInput += value;
+            }
+            
+            updateCalcDisplay();
+        }
+
+        function clearCalc() {
+            calcCurrentInput = '0';
+            updateCalcDisplay();
+        }
+
+        function resetCalc() {
+            calcCurrentInput = '0';
+            calcPreviousInput = '';
+            calcOperator = '';
+            calcShouldResetDisplay = false;
+            updateCalcDisplay();
+        }
+
+        function deleteLast() {
+            if (calcCurrentInput.length > 1) {
+                calcCurrentInput = calcCurrentInput.slice(0, -1);
+            } else {
+                calcCurrentInput = '0';
+            }
+            updateCalcDisplay();
+        }
+
+        function calculate() {
+            if (calcOperator && calcPreviousInput !== '') {
+                const prev = parseFloat(calcPreviousInput);
+                const current = parseFloat(calcCurrentInput);
+                let result;
+
+                switch (calcOperator) {
+                    case '+':
+                        result = prev + current;
+                        break;
+                    case '-':
+                        result = prev - current;
+                        break;
+                    case '*':
+                        result = prev * current;
+                        break;
+                    case '/':
+                        result = current !== 0 ? prev / current : 'Error';
+                        break;
+                    default:
+                        return;
+                }
+
+                calcCurrentInput = result.toString();
+                calcPreviousInput = '';
+                calcOperator = '';
+                calcShouldResetDisplay = true;
+                updateCalcDisplay();
+            }
+        }
+
+        // Handle operators
+        function handleOperator(nextOperator) {
+            const inputValue = parseFloat(calcCurrentInput);
+
+            if (calcPreviousInput === '') {
+                calcPreviousInput = inputValue;
+            } else if (calcOperator) {
+                const currentValue = calcPreviousInput || 0;
+                const newValue = calculate(currentValue, inputValue, calcOperator);
+
+                calcCurrentInput = String(newValue);
+                calcPreviousInput = newValue;
+            }
+
+            calcShouldResetDisplay = true;
+            calcOperator = nextOperator;
+            updateCalcDisplay();
+        }
+
+        // Password Generator
+        function generatePassword() {
+            const length = parseInt(document.getElementById('passLength').value);
+            const upper = document.getElementById('passUpper').checked;
+            const lower = document.getElementById('passLower').checked;
+            const numbers = document.getElementById('passNumbers').checked;
+            const symbols = document.getElementById('passSymbols').checked;
+
+            let charset = '';
+            if (upper) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (lower) charset += 'abcdefghijklmnopqrstuvwxyz';
+            if (numbers) charset += '0123456789';
+            if (symbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            if (!charset) {
+                document.getElementById('passOutput').textContent = 'Select at least one option';
+                return;
+            }
+
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+
+            document.getElementById('passOutput').textContent = password;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(password).catch(() => {
+                console.log('Clipboard not available');
+            });
+        }
+
+        function resetPassword() {
+            document.getElementById('passLength').value = '12';
+            document.getElementById('passUpper').checked = true;
+            document.getElementById('passLower').checked = true;
+            document.getElementById('passNumbers').checked = true;
+            document.getElementById('passSymbols').checked = true;
+            document.getElementById('passOutput').textContent = 'Click Generate';
+        }
+
+        // Word Counter
+        document.getElementById('wordText').addEventListener('input', function() {
+            const text = this.value;
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            const chars = text.length;
+            const paragraphs = text.trim() === '' ? 0 : text.split(/\n\s*\n/).length;
+            const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim()).length;
+
+            document.getElementById('wordCount').textContent = `${words} words, ${chars} characters`;
+            document.getElementById('wordStats').textContent = `${paragraphs} paragraphs, ${sentences} sentences`;
+        });
+
+        function resetWordCounter() {
+            document.getElementById('wordText').value = '';
+            document.getElementById('wordCount').textContent = '0 words, 0 characters';
+            document.getElementById('wordStats').textContent = '0 paragraphs, 0 sentences';
+        }
+
+        // Text Case Converter
+        function convertCase(type) {
+            const textArea = document.getElementById('caseText');
+            let text = textArea.value;
+
+            switch(type) {
+                case 'lower':
+                    textArea.value = text.toLowerCase();
+                    break;
+                case 'upper':
+                    textArea.value = text.toUpperCase();
+                    break;
+                case 'title':
+                    textArea.value = text.replace(/\w\S*/g, (txt) => 
+                        txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+                    break;
+                case 'sentence':
+                    textArea.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+                    break;
+            }
+        }
+
+        function resetTextCase() {
+            document.getElementById('caseText').value = '';
+        }
+
+        // Timer functionality
+        let timerInterval = null;
+        let timerSeconds = 0;
+        let timerRunning = false;
+
+        function updateTimerDisplay() {
+            const hours = Math.floor(timerSeconds / 3600);
+            const minutes = Math.floor((timerSeconds % 3600) / 60);
+            const seconds = timerSeconds % 60;
+            
+            document.getElementById('timerDisplay').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (!timerRunning) {
+                if (timerSeconds === 0) {
+                    const minutes = parseInt(document.getElementById('timerMinutes').value) || 0;
+                    timerSeconds = minutes * 60;
+                }
+                
+                timerRunning = true;
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) {
+                        timerSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        pauseTimer();
+                        alert('Timer finished!');
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            timerRunning = false;
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerSeconds = 0;
+            document.getElementById('timerMinutes').value = '5';
+            updateTimerDisplay();
+        }
+
+        // Notes functionality
+        function saveNotes() {
+            const notes = document.getElementById('notesText').value;
+            localStorage.setItem('cyberNotes', notes);
+            
+            const savedDiv = document.getElementById('notesSaved');
+            savedDiv.style.display = 'block';
+            setTimeout(() => {
+                savedDiv.style.display = 'none';
+            }, 2000);
+        }
+
+        function resetNotes() {
+            document.getElementById('notesText').value = '';
+            localStorage.removeItem('cyberNotes');
+        }
+
+        // Load saved notes
+        document.getElementById('notesText').value = localStorage.getItem('cyberNotes') || '';
+
+        // Random Number Generator
+        function generateRandom() {
+            const min = parseInt(document.getElementById('randMin').value);
+            const max = parseInt(document.getElementById('randMax').value);
+            
+            if (min >= max) {
+                document.getElementById('randomResult').textContent = 'Min must be less than Max';
+                return;
+            }
+            
+            const random = Math.floor(Math.random() * (max - min + 1)) + min;
+            document.getElementById('randomResult').textContent = random;
+        }
+
+        function resetRandom() {
+            document.getElementById('randMin').value = '1';
+            document.getElementById('randMax').value = '100';
+            document.getElementById('randomResult').textContent = 'Click Generate';
+        }
+
+        // Currency Converter (simplified rates)
+        const exchangeRates = {
+            USD: { EUR: 0.85, GBP: 0.73, JPY: 110, CAD: 1.25 },
+            EUR: { USD: 1.18, GBP: 0.86, JPY: 130, CAD: 1.47 },
+            GBP: { USD: 1.37, EUR: 1.16, JPY: 151, CAD: 1.71 },
+            JPY: { USD: 0.0091, EUR: 0.0077, GBP: 0.0066, CAD: 0.011 },
+            CAD: { USD: 0.80, EUR: 0.68, GBP: 0.58, JPY: 88 }
+        };
+
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('currencyAmount').value);
+            const from = document.getElementById('fromCurrency').value;
+            const to = document.getElementById('toCurrency').value;
+            
+            if (!amount || amount <= 0) {
+                document.getElementById('currencyResult').textContent = 'Enter valid amount';
+                return;
+            }
+            
+            if (from === to) {
+                document.getElementById('currencyResult').textContent = `${amount} ${from}`;
+                return;
+            }
+            
+            const rate = exchangeRates[from][to];
+            const result = (amount * rate).toFixed(2);
+            document.getElementById('currencyResult').textContent = `${amount} ${from} = ${result} ${to}`;
+        }
+
+        function resetCurrency() {
+            document.getElementById('currencyAmount').value = '100';
+            document.getElementById('fromCurrency').value = 'USD';
+            document.getElementById('toCurrency').value = 'EUR';
+            document.getElementById('currencyResult').textContent = 'Enter amount and convert';
+        }
+
+        // BMI Calculator
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('bmiWeight').value);
+            const height = parseFloat(document.getElementById('bmiHeight').value) / 100; // convert to meters
+            
+            if (!weight || !height || weight <= 0 || height <= 0) {
+                document.getElementById('bmiResult').textContent = 'Enter valid weight and height';
+                document.getElementById('bmiCategory').textContent = '';
+                return;
+            }
+            
+            const bmi = (weight / (height * height)).toFixed(1);
+            document.getElementById('bmiResult').textContent = `BMI: ${bmi}`;
+            
+            let category = '';
+            if (bmi < 18.5) category = 'Underweight';
+            else if (bmi < 25) category = 'Normal weight';
+            else if (bmi < 30) category = 'Overweight';
+            else category = 'Obese';
+            
+            document.getElementById('bmiCategory').textContent = category;
+        }
+
+        function resetBMI() {
+            document.getElementById('bmiWeight').value = '';
+            document.getElementById('bmiHeight').value = '';
+            document.getElementById('bmiResult').textContent = 'Enter weight and height';
+            document.getElementById('bmiCategory').textContent = '';
+        }
+
+        // QR Code Generator
+        function generateQR() {
+            const text = document.getElementById('qrText').value.trim();
+            
+            if (!text) {
+                document.getElementById('qrStatus').textContent = 'Enter text to generate QR code';
+                document.getElementById('qrImage').style.display = 'none';
+                return;
+            }
+            
+            const qrImg = document.getElementById('qrImage');
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`;
+            qrImg.style.display = 'block';
+            document.getElementById('qrStatus').textContent = 'QR Code generated successfully!';
+        }
+
+        function resetQR() {
+            document.getElementById('qrText').value = '';
+            document.getElementById('qrImage').style.display = 'none';
+            document.getElementById('qrStatus').textContent = 'Enter text to generate QR code';
+        }
+
+        // Initialize
+        createParticles();
+        updateTimerDisplay();
+        updateCalcDisplay();
+    </script>
+</body>
+</html>
