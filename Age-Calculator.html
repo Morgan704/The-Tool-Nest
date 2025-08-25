@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator - Cyber-Neon Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --neon-green: #39ff14;
+            --neon-blue: #00c3ff;
+            --glass-bg: rgba(0, 20, 40, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: radial-gradient(ellipse at top, #1a1a2e, #0a0a0a);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            width: 320px;
+            box-shadow: 0 4px 20px rgba(57, 255, 20, 0.1);
+        }
+        .calc-display {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--neon-green);
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-green);
+            text-align: right;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            min-height: 40px;
+        }
+        .neon-btn {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-green));
+            border: none;
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .reset-btn {
+            background: linear-gradient(45deg, #ff0080, var(--neon-blue));
+            color: #fff;
+        }
+        .neon-btn, .reset-btn {
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+        .neon-btn:hover, .reset-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+        .grid-btns {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 class="title">Age Calculator</h1>
+        <div class="calc-display" id="calcDisplay">0</div>
+        <div class="grid-btns">
+            <button class="neon-btn" onclick="appendToCalc('7')">7</button>
+            <button class="neon-btn" onclick="appendToCalc('8')">8</button>
+            <button class="neon-btn" onclick="appendToCalc('9')">9</button>
+            <button class="neon-btn" onclick="handleOperator('/')">/</button>
+
+            <button class="neon-btn" onclick="appendToCalc('4')">4</button>
+            <button class="neon-btn" onclick="appendToCalc('5')">5</button>
+            <button class="neon-btn" onclick="appendToCalc('6')">6</button>
+            <button class="neon-btn" onclick="handleOperator('*')">×</button>
+
+            <button class="neon-btn" onclick="appendToCalc('1')">1</button>
+            <button class="neon-btn" onclick="appendToCalc('2')">2</button>
+            <button class="neon-btn" onclick="appendToCalc('3')">3</button>
+            <button class="neon-btn" onclick="handleOperator('-')">-</button>
+
+            <button class="neon-btn" onclick="appendToCalc('0')">0</button>
+            <button class="neon-btn" onclick="appendToCalc('.')">.</button>
+            <button class="neon-btn" onclick="calculate()">=</button>
+            <button class="neon-btn" onclick="handleOperator('+')">+</button>
+
+            <button class="reset-btn col-span-2" onclick="resetCalc()">RESET</button>
+            <button class="neon-btn col-span-2" onclick="clearCalc()">C</button>
+        </div>
+    </div>
+
+    <script>
+        let calcCurrentInput = '0';
+        let calcPreviousInput = '';
+        let calcOperator = '';
+        let calcShouldResetDisplay = false;
+
+        function updateCalcDisplay() {
+            document.getElementById('calcDisplay').textContent = calcCurrentInput;
+        }
+
+        function appendToCalc(value) {
+            if (calcShouldResetDisplay) {
+                calcCurrentInput = '';
+                calcShouldResetDisplay = false;
+            }
+            if (value === '.' && calcCurrentInput.includes('.')) return;
+            if (calcCurrentInput === '0' && value !== '.') {
+                calcCurrentInput = value;
+            } else {
+                calcCurrentInput += value;
+            }
+            updateCalcDisplay();
+        }
+
+        function clearCalc() {
+            calcCurrentInput = '0';
+            updateCalcDisplay();
+        }
+
+        function resetCalc() {
+            calcCurrentInput = '0';
+            calcPreviousInput = '';
+            calcOperator = '';
+            calcShouldResetDisplay = false;
+            updateCalcDisplay();
+        }
+
+        function handleOperator(nextOperator) {
+            const inputValue = parseFloat(calcCurrentInput);
+            if (calcPreviousInput === '') {
+                calcPreviousInput = inputValue;
+            } else if (calcOperator) {
+                const currentValue = calcPreviousInput || 0;
+                const newValue = calculate(currentValue, inputValue, calcOperator);
+                calcCurrentInput = String(newValue);
+                calcPreviousInput = newValue;
+            }
+            calcShouldResetDisplay = true;
+            calcOperator = nextOperator;
+            updateCalcDisplay();
+        }
+
+        function calculate() {
+            if (calcOperator && calcPreviousInput !== '') {
+                const prev = parseFloat(calcPreviousInput);
+                const current = parseFloat(calcCurrentInput);
+                let result;
+
+                switch (calcOperator) {
+                    case '+': result = prev + current; break;
+                    case '-': result = prev - current; break;
+                    case '*': result = prev * current; break;
+                    case '/': result = current !== 0 ? prev / current : 'Error'; break;
+                    default: return;
+                }
+
+                calcCurrentInput = result.toString();
+                calcPreviousInput = '';
+                calcOperator = '';
+                calcShouldResetDisplay = true;
+                updateCalcDisplay();
+            }
+        }
+    </script>
+</body>
+</html>
