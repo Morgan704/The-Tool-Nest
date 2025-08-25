@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator - Test</title>
+  <style>
+    body { background: #0f0f1a; color: white; font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    .neon-input {
+      background: #0f0f1a;
+      border: 2px solid #39ff14;
+      color: #fff;
+      outline: none;
+      padding: 8px;
+      box-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14 inset;
+    }
+    .neon-btn {
+      background: linear-gradient(90deg, #00f0ff, #39ff14);
+      border: none;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 8px 14px;
+      margin: 5px;
+      box-shadow: 0 0 10px #00f0ff, 0 0 20px #39ff14;
+    }
+    .reset-btn {
+      background: linear-gradient(90deg, #ff004f, #ff8c00);
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 8px 14px;
+      margin: 5px;
+      box-shadow: 0 0 10px #ff004f, 0 0 20px #ff8c00;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🎂 Age Calculator</h2>
+  <p>Enter your birthdate:</p>
+
+  <input type="date" id="birthdate" class="neon-input"><br><br>
+
+  <button class="neon-btn" onclick="calculateAge()">Calculate</button>
+  <button class="reset-btn" onclick="resetAge()">Reset</button>
+
+  <p id="ageResult" style="margin-top:20px; font-size:18px;"></p>
+
+  <script>
+    function calculateAge() {
+      const birthdate = document.getElementById("birthdate").value;
+      if (!birthdate) {
+        document.getElementById("ageResult").innerText = "⚠️ Please select your birthdate!";
+        return;
+      }
+
+      const today = new Date();
+      const dob = new Date(birthdate);
+
+      let ageYears = today.getFullYear() - dob.getFullYear();
+      let ageMonths = today.getMonth() - dob.getMonth();
+      let ageDays = today.getDate() - dob.getDate();
+
+      if (ageDays < 0) {
+        ageMonths--;
+        ageDays += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      }
+
+      if (ageMonths < 0) {
+        ageYears--;
+        ageMonths += 12;
+      }
+
+      document.getElementById("ageResult").innerText =
+        `🎉 You are ${ageYears} years, ${ageMonths} months, and ${ageDays} days old.`;
+    }
+
+    function resetAge() {
+      document.getElementById("birthdate").value = "";
+      document.getElementById("ageResult").innerText = "";
+    }
+  </script>
+
+</body>
+</html>
