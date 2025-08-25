@@ -271,16 +271,18 @@
                 </div>
             </div>
         </div>
-       <!-- Age Calculator -->
+      <!-- Age Calculator -->
 <div class="card">
-  <div class="card-content flex flex-col justify-center items-center">
-    <h3 class="card-title text-lg text-center">
-      <i class="fas fa-birthday-cake mr-2"></i> Age Calculator
-    </h3>
-    <p class="text-xs mb-2 text-center">Calculate your age quickly!</p>
-    <a href="test-age.html" target="_blank" class="neon-btn px-4 py-2 rounded text-sm">Open Age Calculator</a>
+  <h3 class="card-title"><i class="fas fa-birthday-cake"></i> Age Calculator</h3>
+  <p>Enter your birthdate:</p>
+  <input type="date" id="birthdate">
+  <div class="btn-group">
+    <button onclick="calculateAge()">Calculate</button>
+    <button onclick="resetAge()">Reset</button>
   </div>
+  <div id="ageResult" class="result-box"></div>
 </div>
+
 
         <!-- Password Generator -->
         <div class="card">
@@ -475,15 +477,13 @@
 
     </div>
 
-    <script>
-        <script>
+    // Age Calculator
 function calculateAge() {
   const birthdate = document.getElementById("birthdate").value;
   if (!birthdate) {
     document.getElementById("ageResult").innerText = "⚠️ Please select your birthdate!";
     return;
   }
-
   const today = new Date();
   const dob = new Date(birthdate);
 
@@ -495,7 +495,6 @@ function calculateAge() {
     ageMonths--;
     ageDays += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
   }
-
   if (ageMonths < 0) {
     ageYears--;
     ageMonths += 12;
@@ -511,7 +510,7 @@ function resetAge() {
   document.getElementById("birthdate").value = "";
   document.getElementById("ageResult").innerText = "";
 }
-</script>
+
 
         
     </script>
