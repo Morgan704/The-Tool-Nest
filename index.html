@@ -281,6 +281,28 @@
         <a href="Age-Calculator.html" target="_blank" class="neon-btn px-4 py-2 rounded text-sm">Open Age Calculator</a>
     </div>
 </div>
+<!-- Age Calculator -->
+<div class="card">
+  <div class="card-content flex flex-col justify-center items-center">
+    <h3 class="card-title text-lg text-center neon-text">
+      <i class="fas fa-birthday-cake mr-2"></i> Age Calculator
+    </h3>
+    <p class="text-xs mb-3 text-center text-gray-300">Enter your birthdate to calculate your age</p>
+
+    <input 
+      type="date" 
+      id="birthdate" 
+      class="neon-input p-2 rounded mb-3 text-black text-sm w-full text-center" 
+    />
+
+    <div class="flex gap-2">
+      <button class="neon-btn px-4 py-2 rounded text-sm" onclick="calculateAge()">Calculate</button>
+      <button class="reset-btn px-4 py-2 rounded text-sm" onclick="resetAge()">Reset</button>
+    </div>
+
+    <p id="ageResult" class="mt-3 text-sm text-center text-green-400"></p>
+  </div>
+</div>
 
 
         <!-- Password Generator -->
