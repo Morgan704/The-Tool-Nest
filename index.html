@@ -499,6 +499,43 @@
     </div>
 
     <script>
+        <script>
+function calculateAge() {
+  const birthdate = document.getElementById("birthdate").value;
+  if (!birthdate) {
+    document.getElementById("ageResult").innerText = "⚠️ Please select your birthdate!";
+    return;
+  }
+
+  const today = new Date();
+  const dob = new Date(birthdate);
+
+  let ageYears = today.getFullYear() - dob.getFullYear();
+  let ageMonths = today.getMonth() - dob.getMonth();
+  let ageDays = today.getDate() - dob.getDate();
+
+  if (ageDays < 0) {
+    ageMonths--;
+    ageDays += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+  }
+
+  if (ageMonths < 0) {
+    ageYears--;
+    ageMonths += 12;
+  }
+
+  document.getElementById("ageResult").innerHTML =
+    `🎉 You are <span class="text-cyan-400 font-bold">${ageYears}</span> years, 
+     <span class="text-green-400 font-bold">${ageMonths}</span> months, 
+     and <span class="text-pink-400 font-bold">${ageDays}</span> days old.`;
+}
+
+function resetAge() {
+  document.getElementById("birthdate").value = "";
+  document.getElementById("ageResult").innerText = "";
+}
+</script>
+
         // Create floating particles
         function createParticles() {
             const container = document.getElementById('particles');
