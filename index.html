@@ -3,498 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO Meta Tags (Dynamically updated via JS) -->
-    <title>The Tool Nest - Ultimate Web Tools Collection</title>
-    <meta id="meta-description" name="description" content="The Tool Nest is your ultimate digital toolbox. A comprehensive collection of free web tools including converters, calculators, PDF tools, image editors, and SEO utilities to enhance your productivity.">
-    <meta name="keywords" content="web tools, free tools, online tools, calculator, converter, pdf tools, image editor, seo tools, url shortener, pencil sketch">
-    
-    <!-- Stylesheets -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-    
-    <!-- External Libraries (for PDF Merging) -->
-    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-
-    <style>
-        :root {
-            --neon-green: #39ff14;
-            --neon-purple: #bf00ff;
-            --neon-blue: #00c3ff;
-            --neon-pink: #ff0080;
-            --glass-bg: rgba(0, 20, 40, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --dark-bg: #0a0a0a;
-        }
-
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Exo 2', sans-serif;
-            background: radial-gradient(ellipse at top, #1a1a2e, #0a0a0a);
-            color: #fff;
-            min-height: 100vh;
-        }
-
-        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-        .particle { position: absolute; width: 2px; height: 2px; background: var(--neon-blue); border-radius: 50%; animation: float 20s infinite linear; }
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
-
-        .navbar { background: rgba(0, 20, 40, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border); position: sticky; top: 0; z-index: 1000; }
-        .nav-link { color: #fff; transition: all 0.3s ease; padding: 10px 15px; border-radius: 8px; }
-        .nav-link:hover { color: var(--neon-blue); background: rgba(0, 195, 255, 0.1); text-shadow: 0 0 10px var(--neon-blue); }
-        .signin-btn { background: linear-gradient(45deg, var(--neon-green), var(--neon-blue)); color: #000; padding: 8px 16px; border-radius: 8px; font-weight: 700; transition: all 0.3s ease; }
-        .signin-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--neon-green); }
-
-        .hero-section { min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; position: relative; overflow: hidden; }
-        .hero-title { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 4rem; text-transform: uppercase; background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: titleGlow 3s ease-in-out infinite alternate; text-align: center; margin-bottom: 20px; }
-        .hero-subtitle { font-size: 1.5rem; color: var(--neon-blue); text-align: center; margin-bottom: 40px; animation: subtitleFade 2s ease-in; }
-        .hero-description { font-size: 1.1rem; text-align: center; max-width: 800px; margin-bottom: 40px; color: rgba(255, 255, 255, 0.8); }
-        @keyframes titleGlow {
-            0% { filter: drop-shadow(0 0 10px var(--neon-blue)); }
-            100% { filter: drop-shadow(0 0 20px var(--neon-green)); }
-        }
-        @keyframes subtitleFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .section { padding: 60px 20px; }
-        .section-title { font-family: 'Orbitron', monospace; font-size: 2.5rem; text-align: center; margin-bottom: 50px; color: var(--neon-blue); text-shadow: 0 0 20px var(--neon-blue); }
-        .category-title { font-family: 'Orbitron', monospace; font-size: 1.8rem; color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green); margin: 40px 0 20px 0; text-align: center; }
-
-        .card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(57, 255, 20, 0.1); width: 280px; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 8px 30px rgba(57, 255, 20, 0.2); border-color: var(--neon-green); }
-        
-        .pro-badge { position: absolute; top: 10px; right: 10px; background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink)); color: white; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; box-shadow: 0 0 10px var(--neon-pink); }
-        .card-title { font-family: 'Orbitron', monospace; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); font-weight: 700; }
-        
-        .neon-input, .neon-textarea, .neon-select { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; transition: all 0.3s ease; width: 100%; padding: 8px; border-radius: 6px; }
-        .neon-input:focus, .neon-textarea:focus, .neon-select:focus { outline: none; border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 195, 255, 0.3); }
-        
-        .neon-btn { background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple)); border: none; color: #000; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; border-radius: 6px; padding: 8px 12px; }
-        .neon-btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(0, 195, 255, 0.4); }
-        .neon-btn:disabled { background: #555; cursor: not-allowed; color: #999; transform: none; box-shadow: none; }
-        .reset-btn { background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); }
-        .download-btn { background: linear-gradient(45deg, var(--neon-green), #28a745); margin-top: auto; }
-        
-        .output-display { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--neon-green); font-family: 'Orbitron', monospace; color: var(--neon-green); word-break: break-all; }
-        .tools-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1400px; margin: 0 auto; }
-        .card-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-content > *:not(:last-child) { margin-bottom: 10px; }
-
-        .footer { background: rgba(0, 20, 40, 0.9); backdrop-filter: blur(15px); border-top: 1px solid var(--glass-border); padding: 40px 20px; text-align: center; }
-
-        .page-content { display: none; padding: 60px 20px; max-width: 1200px; margin: 0 auto; }
-        .page-content.active { display: block; animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .explore-btn { background: linear-gradient(45deg, var(--neon-green), var(--neon-blue)); color: #000; padding: 15px 30px; border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; }
-        .explore-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--neon-green); }
-        
-        .upload-area { border: 2px dashed var(--glass-border); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; flex-grow: 1; padding: 10px; cursor: pointer; transition: all 0.3s ease; }
-        .upload-area:hover { border-color: var(--neon-green); background: rgba(57, 255, 20, 0.1); }
-        
-        #sketchCanvas { max-width: 100%; height: auto; border-radius: 8px; margin-top: 10px; }
-
-        /* Toast Notifications */
-        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
-        .toast { background: var(--glass-bg); color: white; padding: 15px 20px; border-radius: 8px; border-left: 5px solid var(--neon-blue); margin-bottom: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); transform: translateX(120%); animation: slideIn 0.5s forwards; }
-        .toast.success { border-color: var(--neon-green); }
-        .toast.error { border-color: var(--neon-pink); }
-        @keyframes slideIn { to { transform: translateX(0); } }
-        @keyframes slideOut { to { transform: translateX(120%); } }
-
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-            .card { width: 90%; max-width: 320px; }
-            .tools-container { gap: 20px; }
-        }
-    </style>
+    <meta name="description" content="The Tool Nest - Premium collection of futuristic web tools with cyberpunk neon design">
+    <meta name="keywords" content="online tools, calculator, converter, cyberpunk, neon design">
+    <title>The Tool Nest - Futuristic Web Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    <div id="toast-container"></div>
-    
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <span class="text-xl font-bold text-white cursor-pointer" onclick="showPage('home')">The Tool Nest</span>
-                </div>
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex md:items-center md:space-x-4">
-                    <a href="#" onclick="showPage('home')" class="nav-link">Home</a>
-                    <a href="#" onclick="showPage('tools')" class="nav-link">Tools</a>
-                    <a href="#" onclick="showPage('tutorials')" class="nav-link">Tutorials</a>
-                    <a href="#" onclick="showPage('about')" class="nav-link">About Us</a>
-                    <a href="#" onclick="showPage('contact')" class="nav-link">Contact Us</a>
-                    <div id="auth-container-desktop"></div>
-                </div>
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white focus:outline-none">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>THE TOOL NEST</h1>
             </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden hidden">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#" onclick="showPage('home', true)" class="nav-link block">Home</a>
-                <a href="#" onclick="showPage('tools', true)" class="nav-link block">Tools</a>
-                <a href="#" onclick="showPage('tutorials', true)" class="nav-link block">Tutorials</a>
-                <a href="#" onclick="showPage('about', true)" class="nav-link block">About Us</a>
-                <a href="#" onclick="showPage('contact', true)" class="nav-link block">Contact Us</a>
-                <div id="auth-container-mobile" class="p-2"></div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><button class="signin-btn" onclick="openSignIn()">Sign In</button></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </nav>
 
-    <!-- Home Page -->
-    <div id="home" class="page-content active">
-        <!-- ... (same hero content) ... -->
-    </div>
-    
-    <!-- Sign In Required Page -->
-    <div id="signin-required" class="page-content">
-        <!-- ... (same content) ... -->
-    </div>
-
-    <!-- Tools Page -->
-    <div id="tools" class="page-content">
-        <div class="section">
-            <h2 class="section-title">Our Tool Collection</h2>
-            
-            <!-- Pro Tools Section -->
-            <h3 class="category-title">✨ Pro Tools</h3>
-            <div class="tools-container">
-                <!-- Picture to Pencil Sketch Tool (ENHANCED) -->
-                <div class="card">
-                    <div class="pro-badge">Pro</div>
-                    <div class="card-content">
-                        <h3 class="card-title text-lg text-center"><i class="fas fa-pencil-ruler mr-2"></i>Pencil Sketch</h3>
-                        <input type="file" id="sketchUpload" accept="image/*" class="hidden">
-                        <div id="sketchUploadArea" class="upload-area">
-                            <i class="fas fa-cloud-upload-alt text-3xl mb-2 text-gray-400"></i>
-                            <p class="text-xs">Click to upload image</p>
-                        </div>
-                        <canvas id="sketchCanvas" class="hidden"></canvas>
-                        <div id="sketchControls" class="hidden mt-2">
-                            <label for="blurAmount" class="text-xs">Sketch Intensity:</label>
-                            <input type="range" id="blurAmount" min="1" max="15" value="5" class="w-full">
-                        </div>
-                        <p id="sketchStatus" class="text-xs text-center text-gray-400 mt-2">Upload an image to start.</p>
-                        <button id="downloadSketchBtn" class="neon-btn download-btn hidden"><i class="fas fa-download mr-2"></i>Download Sketch</button>
-                    </div>
-                </div>
-
-                <!-- URL Shortener Tool -->
-                <div class="card">
-                     <!-- ... (same content as previous response) ... -->
-                </div>
-
-                <!-- PDF to Word Converter -->
-                <div class="card">
-                     <!-- ... (same content as previous response) ... -->
-                </div>
-
-                <!-- Merge PDF Files (ENHANCED) -->
-                <div class="card">
-                    <div class="pro-badge">Pro</div>
-                    <div class="card-content">
-                        <h3 class="card-title text-lg text-center"><i class="fas fa-object-group mr-2"></i>Merge PDFs</h3>
-                        <input type="file" id="mergePdfUpload" class="hidden" accept=".pdf" multiple>
-                        <div id="mergePdfUploadArea" class="upload-area">
-                             <i class="fas fa-file-pdf text-3xl mb-2 text-gray-400"></i>
-                            <p class="text-xs">Click to upload PDFs (2+)</p>
-                        </div>
-                        <div id="merge-file-list" class="text-xs space-y-1 max-h-24 overflow-y-auto"></div>
-                        <p id="mergePdfStatus" class="text-xs text-center text-gray-400 mt-2">Upload at least two PDFs.</p>
-                        <div class="flex gap-2 mt-auto">
-                            <button id="clearMergeBtn" class="neon-btn reset-btn flex-1 hidden"><i class="fas fa-times"></i> Clear</button>
-                            <button id="downloadMergedPdfBtn" class="neon-btn download-btn flex-1 hidden"><i class="fas fa-download"></i> Merge</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Compress PDF -->
-                <div class="card">
-                     <!-- ... (same content as previous response) ... -->
-                </div>
-            </div>
-            
-            <!-- Text & Utility Tools Section (NEW) -->
-            <h3 class="category-title">📝 Text & Utility Tools</h3>
-            <div class="tools-container">
-                <!-- Word Counter -->
-                <div class="card">
-                    <div class="card-content">
-                        <h3 class="card-title text-lg text-center"><i class="fas fa-file-alt mr-2"></i>Word Counter</h3>
-                        <textarea id="wordText" placeholder="Type or paste your text here..." rows="5" class="neon-textarea w-full p-2 rounded resize-none text-xs"></textarea>
-                        <button onclick="resetWordCounter()" class="reset-btn w-full py-1 px-2 rounded text-xs mt-2">Reset</button>
-                        <div class="output-display p-2 rounded text-center text-xs mt-2" id="wordCount">0 words, 0 characters</div>
-                    </div>
-                </div>
-            </div>
-
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="neon-title" data-text="THE TOOL NEST">THE TOOL NEST</h1>
+            <p class="hero-subtitle">Enter the future of digital tools</p>
+            <button class="cta-button" onclick="scrollToTools()">Explore Tools</button>
         </div>
-    </div>
-    
-    <!-- Tutorials Page -->
-    <div id="tutorials" class="page-content">
-        <!-- ... (same content as previous response) ... -->
-    </div>
+    </section>
 
-    <!-- About Us Page -->
-    <div id="about" class="page-content">
-        <!-- ... (same content as previous response) ... -->
-    </div>
-    
-    <!-- Contact & Suggestion Page -->
-    <div id="contact" class="page-content">
-         <!-- ... (same content as previous response) ... -->
+    <!-- Categories Section -->
+    <section id="categories" class="categories">
+        <h2 class="section-title">Tool Categories</h2>
+        <div class="category-grid">
+            <div class="category-card" data-category="all">
+                <div class="category-icon">⚡</div>
+                <h3>All Tools</h3>
+            </div>
+            <div class="category-card" data-category="image">
+                <div class="category-icon">🖼️</div>
+                <h3>Image Tools</h3>
+            </div>
+            <div class="category-card" data-category="text">
+                <div class="category-icon">📝</div>
+                <h3>Text Tools</h3>
+            </div>
+            <div class="category-card" data-category="converter">
+                <div class="category-icon">🔄</div>
+                <h3>Converters</h3>
+            </div>
+            <div class="category-card" data-category="utility">
+                <div class="category-icon">🛠️</div>
+                <h3>Utilities</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="tools-section">
+        <h2 class="section-title">Cyber Tools</h2>
+        <div class="tools-grid" id="toolsGrid">
+            <!-- Tools will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Sign In Modal -->
+    <div id="signInModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSignIn()">&times;</span>
+            <h2>Sign In</h2>
+            <form id="signInForm">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Sign In</button>
+            </form>
+            <p>Don't have an account? <a href="#">Sign up free</a></p>
+        </div>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
-        <!-- ... (same content as previous response) ... -->
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>The Tool Nest</h3>
+                <p>Futuristic tools for the digital age</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                    <li><a href="disclaimer.html">Disclaimer</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: contact@toolnest.com</p>
+                <div class="social-links">
+                    <a href="#">Twitter</a>
+                    <a href="#">Discord</a>
+                    <a href="#">GitHub</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 The Tool Nest. All rights reserved.</p>
+        </div>
     </footer>
 
-    <script>
-    // --- APP STATE & CONFIG ---
-    let isSignedIn = localStorage.getItem('toolNestSignedIn') === 'true';
-    let originalSketchImage = null; // Store the original uploaded image for sketch tool
-
-    const pageMetadata = {
-        home: { title: 'The Tool Nest - Ultimate Web Tools Collection', description: 'Your ultimate digital toolbox. A comprehensive collection of free web tools including converters, calculators, and more.' },
-        tools: { title: 'All Tools - The Tool Nest', description: 'Explore our full suite of Pro and standard tools, from PDF editors to image converters and calculators.' },
-        tutorials: { title: 'Tutorials - The Tool Nest', description: 'Learn how to use our powerful Pro tools like the Pencil Sketch converter and PDF merger with these simple guides.' },
-        about: { title: 'About Us - The Tool Nest', description: 'Learn about the mission and vision of The Tool Nest, your go-to source for free and reliable web utilities.' },
-        contact: { title: 'Contact Us - The Tool Nest', description: 'Have a question or a suggestion for a new tool? Get in touch with the team at The Tool Nest.' }
-    };
-
-    // --- UTILITIES ---
-    function showToast(message, type = 'info') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.textContent = message;
-        container.appendChild(toast);
-
-        setTimeout(() => {
-            toast.style.animation = 'slideOut 0.5s forwards';
-            toast.addEventListener('animationend', () => toast.remove());
-        }, 4000);
-    }
-    
-    // --- AUTHENTICATION ---
-    function updateAuthUI() {
-        const desktopContainer = document.getElementById('auth-container-desktop');
-        const mobileContainer = document.getElementById('auth-container-mobile');
-        let authHTML;
-
-        if (isSignedIn) {
-            authHTML = `
-                <div class="flex items-center">
-                    <span class="text-sm text-gray-300 mr-4">Welcome, User!</span>
-                    <button onclick="signOut()" class="nav-link">Sign Out</button>
-                </div>`;
-        } else {
-            authHTML = `<button onclick="signIn()" class="signin-btn">Sign In Free</button>`;
-        }
-        desktopContainer.innerHTML = authHTML;
-        mobileContainer.innerHTML = authHTML;
-    }
-
-    function signIn() {
-        isSignedIn = true;
-        localStorage.setItem('toolNestSignedIn', 'true');
-        updateAuthUI();
-        showPage('tools');
-        showToast('Successfully signed in!', 'success');
-    }
-
-    function signOut() {
-        isSignedIn = false;
-        localStorage.removeItem('toolNestSignedIn');
-        updateAuthUI();
-        showPage('home');
-        showToast('You have been signed out.');
-    }
-
-    // --- NAVIGATION ---
-    function showPage(pageId, fromMobile = false) {
-        if (pageId === 'tools' && !isSignedIn) {
-            pageId = 'signin-required';
-        }
-        
-        document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        
-        // Update Meta Tags
-        const metadata = pageMetadata[pageId];
-        if (metadata) {
-            document.title = metadata.title;
-            document.getElementById('meta-description').setAttribute('content', metadata.description);
-        }
-
-        // Close mobile menu if open
-        if (fromMobile) {
-            document.getElementById('mobile-menu').classList.add('hidden');
-        }
-        window.scrollTo(0, 0);
-    }
-    
-    // --- PRO-LEVEL TOOLS (ENHANCED) ---
-
-    // 1. Pencil Sketch Tool
-    const sketchUploadInput = document.getElementById('sketchUpload');
-    const sketchUploadArea = document.getElementById('sketchUploadArea');
-    const sketchCanvas = document.getElementById('sketchCanvas');
-    const sketchCtx = sketchCanvas.getContext('2d');
-    const sketchStatus = document.getElementById('sketchStatus');
-    const downloadSketchBtn = document.getElementById('downloadSketchBtn');
-    const sketchControls = document.getElementById('sketchControls');
-    const blurAmountSlider = document.getElementById('blurAmount');
-
-    sketchUploadArea.addEventListener('click', () => sketchUploadInput.click());
-    sketchUploadInput.addEventListener('change', handleImageUpload);
-    blurAmountSlider.addEventListener('input', () => applySketchEffect(originalSketchImage));
-
-    function handleImageUpload(event) {
-        const file = event.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    originalSketchImage = img; // Store original image
-                    applySketchEffect(img);
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-            sketchStatus.textContent = 'Processing...';
-            sketchUploadArea.classList.add('hidden');
-        } else {
-             showToast('Please upload a valid image file.', 'error');
-        }
-    }
-
-    function applySketchEffect(img) {
-        if (!img) return;
-        const blurAmount = blurAmountSlider.value;
-        sketchCanvas.width = img.width;
-        sketchCanvas.height = img.height;
-        
-        sketchCtx.clearRect(0, 0, sketchCanvas.width, sketchCanvas.height);
-        sketchCtx.drawImage(img, 0, 0);
-        
-        // In-memory canvas for intermediate steps
-        const tempCanvas = document.createElement('canvas');
-        const tempCtx = tempCanvas.getContext('2d');
-        tempCanvas.width = img.width;
-        tempCanvas.height = img.height;
-
-        // 1. Grayscale & Invert
-        tempCtx.filter = 'grayscale(1) invert(1)';
-        tempCtx.drawImage(img, 0, 0);
-        
-        // 2. Blur the inverted image
-        sketchCtx.filter = `blur(${blurAmount}px)`;
-        sketchCtx.globalCompositeOperation = 'color-dodge';
-        sketchCtx.drawImage(tempCanvas, 0, 0);
-        
-        sketchCtx.filter = 'none';
-        sketchCtx.globalCompositeOperation = 'source-over';
-        
-        sketchCanvas.classList.remove('hidden');
-        downloadSketchBtn.classList.remove('hidden');
-        sketchControls.classList.remove('hidden');
-        sketchStatus.textContent = 'Sketch generated successfully!';
-    }
-    // (downloadSketch function remains the same)
-
-    // 4. PDF Merger
-    const mergePdfUploadInput = document.getElementById('mergePdfUpload');
-    const mergePdfUploadArea = document.getElementById('mergePdfUploadArea');
-    const mergePdfStatus = document.getElementById('mergePdfStatus');
-    const downloadMergedPdfBtn = document.getElementById('downloadMergedPdfBtn');
-    const clearMergeBtn = document.getElementById('clearMergeBtn');
-    const mergeFileList = document.getElementById('merge-file-list');
-    let pdfFilesToMerge = [];
-
-    mergePdfUploadArea.addEventListener('click', () => mergePdfUploadInput.click());
-    clearMergeBtn.addEventListener('click', () => {
-        pdfFilesToMerge = [];
-        mergePdfUploadInput.value = ''; // Reset file input
-        updateMergeFileList();
-    });
-    mergePdfUploadInput.addEventListener('change', (e) => {
-        pdfFilesToMerge = Array.from(e.target.files);
-        updateMergeFileList();
-    });
-
-    function updateMergeFileList() {
-        mergeFileList.innerHTML = '';
-        if (pdfFilesToMerge.length > 0) {
-            pdfFilesToMerge.forEach(file => {
-                const li = document.createElement('div');
-                li.textContent = file.name;
-                mergeFileList.appendChild(li);
-            });
-        }
-        
-        if (pdfFilesToMerge.length > 1) {
-            mergePdfStatus.textContent = `${pdfFilesToMerge.length} files selected.`;
-            downloadMergedPdfBtn.classList.remove('hidden');
-            clearMergeBtn.classList.remove('hidden');
-        } else {
-            mergePdfStatus.textContent = 'Please select at least two PDF files.';
-            downloadMergedPdfBtn.classList.add('hidden');
-            clearMergeBtn.classList.add('hidden');
-        }
-    }
-    // (mergePdfs async function remains the same, but use showToast for feedback)
-
-    // --- OTHER TOOLS ---
-
-    // Word Counter
-    document.getElementById('wordText').addEventListener('input', function() {
-        const text = this.value;
-        const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-        const characters = text.length;
-        document.getElementById('wordCount').textContent = `${words} words, ${characters} characters`;
-    });
-    function resetWordCounter() {
-        document.getElementById('wordText').value = '';
-        document.getElementById('wordCount').textContent = '0 words, 0 characters';
-    }
-
-    // --- INITIALIZATION ---
-    document.addEventListener('DOMContentLoaded', () => {
-        updateAuthUI();
-        showPage('home');
-        
-        // Mobile Menu Logic
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    });
-
-    // --- ORIGINAL SCRIPTS (MOCKED/SIMPLIFIED) ---
-    function serverRequiredNotice(message = 'This pro-level tool requires server-side processing.') { showToast(message, 'info'); }
-    function shortenUrl() { /* ... (add showToast) ... */ }
-    function downloadSketch() { /* ... (as before) ... */ }
-    async function mergePdfs() { /* ... (as before, but use showToast) ... */ }
-    
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
