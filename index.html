@@ -1,407 +1,692 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 
 
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="<$BlogLanguageDirection$>">
+
 <head>
-  <!-- ========== GLOBAL META ========== -->
-  <meta charset="UTF-8">
-  <title>Cyber-Neon Tools - 60+ Free AI, Text, Image & Developer Utilities</title>
-  <meta name="description"
-        content="Discover a vast collection of 60+ free online tools for AI, text, image, PDF, development, and more. Enhance your productivity with our cyber-neon themed platform – no login required!">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><$BlogPageTitle$></title>
 
-  <!-- FONTS -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
-  <!-- ICONS -->
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <!-- TAILWIND JIT -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend:{
-          fontFamily: { orbitron: ['Orbitron'], exo: ['Exo 2'] },
-          colors:{
-            glass: 'rgba(255,255,255,.05)',
-            'neon-green':'#39ff14',
-            'neon-purple':'#bf00ff',
-            'neon-blue':'#00ffff',
-            'neon-pink':'#ff00ff'
-          },
-          animation:{
-            float:'float 6s ease-in-out infinite'
-          },
-          keyframes:{
-            float:{
-              '0%,100%':{transform:'translateY(0px)'},
-              '50%':{transform:'translateY(-8px)'}
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <$BlogMetaData$>
 
-  <!-- STYLE BLOCK (custom skins and particles) -->
-  <style>
-    :root{
-      --bg-start:#1a1a2e;
-      --bg-end:#0a0a0a;
-    }
-    body{background:radial-gradient(circle at 30% 20%, var(--bg-start) 0%, var(--bg-end) 100%);
-         font-family:'Exo 2',sans-serif;}
-    .glass{
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.2);
-      backdrop-filter:blur(12px);
-    }
-    .neon-glow{box-shadow:0 0 12px currentColor,0 0 24px currentColor;}
+  <style type="text/css">
+/*
+-----------------------------------------------
+Blogger Template Style
+Name:     Rounders
+Date:     27 Feb 2004
+----------------------------------------------- */
 
-    /* floating particles */
-    #particles canvas{position:fixed;top:0;left:0;z-index:-1;}
-    /* glass modal */
-    .modal{animation:slideUp .5s ease forwards;}
-    @keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+body {
+  background:#aba;
+  margin:0;
+  padding:20px 10px;
+  text-align:center;
+  font:x-small/1.5em "Trebuchet MS",Verdana,Arial,Sans-serif;
+  color:#333;
+  font-size/* */:/**/small;
+  font-size: /**/small;
+  }
+
+
+/* Page Structure
+----------------------------------------------- */
+/* The images which help create rounded corners depend on the 
+   following widths and measurements. If you want to change 
+   these measurements, the images will also need to change.
+   */
+@media all {
+  #content {
+    width:740px;
+    margin:0 auto;
+    text-align:left;
+    }
+  #main {
+    width:485px;
+    float:left;
+    background:#fff url("https://resources.blogblog.com/blogblog/data/rounders/corners_main_bot.gif") no-repeat left bottom;
+    margin:15px 0 0;
+    padding:0 0 10px;
+    color:#000;
+    font-size:97%;
+    line-height:1.5em;
+    }
+  #main2 {
+    float:left;
+    width:100%;
+    background:url("https://resources.blogblog.com/blogblog/data/rounders/corners_main_top.gif") no-repeat left top;
+    padding:10px 0 0;
+    }
+  #main3 {
+    background:url("https://resources.blogblog.com/blogblog/data/rounders/rails_main.gif") repeat-y;
+    padding:0;
+    }
+  #sidebar {
+    width:240px;
+    float:right;
+    margin:15px 0 0;
+    font-size:97%;
+    line-height:1.5em;
+    }
+  }
+@media handheld {
+  #content {
+    width:90%;
+    }
+  #main {
+    width:100%;
+    float:none;
+    background:#fff;
+    }
+  #main2 {
+    float:none;
+    background:none;
+    }
+  #main3 {
+    background:none;
+    padding:0;
+    }
+  #sidebar {
+    width:100%;
+    float:none;
+    }
+  }
+
+
+/* Links
+----------------------------------------------- */
+a:link {
+  color:#258;
+  }
+a:visited {
+  color:#666;
+  }
+a:hover {
+  color:#c63;
+  }
+a img {
+  border-width:0;
+  }
+
+
+/* Blog Header
+----------------------------------------------- */
+@media all {
+  #header {
+    background:#456 url("https://resources.blogblog.com/blogblog/data/rounders/corners_cap_top.gif") no-repeat left top;
+    margin:0 0 0;
+    padding:8px 0 0;
+    color:#fff;
+    }
+  #header div {
+    background:url("https://resources.blogblog.com/blogblog/data/rounders/corners_cap_bot.gif") no-repeat left bottom;
+    padding:0 15px 8px;
+    }
+  }
+@media handheld {
+  #header {
+    background:#456;
+    }
+  #header div {
+    background:none;
+    }
+  }
+#blog-title {
+  margin:0;
+  padding:10px 30px 5px;
+  font-size:200%;
+  line-height:1.2em;
+  }
+#blog-title a {
+  text-decoration:none;
+  color:#fff;
+  }
+#description {
+  margin:0;
+  padding:5px 30px 10px;
+  font-size:94%;
+  line-height:1.5em;
+  }
+
+
+/* Posts
+----------------------------------------------- */
+.date-header {
+  margin:0 28px 0 43px;
+  font-size:85%;
+  line-height:2em;
+  text-transform:uppercase;
+  letter-spacing:.2em;
+  color:#357;
+  }
+.post {
+  margin:.3em 0 25px;
+  padding:0 13px;
+  border:1px dotted #bbb;
+  border-width:1px 0;
+  }
+.post-title {
+  margin:0;
+  font-size:135%;
+  line-height:1.5em;
+  background:url("https://resources.blogblog.com/blogblog/data/rounders/icon_arrow.gif") no-repeat 10px .5em;
+  display:block;
+  border:1px dotted #bbb;
+  border-width:0 1px 1px;
+  padding:2px 14px 2px 29px;
+  color:#333;
+  }
+a.title-link, .post-title strong {
+  text-decoration:none;
+  display:block;
+  }
+a.title-link:hover {
+  background-color:#ded;
+  color:#000;
+  }
+.post-body {
+  border:1px dotted #bbb;
+  border-width:0 1px 1px;
+  border-bottom-color:#fff;
+  padding:10px 14px 1px 29px;
+  }
+html>body .post-body {
+  border-bottom-width:0;
+  }
+.post p {
+  margin:0 0 .75em;
+  }
+p.post-footer {
+  background:#ded;
+  margin:0;
+  padding:2px 14px 2px 29px;
+  border:1px dotted #bbb;
+  border-width:1px;
+  border-bottom:1px solid #eee;
+  font-size:100%;
+  line-height:1.5em;
+  color:#666;
+  text-align:right;
+  }
+html>body p.post-footer {
+  border-bottom-color:transparent;
+  }
+p.post-footer em {
+  display:block;
+  float:left;
+  text-align:left;
+  font-style:normal;
+  }
+a.comment-link {
+  /* IE5.0/Win doesn't apply padding to inline elements,
+     so we hide these two declarations from it */
+  background/* */:/**/url("https://resources.blogblog.com/blogblog/data/rounders/icon_comment.gif") no-repeat 0 45%;
+  padding-left:14px;
+  }
+html>body a.comment-link {
+  /* Respecified, for IE5/Mac's benefit */
+  background:url("https://resources.blogblog.com/blogblog/data/rounders/icon_comment.gif") no-repeat 0 45%;
+  padding-left:14px;
+  }
+.post img {
+  margin:0 0 5px 0;
+  padding:4px;
+  border:1px solid #ccc;
+  }
+blockquote {
+  margin:.75em 0;
+  border:1px dotted #ccc;
+  border-width:1px 0;
+  padding:5px 15px;
+  color:#666;
+  }
+.post blockquote p {
+  margin:.5em 0;
+  }
+
+
+/* Comments
+----------------------------------------------- */
+#comments {
+  margin:-25px 13px 0;
+  border:1px dotted #ccc;
+  border-width:0 1px 1px;
+  padding:20px 0 15px 0;
+  }
+#comments h4 {
+  margin:0 0 10px;
+  padding:0 14px 2px 29px;
+  border-bottom:1px dotted #ccc;
+  font-size:120%;
+  line-height:1.4em;
+  color:#333;
+  }
+#comments-block {
+  margin:0 15px 0 9px;
+  }
+.comment-data {
+  background:url("https://resources.blogblog.com/blogblog/data/rounders/icon_comment.gif") no-repeat 2px .3em;
+  margin:.5em 0;
+  padding:0 0 0 20px;
+  color:#666;
+  }
+.comment-poster {
+  font-weight:bold;
+  }
+.comment-body {
+  margin:0 0 1.25em;
+  padding:0 0 0 20px;
+  }
+.comment-body p {
+  margin:0 0 .5em;
+  }
+.comment-timestamp {
+  margin:0 0 .5em;
+  padding:0 0 .75em 20px;
+  color:#666;
+  }
+.comment-timestamp a:link {
+  color:#666;
+  }
+.deleted-comment {
+  font-style:italic;
+  color:gray;
+  }
+.paging-control-container {
+  float: right;
+  margin: 0px 6px 0px 0px;
+  font-size: 80%;
+}
+.unneeded-paging-control {
+  visibility: hidden;
+}
+
+
+/* Profile
+----------------------------------------------- */
+@media all {
+  #profile-container {
+    background:#cdc url("https://resources.blogblog.com/blogblog/data/rounders/corners_prof_bot.gif") no-repeat left bottom;
+    margin:0 0 15px;
+    padding:0 0 10px;
+    color:#345;
+    }
+  #profile-container h2 {
+    background:url("https://resources.blogblog.com/blogblog/data/rounders/corners_prof_top.gif") no-repeat left top;
+    padding:10px 15px .2em;
+    margin:0;
+    border-width:0;
+    font-size:115%;
+    line-height:1.5em;
+    color:#234;
+    }
+  }
+@media handheld {
+  #profile-container {
+    background:#cdc;
+    }
+  #profile-container h2 {
+    background:none;
+    }
+  }
+.profile-datablock {
+  margin:0 15px .5em;
+  border-top:1px dotted #aba;
+  padding-top:8px;
+  }
+.profile-img {display:inline;}
+.profile-img img {
+  float:left;
+  margin:0 10px 5px 0;
+  border:4px solid #fff;
+  }
+.profile-data strong {
+  display:block;
+  }
+#profile-container p {
+  margin:0 15px .5em;
+  }
+#profile-container .profile-textblock {
+  clear:left;
+  }
+#profile-container a {
+  color:#258;
+  }
+.profile-link a {
+  background:url("https://resources.blogblog.com/blogblog/data/rounders/icon_profile.gif") no-repeat 0 .1em;
+  padding-left:15px;
+  font-weight:bold;
+  }
+ul.profile-datablock {
+  list-style-type:none;
+  }
+
+
+/* Sidebar Boxes
+----------------------------------------------- */
+@media all {
+  .box {
+    background:#fff url("https://resources.blogblog.com/blogblog/data/rounders/corners_side_top.gif") no-repeat left top;
+    margin:0 0 15px;
+    padding:10px 0 0;
+    color:#666;
+    }
+  .box2 {
+    background:url("https://resources.blogblog.com/blogblog/data/rounders/corners_side_bot.gif") no-repeat left bottom;
+    padding:0 13px 8px;
+    }
+  }
+@media handheld {
+  .box {
+    background:#fff;
+    }
+  .box2 {
+    background:none;
+    }
+  }
+.sidebar-title {
+  margin:0;
+  padding:0 0 .2em;
+  border-bottom:1px dotted #9b9;
+  font-size:115%;
+  line-height:1.5em;
+  color:#333;
+  }
+.box ul {
+  margin:.5em 0 1.25em;
+  padding:0 0px;
+  list-style:none;
+  }
+.box ul li {
+  background:url("https://resources.blogblog.com/blogblog/data/rounders/icon_arrow_sm.gif") no-repeat 2px .25em;
+  margin:0;
+  padding:0 0 3px 16px;
+  margin-bottom:3px;
+  border-bottom:1px dotted #eee;
+  line-height:1.4em;
+  }
+.box p {
+  margin:0 0 .6em;
+  }
+
+
+/* Footer
+----------------------------------------------- */
+#footer {
+  clear:both;
+  margin:0;
+  padding:15px 0 0;
+  }
+@media all {
+  #footer div {
+    background:#456 url("https://resources.blogblog.com/blogblog/data/rounders/corners_cap_top.gif") no-repeat left top;
+    padding:8px 0 0;
+    color:#fff;
+    }
+  #footer div div {
+    background:url("https://resources.blogblog.com/blogblog/data/rounders/corners_cap_bot.gif") no-repeat left bottom;
+    padding:0 15px 8px;
+    }
+  }
+@media handheld {
+  #footer div {
+    background:#456;
+    }
+  #footer div div {
+    background:none;
+    }
+  }
+#footer hr {display:none;}
+#footer p {margin:0;}
+#footer a {color:#fff;}
+
+
+/* Feeds
+----------------------------------------------- */
+#blogfeeds {
+  }
+#postfeeds {
+  padding:0 15px 0;
+  }
   </style>
+
+
 </head>
 
-<body class="text-gray-200">
 
-<!-- Particle background -->
-<div id="particles"></div>
 
-<!-- ============ HEADER / NAV ============ -->
-<header class="w-full glass sticky top-0 z-50 flex items-center justify-between px-6 py-3">
-  <h1 class="font-orbitron text-2xl text-neon-green neon-glow">Enhanced<br>Cyber-Neon<br>Tools</h1>
-  <nav>
-    <button id="menuBtn" class="md:hidden text-3xl"><i class="fa-duotone fa-bars"></i></button>
-    <ul id="navList" class="hidden md:flex flex-col md:flex-row md:space-x-6 glass md:bg-transparent p-4 md:p-0 rounded backdrop-blur md:backdrop-blur-0">
-      <li><a href="#tools" class="text-neon-blue hover:text-pink transition">Tools</a></li>
-      <li><a href="#about" class="text-neon-blue hover:text-pink transition">About Us</a></li>
-      <li><a href="#guides" class="text-neon-blue hover:text-pink transition">AI Tool Guides</a></li>
-      <li><a href="#devres" class="text-neon-blue hover:text-pink transition">Developer Resources</a></li>
-      <li><a href="#contact" class="text-neon-blue hover:text-pink transition">Contact</a></li>
-    </ul>
-  </nav>
-</header>
+<body>
 
-<!-- ============ TOOLS GRID (MAIN PAGE) ============ -->
-<section id="tools" class="p-6">
-  <h2 class="font-orbitron text-3xl text-center mb-6 neon-glow text-neon-purple">Choose From 60+ Tools</h2>
-  <div id="categories" class="grid gap-12">
-    <!-- tools injected dynamically -->
-  </div>
-</section>
 
-<!-- ============ TOOL DISPLAY AREA (AJAX/SPA) ============ -->
-<div id="toolModal" class="fixed inset-0 bg-black/70 hidden place-items-center z-[60]">
-  <div class="glass rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto neon-glow text-pink -mt-20 modal">
-    <button id="closeModal" class="float-right text-2xl"><i class="fa-duotone fa-xmark"></i></button>
-    <div id="toolContent" class="py-4"></div>
-  </div>
+
+<!-- Begin #content - Centers all content and provides edges for floated columns -->
+
+<div id="content">
+
+
+
+<!-- Blog Header -->
+
+<div id="header"><div>
+
+  <h1 id="blog-title">
+    <ItemPage><a href="<$BlogURL$>"></ItemPage>
+<$BlogTitle$>
+<ItemPage></a></ItemPage>
+  </h1>
+  <p id="description"><$BlogDescription$></p>
+
+</div></div>
+
+
+
+
+
+<!-- Begin #main - Contains main-column blog content -->
+
+<div id="main"><div id="main2"><div id="main3">
+
+<Blogger>
+
+    <BlogDateHeader>
+  <h2 class="date-header"><$BlogDateHeaderDate$></h2>
+  </BlogDateHeader>
+
+         <!-- Begin .post -->
+
+  <div class="post"><a name="<$BlogItemNumber$>"></a>
+
+     <BlogItemTitle>
+ <BlogItemUrl><a href="<$BlogItemUrl$>" title="external link" class="title-link"></BlogItemUrl>
+    <h3 class="post-title">
+ <$BlogItemTitle$>
+    </h3>
+ <BlogItemUrl></a></BlogItemUrl>
+    </BlogItemTitle>
+
+         <div class="post-body">
+
+          <p>
+      <$BlogItemBody$>
+    </p>
+
+        </div>
+
+        <p class="post-footer">
+
+      <em><$I18NPostedByAuthorNickname$> @ <a href="<$BlogItemPermalinkUrl$>" title="permanent link"><$BlogItemDateTime$></a></em> &nbsp;
+      <BlogItemCommentsEnabled>
+         <a class="comment-link" href="<$BlogItemCommentCreate$>"<$BlogItemCommentFormOnclick$>><span style="text-transform:lowercase"><$I18NNumComments$></span></a>
+      </BlogItemCommentsEnabled>
+ <$BlogItemControl$>
+    </p>
+
+    </div>
+
+  <!-- End .post -->
+
+        <!-- Begin #comments -->
+ <ItemPage>
+
+  <div id="comments">
+
+<BlogItemCommentsEnabled><a name="comments"></a>
+
+        <h4><$I18NNumComments$>:</h4>
+
+        <dl id="comments-block">
+          <$CommentPager$>
+      <BlogItemComments>
+
+      <dt class="comment-data" id="<$BlogCommentAnchorName$>"><a name="<$BlogCommentAnchorName$>"></a>
+
+        <$I18NAtCommentTimeWithPermalink$>,
+
+        <$I18NCommentAuthorSaid$>
+
+      </dt>
+
+      <dd class="comment-body">
+
+        <p><$BlogCommentBody$></p>
+  <$BlogCommentDeleteIcon$>
+
+      </dd>
+
+  </BlogItemComments>
+    <$CommentPager$>
+
+    </dl>
+<p class="comment-timestamp">
+    <$BlogItemCreate$>
+    </p>
+    <p id="postfeeds"><$BlogItemFeedLinks$></p>
+    </BlogItemCommentsEnabled>    
+
+
+<p style="padding-left:20px;">
+<a href="<$BlogURL$>">&lt;&lt; <$I18NHome$></a>
+    </p>
+    </div>
+
+</ItemPage>
+
+  <!-- End #comments -->
+
+</Blogger>
+
+
+
+</div></div></div>
+
+<!-- End #main -->
+
+
+
+
+
+
+
+
+
+<!-- Begin #sidebar -->
+
+<div id="sidebar">
+
+    <!-- Begin #profile-container -->
+
+   <$BlogMemberProfile$>
+
+  <!-- End #profile -->
+
+
+
+    <!-- Begin .box -->
+
+  <div class="box"><div class="box2"><div class="box3">
+    
+        <MainOrArchivePage>
+  <h2 class="sidebar-title"><$I18NLinks$></h2>
+    <ul>
+    <li><a href="https://news.google.com/">Google News</a></li>
+    <li><a href="https://support.google.com/blogger/answer/41427">Edit-Me</a></li>
+    <li><a href="https://support.google.com/blogger/answer/41427">Edit-Me</a></li>
+  </ul>
+  </MainOrArchivePage>
+
+      <h2 class="sidebar-title"><$I18NPreviousPosts$></h2>
+    <ul id="recently">
+    <BloggerPreviousItems>
+        <li><a href="<$BlogItemPermalinkURL$>"><$BlogPreviousItemTitle$></a></li>
+     </BloggerPreviousItems>
+  </ul>
+
+    <MainOrArchivePage>
+  <h2 class="sidebar-title"><$I18NArchives$></h2>
+    <ul class="archive-list">
+     <BloggerArchives>
+    <li><a href="<$BlogArchiveURL$>"><$BlogArchiveName$></a></li>
+  </BloggerArchives>
+      <ArchivePage><li><a href="<$BlogURL$>"><$I18NCurrentPosts$></a></li></ArchivePage>
+
+  </ul>
+  </MainOrArchivePage>
+      <p id="powered-by"><a href="https://www.blogger.com"><img src="//buttons.blogger.com/bloggerbutton1.gif" alt="Powered by Blogger" /></a></p>
+      <p id="blogfeeds"><$BlogFeedsVertical$></p>
+
+        <!--
+
+    <p>This is a paragraph of text that could go in the sidebar.</p>
+
+    -->
+
+    </div></div></div>
+
+  <!-- End .box -->
+
+
+
+
 </div>
 
-<!-- ============ CONTACT PAGE ============ -->
-<section id="contactPage" class="hidden p-6">
-   <h2 class="font-orbitron text-3xl text-center mb-4 neon-glow">Contact Us</h2>
-   <form class="max-w-lg mx-auto glass p-6 rounded space-y-4" onsubmit="sendMail(this,event)">
-      <input name="name" placeholder="Name" required class="w-full p-2 bg-transparent border border-neon-blue rounded focus:outline-none focus:ring-2 focus:ring-pink">
-      <input name="email" type="email" placeholder="Email" required class="w-full p-2 bg-transparent border border-neon-blue rounded focus:outline-none focus:ring-2 focus:ring-pink">
-      <input name="subject" placeholder="Subject" required class="w-full p-2 bg-transparent border border-neon-blue rounded">
-      <textarea name="message" rows="4" required placeholder="Your message" class="w-full p-2 bg-transparent border border-neon-blue rounded"></textarea>
-      <button class="w-full py-2 bg-neon-green text-black font-bold rounded neon-glow">Send Message</button>
-   </form>
-</section>
+<!-- End #sidebar -->
 
-<!-- ============ SUGGESTION PAGE ============ -->
-<section id="suggestionPage" class="hidden p-6">
-  <h2 class="font-orbitron text-3xl text-center mb-4 neon-glow">Suggest a Tool</h2>
-  <form class="max-w-lg mx-auto glass p-6 rounded space-y-4" onsubmit="sendSuggestion(this,event)">
-      <input name="tool" placeholder="Tool / Category idea" required class="w-full p-2 bg-transparent border border-neon-blue rounded">
-      <textarea name="notes" rows="4" required placeholder="Detailed suggestion / feedback" class="w-full p-2 bg-transparent border border-neon-blue rounded"></textarea>
-      <input name="sugemail" type="email" placeholder="Your Email (optional)" class="w-full p-2 bg-transparent border border-neon-blue rounded">
-      <button class="w-full py-2 bg-neon-purple text-white font-bold rounded neon-glow">Send Suggestion</button>
-  </form>
-</section>
 
-<!-- ============ CONTENT PAGES ============ -->
-<!-- About -->
-<section id="aboutPage" class="hidden p-6 glass mx-auto max-w-3xl rounded">
-  <h2 class="font-orbitron text-3xl mb-4 neon-glow">About Us</h2>
-  <p>Enhanced Cyber-Neon Tools is a passion project built to deliver bleeding-edge, zero-barrier utilities to creators, developers, students and hobbyists alike. Every line of code is open-source, every tool is free, and no registration will ever be required.</p>
-</section>
 
-<!-- Guides -->
-<section id="guidesPage" class="hidden p-6 glass mx-auto max-w-3xl rounded">
-  <h2 class="font-orbitron text-3xl mb-4 neon-glow">AI Tool Guides</h2>
-  <p>Practical, step-by-step tutorials on how to leverage the AI utilities offered on the platform—from crafting the perfect prompt to upscaling low-res images to 4K.</p>
-</section>
 
-<!-- Dev Resources -->
-<section id="devresPage" class="hidden p-6 glass mx-auto max-w-3xl rounded">
-  <h2 class="font-orbitron text-3xl mb-4 neon-glow">Developer Resources</h2>
-  <p>Hints, code snippets, links to open-source libraries we use, and a blueprint for how to extend this SPA with your own tools.</p>
-</section>
 
-<!-- ============ FOOTER ============ -->
-<footer class="glass mt-12 p-6 text-sm space-y-2">
-  <div class="flex justify-center space-x-6">
-    <a href="#about" class="text-neon-blue hover:text-pink">About Us</a>
-    <a href="#privacy" class="text-neon-blue hover:text-pink">Privacy Policy</a>
-    <a href="#terms" class="text-neon-blue hover:text-pink">Terms & Conditions</a>
-    <a href="#contact" class="text-neon-blue hover:text-pink">Contact Us</a>
-  </div>
-  <p class="text-center opacity-50">© 2024 Enhanced Cyber-Neon Tools — forever free, forever open.</p>
-</footer>
 
-<!-- ============ SCRIPTS (core engine, tools, particles) ============ -->
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.1/dist/tsparticles.bundle.min.js"></script>
 
-<script>
-// --------- ROUTING (SPA without build pipeline) ---------
-const routes = {
-  '#tools'     : ()=>showSection('tools'),
-  '#about'     : ()=>showSection('aboutPage','About Us - Enhanced Cyber-Neon Tools'),
-  '#guides'    : ()=>showSection('guidesPage','AI Tool Guides - Cyber-Neon Tools'),
-  '#devres'    : ()=>showSection('devresPage','Developer Resources - Cyber-Neon Tools'),
-  '#contact'   : ()=>showSection('contactPage','Contact Us - Cyber-Neon Tools Support'),
-  '#suggest'   : ()=>showSection('suggestionPage','Suggest a Tool - Feedback'),
-  '#privacy'   : ()=>{showSection('aboutPage','Privacy Policy - Cyber-Neon Tools'); loadMarkdown('privacy.md')},
-  '#terms'     : ()=>{showSection('aboutPage','Terms and Conditions - Cyber-Neon Tools'); loadMarkdown('terms.md')}
-};
 
-function showSection(id,title){
-  [...document.querySelectorAll('section:not(#tools)')].forEach(s=>s.classList.add('hidden'));
-  ['#toolModal','#aboutPage','#guidesPage','#devresPage','#contactPage','#suggestionPage','#tools']
-      .forEach(sel=>document.querySelector(sel).classList.add('hidden'));
-  document.querySelector('#tools').classList.remove('hidden');
-  if (id !== 'tools') {
-    document.querySelector('#'+id).classList.remove('hidden');
-    document.title = title || "Enhanced Cyber-Neon Tools";
-  }
-}
 
-window.addEventListener('hashchange', ()=> (routes[location.hash]||routes['#tools'])());
-window.addEventListener('DOMContentLoaded', ()=> (routes[location.hash||'#tools'])());
+<!-- Begin #footer -->
 
-// MOBILE MENU TOGGLE
-document.getElementById('menuBtn').addEventListener('click', ()=>{
-  const list = document.getElementById('navList');
-  list.classList.toggle('hidden');
-});
+<div id="footer"><div><div><hr />
 
-// ---------- TOOL CATALOG ----------
-const toolCats = [
-  {title: 'AI Tools', color:'neon-green', items:[
-    {id:'aiTxtGen', icon:'fa-sparkles', name:'AI Text Generator', fn:aiTextGen},
-    {id:'aiImgGen', icon:'fa-palette', name:'AI Image Generator', fn:aiImageGen},
-    {id:'aiBgRm'  , icon:'fa-user-astronaut', name:'AI Background Remover', fn:aiBgRemove},
-    {id:'aiVoice' , icon:'fa-voicemail', name:'AI Voice Generator', fn:aiVoice},
-    {id:'aiChat'  , icon:'fa-comments', name:'AI Chatbot', fn:aiChat},
-    {id:'aiPara'  , icon:'fa-copy', name:'Paraphraser', fn:aiParaphrase},
-    {id:'aiSum'   , icon:'fa-compress-arrows-alt', name:'AI Summarizer', fn:aiSummarize},
-    {id:'aiHead'  , icon:'fa-sharp fa-bookmark', name:'Headline Generator', fn:aiHeadline},
-    {id:'aiMail'  , icon:'fa-envelope-open-text', name:'Email Writer', fn:aiMail},
-    {id:'aiCode'  , icon:'fa-code', name:'Code Generator', fn:aiCode}
-  ]},
-  {title: 'Text & Writing', color:'neon-blue', items:[
-    {id:'grammar', icon:'fa-language', name:'Grammar Checker', fn:grammarCheck},
-    {id:'plagiarism', icon:'fa-magnifying-glass', name:'Plagiarism Checker', fn:plagiarismCheck},
-    {id:'tts', icon:'fa-volume-up', name:'Text to Speech', fn:tts},
-    {id:'stt', icon:'fa-microphone', name:'Speech to Text', fn:stt},
-    {id:'wc', icon:'fa-calculator', name:'Word Counter', fn:wordCount},
-    {id:'cc', icon:'fa-text-width', name:'Character Counter', fn:charCount},
-    {id:'caseConv', icon:'fa-language', name:'Case Converter', fn:caseConv},
-    {id:'readability', icon:'fa-glasses', name:'Readability Checker', fn:readability},
-    {id:'rtg', icon:'fa-random', name:'Random Text Generator', fn:rtg},
-    {id:'emo', icon:'fa-sms', name:'Emoji Translator', fn:emojiTranslator}
-  ]},
-  {title: 'Image Tools', color:'neon-pink', items:[
-    {id:'imgComp', icon:'fa-compress', name:'Image Compressor', fn:imgCompress},
-    {id:'imgResz', icon:'fa-arrows-alt', name:'Image Resizer', fn:imgResize},
-    {id:'img2pdf', icon:'fa-file-pdf', name:'Image to PDF', fn:img2pdf},
-    {id:'ocr', icon:'fa-eye', name:'Image to Text (OCR)', fn:ocr},
-    {id:'crop', icon:'fa-crop-alt', name:'Image Cropper', fn:imgCrop},
-    {id:'colorPick', icon:'fa-palette', name:'Image Color Picker', fn:colorPicker},
-    {id:'rotate', icon:'fa-rotate', name:'Image Rotator', fn:imgRotate},
-    {id:'filter', icon:'fa-magic', name:'Photo Filters', fn:imgFilter},
-    {id:'meme', icon:'fa-face-grin-tears', name:'Meme Generator', fn:memeGen},
-  ]},
-  {title: 'PDF & Documents', color:'neon-green', items:[
-    {id:'pdf2word',icon:'fa-file-word',name:'PDF to Word',fn:pdf2word},
-    {id:'word2pdf',icon:'fa-file-export',name:'Word to PDF',fn:word2pdf},
-    {id:'pdfmerge',icon:'fa-arrows-to-circle',name:'PDF Merger',fn:pdfMerge},
-    {id:'pdfsplit',icon:'fa-cut',name:'PDF Splitter',fn:pdfSplit},
-    {id:'pdfpass' ,icon:'fa-key',name:'PDF Password Remover',fn:pdfPass},
-    {id:'pdfcomp' ,icon:'fa-compress',name:'PDF Compressor',fn:pdfComp},
-    {id:'pdfnum'  ,icon:'fa-list-ol',name:'PDF Page Number Adder',fn:pdfNum}
-  ]},
-  {title: 'Dev/Coding', color:'neon-purple', items:[
-    {id:'htmlFmt',icon:'fa-code',name:'HTML Formatter',fn:htmlFmt},
-    {id:'cssMin',icon:'fa-compress-arrows-alt',name:'CSS Minifier',fn:cssMin},
-    {id:'jsBeaut',icon:'fa-wand-magic-sparkles',name:'JavaScript Beautifier',fn:jsBeautify},
-    {id:'jsonFmt',icon:'fa-brackets-curly',name:'JSON Formatter',fn:jsonFmt},
-    {id:'b64',icon:'fa-audio-description',name:'Base64 Encode/Decode',fn:base64Tool},
-    {id:'rgb2hex',icon:'fa-palette',name:'RGB-HEX Converter',fn:rgbHexConverter},
-    {id:'md2html',icon:'fa-markdown',name:'Markdown to HTML',fn:md2html}
-  ]},
-  {title:'Utility & Calculators',color:'neon-blue',items:[
-    {id:'currConv',icon:'fa-money-bill-transfer',name:'Currency Converter',fn:currency},
-    {id:'unit',icon:'fa-ruler-combined',name:'Unit Converter',fn:unit},
-    {id:'age',icon:'fa-calendar-check',name:'Age Calculator',fn:ageCalc},
-    {id:'bmi',icon:'fa-weight-hanging',name:'BMI Calculator',fn:bmiCalc},
-    {id:'loan',icon:'fa-piggy-bank',name:'Loan Calculator',fn:loanCalc},
-    {id:'perc',icon:'fa-percent',name:'Percentage Calculator',fn:percentCalc},
-    {id:'datediff',icon:'fa-hourglass-half',name:'Date Difference',fn:dateDiff},
-    {id:'tz',icon:'fa-earth-americas',name:'Time Zone Converter',fn:tzConvert}
-  ]},
-  {title:'Security & Privacy',color:'neon-green',items:[
-    {id:'passGen',icon:'fa-key',name:'Password Generator',fn:passGen},
-    {id:'passStr',icon:'fa-shield',name:'Password Strength Checker',fn:passStr},
-    {id:'ip',icon:'fa-satellite-dish',name:'IP Address Finder',fn:ipFinder},
-    {id:'urlEnc',icon:'fa-link',name:'URL Encoder/Decoder',fn:urlEnc},
-    {id:'md5',icon:'fa-hashtag',name:'MD5 Hash Generator',fn:md5Gen}
-  ]},
-  {title:'Fun & Engagement',color:'neon-pink',items:[
-    {id:'randomName',icon:'fa-user-secret',name:'Random Name Generator',fn:randomName},
-    {id:'quiz',icon:'fa-question',name:'Trivia Quiz Maker',fn:quizMaker},
-    {id:'countdown',icon:'fa-stopwatch',name:'Countdown Timer',fn:countdownTimer},
-    {id:'wheel',icon:'fa-gamepad',name:'Spin the Wheel',fn:spinWheel}
-  ]}
-];
 
-// ---------- RENDER CATEGORIES ----------
-function renderCategories(){
-  const out = document.getElementById('categories');
-  out.innerHTML = toolCats.map(cat=>`
-    <div>
-      <h3 class="font-orbitron text-2xl mb-4" style="color:var(--tw-${cat.color});filter:blur(.5px) drop-shadow(0 0 10px currentColor)">${cat.title}</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        ${cat.items.map(t=>`
-          <div onclick="loadTool('${t.id}')" class="glass rounded-xl p-4 hover:scale-105 transition cursor-pointer">
-            <div class="text-4xl mb-2 flex items-center space-x-2">
-              <i class="fa-duotone ${t.icon}" style="color:var(--tw-${cat.color})"></i>
-              <span class="font-orbitron">${t.name}</span>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `).join('');
-}
-renderCategories();
 
-// ---------- LOAD TOOL (SPA) ----------
-function loadTool(id){
-  const arr = toolCats.flatMap(c=>c.items);
-  const tool = arr.find(v=>v.id===id);
-  if(!tool) return;
-  const modal=document.getElementById('toolModal');
-  const content=document.getElementById('toolContent');
-  content.setAttribute('tool-id',id);
-  content.innerHTML=''; // reset
-  tool.fn(content);
-  modal.classList.remove('hidden');
-  modal.classList.add('grid');
-}
+  <p><!-- This is an optional footer. If you want text here, place it inside these tags, and remove this comment. -->&nbsp;</p>
 
-document.getElementById('closeModal').onclick = ()=>document.getElementById('toolModal').classList.add('hidden');
-window.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && !document.getElementById('toolModal').classList.contains('hidden')) document.getElementById('toolModal').classList.add('hidden') });
 
-// ---------- PARTICLES (tsParticles) ----------
-tsParticles.load("particles", {
-  fpsLimit: 40,
-  particles: {
-    color: { value: ["#39ff14", "#bf00ff", "#00ffff", "#ff00ff"] },
-    move: { direction: "none", enable: true, outModes: "out", speed: 0.5, straight: false },
-    size: { value: { min: 1, max: 4 } },
-    opacity: { value: 0.6 }
-  },
-  interactivity: { events: { onHover: { enable: true, mode: "repulse" } } },
-  detectRetina: true,
-  fullScreen: { enable: true }
-});
 
-// ---------- LOCAL EMAIL/SUGGESTION FORMS ----------
-function sendMail(form,e){ e.preventDefault(); alert('Message sent! (mock)'); form.reset(); }
-function sendSuggestion(form,e){ e.preventDefault(); alert('Suggestion received! Thank you 🎉'); form.reset(); }
+</div></div></div>
 
-// ---------- DUMMY TOOL DEMOS (quick mocks) ----------
-// Each "fn(rootEl)" renders a minimal UI inside the modal’s “toolContent”.
-// In production replace these with real API calls.
+<!-- End #footer -->
 
-function sharedUI(rootEl,{input,action,result}){
-  rootEl.innerHTML = `
-    <div class="space-y-4">
-      ${input}
-      <button onclick="this.nextElementSibling.innerHTML=''"
-              class="bg-neon-blue text-black px-4 py-2 rounded neon-glow">Clear</button>
-      <div class="text-right">
-        <button onclick="${action}" class="bg-neon-purple text-white px-4 py-2 rounded neon-glow">Run</button>
-      </div>
-      <div class="glass rounded p-4 min-h-12">
-        ${result || "<i class='opacity-50'>Results appear here...</i>"}
-      </div>
-    </div>
-  `;
-}
 
-// ███ EXAMPLE: AI Text Generator ███
-function aiTextGen(rootEl){
-  const textarea = `<textarea placeholder='Enter prompt' class="w-full bg-gray-900 rounded p-2 text-white h-32"></textarea>`;
-  const result = `<span id="r-${sharedUI.caller}">Ready to generate</span>`;
-  sharedUI(rootEl,{
-    input:textarea,
-    action:`document.getElementById('r-${sharedUI.caller}').innerText = 'Lorem ipsum... '+document.querySelector('#toolContent textarea').value;`,
-    result
-  });
-}
 
-function aiImageGen(rootEl){
-  rootEl.innerHTML=`
-    <input placeholder="Describe your image" class="block w-full bg-black/30 rounded p-2">
-    <button onclick="this.nextElementSibling.innerHTML=\`<img src='https://via.placeholder.com/400x300/' class='border neon-glow rounded'/>\`">Generate</button>
-    <div class="mt-4"></div>
-  `;
-}
 
-// ███ ALL OTHER TOOLS QUICK-STUB (bandwidth-saving) ███
-['aiBgRm','aiVoice','aiChat','aiPara','aiSum','aiHead','aiMail','aiCode',
- 'grammar','plagiarismCheck','tts','stt','wc','cc','caseConv','readability','rtg','emojiTranslator',
- 'imgComp','imgResz','img2pdf','ocr','crop','colorPick','rotate','filter','memeGen',
- 'pdf2word','word2pdf','pdfmerge','pdfsplit','pdfpass','pdfcomp','pdfnum',
- 'htmlFmt','cssMin','jsBeautify','jsonFmt','base64Tool','rgbHexConverter','md2html',
- 'currency','unit','ageCalc','bmiCalc','loanCalc','percentCalc','dateDiff','tzConvert',
- 'passGen','passStr','ipFinder','urlEnc','md5Gen',
- 'randomName','quizMaker','countdownTimer','spinWheel'].forEach(id=>{
-  // Map every tool ID to either its own function or a generic placeholder
-  const tFunctions = {aiTextGen,aiImageGen,aiChat,aiParaphrase,aiSummarize,aiHeadline,aiMail,aiCode,aiBgRemove:aiBgRm,aiVoice,wordCount:wc,charCount:cc,grammarCheck,plagiarismCheck,tts,stt,caseConv,readability,rtg,emojiTranslator,imgCompress,imgResize,img2pdf,ocr,imgCrop,colorPicker,imgRotate,imgFilter,memeGen,pdf2word,word2pdf,pdfMerge,pdfSplit,pdfPass,pdfComp,pdfNum,htmlFmt,cssMin,jsBeautify,jsonFmt,base64Tool,rgbHexConverter,md2html,currency,unit,ageCalc,bmiCalc,loanCalc,percentCalc,dateDiff,tzConvert,passGen,passStr,ipFinder,urlEnc,md5Gen,randomName,quizMaker,countdownTimer,spinWheel};
-  window[id] = tFunctions[id] ? tFunctions[id] : genPlaceholder(id);
-});
 
-// generics
-function genPlaceholder(id){
-  return (rootEl)=>{
-    rootEl.innerHTML=`<p>Ready: Tool UI for <strong>${id}</strong>.<br><i class="opacity-50">Integration placeholder only.</i></p>`;
-  };
-}
 
-// Placeholder utilities
-function wordCount(root){
-  root.innerHTML='<textarea placeholder="Type..." oninput="this.nextElementSibling.innerText=this.value.trim().split(/\\s+/).length+\' words\'" class="w-full h-32 bg-black/30 rounded p-2"></textarea><p class="mt-2 text-neon-green">0 words</p>';
-}
-function charCount(root){
-  root.innerHTML='<textarea placeholder="Type..." oninput="this.nextElementSibling.innerText=this.value.length+\' chars\'" class="w-full h-32 bg-black/30 rounded p-2"></textarea><p class="mt-2 text-neon-green">0 chars</p>';
-}
 
-// --------- HYPERLIGHT CSS LOADER MARK ----------
-// All file handling, compression, OCR, encryption, etc. may be easily swapped in here
-// using the same structure: tool fn(rootEl) injects HTML/JS on card click.
-// No additional script files are required, keeping everything in <script> scope.
-</script>
 
-</body></html>
-```
+</div>
+
+<!-- End #content -->
+
+
+
+</body>
+
+</html>
