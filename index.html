@@ -3,848 +3,2045 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Tool Nest - Your Productivity Hub</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Enhanced Cyber-Neon Tools - 60+ Free AI, Text, Image & Developer Utilities</title>
+    <meta name="description" content="Discover a vast collection of 60+ free online tools for AI, text, image, PDF, development, and more. Enhance your productivity with our cyber-neon themed platform – no login required!">
+    
+    <!-- CDN Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
         :root {
-            --primary: #000000;
-            --primary-light: #333333;
-            --secondary: #ffffff;
-            --accent: #ff6b6b;
-            --light: #1a1a1a;
-            --dark: #0a0a0a;
-            --success: #00c896;
-            --gray: #888888;
-            --light-gray: #2a2a2a;
-            --card-bg: #121212;
-            --header-bg: #000000;
+            --neon-green: #00ff88;
+            --neon-purple: #8a2be2;
+            --neon-blue: #00d4ff;
+            --neon-pink: #ff00d4;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
         }
-        
+
         body {
-            background-color: #000000;
-            color: var(--secondary);
-            line-height: 1.6;
+            font-family: 'Exo 2', sans-serif;
+            background: radial-gradient(circle at 30% 20%, #1a1a2e 0%, #0a0a0a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+
+        .orbitron {
+            font-family: 'Orbitron', monospace;
         }
-        
-        header {
-            background: var(--header-bg);
-            color: var(--secondary);
-            padding: 1.2rem 0;
-            box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
-            position: sticky;
+
+        /* Floating Particles Animation */
+        .particles {
+            position: fixed;
             top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--light-gray);
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 6s infinite linear;
         }
-        
-        .logo {
-            font-size: 1.6rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            color: var(--secondary);
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-10px) rotate(360deg);
+                opacity: 0;
+            }
         }
-        
-        .logo i {
-            margin-right: 10px;
-            color: var(--accent);
+
+        /* Glassmorphism Effect */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
         }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-left: 1.8rem;
-        }
-        
-        .nav-links a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            font-size: 0.95rem;
-        }
-        
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-        
-        .hero {
-            text-align: center;
-            padding: 3.5rem 0 2.5rem;
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-            color: white;
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid var(--light-gray);
-        }
-        
-        .hero h1 {
-            font-size: 2.4rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-        
-        .hero p {
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: 400;
-        }
-        
-        .categories {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 1.5rem 0 2.5rem;
-            gap: 0.6rem;
-        }
-        
-        .category-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--light-gray);
-            padding: 0.6rem 1.2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
+
+        .glass-hover {
             transition: all 0.3s ease;
-            color: var(--gray);
         }
-        
-        .category-btn:hover, .category-btn.active {
-            background: var(--accent);
-            color: var(--primary);
-            border-color: var(--accent);
-        }
-        
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.8rem;
-            padding: 0 0 3rem;
-        }
-        
-        .tool-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid var(--light-gray);
-        }
-        
-        .tool-card:hover {
+
+        .glass-hover:hover {
+            background: rgba(255, 255, 255, 0.15);
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
         }
-        
-        .tool-header {
-            padding: 1.2rem;
-            background: var(--card-bg);
-            color: var(--secondary);
-            border-bottom: 1px solid var(--light-gray);
+
+        /* Neon Glow Effects */
+        .neon-green {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
         }
-        
-        .tool-header h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.3rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
+
+        .neon-purple {
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px var(--neon-purple);
         }
-        
-        .tool-header h3 i {
-            margin-right: 8px;
-            color: var(--accent);
+
+        .neon-blue {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
         }
-        
-        .tool-header p {
-            color: var(--gray);
-            font-size: 0.9rem;
+
+        .neon-pink {
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
         }
-        
-        .tool-content {
-            padding: 1.2rem;
+
+        .neon-border-green {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
         }
-        
-        .tool-content p {
-            color: var(--gray);
-            margin-bottom: 1.2rem;
-            font-size: 0.95rem;
+
+        .neon-border-purple {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
         }
-        
-        .tool-embed {
-            background: var(--light);
-            padding: 1.2rem;
-            min-height: 220px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        .neon-border-blue {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        .neon-border-pink {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 212, 0.5);
+        }
+
+        /* Navigation Styles */
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-link.active {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        /* Form Styles */
+        .cyber-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
             border-radius: 8px;
+            padding: 0.75rem;
+            color: #ffffff;
+            transition: all 0.3s ease;
         }
-        
-        /* Calculator Styles */
-        .calculator {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-gap: 6px;
-            max-width: 220px;
-            margin: 0 auto;
+
+        .cyber-input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
         }
-        
-        .calculator-display {
-            grid-column: span 4;
-            background: #1a1a1a;
-            padding: 12px;
-            text-align: right;
-            font-size: 1.3rem;
-            border-radius: 6px;
-            border: 1px solid var(--light-gray);
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--secondary);
-        }
-        
-        .calculator-btn {
-            padding: 10px;
+
+        .cyber-button {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
             border: none;
-            border-radius: 6px;
-            background: #1a1a1a;
-            font-weight: 500;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: #000;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            font-size: 0.95rem;
-            color: var(--secondary);
+            transition: all 0.3s ease;
         }
-        
-        .calculator-btn:hover {
-            background: #2a2a2a;
+
+        .cyber-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
         }
-        
-        .calculator-btn.operator {
-            background: var(--accent);
-            color: var(--primary);
-        }
-        
-        .calculator-btn.operator:hover {
-            background: #ff8585;
-        }
-        
-        .calculator-btn.equals {
-            background: var(--success);
-            color: var(--primary);
-        }
-        
-        .calculator-btn.equals:hover {
-            background: #00e0a8;
-        }
-        
-        /* Other tool styles */
-        .unit-converter {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-width: 230px;
-            margin: 0 auto;
-        }
-        
-        .unit-converter select, .unit-converter input {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid var(--light-gray);
-            font-size: 0.9rem;
-            background: #1a1a1a;
-            color: var(--secondary);
-        }
-        
-        .unit-converter button {
-            padding: 10px;
-            border: none;
-            border-radius: 6px;
-            background: var(--accent);
-            color: var(--primary);
-            font-weight: 500;
+
+        /* Tool Card Styles */
+        .tool-card {
+            min-height: 200px;
             cursor: pointer;
-            font-size: 0.9rem;
         }
-        
-        .unit-converter button:hover {
-            background: #ff8585;
+
+        .category-section {
+            margin-bottom: 3rem;
         }
-        
-        .notes-app {
-            width: 100%;
-            max-width: 260px;
-            margin: 0 auto;
+
+        /* Tool Interface Styles */
+        .tool-interface {
+            display: none;
+            animation: fadeIn 0.3s ease;
         }
-        
-        .notes-app textarea {
-            width: 100%;
-            height: 130px;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid var(--light-gray);
-            resize: vertical;
-            font-size: 0.9rem;
-            background: #1a1a1a;
-            color: var(--secondary);
+
+        .tool-interface.active {
+            display: block;
         }
-        
-        .notes-app button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 6px;
-            background: var(--accent);
-            color: var(--primary);
-            font-weight: 500;
-            cursor: pointer;
-            font-size: 0.9rem;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        .notes-app button:hover {
-            background: #ff8585;
+
+        /* Page Styles */
+        .page-content {
+            display: none;
         }
-        
-        footer {
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 2.5rem 0;
-            margin-top: 2rem;
-            border-top: 1px solid var(--light-gray);
+
+        .page-content.active {
+            display: block;
         }
-        
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .footer-logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: white;
-        }
-        
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-        
-        .copyright {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-        }
-        
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .tools-grid {
-                grid-template-columns: 1fr;
+            .particle {
+                width: 2px;
+                height: 2px;
             }
             
-            .nav-links {
-                display: none;
+            .nav-link {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.875rem;
             }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero {
-                padding: 2.5rem 0 2rem;
-            }
+        }
+
+        /* Content Wrapper */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Download Button Styles */
+        .download-btn {
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink));
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            color: #fff;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(255, 0, 212, 0.4);
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <i class="fas fa-toolbox"></i>
-                    <span>The Tool Nest</span>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Navigation -->
+        <nav class="glass p-4 m-4 sticky top-4 z-50">
+            <div class="flex flex-wrap justify-between items-center">
+                <h1 class="orbitron text-2xl font-bold neon-green cursor-pointer" onclick="showPage('home')">
+                    <i class="fas fa-microchip mr-2"></i>Cyber-Neon Tools
+                </h1>
+                
+                <div class="flex flex-wrap space-x-2 md:space-x-4 mt-2 md:mt-0">
+                    <a href="#" class="nav-link active" onclick="showPage('home')">Tools</a>
+                    <a href="#" class="nav-link" onclick="showPage('about')">About</a>
+                    <a href="#" class="nav-link" onclick="showPage('guides')">AI Guides</a>
+                    <a href="#" class="nav-link" onclick="showPage('resources')">Dev Resources</a>
+                    <a href="#" class="nav-link" onclick="showPage('privacy')">Privacy</a>
+                    <a href="#" class="nav-link" onclick="showPage('terms')">Terms</a>
+                    <a href="#" class="nav-link" onclick="showPage('contact')">Contact</a>
+                    <a href="#" class="nav-link" onclick="showPage('suggestions')">Suggest Tool</a>
                 </div>
-                <ul class="nav-links">
-                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#"><i class="fas fa-folder"></i> Categories</a></li>
-                    <li><a href="#"><i class="fas fa-plus"></i> Add Tool</a></li>
-                    <li><a href="#"><i class="fas fa-user"></i> My Account</a></li>
-                </ul>
-            </nav>
+            </div>
+        </nav>
+
+        <!-- Home/Tools Page -->
+        <div id="home-page" class="page-content active">
+            <div class="container mx-auto px-4 py-8">
+                <!-- Hero Section -->
+                <div class="text-center mb-12">
+                    <h2 class="orbitron text-4xl md:text-6xl font-bold neon-blue mb-4">
+                        Enhanced Cyber-Neon Tools
+                    </h2>
+                    <p class="text-xl md:text-2xl text-gray-300 mb-8">
+                        60+ Free AI, Text, Image & Developer Utilities - No Login Required
+                    </p>
+                </div>
+
+                <!-- Tools Grid Container -->
+                <div id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- AI Tools Category -->
+                    <div class="category-section col-span-full">
+                        <h3 class="orbitron text-3xl font-bold neon-green mb-6 text-center">
+                            <i class="fas fa-robot mr-3"></i>AI Tools
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('ai-text-generator')">
+                                <i class="fas fa-pen-fancy text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">AI Text Generator</h4>
+                                <p class="text-gray-300">Generate creative text from prompts</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('ai-image-generator')">
+                                <i class="fas fa-image text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">AI Image Generator</h4>
+                                <p class="text-gray-300">Create images from text descriptions</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('ai-background-remover')">
+                                <i class="fas fa-eraser text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">AI Background Remover</h4>
+                                <p class="text-gray-300">Remove image backgrounds instantly</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('ai-voice-generator')">
+                                <i class="fas fa-microphone text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">AI Voice Generator</h4>
+                                <p class="text-gray-300">Convert text to natural speech</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('ai-chatbot')">
+                                <i class="fas fa-comments text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">AI Chatbot Assistant</h4>
+                                <p class="text-gray-300">Interactive AI assistant for queries</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('ai-paraphraser')">
+                                <i class="fas fa-sync text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">AI Paraphrasing Tool</h4>
+                                <p class="text-gray-300">Rewrite text while keeping meaning</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('ai-summarizer')">
+                                <i class="fas fa-compress text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">AI Summarizer</h4>
+                                <p class="text-gray-300">Condense long texts into summaries</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('ai-headline-generator')">
+                                <i class="fas fa-newspaper text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">AI Headline Generator</h4>
+                                <p class="text-gray-300">Create engaging headlines</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('ai-email-writer')">
+                                <i class="fas fa-envelope text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">AI Email Writer</h4>
+                                <p class="text-gray-300">Draft professional emails</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('ai-code-generator')">
+                                <i class="fas fa-code text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">AI Code Generator</h4>
+                                <p class="text-gray-300">Generate code from descriptions</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text & Writing Tools Category -->
+                    <div class="category-section col-span-full">
+                        <h3 class="orbitron text-3xl font-bold neon-purple mb-6 text-center">
+                            <i class="fas fa-pen mr-3"></i>Text & Writing Tools
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('grammar-checker')">
+                                <i class="fas fa-spell-check text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Grammar Checker</h4>
+                                <p class="text-gray-300">Check and correct grammar errors</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('plagiarism-checker')">
+                                <i class="fas fa-search text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Plagiarism Checker</h4>
+                                <p class="text-gray-300">Detect plagiarism in text</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('text-to-speech')">
+                                <i class="fas fa-volume-up text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Text-to-Speech</h4>
+                                <p class="text-gray-300">Convert text to audible speech</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('speech-to-text')">
+                                <i class="fas fa-microphone-alt text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Speech-to-Text</h4>
+                                <p class="text-gray-300">Convert speech to written text</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('word-counter')">
+                                <i class="fas fa-calculator text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Word Counter</h4>
+                                <p class="text-gray-300">Count words in your text</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('character-counter')">
+                                <i class="fas fa-list-ol text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Character Counter</h4>
+                                <p class="text-gray-300">Count characters in your text</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('case-converter')">
+                                <i class="fas fa-text-height text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Case Converter</h4>
+                                <p class="text-gray-300">Convert text case formats</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('readability-checker')">
+                                <i class="fas fa-chart-line text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Readability Checker</h4>
+                                <p class="text-gray-300">Analyze text readability score</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('random-text-generator')">
+                                <i class="fas fa-random text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Random Text Generator</h4>
+                                <p class="text-gray-300">Generate lorem ipsum text</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('emoji-translator')">
+                                <i class="fas fa-smile text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Emoji Translator</h4>
+                                <p class="text-gray-300">Convert text to emojis</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Tools Category -->
+                    <div class="category-section col-span-full">
+                        <h3 class="orbitron text-3xl font-bold neon-blue mb-6 text-center">
+                            <i class="fas fa-images mr-3"></i>Image Tools
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('image-compressor')">
+                                <i class="fas fa-compress-arrows-alt text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Image Compressor</h4>
+                                <p class="text-gray-300">Reduce image file sizes</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('image-resizer')">
+                                <i class="fas fa-expand-arrows-alt text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Image Resizer</h4>
+                                <p class="text-gray-300">Resize images to custom dimensions</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('image-to-pdf')">
+                                <i class="fas fa-file-pdf text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Image to PDF</h4>
+                                <p class="text-gray-300">Convert images to PDF format</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('image-to-text')">
+                                <i class="fas fa-file-alt text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Image to Text (OCR)</h4>
+                                <p class="text-gray-300">Extract text from images</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('image-cropper')">
+                                <i class="fas fa-crop text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Image Cropper</h4>
+                                <p class="text-gray-300">Crop images to desired area</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('color-picker')">
+                                <i class="fas fa-eye-dropper text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Image Color Picker</h4>
+                                <p class="text-gray-300">Pick colors from images</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('image-rotator')">
+                                <i class="fas fa-undo text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Image Rotator</h4>
+                                <p class="text-gray-300">Rotate images by degrees</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('photo-filters')">
+                                <i class="fas fa-magic text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Photo Filters & Effects</h4>
+                                <p class="text-gray-300">Apply filters to your photos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Continue with remaining categories... -->
+                    <!-- PDF & Document Tools -->
+                    <div class="category-section col-span-full">
+                        <h3 class="orbitron text-3xl font-bold neon-pink mb-6 text-center">
+                            <i class="fas fa-file-pdf mr-3"></i>PDF & Document Tools
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('pdf-to-word')">
+                                <i class="fas fa-file-word text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">PDF to Word</h4>
+                                <p class="text-gray-300">Convert PDF to Word document</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('word-to-pdf')">
+                                <i class="fas fa-file-pdf text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Word to PDF</h4>
+                                <p class="text-gray-300">Convert Word to PDF format</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('pdf-merger')">
+                                <i class="fas fa-object-group text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">PDF Merger</h4>
+                                <p class="text-gray-300">Merge multiple PDFs into one</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('pdf-splitter')">
+                                <i class="fas fa-cut text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">PDF Splitter</h4>
+                                <p class="text-gray-300">Split PDF into separate pages</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('pdf-password-remover')">
+                                <i class="fas fa-unlock text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">PDF Password Remover</h4>
+                                <p class="text-gray-300">Remove password from PDFs</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('pdf-compressor')">
+                                <i class="fas fa-compress text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">PDF Compressor</h4>
+                                <p class="text-gray-300">Reduce PDF file sizes</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('pdf-page-numbers')">
+                                <i class="fas fa-list-ol text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">PDF Page Numbers</h4>
+                                <p class="text-gray-300">Add page numbers to PDFs</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Developer & Coding Tools -->
+                    <div class="category-section col-span-full">
+                        <h3 class="orbitron text-3xl font-bold neon-green mb-6 text-center">
+                            <i class="fas fa-code mr-3"></i>Developer & Coding Tools
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('html-formatter')">
+                                <i class="fab fa-html5 text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">HTML Formatter</h4>
+                                <p class="text-gray-300">Format and beautify HTML code</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('css-minifier')">
+                                <i class="fab fa-css3-alt text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">CSS Minifier</h4>
+                                <p class="text-gray-300">Minify CSS for smaller files</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('js-beautifier')">
+                                <i class="fab fa-js text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">JavaScript Beautifier</h4>
+                                <p class="text-gray-300">Format JavaScript code</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('json-formatter')">
+                                <i class="fas fa-brackets-curly text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">JSON Formatter</h4>
+                                <p class="text-gray-300">Format and validate JSON</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('base64-encoder')">
+                                <i class="fas fa-lock text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Base64 Encoder/Decoder</h4>
+                                <p class="text-gray-300">Encode/decode Base64 strings</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('rgb-hex-converter')">
+                                <i class="fas fa-palette text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">RGB to HEX Converter</h4>
+                                <p class="text-gray-300">Convert color formats</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('markdown-converter')">
+                                <i class="fab fa-markdown text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Markdown to HTML</h4>
+                                <p class="text-gray-300">Convert Markdown to HTML</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculation & Utility Tools -->
+                    <div class="category-section col-span-full">
+                        <h3 class="orbitron text-3xl font-bold neon-purple mb-6 text-center">
+                            <i class="fas fa-calculator mr-3"></i>Calculation & Utility Tools
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('currency-converter')">
+                                <i class="fas fa-dollar-sign text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Currency Converter</h4>
+                                <p class="text-gray-300">Convert between currencies</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('unit-converter')">
+                                <i class="fas fa-ruler text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Unit Converter</h4>
+                                <p class="text-gray-300">Convert units of measurement</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('age-calculator')">
+                                <i class="fas fa-birthday-cake text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Age Calculator</h4>
+                                <p class="text-gray-300">Calculate age from birth date</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('bmi-calculator')">
+                                <i class="fas fa-weight text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">BMI Calculator</h4>
+                                <p class="text-gray-300">Calculate Body Mass Index</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('loan-calculator')">
+                                <i class="fas fa-home text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Loan Calculator</h4>
+                                <p class="text-gray-300">Calculate loan payments</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('percentage-calculator')">
+                                <i class="fas fa-percent text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Percentage Calculator</h4>
+                                <p class="text-gray-300">Calculate percentages</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('date-calculator')">
+                                <i class="fas fa-calendar text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Date Difference Calculator</h4>
+                                <p class="text-gray-300">Calculate date differences</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('timezone-converter')">
+                                <i class="fas fa-globe text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Time Zone Converter</h4>
+                                <p class="text-gray-300">Convert between time zones</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security & Privacy Tools -->
+                    <div class="category-section col-span-full">
+                        <h3 class="orbitron text-3xl font-bold neon-blue mb-6 text-center">
+                            <i class="fas fa-shield-alt mr-3"></i>Security & Privacy Tools
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('password-generator')">
+                                <i class="fas fa-key text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Password Generator</h4>
+                                <p class="text-gray-300">Generate strong passwords</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('password-strength')">
+                                <i class="fas fa-shield-check text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Password Strength Checker</h4>
+                                <p class="text-gray-300">Check password strength</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('ip-finder')">
+                                <i class="fas fa-map-marker-alt text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">IP Address Finder</h4>
+                                <p class="text-gray-300">Find your public IP address</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('url-encoder')">
+                                <i class="fas fa-link text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">URL Encoder/Decoder</h4>
+                                <p class="text-gray-300">Encode/decode URLs</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('md5-generator')">
+                                <i class="fas fa-hashtag text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">MD5 Hash Generator</h4>
+                                <p class="text-gray-300">Generate MD5 hashes</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fun & Engagement Tools -->
+                    <div class="category-section col-span-full">
+                        <h3 class="orbitron text-3xl font-bold neon-pink mb-6 text-center">
+                            <i class="fas fa-gamepad mr-3"></i>Fun & Engagement Tools
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('random-name-generator')">
+                                <i class="fas fa-user-tag text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Random Name Generator</h4>
+                                <p class="text-gray-300">Generate random names</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-purple" onclick="openTool('trivia-quiz')">
+                                <i class="fas fa-question-circle text-3xl neon-purple mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Trivia Quiz Maker</h4>
+                                <p class="text-gray-300">Create trivia quizzes</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-blue" onclick="openTool('meme-generator')">
+                                <i class="fas fa-laugh text-3xl neon-blue mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Meme Generator</h4>
+                                <p class="text-gray-300">Create custom memes</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-pink" onclick="openTool('countdown-timer')">
+                                <i class="fas fa-clock text-3xl neon-pink mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Countdown Timer</h4>
+                                <p class="text-gray-300">Customizable countdown timer</p>
+                            </div>
+                            
+                            <div class="glass glass-hover tool-card p-6 neon-border-green" onclick="openTool('spin-wheel')">
+                                <i class="fas fa-sync text-3xl neon-green mb-4"></i>
+                                <h4 class="orbitron text-xl font-bold mb-2">Spin the Wheel</h4>
+                                <p class="text-gray-300">Decision-making wheel game</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool Interface Area -->
+                <div id="tool-interface" class="glass p-8 mt-8" style="display: none;">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 id="tool-title" class="orbitron text-2xl font-bold neon-blue"></h3>
+                        <button onclick="closeTool()" class="cyber-button">
+                            <i class="fas fa-times mr-2"></i>Close Tool
+                        </button>
+                    </div>
+                    <div id="tool-content">
+                        <!-- Tool content will be loaded here dynamically -->
+                    </div>
+                </div>
+            </div>
         </div>
-    </header>
-    
-    <div class="hero">
-        <div class="container">
-            <h1>Your Productivity Hub</h1>
-            <p>All your essential tools in one convenient place. Streamline your workflow with our curated collection of utilities.</p>
+
+        <!-- About Us Page -->
+        <div id="about-page" class="page-content">
+            <div class="container mx-auto px-4 py-8">
+                <div class="glass p-8">
+                    <h2 class="orbitron text-4xl font-bold neon-green mb-8 text-center">About Enhanced Cyber-Neon Tools</h2>
+                    
+                    <div class="text-lg leading-relaxed space-y-6">
+                        <p>Welcome to Enhanced Cyber-Neon Tools, your ultimate destination for cutting-edge digital utilities wrapped in a stunning futuristic interface. We've created a comprehensive platform that brings together over 60 powerful tools designed to enhance your productivity and creativity.</p>
+                        
+                        <p>Our mission is simple: to provide free, accessible, and powerful tools that help you accomplish your tasks efficiently. Whether you're a developer, content creator, student, or business professional, our platform offers something valuable for everyone.</p>
+                        
+                        <h3 class="orbitron text-2xl font-bold neon-purple mt-8 mb-4">What Makes Us Different</h3>
+                        
+                        <ul class="space-y-3 ml-6">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle neon-green mr-3 mt-1"></i>
+                                <span><strong>No Registration Required:</strong> Access all tools instantly without creating an account</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle neon-green mr-3 mt-1"></i>
+                                <span><strong>Completely Free:</strong> All 60+ tools are available at no cost</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle neon-green mr-3 mt-1"></i>
+                                <span><strong>Futuristic Design:</strong> Enjoy a unique cyber-neon aesthetic with glassmorphism effects</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle neon-green mr-3 mt-1"></i>
+                                <span><strong>AI-Powered Tools:</strong> Leverage the latest AI technology for text, image, and voice generation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle neon-green mr-3 mt-1"></i>
+                                <span><strong>Instant Results:</strong> Get immediate results with our optimized processing</span>
+                            </li>
+                        </ul>
+                        
+                        <h3 class="orbitron text-2xl font-bold neon-blue mt-8 mb-4">Our Tool Categories</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="glass p-4">
+                                <h4 class="orbitron font-bold neon-green mb-2"><i class="fas fa-robot mr-2"></i>AI Tools</h4>
+                                <p>Advanced AI-powered generators for text, images, voice, and more.</p>
+                            </div>
+                            <div class="glass p-4">
+                                <h4 class="orbitron font-bold neon-purple mb-2"><i class="fas fa-pen mr-2"></i>Text & Writing</h4>
+                                <p>Comprehensive text processing and writing assistance tools.</p>
+                            </div>
+                            <div class="glass p-4">
+                                <h4 class="orbitron font-bold neon-blue mb-2"><i class="fas fa-images mr-2"></i>Image Tools</h4>
+                                <p>Professional image editing and processing utilities.</p>
+                            </div>
+                            <div class="glass p-4">
+                                <h4 class="orbitron font-bold neon-pink mb-2"><i class="fas fa-file-pdf mr-2"></i>PDF & Documents</h4>
+                                <p>Complete PDF manipulation and document conversion tools.</p>
+                            </div>
+                        </div>
+                        
+                        <p class="mt-8">We're constantly evolving and adding new tools based on user feedback and emerging technologies. Our commitment is to provide you with the most comprehensive, user-friendly, and visually stunning tool platform on the web.</p>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- AI Tool Guides Page -->
+        <div id="guides-page" class="page-content">
+            <div class="container mx-auto px-4 py-8">
+                <div class="glass p-8">
+                    <h2 class="orbitron text-4xl font-bold neon-green mb-8 text-center">AI Tool Guides & Best Practices</h2>
+                    
+                    <div class="space-y-8">
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-purple mb-4">
+                                <i class="fas fa-lightbulb mr-3"></i>Getting Started with AI Tools
+                            </h3>
+                            <p class="mb-4">Our AI tools are designed to be intuitive and powerful. Here are some tips to get the most out of them:</p>
+                            <ul class="space-y-2 ml-6">
+                                <li><i class="fas fa-arrow-right neon-blue mr-2"></i>Be specific and detailed in your prompts for better results</li>
+                                <li><i class="fas fa-arrow-right neon-blue mr-2"></i>Experiment with different phrasings if you don't get the desired output</li>
+                                <li><i class="fas fa-arrow-right neon-blue mr-2"></i>Use context and examples to guide the AI's understanding</li>
+                                <li><i class="fas fa-arrow-right neon-blue mr-2"></i>Break complex tasks into smaller, manageable parts</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-blue mb-4">
+                                <i class="fas fa-pen-fancy mr-3"></i>AI Text Generation Tips
+                            </h3>
+                            <div class="space-y-4">
+                                <p><strong class="neon-green">Prompt Engineering:</strong> Craft clear, specific prompts that include context, desired tone, and format.</p>
+                                <p><strong class="neon-green">Use Cases:</strong> Content creation, brainstorming, copywriting, creative writing, and technical documentation.</p>
+                                <p><strong class="neon-green">Best Results:</strong> Provide examples of the style or format you want, specify length requirements, and mention your target audience.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-pink mb-4">
+                                <i class="fas fa-image mr-3"></i>AI Image Generation Guide
+                            </h3>
+                            <div class="space-y-4">
+                                <p><strong class="neon-green">Effective Prompts:</strong> Describe the subject, style, lighting, colors, and composition you want.</p>
+                                <p><strong class="neon-green">Style Keywords:</strong> Use terms like "photorealistic," "digital art," "watercolor," "vintage," or "futuristic."</p>
+                                <p><strong class="neon-green">Quality Modifiers:</strong> Add terms like "high quality," "detailed," "8k," or "professional" for better results.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-green mb-4">
+                                <i class="fas fa-microphone mr-3"></i>Voice Generation Best Practices
+                            </h3>
+                            <div class="space-y-4">
+                                <p><strong class="neon-blue">Text Preparation:</strong> Use proper punctuation, spell out numbers and abbreviations, and include natural pauses.</p>
+                                <p><strong class="neon-blue">Voice Selection:</strong> Choose voices that match your content's tone and target audience.</p>
+                                <p><strong class="neon-blue">Output Quality:</strong> Preview shorter samples before generating longer content to ensure quality.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-purple mb-4">
+                                <i class="fas fa-brain mr-3"></i>Advanced AI Techniques
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-bold neon-pink mb-2">Chain Prompting</h4>
+                                    <p class="text-sm">Break complex tasks into a series of connected prompts for better results.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold neon-pink mb-2">Context Preservation</h4>
+                                    <p class="text-sm">Maintain context across multiple interactions for consistent outputs.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold neon-pink mb-2">Iterative Refinement</h4>
+                                    <p class="text-sm">Use AI output as a starting point and refine through multiple iterations.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold neon-pink mb-2">Template Creation</h4>
+                                    <p class="text-sm">Develop reusable prompt templates for consistent results.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Developer Resources Page -->
+        <div id="resources-page" class="page-content">
+            <div class="container mx-auto px-4 py-8">
+                <div class="glass p-8">
+                    <h2 class="orbitron text-4xl font-bold neon-blue mb-8 text-center">Developer Resources & Documentation</h2>
+                    
+                    <div class="space-y-8">
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-green mb-4">
+                                <i class="fas fa-code mr-3"></i>Code Formatting & Optimization
+                            </h3>
+                            <p class="mb-4">Our developer tools help you write cleaner, more efficient code:</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="glass p-4">
+                                    <h4 class="font-bold neon-purple mb-2">HTML Formatter</h4>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• Proper indentation and structure</li>
+                                        <li>• Attribute ordering and quotes</li>
+                                        <li>• Removes unnecessary whitespace</li>
+                                        <li>• Validates HTML syntax</li>
+                                    </ul>
+                                </div>
+                                <div class="glass p-4">
+                                    <h4 class="font-bold neon-pink mb-2">CSS Minifier</h4>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• Reduces file size significantly</li>
+                                        <li>• Removes comments and whitespace</li>
+                                        <li>• Shortens color codes</li>
+                                        <li>• Optimizes selectors</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-purple mb-4">
+                                <i class="fas fa-database mr-3"></i>Data Processing Tools
+                            </h3>
+                            
+                            <div class="space-y-4">
+                                <div class="glass p-4">
+                                    <h4 class="font-bold neon-green mb-2">JSON Formatter & Validator</h4>
+                                    <p class="mb-2">Essential for API development and data management:</p>
+                                    <div class="text-sm grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <strong class="neon-blue">Features:</strong>
+                                            <ul class="mt-1">
+                                                <li>• Syntax validation</li>
+                                                <li>• Pretty printing</li>
+                                                <li>• Error highlighting</li>
+                                                <li>• Minification option</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <strong class="neon-blue">Use Cases:</strong>
+                                            <ul class="mt-1">
+                                                <li>• API response testing</li>
+                                                <li>• Configuration files</li>
+                                                <li>• Data import/export</li>
+                                                <li>• Debug JSON structures</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="glass p-4">
+                                    <h4 class="font-bold neon-blue mb-2">Base64 Encoder/Decoder</h4>
+                                    <p class="mb-2">Handle binary data in text format:</p>
+                                    <div class="text-sm">
+                                        <p><strong class="neon-green">Common Uses:</strong> Email attachments, embedded images, API authentication, data URLs</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-pink mb-4">
+                                <i class="fas fa-palette mr-3"></i>Design & Color Tools
+                            </h3>
+                            
+                            <div class="glass p-4">
+                                <h4 class="font-bold neon-green mb-2">RGB to HEX Converter</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                                    <div>
+                                        <strong class="neon-purple">RGB Format:</strong>
+                                        <p>Red, Green, Blue values (0-255)</p>
+                                        <code class="bg-black bg-opacity-50 px-2 py-1 rounded">rgb(255, 0, 128)</code>
+                                    </div>
+                                    <div>
+                                        <strong class="neon-purple">HEX Format:</strong>
+                                        <p>Hexadecimal color codes</p>
+                                        <code class="bg-black bg-opacity-50 px-2 py-1 rounded">#FF0080</code>
+                                    </div>
+                                    <div>
+                                        <strong class="neon-purple">Use Cases:</strong>
+                                        <p>CSS styling, design systems, brand guidelines</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-blue mb-4">
+                                <i class="fas fa-markdown mr-3"></i>Content Conversion
+                            </h3>
+                            
+                            <div class="glass p-4">
+                                <h4 class="font-bold neon-green mb-2">Markdown to HTML Converter</h4>
+                                <div class="space-y-3">
+                                    <p>Convert Markdown syntax to HTML markup for web publishing.</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                        <div>
+                                            <strong class="neon-purple">Supported Elements:</strong>
+                                            <ul class="mt-1 space-y-1">
+                                                <li>• Headers (H1-H6)</li>
+                                                <li>• Bold and italic text</li>
+                                                <li>• Links and images</li>
+                                                <li>• Code blocks</li>
+                                                <li>• Lists and tables</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <strong class="neon-purple">Perfect For:</strong>
+                                            <ul class="mt-1 space-y-1">
+                                                <li>• Documentation sites</li>
+                                                <li>• Blog posts</li>
+                                                <li>• README files</li>
+                                                <li>• Technical writing</li>
+                                                <li>• Content management</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-green mb-4">
+                                <i class="fas fa-rocket mr-3"></i>Best Practices & Tips
+                            </h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="glass p-4">
+                                    <h4 class="font-bold neon-purple mb-2">Code Quality</h4>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• Always format before deployment</li>
+                                        <li>• Validate JSON before API calls</li>
+                                        <li>• Use consistent color schemes</li>
+                                        <li>• Document your code properly</li>
+                                    </ul>
+                                </div>
+                                <div class="glass p-4">
+                                    <h4 class="font-bold neon-pink mb-2">Performance Tips</h4>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• Minify CSS for production</li>
+                                        <li>• Optimize images before encoding</li>
+                                        <li>• Use appropriate data formats</li>
+                                        <li>• Test tools with sample data</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy Policy Page -->
+        <div id="privacy-page" class="page-content">
+            <div class="container mx-auto px-4 py-8">
+                <div class="glass p-8">
+                    <h2 class="orbitron text-4xl font-bold neon-purple mb-8 text-center">Privacy Policy</h2>
+                    
+                    <div class="space-y-6 text-lg leading-relaxed">
+                        <p class="neon-blue">Last updated: December 2024</p>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-green mb-4">Our Privacy Commitment</h3>
+                            <p>At Enhanced Cyber-Neon Tools, we are committed to protecting your privacy and ensuring the security of any information you may provide while using our platform. This Privacy Policy explains how we collect, use, and safeguard your information.</p>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-blue mb-4">Information We Collect</h3>
+                            
+                            <h4 class="font-bold neon-purple mb-2">Personal Information</h4>
+                            <ul class="ml-6 space-y-2">
+                                <li><i class="fas fa-circle neon-green mr-2" style="font-size: 0.5rem;"></i>Contact form submissions (name, email, message)</li>
+                                <li><i class="fas fa-circle neon-green mr-2" style="font-size: 0.5rem;"></i>Suggestion form feedback</li>
+                                <li><i class="fas fa-circle neon-green mr-2" style="font-size: 0.5rem;"></i>IP address for security purposes</li>
+                            </ul>
+                            
+                            <h4 class="font-bold neon-purple mb-2 mt-4">Usage Information</h4>
+                            <ul class="ml-6 space-y-2">
+                                <li><i class="fas fa-circle neon-blue mr-2" style="font-size: 0.5rem;"></i>Tool usage statistics (anonymized)</li>
+                                <li><i class="fas fa-circle neon-blue mr-2" style="font-size: 0.5rem;"></i>Browser type and version</li>
+                                <li><i class="fas fa-circle neon-blue mr-2" style="font-size: 0.5rem;"></i>Operating system information</li>
+                                <li><i class="fas fa-circle neon-blue mr-2" style="font-size: 0.5rem;"></i>Page views and navigation patterns</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-pink mb-4">How We Use Your Information</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-bold neon-green mb-2">Service Provision</h4>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• Operate and maintain our tools</li>
+                                        <li>• Process your requests and inquiries</li>
+                                        <li>• Provide technical support</li>
+                                        <li>• Improve user experience</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold neon-blue mb-2">Platform Improvement</h4>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• Analyze usage patterns</li>
+                                        <li>• Develop new features</li>
+                                        <li>• Fix bugs and issues</li>
+                                        <li>• Optimize performance</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-green mb-4">Data Processing and Storage</h3>
+                            
+                            <p class="mb-4"><strong class="neon-purple">No Account Required:</strong> We do not require user registration, so we don't store personal account information.</p>
+                            
+                            <p class="mb-4"><strong class="neon-purple">Temporary Processing:</strong> Files uploaded for processing are handled temporarily and deleted after processing is complete.</p>
+                            
+                            <p><strong class="neon-purple">Local Processing:</strong> Many tools process data locally in your browser, meaning your data never leaves your device.</p>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-blue mb-4">Third-Party Services</h3>
+                            
+                            <p class="mb-4">We may use third-party services for:</p>
+                            <ul class="ml-6 space-y-2">
+                                <li><i class="fas fa-check neon-green mr-2"></i>AI processing (text, image, voice generation)</li>
+                                <li><i class="fas fa-check neon-green mr-2"></i>Analytics (anonymized usage data)</li>
+                                <li><i class="fas fa-check neon-green mr-2"></i>Content delivery networks (CDNs)</li>
+                            </ul>
+                            
+                            <p class="mt-4">These services have their own privacy policies, and we recommend reviewing them.</p>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-pink mb-4">Your Rights and Choices</h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-bold neon-green">Access and Control</h4>
+                                    <p class="text-sm">You can request information about data we may have collected about you.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold neon-purple">Deletion</h4>
+                                    <p class="text-sm">You can request deletion of any personal information we may have stored.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold neon-blue">Opt-Out</h4>
+                                    <p class="text-sm">You can opt out of analytics tracking through your browser settings.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-green mb-4">Security Measures</h3>
+                            
+                            <ul class="space-y-2">
+                                <li><i class="fas fa-shield-alt neon-blue mr-3"></i>Encrypted data transmission (HTTPS)</li>
+                                <li><i class="fas fa-shield-alt neon-blue mr-3"></i>Secure server infrastructure</li>
+                                <li><i class="fas fa-shield-alt neon-blue mr-3"></i>Regular security audits</li>
+                                <li><i class="fas fa-shield-alt neon-blue mr-3"></i>Limited data retention periods</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-purple mb-4">Contact Information</h3>
+                            
+                            <p class="mb-4">For any privacy-related questions or requests, please contact us:</p>
+                            <ul class="space-y-2">
+                                <li><i class="fas fa-envelope neon-green mr-3"></i>Email: privacy@cyberneontools.com</li>
+                                <li><i class="fas fa-paper-plane neon-blue mr-3"></i>Contact Form: Use our contact page</li>
+                            </ul>
+                            
+                            <p class="mt-4 text-sm opacity-75">We will respond to privacy inquiries within 30 days.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terms and Conditions Page -->
+        <div id="terms-page" class="page-content">
+            <div class="container mx-auto px-4 py-8">
+                <div class="glass p-8">
+                    <h2 class="orbitron text-4xl font-bold neon-blue mb-8 text-center">Terms and Conditions</h2>
+                    
+                    <div class="space-y-6 text-lg leading-relaxed">
+                        <p class="neon-green">Last updated: December 2024</p>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-purple mb-4">Acceptance of Terms</h3>
+                            <p>By accessing and using Enhanced Cyber-Neon Tools, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-green mb-4">Service Description</h3>
+                            
+                            <p class="mb-4">Enhanced Cyber-Neon Tools provides:</p>
+                            <ul class="ml-6 space-y-2">
+                                <li><i class="fas fa-star neon-blue mr-2"></i>60+ free online tools and utilities</li>
+                                <li><i class="fas fa-star neon-blue mr-2"></i>AI-powered generators and processors</li>
+                                <li><i class="fas fa-star neon-blue mr-2"></i>Text, image, PDF, and document tools</li>
+                                <li><i class="fas fa-star neon-blue mr-2"></i>Developer and coding utilities</li>
+                                <li><i class="fas fa-star neon-blue mr-2"></i>Calculation and conversion tools</li>
+                            </ul>
+                            
+                            <p class="mt-4"><strong class="neon-pink">No Registration Required:</strong> All tools are accessible without creating an account or providing personal information beyond what's necessary for tool functionality.</p>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-blue mb-4">Use License</h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-bold neon-green mb-2">Permitted Uses</h4>
+                                    <ul class="ml-6 space-y-1 text-sm">
+                                        <li>• Personal and commercial use of tools</li>
+                                        <li>• Processing your own content and data</li>
+                                        <li>• Educational and research purposes</li>
+                                        <li>• Integration with your own projects</li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="font-bold neon-purple mb-2">Restrictions</h4>
+                                    <ul class="ml-6 space-y-1 text-sm">
+                                        <li>• No reverse engineering or copying of our tools</li>
+                                        <li>• No automated scraping or bulk processing</li>
+                                        <li>• No use for illegal or harmful activities</li>
+                                        <li>• No reselling or redistribution of our services</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-pink mb-4">User Responsibilities</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-bold neon-green mb-2">Content Responsibility</h4>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• You own the content you process</li>
+                                        <li>• Ensure you have rights to uploaded files</li>
+                                        <li>• Respect copyright and intellectual property</li>
+                                        <li>• Don't upload malicious or harmful content</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold neon-blue mb-2">Usage Guidelines</h4>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• Use tools responsibly and ethically</li>
+                                        <li>• Don't overload our systems</li>
+                                        <li>• Report bugs and issues appropriately</li>
+                                        <li>• Follow applicable laws and regulations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-green mb-4">Service Availability</h3>
+                            
+                            <p class="mb-4"><strong class="neon-purple">Best Effort Service:</strong> We strive to maintain 24/7 availability but cannot guarantee uninterrupted service.</p>
+                            
+                            <p class="mb-4"><strong class="neon-purple">Maintenance:</strong> We may perform scheduled maintenance with minimal notice.</p>
+                            
+                            <p><strong class="neon-purple">Updates:</strong> We may update, modify, or discontinue features at any time to improve the service.</p>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-blue mb-4">Intellectual Property</h3>
+                            
+                            <div class="space-y-4">
+                                <p><strong class="neon-green">Our Property:</strong> The platform design, code, algorithms, and branding are our intellectual property.</p>
+                                
+                                <p><strong class="neon-green">Your Content:</strong> You retain all rights to content you create or process using our tools.</p>
+                                
+                                <p><strong class="neon-green">Generated Content:</strong> AI-generated content through our tools belongs to you, subject to the capabilities and limitations of the underlying AI services.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-pink mb-4">Disclaimers and Limitations</h3>
+                            
+                            <div class="space-y-4">
+                                <div class="glass p-4">
+                                    <h4 class="font-bold neon-purple mb-2">Service Disclaimer</h4>
+                                    <p class="text-sm">Our tools are provided "as is" without warranties of any kind. We do not guarantee the accuracy, completeness, or reliability of results.</p>
+                                </div>
+                                
+                                <div class="glass p-4">
+                                    <h4 class="font-bold neon-green mb-2">AI Tool Limitations</h4>
+                                    <p class="text-sm">AI-generated content may not always be accurate or appropriate. Users should review and verify all AI outputs before use.</p>
+                                </div>
+                                
+                                <div class="glass p-4">
+                                    <h4 class="font-bold neon-blue mb-2">Liability Limitation</h4>
+                                    <p class="text-sm">We are not liable for any damages arising from the use of our services, including but not limited to data loss, business interruption, or consequential damages.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-green mb-4">Privacy and Data</h3>
+                            
+                            <ul class="space-y-2">
+                                <li><i class="fas fa-check neon-blue mr-2"></i>We process data as outlined in our Privacy Policy</li>
+                                <li><i class="fas fa-check neon-blue mr-2"></i>Uploaded files are processed temporarily and not permanently stored</li>
+                                <li><i class="fas fa-check neon-blue mr-2"></i>We use third-party AI services that may process your content</li>
+                                <li><i class="fas fa-check neon-blue mr-2"></i>You are responsible for backing up important data</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-purple mb-4">Modifications to Terms</h3>
+                            
+                            <p class="mb-4">We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting to this page.</p>
+                            
+                            <p><strong class="neon-green">Notification:</strong> We will make reasonable efforts to notify users of significant changes to these terms.</p>
+                        </div>
+                        
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-blue mb-4">Contact and Dispute Resolution</h3>
+                            
+                            <p class="mb-4">For questions about these terms or to report violations:</p>
+                            <ul class="space-y-2">
+                                <li><i class="fas fa-envelope neon-green mr-3"></i>Email: legal@cyberneontools.com</li>
+                                <li><i class="fas fa-paper-plane neon-pink mr-3"></i>Contact Form: Available on our contact page</li>
+                            </ul>
+                            
+                            <p class="mt-4 text-sm opacity-75">We aim to resolve disputes amicably and will respond to inquiries within 5 business days.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Us Page -->
+        <div id="contact-page" class="page-content">
+            <div class="container mx-auto px-4 py-8">
+                <div class="glass p-8">
+                    <h2 class="orbitron text-4xl font-bold neon-green mb-8 text-center">Contact Us</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Contact Form -->
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-purple mb-6">Send Us a Message</h3>
+                            
+                            <form id="contact-form" class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-bold neon-blue mb-2" for="contact-name">Name *</label>
+                                    <input type="text" id="contact-name" name="name" required 
+                                           class="cyber-input w-full" placeholder="Your full name">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-bold neon-blue mb-2" for="contact-email">Email *</label>
+                                    <input type="email" id="contact-email" name="email" required 
+                                           class="cyber-input w-full" placeholder="your.email@example.com">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-bold neon-blue mb-2" for="contact-subject">Subject *</label>
+                                    <select id="contact-subject" name="subject" required class="cyber-input w-full">
+                                        <option value="">Select a subject...</option>
+                                        <option value="technical-support">Technical Support</option>
+                                        <option value="tool-request">Tool Request</option>
+                                        <option value="bug-report">Bug Report</option>
+                                        <option value="feature-suggestion">Feature Suggestion</option>
+                                        <option value="partnership">Partnership Inquiry</option>
+                                        <option value="feedback">General Feedback</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-bold neon-blue mb-2" for="contact-message">Message *</label>
+                                    <textarea id="contact-message" name="message" required 
+                                              class="cyber-input w-full h-32 resize-none" 
+                                              placeholder="Please describe your inquiry in detail..."></textarea>
+                                </div>
+                                
+                                <button type="submit" class="cyber-button w-full">
+                                    <i class="fas fa-paper-plane mr-2"></i>Send Message
+                                </button>
+                            </form>
+                            
+                            <div id="contact-success" class="hidden mt-4 p-4 glass neon-border-green">
+                                <i class="fas fa-check-circle neon-green mr-2"></i>
+                                Thank you for your message! We'll get back to you within 24 hours.
+                            </div>
+                        </div>
+                        
+                        <!-- Contact Information -->
+                        <div class="space-y-6">
+                            <div class="glass p-6">
+                                <h3 class="orbitron text-2xl font-bold neon-blue mb-4">Get in Touch</h3>
+                                <p class="mb-6">We'd love to hear from you! Whether you have a question about our tools, need technical support, or want to suggest new features, our team is here to help.</p>
+                                
+                                <div class="space-y-4">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-envelope neon-green text-xl mr-4 w-6"></i>
+                                        <div>
+                                            <p class="font-bold">Email Support</p>
+                                            <p class="text-sm opacity-75">support@cyberneontools.com</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center">
+                                        <i class="fas fa-clock neon-purple text-xl mr-4 w-6"></i>
+                                        <div>
+                                            <p class="font-bold">Response Time</p>
+                                            <p class="text-sm opacity-75">Within 24 hours</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center">
+                                        <i class="fas fa-globe neon-blue text-xl mr-4 w-6"></i>
+                                        <div>
+                                            <p class="font-bold">Available</p>
+                                            <p class="text-sm opacity-75">24/7 Online Platform</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="glass p-6">
+                                <h3 class="orbitron text-xl font-bold neon-pink mb-4">Frequently Asked Questions</h3>
+                                
+                                <div class="space-y-4">
+                                    <div>
+                                        <p class="font-bold neon-green text-sm">Q: Are all tools really free?</p>
+                                        <p class="text-sm opacity-75">A: Yes! All 60+ tools are completely free with no hidden fees or premium tiers.</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <p class="font-bold neon-blue text-sm">Q: Do I need to create an account?</p>
+                                        <p class="text-sm opacity-75">A: No registration required! Just visit and start using any tool immediately.</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <p class="font-bold neon-purple text-sm">Q: How do I report a bug?</p>
+                                        <p class="text-sm opacity-75">A: Use the contact form above and select "Bug Report" as the subject.</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <p class="font-bold neon-pink text-sm">Q: Can I suggest new tools?</p>
+                                        <p class="text-sm opacity-75">A: Absolutely! Use our suggestion form or contact us with your ideas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="glass p-6">
+                                <h3 class="orbitron text-xl font-bold neon-green mb-4">Quick Links</h3>
+                                
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="showPage('suggestions')" class="cyber-button text-sm">
+                                        <i class="fas fa-lightbulb mr-1"></i>Suggest Tool
+                                    </button>
+                                    <button onclick="showPage('about')" class="cyber-button text-sm">
+                                        <i class="fas fa-info-circle mr-1"></i>About Us
+                                    </button>
+                                    <button onclick="showPage('privacy')" class="cyber-button text-sm">
+                                        <i class="fas fa-shield-alt mr-1"></i>Privacy Policy
+                                    </button>
+                                    <button onclick="showPage('terms')" class="cyber-button text-sm">
+                                        <i class="fas fa-file-contract mr-1"></i>Terms & Conditions
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Suggestion Form Page -->
+        <div id="suggestions-page" class="page-content">
+            <div class="container mx-auto px-4 py-8">
+                <div class="glass p-8">
+                    <h2 class="orbitron text-4xl font-bold neon-pink mb-8 text-center">Suggest a Tool</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Suggestion Form -->
+                        <div class="glass p-6">
+                            <h3 class="orbitron text-2xl font-bold neon-blue mb-6">
+                                <i class="fas fa-lightbulb mr-3"></i>Share Your Ideas
+                            </h3>
+                            
+                            <p class="mb-6 opacity-75">
+                                Help us grow! Your suggestions drive our development. Whether it's a completely new tool or an improvement to existing ones, we want to hear from you.
+                            </p>
+                            
+                            <form id="suggestion-form" class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-bold neon-green mb-2" for="suggestion-category">Tool Category</label>
+                                    <select id="suggestion-category" name="category" class="cyber-input w-full">
+                                        <option value="">Select a category...</option>
+                                        <option value="ai-tools">AI Tools</option>
+                                        <option value="text-writing">Text & Writing Tools</option>
+                                        <option value="image-tools">Image Tools</option>
+                                        <option value="pdf-document">PDF & Document Tools</option>
+                                        <option value="developer-coding">Developer & Coding Tools</option>
+                                        <option value="calculation">Calculation & Utility Tools</option>
+                                        <option value="security-privacy">Security & Privacy Tools</option>
+                                        <option value="fun-engagement">Fun & Engagement Tools</option>
+                                        <option value="new-category">New Category</option>
+                                        <option value="improvement">Improvement to Existing Tool</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-bold neon-green mb-2" for="suggestion-title">Tool Name/Title *</label>
+                                    <input type="text" id="suggestion-title" name="title" required 
+                                           class="cyber-input w-full" placeholder="e.g., AI Logo Generator, QR Code Creator">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-bold neon-green mb-2" for="suggestion-description">Tool Description *</label>
+                                    <textarea id="suggestion-description" name="description" required 
+                                              class="cyber-input w-full h-32 resize-none" 
+                                              placeholder="Describe what the tool should do, its main features, and how users would benefit from it..."></textarea>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-bold neon-green mb-2" for="suggestion-features">Key Features</label>
+                                    <textarea id="suggestion-features" name="features" 
+                                              class="cyber-input w-full h-24 resize-none" 
+                                              placeholder="List specific features or functionality (optional)..."></textarea>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-bold neon-green mb-2" for="suggestion-priority">Priority Level</label>
+                                    <select id="suggestion-priority" name="priority" class="cyber-input w-full">
+                                        <option value="">How important is this tool?</option>
+                                        <option value="low">Low - Nice to have</option>
+                                        <option value="medium">Medium - Would be useful</option>
+                                        <option value="high">High - Really needed</option>
+                                        <option value="critical">Critical - Essential tool</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-bold neon-green mb-2" for="suggestion-email">Your Email (optional)</label>
+                                    <input type="email" id="suggestion-email" name="email" 
+                                           class="cyber-input w-full" placeholder="your.email@example.com (for updates on your suggestion)">
+                                </div>
+                                
+                                <button type="submit" class="cyber-button w-full">
+                                    <i class="fas fa-rocket mr-2"></i>Submit Suggestion
+                                </button>
+                            </form>
+                            
+                            <div id="suggestion-success" class="hidden mt-4 p-4 glass neon-border-pink">
+                                <i class="fas fa-check-circle neon-pink mr-2"></i>
+                                Thank you for your suggestion! We'll review it and may contact you for more details.
+                            </div>
+                        </div>
+                        
+                        <!-- Suggestion Guidelines -->
+                        <div class="space-y-6">
+                            <div class="glass p-6">
+                                <h3 class="orbitron text-2xl font-bold neon-purple mb-4">
+                                    <i class="fas fa-star mr-3"></i>What Makes a Great Suggestion?
+                                </h3>
+                                
+                                <div class="space-y-4">
+                                    <div class="flex items-start">
+                                        <i class="fas fa-check-circle neon-green mr-3 mt-1"></i>
+                                        <div>
+                                            <p class="font-bold">Clear Purpose</p>
+                                            <p class="text-sm opacity-75">Explain exactly what problem the tool would solve</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start">
+                                        <i class="fas fa-check-circle neon-blue mr-3 mt-1"></i>
+                                        <div>
+                                            <p class="font-bold">Practical Use Cases</p>
+                                            <p class="text-sm opacity-75">Describe real scenarios where the tool would be helpful</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start">
+                                        <i class="fas fa-check-circle neon-purple mr-3 mt-1"></i>
+                                        <div>
+                                            <p class="font-bold">Detailed Features</p>
+                                            <p class="text-sm opacity-75">List specific functionality and capabilities</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start">
+                                        <i class="fas fa-check-circle neon-pink mr-3 mt-1"></i>
+                                        <div>
+                                            <p class="font-bold">User Benefits</p>
+                                            <p class="text-sm opacity-75">Explain how it would improve productivity or solve pain points</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="glass p-6">
+                                <h3 class="orbitron text-xl font-bold neon-green mb-4">
+                                    <i class="fas fa-chart-line mr-3"></i>Most Requested Categories
+                                </h3>
+                                
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">AI Tools</span>
+                                        <div class="w-32 bg-black bg-opacity-50 rounded-full h-2">
+                                            <div class="bg-gradient-to-r from-green-400 to-blue-400 h-2 rounded-full w-5/6"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">Developer Tools</span>
+                                        <div class="w-32 bg-black bg-opacity-50 rounded-full h-2">
+                                            <div class="bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full w-4/6"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">Image Processing</span>
+                                        <div class="w-32 bg-black bg-opacity-50 rounded-full h-2">
+                                            <div class="bg-gradient-to-r from-blue-400 to-green-400 h-2 rounded-full w-3/6"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">Business Tools</span>
+                                        <div class="w-32 bg-black bg-opacity-50 rounded-full h-2">
+                                            <div class="bg-gradient-to-r from-pink-400 to-purple-400 h-2 rounded-full w-2/6"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="glass p-6">
+                                <h3 class="orbitron text-xl font-bold neon-blue mb-4">
+                                    <i class="fas fa-clock mr-3"></i>Development Timeline
+                                </h3>
+                                
+                                <div class="space-y-3 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="opacity-75">Review & Assessment</span>
+                                        <span class="neon-green">1-2 weeks</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="opacity-75">Simple Tools</span>
+                                        <span class="neon-blue">2-4 weeks</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="opacity-75">Complex AI Tools</span>
+                                        <span class="neon-purple">1-2 months</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="opacity-75">Major Features</span>
+                                        <span class="neon-pink">2-3 months</span>
+                                    </div>
+                                </div>
+                                
+                                <p class="mt-4 text-xs opacity-50">
+                                    *Timelines vary based on complexity and current development queue
+                                </p>
+                            </div>
+                            
+                            <div class="glass p-6">
+                                <h3 class="orbitron text-xl font-bold neon-pink mb-4">
+                                    <i class="fas fa-trophy mr-3"></i>Recognition Program
+                                </h3>
+                                
+                                <p class="text-sm mb-4 opacity-75">
+                                    Contributors of implemented suggestions get:
+                                </p>
+                                
+                                <ul class="space-y-2 text-sm">
+                                    <li><i class="fas fa-medal neon-green mr-2"></i>Credit in the tool description</li>
+                                    <li><i class="fas fa-medal neon-blue mr-2"></i>Early access to new features</li>
+                                    <li><i class="fas fa-medal neon-purple mr-2"></i>Exclusive contributor badge</li>
+                                    <li><i class="fas fa-medal neon-pink mr-2"></i>Input on future developments</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="glass p-6 m-4 mt-12">
+            <div class="container mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div>
+                        <h4 class="orbitron font-bold neon-green mb-3">Enhanced Cyber-Neon Tools</h4>
+                        <p class="text-sm opacity-75">60+ free online tools for productivity, creativity, and development. No registration required.</p>
+                    </div>
+                    
+                    <div>
+                        <h5 class="font-bold neon-blue mb-3">Quick Links</h5>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" onclick="showPage('about')" class="hover:neon-green transition-colors">About Us</a></li>
+                            <li><a href="#" onclick="showPage('contact')" class="hover:neon-green transition-colors">Contact Us</a></li>
+                            <li><a href="#" onclick="showPage('suggestions')" class="hover:neon-green transition-colors">Suggest Tool</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h5 class="font-bold neon-purple mb-3">Legal</h5>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" onclick="showPage('privacy')" class="hover:neon-green transition-colors">Privacy Policy</a></li>
+                            <li><a href="#" onclick="showPage('terms')" class="hover:neon-green transition-colors">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h5 class="font-bold neon-pink mb-3">Resources</h5>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" onclick="showPage('guides')" class="hover:neon-green transition-colors">AI Tool Guides</a></li>
+                            <li><a href="#" onclick="showPage('resources')" class="hover:neon-green transition-colors">Developer Resources</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-600 mt-6 pt-6 text-center text-sm opacity-75">
+                    <p>&copy; 2024 Enhanced Cyber-Neon Tools. All rights reserved. | Made with <span class="neon-pink">♥</span> for the digital future.</p>
+                </div>
+            </div>
+        </footer>
     </div>
-    
-    <main class="container">
-        <div class="categories">
-            <button class="category-btn active">All Tools</button>
-            <button class="category-btn">Calculators</button>
-            <button class="category-btn">Converters</button>
-            <button class="category-btn">Productivity</button>
-            <button class="category-btn">Design</button>
-        </div>
-        
-        <div class="tools-grid">
-            <!-- Calculator Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-calculator"></i> Calculator</h3>
-                    <p>Perform basic calculations</p>
-                </div>
-                <div class="tool-content">
-                    <p>A simple calculator for everyday use. Supports basic arithmetic operations.</p>
-                    <div class="tool-embed">
-                        <div class="calculator">
-                            <div class="calculator-display">0</div>
-                            <button class="calculator-btn">C</button>
-                            <button class="calculator-btn">←</button>
-                            <button class="calculator-btn operator">%</button>
-                            <button class="calculator-btn operator">÷</button>
-                            <button class="calculator-btn">7</button>
-                            <button class="calculator-btn">8</button>
-                            <button class="calculator-btn">9</button>
-                            <button class="calculator-btn operator">×</button>
-                            <button class="calculator-btn">4</button>
-                            <button class="calculator-btn">5</button>
-                            <button class="calculator-btn">6</button>
-                            <button class="calculator-btn operator">-</button>
-                            <button class="calculator-btn">1</button>
-                            <button class="calculator-btn">2</button>
-                            <button class="calculator-btn">3</button>
-                            <button class="calculator-btn operator">+</button>
-                            <button class="calculator-btn">0</button>
-                            <button class="calculator-btn">.</button>
-                            <button class="calculator-btn equals">=</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Unit Converter Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-exchange-alt"></i> Unit Converter</h3>
-                    <p>Convert between different units</p>
-                </div>
-                <div class="tool-content">
-                    <p>Convert length, weight, temperature, and more between different unit systems.</p>
-                    <div class="tool-embed">
-                        <div class="unit-converter">
-                            <select id="conversion-type">
-                                <option value="length">Length</option>
-                                <option value="weight">Weight</option>
-                                <option value="temperature">Temperature</option>
-                            </select>
-                            <div class="input-group">
-                                <input type="number" id="from-value" placeholder="Enter value">
-                                <select id="from-unit">
-                                    <option value="meter">Meters</option>
-                                    <option value="inch">Inches</option>
-                                    <option value="foot">Feet</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <input type="number" id="to-value" placeholder="Result" readonly>
-                                <select id="to-unit">
-                                    <option value="foot">Feet</option>
-                                    <option value="meter">Meters</option>
-                                    <option value="inch">Inches</option>
-                                </select>
-                            </div>
-                            <button id="convert-btn">Convert</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Notes Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-sticky-note"></i> Quick Notes</h3>
-                    <p>Jot down your thoughts</p>
-                </div>
-                <div class="tool-content">
-                    <p>A simple note-taking app. Your notes are saved in your browser's local storage.</p>
-                    <div class="tool-embed">
-                        <div class="notes-app">
-                            <textarea id="notes-area" placeholder="Type your notes here..."></textarea>
-                            <button id="save-notes">Save Notes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Currency Converter Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-money-bill-wave"></i> Currency Converter</h3>
-                    <p>Convert between currencies</p>
-                </div>
-                <div class="tool-content">
-                    <p>Check latest exchange rates and convert between world currencies. (Note: uses mock data)</p>
-                    <div class="tool-embed">
-                        <div class="unit-converter">
-                            <div class="input-group">
-                                <input type="number" id="currency-amount" placeholder="Amount" value="1">
-                                <select id="from-currency">
-                                    <option value="USD">USD</option>
-                                    <option value="EUR">EUR</option>
-                                    <option value="GBP">GBP</option>
-                                    <option value="JPY">JPY</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <input type="number" id="currency-result" placeholder="Result" readonly>
-                                <select id="to-currency">
-                                    <option value="EUR">EUR</option>
-                                    <option value="USD">USD</option>
-                                    <option value="GBP">GBP</option>
-                                    <option value="JPY">JPY</option>
-                                </select>
-                            </div>
-                            <button id="convert-currency">Convert</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Timer Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-stopwatch"></i> Timer</h3>
-                    <p>Countdown timer</p>
-                </div>
-                <div class="tool-content">
-                    <p>Set a countdown timer for any duration. Get notified when time is up.</p>
-                    <div class="tool-embed">
-                        <div class="unit-converter">
-                            <input type="number" id="timer-minutes" placeholder="Minutes" value="5" min="0">
-                            <input type="number" id="timer-seconds" placeholder="Seconds" value="0" min="0" max="59">
-                            <div id="timer-display">05:00</div>
-                            <button id="start-timer">Start Timer</button>
-                            <button id="reset-timer">Reset</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Color Picker Tool -->
-            <div class="tool-card">
-                <div class="tool-header">
-                    <h3><i class="fas fa-palette"></i> Color Picker</h3>
-                    <p>Choose and customize colors</p>
-                </div>
-                <div class="tool-content">
-                    <p>Select a color and get its HEX and RGB values. Useful for design work.</p>
-                    <div class="tool-embed">
-                        <div class="unit-converter">
-                            <input type="color" id="color-picker" value="#ff6b6b">
-                            <div id="color-values">
-                                <p>HEX: <span id="hex-value">#ff6b6b</span></p>
-                                <p>RGB: <span id="rgb-value">255, 107, 107</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-    
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-toolbox"></i> The Tool Nest
-                </div>
-                <div class="footer-links">
-                    <a href="#">Home</a>
-                    <a href="#">Tools</a>
-                    <a href="#">About</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                </div>
-                <div class="copyright">
-                    © 2023 The Tool Nest. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script>
-        // Calculator functionality
-        const calculatorDisplay = document.querySelector('.calculator-display');
-        const calculatorButtons = document.querySelectorAll('.calculator-btn');
-        let firstOperand = null;
-        let operator = null;
-        let waitingForSecondOperand = false;
+        // Initialize particles animation
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                
+                // Random colors
+                const colors = ['--neon-green', '--neon-purple', '--neon-blue', '--neon-pink'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = `var(${color})`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
 
-        calculatorButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const value = button.textContent;
-                
-                if (value === 'C') {
-                    calculatorDisplay.textContent = '0';
-                    firstOperand = null;
-                    operator = null;
-                    waitingForSecondOperand = false;
-                    return;
-                }
-                
-                if (value === '←') {
-                    calculatorDisplay.textContent = calculatorDisplay.textContent.slice(0, -1) || '0';
-                    return;
-                }
-                
-                if (value === '=') {
-                    if (operator && firstOperand !== null) {
-                        const result = calculate(firstOperand, parseFloat(calculatorDisplay.textContent), operator);
-                        calculatorDisplay.textContent = result;
-                        firstOperand = result;
-                        operator = null;
-                        waitingForSecondOperand = true;
-                    }
-                    return;
-                }
-                
-                if (['+', '-', '×', '÷', '%'].includes(value)) {
-                    if (firstOperand === null) {
-                        firstOperand = parseFloat(calculatorDisplay.textContent);
-                    } else if (operator) {
-                        const result = calculate(firstOperand, parseFloat(calculatorDisplay.textContent), operator);
-                        calculatorDisplay.textContent = result;
-                        firstOperand = result;
-                    }
-                    operator = value;
-                    waitingForSecondOperand = true;
-                    return;
-                }
-                
-                if (waitingForSecondOperand) {
-                    calculatorDisplay.textContent = value;
-                    waitingForSecondOperand = false;
-                } else {
-                    calculatorDisplay.textContent = calculatorDisplay.textContent === '0' ? value : calculatorDisplay.textContent + value;
-                }
+        // Navigation functionality
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
             });
-        });
-
-        function calculate(a, b, operator) {
-            switch (operator) {
-                case '+': return a + b;
-                case '-': return a - b;
-                case '×': return a * b;
-                case '÷': return a / b;
-                case '%': return a % b;
-                default: return b;
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId + '-page');
+            if (targetPage) {
+                targetPage.classList.add('active');
             }
+            
+            // Add active class to clicked nav link
+            event.target.classList.add('active');
+            
+            // Close any open tools
+            closeTool();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Unit Converter functionality
-        document.getElementById('convert-btn').addEventListener('click', () => {
-            const value = parseFloat(document.getElementById('from-value').value);
-            const fromUnit = document.getElementById('from-unit').value;
-            const toUnit = document.getElementById('to-unit').value;
-            const conversionType = document.getElementById('conversion-type').value;
+        // Tool functionality
+        function openTool(toolId) {
+            const toolInterface = document.getElementById('tool-interface');
+            const toolTitle = document.getElementById('tool-title');
+            const toolContent = document.getElementById('tool-content');
             
-            if (isNaN(value)) {
-                alert('Please enter a valid number');
-                return;
-            }
+            // Set tool title and content based on toolId
+            const toolData = getToolData(toolId);
+            toolTitle.textContent = toolData.title;
+            toolContent.innerHTML = toolData.content;
             
-            // Simple conversion factors for demonstration
-            let result;
-            if (conversionType === 'length') {
-                const toMeters = {
-                    meter: 1,
-                    inch: 0.0254,
-                    foot: 0.3048
-                };
-                
-                const meters = value * toMeters[fromUnit];
-                result = meters / toMeters[toUnit];
-            } else if (conversionType === 'weight') {
-                const toKilos = {
-                    kilogram: 1,
-                    pound: 0.453592,
-                    ounce: 0.0283495
-                };
-                
-                const kilos = value * toKilos[fromUnit];
-                result = kilos / toKilos[toUnit];
-            } else if (conversionType === 'temperature') {
-                if (fromUnit === 'celsius' && toUnit === 'fahrenheit') {
-                    result = (value * 9/5) + 32;
-                } else if (fromUnit === 'fahrenheit' && toUnit === 'celsius') {
-                    result = (value - 32) * 5/9;
-                } else {
-                    result = value; // Same unit
-                }
-            }
+            // Show tool interface
+            toolInterface.style.display = 'block';
+            toolInterface.scrollIntoView({ behavior: 'smooth' });
             
-            document.getElementById('to-value').value = result.toFixed(2);
-        });
-
-        // Notes functionality
-        const notesArea = document.getElementById('notes-area');
-        const saveNotesButton = document.getElementById('save-notes');
-
-        // Load saved notes from localStorage
-        if (localStorage.getItem('toolsShelfNotes')) {
-            notesArea.value = localStorage.getItem('toolsShelfNotes');
+            // Initialize tool-specific functionality
+            initializeTool(toolId);
         }
 
-        saveNotesButton.addEventListener('click', () => {
-            localStorage.setItem('toolsShelfNotes', notesArea.value);
-            alert('Notes saved!');
-        });
-
-        // Currency Converter functionality
-        document.getElementById('convert-currency').addEventListener('click', () => {
-            const amount = parseFloat(document.getElementById('currency-amount').value);
-            const fromCurrency = document.getElementById('from-currency').value;
-            const toCurrency = document.getElementById('to-currency').value;
-            
-            if (isNaN(amount)) {
-                alert('Please enter a valid amount');
-                return;
-            }
-            
-            // Mock exchange rates for demonstration
-            const rates = {
-                USD: { EUR: 0.85, GBP: 0.75, JPY: 110.0, USD: 1 },
-                EUR: { USD: 1.18, GBP: 0.88, JPY: 129.5, EUR: 1 },
-                GBP: { USD: 1.33, EUR: 1.14, JPY: 147.0, GBP: 1 },
-                JPY: { USD: 0.0091, EUR: 0.0077, GBP: 0.0068, JPY: 1 }
-            };
-            
-            const result = amount * rates[fromCurrency][toCurrency];
-            document.getElementById('currency-result').value = result.toFixed(2);
-        });
-
-        // Timer functionality
-        const timerDisplay = document.getElementById('timer-display');
-        const startTimerButton = document.getElementById('start-timer');
-        const resetTimerButton = document.getElementById('reset-timer');
-        let timerInterval = null;
-        let timeLeft = 5 * 60; // 5 minutes in seconds
-
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        function closeTool() {
+            const toolInterface = document.getElementById('tool-interface');
+            toolInterface.style.display = 'none';
         }
 
-        startTimerButton.addEventListener('click', () => {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-                startTimerButton.textContent = 'Start Timer';
-                return;
-            }
-            
-            const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
-            const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
-            timeLeft = minutes * 60 + seconds;
-            
-            if (timeLeft <= 0) {
-                alert('Please enter a valid time');
-                return;
-            }
-            
-            updateTimerDisplay();
-            startTimerButton.textContent = 'Pause Timer';
-            
-            timerInterval = setInterval(() => {
-                if (timeLeft > 0) {
-                    timeLeft--;
-                    updateTimerDisplay();
-                } else {
-                    clearInterval(timerInterval);
-                    timerInterval = null;
-                    startTimerButton.textContent = 'Start Timer';
-                    alert('Timer finished!');
-                }
-            }, 1000);
-        });
-
-        resetTimerButton.addEventListener('click', () => {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
-            startTimerButton.textContent = 'Start Timer';
-            const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
-            const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
-            timeLeft = minutes * 60 + seconds;
-            updateTimerDisplay();
-        });
-
-        // Color Picker functionality
-        const colorPicker = document.getElementById('color-picker');
-        const hexValue = document.getElementById('hex-value');
-        const rgbValue = document.getElementById('rgb-value');
-
-        colorPicker.addEventListener('input', () => {
-            const color = colorPicker.value;
-            hexValue.textContent = color;
-            
-            // Convert hex to RGB
-            const r = parseInt(color.substr(1, 2), 16);
-            const g = parseInt(color.substr(3, 2), 16);
-            const b = parseInt(color.substr(5, 2), 16);
-            
-            rgbValue.textContent = `${r}, ${g}, ${b}`;
-        });
-
-        // Initialize with current color
-        const initialColor = colorPicker.value;
-        const r = parseInt(initialColor.substr(1, 2), 16);
-        const g = parseInt(initialColor.substr(3, 2), 16);
-        const b = parseInt(initialColor.substr(5, 2), 16);
-        rgbValue.textContent = `${r}, ${g}, ${b}`;
-    </script>
-</body>
-</html>
+        function getToolData(toolId) {
+            const tools = {
+                'ai-text-generator': {
+                    title: 'AI Text Generator',
+                    content: `
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-bold neon-green mb-2">Enter your prompt:</label>
+                                <textarea id="ai-text-prompt" class="cyber-input w-full h-24 resize-none" 
+                                         placeholder="Describe what you want to generate..."></textarea>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-bold neon-blue mb-2">Content Type:</label>
+                                    <select id="ai-text-type" class="cyber-input w-full">
+                                        <option value="creative">Creative Writing</option>
+                                        <option value="business">Business Content</option>
+                                        <option value="technical">Technical Writing</option>
+                                        <option value="casual">Casual Text</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold neon-blue mb-2">Length:</label>
+                                    <select id="ai-text-length" class="cyber-input w-full">
+                                        <option value="short">Short (50-100 words)</option>
+                                        <option value="medium">Medium (100-250 words)</option>
+                                        <option value="long">Long (250-500 words)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button onclick="generateAIText()" class="cyber-button">
+                                <i class="fas fa-magic mr-2"></i>Generate Text
+                            </button>
+                            <div id="ai-text-result" class="glass p-4 hidden">
+                                <h4 class="font-bold neon-purple mb-2">Generated Text:</h4>
+                                <div id="ai-text-output" class="bg-black bg-opacity-30 p-4 rounded"></div>
+                                <button onclick="copyText('ai-text-output')" class="cyber-button mt-4">
+                                    <i class="fas fa-copy mr-2"></i>Copy Text
+                                </button>
+                            </div>
+                        </div>
+                    `
+                },
+                'word-counter': {
+                    title: 'Word Counter',
+                    content: `
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-bold neon-green mb-2">Enter your text:</label>
+                                <textarea id="word-count-text" class="cyber-input w-full h-32 resize-none" 
+                                         placeholder="Type or paste your text here..." 
+                                         oninput="updateWordCount()"></textarea>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div class="glass p-4 text-center">
+                                    <div class="text-2xl font-bold neon-green" id="word-count">0</div>
+                                    <div class="text-sm opacity-75">Words</div>
+                                </div>
+                                <div class="glass p-4 text-center">
+                                    <div class="text-2xl font-bold neon-blue" id="char-count">0</div>
+                                    <div class="text-sm opacity-75">Characters</div>
+                                </div>
+                                <div class="glass p-4 text-center">
+                                    <div class="text-2xl font-bold neon-purple" id="char-no-spaces">0</div>
+                                    <div class="text-sm opacity-75">No Spaces</div>
+                                </div>
+                                <div class="glass p-4 text-center">
+                                    <div class="text-2xl font-bold neon-pink" id="paragraph-count">0</div>
+                                    <div class="text-sm opacity-75">Paragraphs</div>
+                                </div>
+                            </div>
+                            <div class="glass p-4">
+                                <h4 class="font-bold neon-green mb-2">Additional Statistics:</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                    <div>Average words per sentence: <span class="neon-blue" id="avg-words">0</span></div>
+                                    <div>Reading time: <span class="neon-purple" id="reading-time">0 min</span></div>
+                                    <div>Most common word: <span class="neon-pink" id="common-word">-</span></div>
+                                    <div>Sentences: <span class="neon-green" id="sentence-count">0</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                'password-generator': {
+                    title: 'Password Generator',
+                    content: `
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-bold neon-green mb-2">Password Length:</label>
+                                        <input type="range" id="password-length" min="4" max="128" value="16" 
+                                               class="w-full" oninput="updatePasswordLength()">
+                                        <div class="text-center mt-1">
+                                            <span id="length-display" class="neon-blue font-bold">16</span> characters
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="space-y-3">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="include-uppercase" checked class="mr-2">
+                                            <span>Uppercase letters (A-Z)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="include-lowercase" checked class="mr-2">
+                                            <span>Lowercase letters (a-z)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="include-numbers" checked class="mr-2">
+                                            <span>Numbers (0-9)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="include-symbols" checked class="mr-2">
+                                            <span>Symbols (!@#$%^&*)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="exclude-ambiguous" class="mr-2">
+                                            <span>Exclude ambiguous characters (0,O,l,1)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <button onclick="generatePassword()" class="cyber-button w-full">
+                                        <i class="fas fa-key mr-2"></i>Generate Password
+                                    </button>
+                                    
+                                    <div id="password-result" class="glass p-4">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="font-bold neon-purple">Generated Password:</span>
+                                            <button onclick="copyPassword()" class="text-sm neon-green hover:text-green-300">
+                                                <i class="fas fa-copy mr-1"></i>Copy
+                                            </button>
+                                        </div>
+                                        <div id="generated-password" class="bg-black bg-opacity-50 p-3 rounded font-mono text-lg break-all">
+                                            Click generate to create a password
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="password-strength" class="glass p-4">
+                                        <div class="font-bold neon-blue mb-2">Password Strength:</div>
+                                        <div class="w-full bg-gray-700 rounded-full h-3 mb-2">
+                                            <div id="strength-bar" class="h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                                        </div>
+                                        <div id="strength-text" class="text-sm">Generate a password to see strength</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="glass p-4">
+                                <h4 class="font-bold neon-green mb-3">Password Security Tips:</h4>
+                                <ul class="text-sm space-y-2">
+                                    <li><i class="fas fa-shield-alt neon-blue mr-2"></i>Use unique passwords for each account</li>
+                                    <li><i class="fas fa-shield-alt neon-green mr-2"></i>Store passwords in a password manager</li>
+                                    <li><i class="fas fa-shield-alt neon-purple mr-2"></i>Enable two-factor authentication when possible</li>
+                                    <li><i class="fas fa-shield-alt neon-pink mr-2"></i>Change passwords if you suspect compromise</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                'image-compressor': {
+                    title: 'Image Compressor',
+                    content: `
+                        <div class="space-y-6">
+                            <div class="glass p-6 border-2 border-dashed border-gray-600 text-center">
+                                <input type="file" id="image-file" accept="image/*" onchange="handleImageUpload()" class="hidden">
+                                <div id="upload-area" onclick="document.getElementById('image-file').click()" class="cursor-pointer">
+                                    <i class="fas fa-cloud-upload-alt text-4xl neon-blue mb-4"></i>
+                                    <p class="text-lg font-bold mb-2">Click to upload an image</p>
+                                    <p class="text-sm opacity-75">Supports JPG, PNG, WebP (Max 10MB)</p>
+                                </div>
+                            </div>
+                            
+                            <div id="compression-controls" class="hidden space-y-4">
+                                <div>
+                                    <label class="block text-sm font-bold neon-green mb-2">Compression Quality:</label>
+                                    <input type="range" id="quality-slider" min="10" max="100" value="80" 
+                                           class="w-full" oninput="updateQualityDisplay()">
+                                    <div class="flex justify-between text-sm">
+                                        <span>Lower quality (smaller file)</span>
+                                        <span id="quality-display" class="neon-blue font-bold">80%</span>
+                                        <span>Higher quality (larger file)</span>
+                                    </div>
+                                </div>
+                                
+                                <button onclick="compressImage()" class="cyber-button">
+                                    <i class="fas fa-compress mr-2"></i>Compress Image
+                                </button>
+                            </div>
+                            
+                            <div id="image-preview" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="glass p-4">
+                                    <h4 class="font-bold neon-purple mb-2">Original</h4>
+                                    <img id="original-image" class="w-full rounded">
+                                    <div id="original-info" class="mt-2 text-sm"></div>
+                                </div>
+                                
+                                <div class="glass p-4">
+                                    <h4 class="font-bold neon-green mb-2">Compressed</h4>
+                                    <img id="compressed-image" class="w-full rounded">
+                                    <div id="compressed-info" class="mt-2 text-sm"></div>
+                                    <a id="download-link" class="download-btn mt-4 hidden">
+                                        <i class="fas fa-download mr-2"></i>Download Compressed
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                'json-formatter': {
+                    title: 'JSON Formatter & Validator',
+                    content: `
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <label class="text-sm font-bold neon-green">Input JSON:</label>
+                                        <button onclick="pasteFromClipboard()" class="text-sm neon-blue hover:text-blue-300">
+                                            <i class="fas fa-paste mr-1"></i>Paste
+                                        </button>
+                                    </div>
+                                    <textarea id="json-input" class="cyber-input w-full h-64 font-mono text-sm resize-none" 
+                                             placeholder='{"name": "example", "data": [1,2,3]}'></textarea>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <label class="text-sm font-bold neon-purple">Formatted JSON:</label>
+                                        <button onclick="copyFormattedJSON()" class="text-sm neon-green hover:text-green-300">
+                                            <i class="fas
