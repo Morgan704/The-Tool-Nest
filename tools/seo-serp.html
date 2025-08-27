@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>SERP Preview — Nest</title><link rel="stylesheet" href="../assets/styles.css"/></head>
+<body>
+  <div class="tool-wrap" style="max-width:900px;margin:80px auto">
+    <a href="../index.html">← Home</a>
+    <h1>SERP Preview</h1>
+    <p class="kv">See how your title and meta description may appear in search and check lengths.</p>
+
+    <label class="kv">Title</label><input id="title" class="input" placeholder="Page Title"/>
+    <div class="kv">Title length: <span id="tlen">0</span> characters</div>
+
+    <label class="kv">Description</label><textarea id="desc" class="input" rows="4"></textarea>
+    <div class="kv">Description length: <span id="dlen">0</span> characters</div>
+
+    <div style="margin-top:10px"><button id="render" class="btn btn-primary">Render Preview</button><button id="reset" class="btn btn-secondary">Reset</button></div>
+
+    <div id="preview" style="margin-top:12px;max-width:640px;background:#071423;padding:12px;border-radius:8px">
+      <div id="serptitle" style="color:#8fd8ff;font-size:18px;font-weight:600"></div>
+      <div id="serpurl" style="color:#7ef0e3">https://example.com/your-page</div>
+      <div id="serpdesc" style="color:#cfeef9;margin-top:6px"></div>
+    </div>
+  </div>
+
+<script>
+const title = document.getElementById('title'), desc = document.getElementById('desc');
+const tlen = document.getElementById('tlen'), dlen = document.getElementById('dlen');
+title.addEventListener('input', ()=>tlen.textContent = title.value.length);
+desc.addEventListener('input', ()=>dlen.textContent = desc.value.length);
+
+document.getElementById('render').addEventListener('click', ()=>{
+  document.getElementById('serptitle').textContent = title.value || 'Example Title';
+  document.getElementById('serpdesc').textContent = desc.value || 'Example meta description.';
+});
+document.getElementById('reset').addEventListener('click', ()=>{ title.value='';desc.value='';tlen.textContent='0';dlen.textContent='0'; document.getElementById('serptitle').textContent='';document.getElementById('serpdesc').textContent='';});
+</script>
+</body></html>
