@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Meta Tag Generator — Nest</title><link rel="stylesheet" href="../assets/styles.css"/></head>
+<body>
+  <div class="tool-wrap" style="max-width:900px;margin:80px auto">
+    <a href="../index.html">← Home</a>
+    <h1>Meta Tag Generator</h1>
+    <p class="kv">Generate copyable & downloadable meta tags for your page head.</p>
+
+    <label class="kv">Title</label>
+    <input id="title" class="input" placeholder="Page title"/>
+    <label class="kv">Description</label>
+    <textarea id="desc" class="input" rows="4"></textarea>
+    <label class="kv">Canonical URL</label>
+    <input id="canon" class="input" placeholder="https://example.com/page"/>
+    <label class="kv">Robots</label>
+    <input id="robots" class="input" placeholder="index,follow"/>
+
+    <div style="margin-top:10px"><button id="build" class="btn btn-primary">Build</button><button id="reset" class="btn btn-secondary">Reset</button></div>
+
+    <pre id="out" style="margin-top:12px;background:#071423;padding:12px;border-radius:8px;color:#cfeef9;white-space:pre-wrap"></pre>
+    <div style="margin-top:8px"><button id="copy" class="btn btn-primary" disabled>Copy</button><a id="download" class="btn btn-secondary" style="display:none">Download .txt</a></div>
+  </div>
+
+<script>
+const title = document.getElementById('title'), desc = document.getElementById('desc'), canon = document.getElementById('canon'), robots = document.getElementById('robots');
+const build = document.getElementById('build'), reset = document.getElementById('reset'), out = document.getElementById('out'), copyBtn = document.getElementById('copy'), dl = document.getElementById('download');
+
+build.addEventListener('click', ()=>{
+  const t = title.value.trim(), d = desc.value.trim(), c = canon.value.trim(), r = robots.value.trim() || 'index,follow';
+  const snippet = `<title>${t}</title>\n<meta name=\"description\" content=\"${d}\">\n<link rel=\"canonical\" href=\"${c}\">\n<meta name=\"robots\" content=\"${r}\">`;
+  out.textContent = snippet;
+  copyBtn.disabled = false;
+  dl.style.display = 'inline-block';
+  dl.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(snippet);
+  dl.download = 'meta-tags.txt';
+});
+
+copyBtn.addEventListener('click', async ()=>{ await navigator.clipboard.writeText(out.textContent); alert('Copied'); });
+
+reset.addEventListener('click', ()=>{ title.value=''; desc.value=''; canon.value=''; robots.value=''; out.textContent=''; copyBtn.disabled=true; dl.style.display='none'; });
+</script>
+</body>
+</html>
