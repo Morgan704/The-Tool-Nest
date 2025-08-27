@@ -3,32 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO Meta Tags (Dynamically updated via JS) -->
-    <title>The Tool Nest - Ultimate Web Tools Collection</title>
-    <meta id="meta-description" name="description" content="The Tool Nest is your ultimate digital toolbox. A comprehensive collection of free web tools including converters, calculators, PDF tools, image editors, and SEO utilities to enhance your productivity.">
-    <meta name="keywords" content="web tools, free tools, online tools, calculator, converter, pdf tools, image editor, seo tools, url shortener, pencil sketch">
-    
-    <!-- Stylesheets -->
+    <title>Enhanced Cyber-Neon Tools</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-    
-    <!-- External Libraries -->
-    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-
     <style>
         :root {
             --neon-green: #39ff14;
             --neon-purple: #bf00ff;
             --neon-blue: #00c3ff;
             --neon-pink: #ff0080;
-            --glass-bg: rgba(0, 20, 40, 0.8);
+            --glass-bg: rgba(0, 20, 40, 0.7);
             --glass-border: rgba(255, 255, 255, 0.1);
             --dark-bg: #0a0a0a;
         }
 
-        html { scroll-behavior: smooth; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Exo 2', sans-serif;
             background: radial-gradient(ellipse at top, #1a1a2e, #0a0a0a);
@@ -36,449 +31,795 @@
             min-height: 100vh;
         }
 
-        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
-        .particle { position: absolute; width: 2px; height: 2px; background: var(--neon-blue); border-radius: 50%; animation: float 20s infinite linear; }
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
         }
 
-        .navbar { background: rgba(0, 20, 40, 0.9); backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border); position: sticky; top: 0; z-index: 1000; }
-        .nav-link { color: #fff; transition: all 0.3s ease; padding: 10px 15px; border-radius: 8px; cursor: pointer; }
-        .nav-link:hover { color: var(--neon-blue); background: rgba(0, 195, 255, 0.1); text-shadow: 0 0 10px var(--neon-blue); }
-        .signin-btn { background: linear-gradient(45deg, var(--neon-green), var(--neon-blue)); color: #000; padding: 8px 16px; border-radius: 8px; font-weight: 700; transition: all 0.3s ease; cursor: pointer; }
-        .signin-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--neon-green); }
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
 
-        .hero-section { min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; position: relative; overflow: hidden; padding: 20px; }
-        .hero-title { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 4rem; text-transform: uppercase; background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: titleGlow 3s ease-in-out infinite alternate; text-align: center; margin-bottom: 20px; }
-        .hero-subtitle { font-size: 1.5rem; color: var(--neon-blue); text-align: center; margin-bottom: 40px; }
-        
-        .section { padding: 60px 20px; }
-        .section-title { font-family: 'Orbitron', monospace; font-size: 2.5rem; text-align: center; margin-bottom: 50px; color: var(--neon-blue); text-shadow: 0 0 20px var(--neon-blue); }
-        .category-title { font-family: 'Orbitron', monospace; font-size: 1.8rem; color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green); margin: 60px 0 20px 0; text-align: center; }
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
 
-        .card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(57, 255, 20, 0.1); width: 300px; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 8px 30px rgba(57, 255, 20, 0.2); border-color: var(--neon-green); }
-        
-        .pro-badge { position: absolute; top: 10px; right: 10px; background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink)); color: white; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; box-shadow: 0 0 10px var(--neon-pink); }
-        .card-title { font-family: 'Orbitron', monospace; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); font-weight: 700; }
-        
-        .neon-input, .neon-textarea, .neon-select { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; transition: all 0.3s ease; width: 100%; padding: 8px; border-radius: 6px; }
-        .neon-input:focus, .neon-textarea:focus, .neon-select:focus { outline: none; border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 195, 255, 0.3); }
-        
-        .neon-btn { background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple)); border: none; color: #000; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; border-radius: 6px; padding: 8px 12px; }
-        .neon-btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(0, 195, 255, 0.4); }
-        .neon-btn:disabled { background: #555; cursor: not-allowed; color: #999; transform: none; box-shadow: none; }
-        
-        .reset-btn { background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); }
-        .action-btn { background: linear-gradient(45deg, var(--neon-green), #28a745); }
-        
-        .output-display { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--neon-green); font-family: 'Orbitron', monospace; color: var(--neon-green); word-break: break-all; padding: 8px; border-radius: 6px; }
-        
-        .tools-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1400px; margin: 0 auto; }
-        .card-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-content > *:not(:last-child) { margin-bottom: 10px; }
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
 
-        .footer { background: rgba(0, 20, 40, 0.9); backdrop-filter: blur(15px); border-top: 1px solid var(--glass-border); padding: 40px 20px; text-align: center; }
+        @keyframes titleGlow {
+            0% {
+                filter: drop-shadow(0 0 10px var(--neon-blue));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px var(--neon-purple));
+            }
+            100% {
+                filter: drop-shadow(0 0 15px var(--neon-green));
+            }
+        }
 
-        .page-content { display: none; padding: 60px 20px; max-width: 1200px; margin: 0 auto; }
-        .page-content.active { display: block; animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(57, 255, 20, 0.1);
+        }
 
-        .explore-btn { background: linear-gradient(45deg, var(--neon-green), var(--neon-blue)); color: #000; padding: 15px 30px; border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; }
-        .explore-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--neon-green); }
-        
-        /* Tooltip styles */
-        .info-icon { cursor: pointer; color: rgba(255,255,255,0.5); margin-left: 8px; }
-        .tooltip-container { position: relative; display: inline-block; }
-        .tooltip-text { visibility: hidden; width: 200px; background-color: var(--dark-bg); color: #fff; text-align: center; border-radius: 6px; padding: 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -100px; opacity: 0; transition: opacity 0.3s; border: 1px solid var(--glass-border); font-size: 0.8rem; font-weight: 300; }
-        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
+        .card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 8px 25px rgba(57, 255, 20, 0.2);
+            border-color: var(--neon-green);
+        }
 
-        /* Toast Notifications */
-        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
-        .toast { background: var(--glass-bg); color: white; padding: 15px 20px; border-radius: 8px; border-left: 5px solid var(--neon-blue); margin-bottom: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); transform: translateX(120%); animation: slideIn 0.5s forwards; }
-        .toast.success { border-color: var(--neon-green); }
-        .toast.error { border-color: var(--neon-pink); }
-        @keyframes slideIn { to { transform: translateX(0); } }
-        @keyframes slideOut { to { transform: translateX(120%); } }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
 
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-            .card { width: 90%; max-width: 340px; }
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card-title {
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+            font-weight: 700;
+        }
+
+        .neon-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .neon-input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 195, 255, 0.3);
+        }
+
+        .neon-btn {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            border: none;
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .neon-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 195, 255, 0.4);
+        }
+
+        .neon-btn:active {
+            transform: scale(0.98);
+        }
+
+        .reset-btn {
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+        }
+
+        .calc-display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-green);
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .output-display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-green);
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-green);
+            word-break: break-all;
+        }
+
+        .timer-display {
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        @media print {
+            .particles {
+                display: none;
+            }
+            
+            body {
+                background: #1a1a2e;
+            }
+            
+            .card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
         }
     </style>
 </head>
-<body>
+<body class="p-4">
     <div class="particles" id="particles"></div>
-    <div id="toast-container"></div>
     
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <span class="text-xl font-bold text-white cursor-pointer" onclick="showPage('home')">The Tool Nest</span>
-                </div>
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex md:items-center md:space-x-4">
-                    <a onclick="showPage('home')" class="nav-link">Home</a>
-                    <a onclick="showPage('tools')" class="nav-link">Tools</a>
-                    <a onclick="showPage('tutorials')" class="nav-link">Tutorials</a>
-                    <a onclick="showPage('about')" class="nav-link">About Us</a>
-                    <a onclick="showPage('contact')" class="nav-link">Contact Us</a>
-                    <div id="auth-container-desktop"></div>
-                </div>
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white focus:outline-none">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden hidden">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a onclick="showPage('home', true)" class="nav-link block">Home</a>
-                <a onclick="showPage('tools', true)" class="nav-link block">Tools</a>
-                <a onclick="showPage('tutorials', true)" class="nav-link block">Tutorials</a>
-                <a onclick="showPage('about', true)" class="nav-link block">About Us</a>
-                <a onclick="showPage('contact', true)" class="nav-link block">Contact Us</a>
-                <div id="auth-container-mobile" class="p-2"></div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content Area -->
-    <main>
-        <!-- Home Page -->
-        <div id="home" class="page-content">
-            <div class="hero-section">
-                <h1 class="hero-title">The Tool Nest</h1>
-                <p class="hero-subtitle">Your Ultimate Digital Toolbox</p>
-                <p class="hero-description max-w-3xl">
-                    Discover a comprehensive collection of powerful web tools designed to enhance your productivity. 
-                    From calculators and converters to Pro-level PDF and Image tools, we've got everything 
-                    you need in one convenient location.
-                </p>
-                <button onclick="showPage('tools')" class="explore-btn">
-                    Explore Tools
-                </button>
-            </div>
-        </div>
+    <h1 class="title text-4xl md:text-6xl text-center mb-8">Cyber-Neon Tools</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
         
-        <!-- Sign In Required Page -->
-        <div id="signin-required" class="page-content">
-            <div class="text-center py-20">
-                <h2 class="section-title">Access Denied</h2>
-                <p class="hero-description max-w-3xl mx-auto mb-8">Please sign in to access our full suite of powerful tools.</p>
-                <button onclick="signIn()" class="explore-btn">Sign In Free</button>
-            </div>
-        </div>
-
-        <!-- Tools Page -->
-        <div id="tools" class="page-content">
-            <div class="section">
-                <h2 class="section-title">Our Tool Collection</h2>
-                <p class="text-center max-w-3xl mx-auto -mt-8 mb-12 text-gray-400">
-                    Welcome to your digital command center. Our "Pro" tools leverage advanced browser APIs for powerful client-side processing, while our standard tools offer quick and reliable utilities for everyday tasks.
-                </p>
-
-                <!-- Pro Tools Section -->
-                <h3 class="category-title">✨ Pro Tools</h3>
-                <div class="tools-container">
-                    <!-- Cards for Pro Tools go here -->
-                </div>
+        <!-- Calculator -->
+        <div class="card p-4">
+            <h3 class="card-title text-lg text-center mb-4">
+                <i class="fas fa-calculator mr-2"></i>Calculator
+            </h3>
+            <div class="calc-display p-4 rounded-lg text-right text-xl mb-4 h-12 flex items-center justify-end" id="calcDisplay">0</div>
+            <div class="grid grid-cols-4 gap-2">
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="clearCalc()">C</button>
+                <button class="reset-btn p-3 rounded aspect-square text-sm font-bold" onclick="resetCalc()">Reset</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="deleteLast()">⌫</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('/')">/</button>
                 
-                <!-- Generator Tools -->
-                <h3 class="category-title">🎲 Generator Tools</h3>
-                <div class="tools-container">
-                    <!-- Cards for Generator Tools go here -->
-                </div>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('7')">7</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('8')">8</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('9')">9</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('*')">×</button>
                 
-                <!-- SEO Tools -->
-                <h3 class="category-title">🔍 SEO Tools</h3>
-                <div class="tools-container">
-                     <!-- Cards for SEO Tools go here -->
-                </div>
-            </div>
-        </div>
-        
-        <!-- Tutorials Page (ENHANCED) -->
-        <div id="tutorials" class="page-content">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="section-title">Tool Tutorials & Guides</h2>
-                <div class="space-y-12 text-gray-300">
-                    <!-- Tutorial content goes here -->
-                </div>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('4')">4</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('5')">5</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('6')">6</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('-')">-</button>
+                
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('1')">1</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('2')">2</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('3')">3</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold row-span-2" onclick="appendToCalc('+')">+</button>
+                
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold col-span-2" onclick="appendToCalc('0')">0</button>
+                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('.')">.</button>
+                
+                <button class="neon-btn p-3 rounded col-span-3 text-sm font-bold" onclick="calculate()" style="background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));">=</button>
             </div>
         </div>
 
-        <!-- About Us Page -->
-        <div id="about" class="page-content">
-            <!-- About Us content goes here -->
+        <!-- Password Generator -->
+        <div class="card p-4">
+            <h3 class="card-title text-lg text-center mb-4">
+                <i class="fas fa-key mr-2"></i>Password
+            </h3>
+            <div class="mb-3">
+                <label class="block text-sm mb-1">Length:</label>
+                <input type="number" id="passLength" value="12" min="4" max="50" class="neon-input w-full p-2 rounded">
+            </div>
+            <div class="space-y-2 mb-4">
+                <label class="flex items-center text-sm">
+                    <input type="checkbox" id="passUpper" checked class="mr-2"> Uppercase
+                </label>
+                <label class="flex items-center text-sm">
+                    <input type="checkbox" id="passLower" checked class="mr-2"> Lowercase  
+                </label>
+                <label class="flex items-center text-sm">
+                    <input type="checkbox" id="passNumbers" checked class="mr-2"> Numbers
+                </label>
+                <label class="flex items-center text-sm">
+                    <input type="checkbox" id="passSymbols" checked class="mr-2"> Symbols
+                </label>
+            </div>
+            <div class="flex gap-2 mb-3">
+                <button onclick="generatePassword()" class="neon-btn flex-1 py-2 px-3 rounded text-sm">Generate</button>
+                <button onclick="resetPassword()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
+            </div>
+            <div class="output-display p-3 rounded text-center text-sm" id="passOutput">Click Generate</div>
         </div>
-        
-        <!-- Contact & Suggestion Page -->
-        <div id="contact" class="page-content">
-            <!-- Contact Us content goes here -->
-        </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <!-- Footer content goes here -->
-    </footer>
+        <!-- Word Counter -->
+        <div class="card p-4">
+            <h3 class="card-title text-lg text-center mb-4">
+                <i class="fas fa-file-alt mr-2"></i>Word Counter
+            </h3>
+            <textarea id="wordText" placeholder="Type your text here..." rows="4" class="neon-input w-full p-2 rounded mb-3 resize-none"></textarea>
+            <button onclick="resetWordCounter()" class="reset-btn w-full py-2 px-3 rounded text-sm mb-3">Reset</button>
+            <div class="output-display p-2 rounded text-center text-sm mb-2" id="wordCount">0 words, 0 characters</div>
+            <div class="output-display p-2 rounded text-center text-xs" id="wordStats">0 paragraphs, 0 sentences</div>
+        </div>
+
+        <!-- Text Case Converter -->
+        <div class="card p-4">
+            <h3 class="card-title text-lg text-center mb-4">
+                <i class="fas fa-text-height mr-2"></i>Text Case
+            </h3>
+            <textarea id="caseText" placeholder="Enter text to convert..." rows="3" class="neon-input w-full p-2 rounded mb-3 resize-none"></textarea>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <button onclick="convertCase('lower')" class="neon-btn py-2 px-2 rounded text-xs">lowercase</button>
+                <button onclick="convertCase('upper')" class="neon-btn py-2 px-2 rounded text-xs">UPPERCASE</button>
+                <button onclick="convertCase('title')" class="neon-btn py-2 px-2 rounded text-xs">Title Case</button>
+                <button onclick="convertCase('sentence')" class="neon-btn py-2 px-2 rounded text-xs">Sentence</button>
+            </div>
+            <button onclick="resetTextCase()" class="reset-btn w-full py-2 px-3 rounded text-sm">Reset</button>
+        </div>
+
+        <!-- Timer -->
+        <div class="card p-4">
+            <h3 class="card-title text-lg text-center mb-4">
+                <i class="fas fa-stopwatch mr-2"></i>Timer
+            </h3>
+            <div class="timer-display text-3xl text-center mb-4" id="timerDisplay">00:00:00</div>
+            <div class="mb-3">
+                <label class="block text-sm mb-1">Minutes:</label>
+                <input type="number" id="timerMinutes" value="5" min="0" class="neon-input w-full p-2 rounded">
+            </div>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <button onclick="startTimer()" class="neon-btn py-2 px-3 rounded text-sm">Start</button>
+                <button onclick="pauseTimer()" class="neon-btn py-2 px-3 rounded text-sm">Pause</button>
+            </div>
+            <button onclick="resetTimer()" class="reset-btn w-full py-2 px-3 rounded text-sm">Reset</button>
+        </div>
+
+        <!-- Notes -->
+        <div class="card p-4">
+            <h3 class="card-title text-lg text-center mb-4">
+                <i class="fas fa-sticky-note mr-2"></i>Notes
+            </h3>
+            <textarea id="notesText" placeholder="Your notes..." rows="4" class="neon-input w-full p-2 rounded mb-3 resize-none"></textarea>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <button onclick="saveNotes()" class="neon-btn py-2 px-3 rounded text-sm">Save</button>
+                <button onclick="resetNotes()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
+            </div>
+            <div class="output-display p-2 rounded text-center text-sm" id="notesSaved" style="display: none;">Notes saved!</div>
+        </div>
+
+        <!-- Random Number Generator -->
+        <div class="card p-4">
+            <h3 class="card-title text-lg text-center mb-4">
+                <i class="fas fa-dice mr-2"></i>Random Number
+            </h3>
+            <div class="mb-3">
+                <label class="block text-sm mb-1">Min:</label>
+                <input type="number" id="randMin" value="1" class="neon-input w-full p-2 rounded">
+            </div>
+            <div class="mb-3">
+                <label class="block text-sm mb-1">Max:</label>
+                <input type="number" id="randMax" value="100" class="neon-input w-full p-2 rounded">
+            </div>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <button onclick="generateRandom()" class="neon-btn py-2 px-3 rounded text-sm">Generate</button>
+                <button onclick="resetRandom()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
+            </div>
+            <div class="output-display p-3 rounded text-center text-lg" id="randomResult">Click Generate</div>
+        </div>
+
+        <!-- Currency Converter -->
+        <div class="card p-4">
+            <h3 class="card-title text-lg text-center mb-4">
+                <i class="fas fa-exchange-alt mr-2"></i>Currency
+            </h3>
+            <input type="number" id="currencyAmount" value="100" step="0.01" class="neon-input w-full p-2 rounded mb-3">
+            <div class="flex items-center gap-2 mb-3">
+                <select id="fromCurrency" class="neon-input flex-1 p-2 rounded">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="CAD">CAD</option>
+                </select>
+                <span class="text-purple-400">→</span>
+                <select id="toCurrency" class="neon-input flex-1 p-2 rounded">
+                    <option value="EUR">EUR</option>
+                    <option value="USD">USD</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="CAD">CAD</option>
+                </select>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <button onclick="convertCurrency()" class="neon-btn py-2 px-3 rounded text-sm">Convert</button>
+                <button onclick="resetCurrency()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
+            </div>
+            <div class="output-display p-3 rounded text-center text-sm" id="currencyResult">Enter amount and convert</div>
+        </div>
+
+        <!-- BMI Calculator -->
+        <div class="card p-4">
+            <h3 class="card-title text-lg text-center mb-4">
+                <i class="fas fa-weight mr-2"></i>BMI Calculator
+            </h3>
+            <div class="mb-3">
+                <label class="block text-sm mb-1">Weight (kg):</label>
+                <input type="number" id="bmiWeight" step="0.1" class="neon-input w-full p-2 rounded">
+            </div>
+            <div class="mb-3">
+                <label class="block text-sm mb-1">Height (cm):</label>
+                <input type="number" id="bmiHeight" class="neon-input w-full p-2 rounded">
+            </div>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <button onclick="calculateBMI()" class="neon-btn py-2 px-3 rounded text-sm">Calculate</button>
+                <button onclick="resetBMI()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
+            </div>
+            <div class="output-display p-2 rounded text-center text-sm mb-2" id="bmiResult">Enter weight and height</div>
+            <div class="output-display p-2 rounded text-center text-xs" id="bmiCategory"></div>
+        </div>
+
+        <!-- QR Code Generator -->
+        <div class="card p-4">
+            <h3 class="card-title text-lg text-center mb-4">
+                <i class="fas fa-qrcode mr-2"></i>QR Generator
+            </h3>
+            <input type="text" id="qrText" placeholder="Enter text or URL" class="neon-input w-full p-2 rounded mb-3">
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <button onclick="generateQR()" class="neon-btn py-2 px-3 rounded text-sm">Generate</button>
+                <button onclick="resetQR()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
+            </div>
+            <div class="text-center mb-3">
+                <img id="qrImage" style="display: none; max-width: 100%; height: auto; border-radius: 8px; filter: drop-shadow(0 0 10px var(--neon-green));">
+            </div>
+            <div class="output-display p-2 rounded text-center text-xs" id="qrStatus">Enter text to generate QR code</div>
+        </div>
+
+    </div>
 
     <script>
-    // --- APP STATE & CONFIG ---
-    let isSignedIn = localStorage.getItem('toolNestSignedIn') === 'true';
-    let originalSketchImage = null;
-
-    const pageMetadata = {
-        home: { title: 'The Tool Nest - Ultimate Web Tools Collection', description: 'Your ultimate digital toolbox. A comprehensive collection of free web tools including converters, calculators, and more.' },
-        tools: { title: 'All Tools - The Tool Nest', description: 'Explore our full suite of Pro and standard tools, from PDF editors to image converters and calculators.' },
-        tutorials: { title: 'Tutorials - The Tool Nest', description: 'Learn how to use our powerful Pro tools like the Pencil Sketch converter and PDF merger with these simple guides.' },
-        about: { title: 'About Us - The Tool Nest', description: 'Learn about the mission and vision of The Tool Nest, your go-to source for free and reliable web utilities.' },
-        contact: { title: 'Contact Us - The Tool Nest', description: 'Have a question or a suggestion for a new tool? Get in touch with the team at The Tool Nest.' }
-    };
-    
-    // --- UTILITIES ---
-    function showToast(message, type = 'info') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.textContent = message;
-        container.appendChild(toast);
-
-        setTimeout(() => {
-            toast.style.animation = 'slideOut 0.5s forwards';
-            toast.addEventListener('animationend', () => toast.remove());
-        }, 4000);
-    }
-    
-    function copyToClipboard(elementId, button) {
-        const textToCopy = document.getElementById(elementId).textContent;
-        if (!textToCopy || textToCopy.includes('Click Generate') || textToCopy.includes('appear here')) {
-            showToast('Nothing to copy yet!', 'error');
-            return;
-        }
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            const originalText = button.innerHTML;
-            button.innerHTML = `<i class="fas fa-check mr-2"></i>Copied!`;
-            showToast('Copied to clipboard!', 'success');
-            setTimeout(() => { button.innerHTML = originalText; }, 2000);
-        }).catch(err => {
-            showToast('Failed to copy!', 'error');
-        });
-    }
-
-    function downloadFile(filename, text) {
-        if (!text || text.includes('appear here') || text.includes('generate')) {
-            showToast('No content to download!', 'error');
-            return;
-        }
-        const element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        element.setAttribute('download', filename);
-        element.style.display = 'none';
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
-        showToast(`${filename} downloaded!`, 'success');
-    }
-
-    // --- NAVIGATION & PAGE LOGIC ---
-    function showPage(pageId, fromMobile = false) {
-        if (pageId !== 'tools' && document.getElementById('tools')?.classList.contains('active')) {
-             resetAllTools();
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#39ff14', '#bf00ff', '#00c3ff', '#ff0080'];
+            
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 25000);
+            }, 300);
         }
 
-        if (pageId === 'tools' && !isSignedIn) {
-            pageId = 'signin-required';
-        }
-        
-        document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
-        const targetPage = document.getElementById(pageId);
-        if(targetPage) {
-            targetPage.classList.add('active');
-        }
-        
-        const metadata = pageMetadata[pageId];
-        if (metadata) {
-            document.title = metadata.title;
-            document.getElementById('meta-description').setAttribute('content', metadata.description);
+        // Enhanced Calculator functionality
+        let calcCurrentInput = '0';
+        let calcPreviousInput = '';
+        let calcOperator = '';
+        let calcShouldResetDisplay = false;
+
+        function updateCalcDisplay() {
+            document.getElementById('calcDisplay').textContent = calcCurrentInput;
         }
 
-        if (fromMobile) {
-            document.getElementById('mobile-menu').classList.add('hidden');
-        }
-        window.scrollTo(0, 0);
-    }
+        function appendToCalc(value) {
+            if (calcShouldResetDisplay) {
+                calcCurrentInput = '';
+                calcShouldResetDisplay = false;
+            }
 
-    // --- AUTHENTICATION ---
-    function updateAuthUI() {
-        const desktopContainer = document.getElementById('auth-container-desktop');
-        const mobileContainer = document.getElementById('auth-container-mobile');
-        let authHTML;
+            if (value === '.' && calcCurrentInput.includes('.')) {
+                return;
+            }
 
-        if (isSignedIn) {
-            authHTML = `<div class="flex items-center"><span class="text-sm text-gray-300 mr-4">Welcome, User!</span><button onclick="signOut()" class="nav-link">Sign Out</button></div>`;
-        } else {
-            authHTML = `<button onclick="signIn()" class="signin-btn">Sign In Free</button>`;
-        }
-        desktopContainer.innerHTML = authHTML;
-        mobileContainer.innerHTML = authHTML;
-    }
-
-    function signIn() {
-        isSignedIn = true;
-        localStorage.setItem('toolNestSignedIn', 'true');
-        updateAuthUI();
-        showPage('tools');
-        showToast('Successfully signed in!', 'success');
-    }
-
-    function signOut() {
-        isSignedIn = false;
-        localStorage.removeItem('toolNestSignedIn');
-        updateAuthUI();
-        showPage('home');
-        showToast('You have been signed out.');
-    }
-
-    // --- TOOL LOGIC ---
-    function resetAllTools() {
-        // Reset Pro Tools
-        const sketchUploadInput = document.getElementById('sketchUpload');
-        if (sketchUploadInput) {
-            sketchUploadInput.value = '';
-            originalSketchImage = null;
-            document.getElementById('sketchCanvas')?.classList.add('hidden');
-            document.getElementById('sketchControls')?.classList.add('hidden');
-            document.getElementById('downloadSketchBtn')?.classList.add('hidden');
-            document.getElementById('sketchUploadArea')?.classList.remove('hidden');
-            document.getElementById('sketchStatus').textContent = 'Upload an image to start.';
-            document.getElementById('blurAmount').value = 5;
+            if (calcCurrentInput === '0' && value !== '.') {
+                calcCurrentInput = value;
+            } else {
+                calcCurrentInput += value;
+            }
+            
+            updateCalcDisplay();
         }
 
-        resetQR();
-        resetPassword();
-        resetHash();
-        resetMetaTags();
-        resetRobotsTxt();
-    }
-    
-    // Pro Tools
-    function setupProTools() {
-        const sketchUploadInput = document.getElementById('sketchUpload');
-        const sketchUploadArea = document.getElementById('sketchUploadArea');
-        const blurAmountSlider = document.getElementById('blurAmount');
-
-        sketchUploadArea.addEventListener('click', () => sketchUploadInput.click());
-        sketchUploadInput.addEventListener('change', handleImageUpload);
-        blurAmountSlider.addEventListener('input', () => applySketchEffect(originalSketchImage));
-    }
-
-    function handleImageUpload(event) {
-        const file = event.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    originalSketchImage = img;
-                    applySketchEffect(img);
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-            document.getElementById('sketchStatus').textContent = 'Processing...';
-            document.getElementById('sketchUploadArea').classList.add('hidden');
-        } else {
-             showToast('Please upload a valid image file.', 'error');
+        function clearCalc() {
+            calcCurrentInput = '0';
+            updateCalcDisplay();
         }
-    }
 
-    function applySketchEffect(img) {
-        if (!img) return;
-        const sketchCanvas = document.getElementById('sketchCanvas');
-        const sketchCtx = sketchCanvas.getContext('2d');
-        const blurAmount = document.getElementById('blurAmount').value;
+        function resetCalc() {
+            calcCurrentInput = '0';
+            calcPreviousInput = '';
+            calcOperator = '';
+            calcShouldResetDisplay = false;
+            updateCalcDisplay();
+        }
 
-        sketchCanvas.width = img.width;
-        sketchCanvas.height = img.height;
-        sketchCtx.clearRect(0, 0, sketchCanvas.width, sketchCanvas.height);
-        
-        const tempCanvas = document.createElement('canvas');
-        const tempCtx = tempCanvas.getContext('2d');
-        tempCanvas.width = img.width;
-        tempCanvas.height = img.height;
+        function deleteLast() {
+            if (calcCurrentInput.length > 1) {
+                calcCurrentInput = calcCurrentInput.slice(0, -1);
+            } else {
+                calcCurrentInput = '0';
+            }
+            updateCalcDisplay();
+        }
 
-        tempCtx.filter = 'grayscale(1) invert(1)';
-        tempCtx.drawImage(img, 0, 0);
-        
-        sketchCtx.filter = `blur(${blurAmount}px)`;
-        sketchCtx.globalCompositeOperation = 'color-dodge';
-        sketchCtx.drawImage(tempCanvas, 0, 0);
-        
-        sketchCtx.filter = 'none';
-        sketchCtx.globalCompositeOperation = 'source-over';
-        
-        sketchCanvas.classList.remove('hidden');
-        document.getElementById('downloadSketchBtn').classList.remove('hidden');
-        document.getElementById('sketchControls').classList.remove('hidden');
-        document.getElementById('sketchStatus').textContent = 'Sketch generated successfully!';
-    }
-    
-    // ... Other Pro tool functions (URL shortener, PDF merger mockups)
-    
-    // Generator Tools
-    function resetQR() { document.getElementById('qrText').value = ''; document.getElementById('qrImage').classList.add('hidden'); document.getElementById('downloadQrBtn').classList.add('hidden'); }
-    function resetPassword() { document.getElementById('passOutput').textContent = 'Click Generate'; }
-    function resetHash() { document.getElementById('hashInput').value = ''; document.getElementById('hashOutput').textContent = 'Hash will appear here'; }
-    function generateQR() { /* ... implementation ... */ }
-    function downloadQRCode() { /* ... implementation ... */ }
-    
-    // SEO Tools
-    function resetMetaTags() { document.getElementById('metaTagsOutput').textContent = 'Generated tags appear here'; }
-    function resetRobotsTxt() { document.getElementById('robotsTxtOutput').textContent = 'Configure and generate'; }
-    
+        function calculate() {
+            if (calcOperator && calcPreviousInput !== '') {
+                const prev = parseFloat(calcPreviousInput);
+                const current = parseFloat(calcCurrentInput);
+                let result;
 
-    // --- INITIALIZATION ---
-    document.addEventListener('DOMContentLoaded', () => {
-        // Create particles
-        for (let i = 0; i < 50; i++) { setTimeout(() => {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
-            particle.style.animationDelay = `${Math.random() * 5}s`;
-            document.getElementById('particles').appendChild(particle);
-        }, i * 200); }
-        
-        // Setup Mobile Menu
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+                switch (calcOperator) {
+                    case '+':
+                        result = prev + current;
+                        break;
+                    case '-':
+                        result = prev - current;
+                        break;
+                    case '*':
+                        result = prev * current;
+                        break;
+                    case '/':
+                        result = current !== 0 ? prev / current : 'Error';
+                        break;
+                    default:
+                        return;
+                }
+
+                calcCurrentInput = result.toString();
+                calcPreviousInput = '';
+                calcOperator = '';
+                calcShouldResetDisplay = true;
+                updateCalcDisplay();
+            }
+        }
+
+        // Handle operators
+        function handleOperator(nextOperator) {
+            const inputValue = parseFloat(calcCurrentInput);
+
+            if (calcPreviousInput === '') {
+                calcPreviousInput = inputValue;
+            } else if (calcOperator) {
+                const currentValue = calcPreviousInput || 0;
+                const newValue = calculate(currentValue, inputValue, calcOperator);
+
+                calcCurrentInput = String(newValue);
+                calcPreviousInput = newValue;
+            }
+
+            calcShouldResetDisplay = true;
+            calcOperator = nextOperator;
+            updateCalcDisplay();
+        }
+
+        // Override operator buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners for operators
+            const operatorButtons = document.querySelectorAll('[onclick*="appendToCalc"]');
+            operatorButtons.forEach(button => {
+                const onclick = button.getAttribute('onclick');
+                if (onclick.includes("'+'") || onclick.includes("'-'") || onclick.includes("'*'") || onclick.includes("'/'")) {
+                    const operator = onclick.match(/'([+\-*/])'/)[1];
+                    button.setAttribute('onclick', `handleOperator('${operator}')`);
+                }
+            });
         });
 
-        // Initialize UI
-        updateAuthUI();
-        showPage('home'); // FIX: Set initial page correctly.
-        
-        // Dynamically insert tool/page HTML to keep the body clean
-        // This is a more robust way to manage content.
-        
-        // You would populate the empty divs with the card HTML here.
-        // For simplicity in this example, I'll keep the full HTML,
-        // but this shows a scalable approach.
-        setupProTools();
-    });
+        // Password Generator
+        function generatePassword() {
+            const length = parseInt(document.getElementById('passLength').value);
+            const upper = document.getElementById('passUpper').checked;
+            const lower = document.getElementById('passLower').checked;
+            const numbers = document.getElementById('passNumbers').checked;
+            const symbols = document.getElementById('passSymbols').checked;
 
+            let charset = '';
+            if (upper) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (lower) charset += 'abcdefghijklmnopqrstuvwxyz';
+            if (numbers) charset += '0123456789';
+            if (symbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            if (!charset) {
+                document.getElementById('passOutput').textContent = 'Select at least one option';
+                return;
+            }
+
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+
+            document.getElementById('passOutput').textContent = password;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(password).catch(() => {
+                console.log('Clipboard not available');
+            });
+        }
+
+        function resetPassword() {
+            document.getElementById('passLength').value = '12';
+            document.getElementById('passUpper').checked = true;
+            document.getElementById('passLower').checked = true;
+            document.getElementById('passNumbers').checked = true;
+            document.getElementById('passSymbols').checked = true;
+            document.getElementById('passOutput').textContent = 'Click Generate';
+        }
+
+        // Word Counter
+        document.getElementById('wordText').addEventListener('input', function() {
+            const text = this.value;
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            const chars = text.length;
+            const paragraphs = text.trim() === '' ? 0 : text.split(/\n\s*\n/).length;
+            const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim()).length;
+
+            document.getElementById('wordCount').textContent = `${words} words, ${chars} characters`;
+            document.getElementById('wordStats').textContent = `${paragraphs} paragraphs, ${sentences} sentences`;
+        });
+
+        function resetWordCounter() {
+            document.getElementById('wordText').value = '';
+            document.getElementById('wordCount').textContent = '0 words, 0 characters';
+            document.getElementById('wordStats').textContent = '0 paragraphs, 0 sentences';
+        }
+
+        // Text Case Converter
+        function convertCase(type) {
+            const textArea = document.getElementById('caseText');
+            let text = textArea.value;
+
+            switch(type) {
+                case 'lower':
+                    textArea.value = text.toLowerCase();
+                    break;
+                case 'upper':
+                    textArea.value = text.toUpperCase();
+                    break;
+                case 'title':
+                    textArea.value = text.replace(/\w\S*/g, (txt) => 
+                        txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+                    break;
+                case 'sentence':
+                    textArea.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+                    break;
+            }
+        }
+
+        function resetTextCase() {
+            document.getElementById('caseText').value = '';
+        }
+
+        // Timer functionality
+        let timerInterval = null;
+        let timerSeconds = 0;
+        let timerRunning = false;
+
+        function updateTimerDisplay() {
+            const hours = Math.floor(timerSeconds / 3600);
+            const minutes = Math.floor((timerSeconds % 3600) / 60);
+            const seconds = timerSeconds % 60;
+            
+            document.getElementById('timerDisplay').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (!timerRunning) {
+                if (timerSeconds === 0) {
+                    const minutes = parseInt(document.getElementById('timerMinutes').value) || 0;
+                    timerSeconds = minutes * 60;
+                }
+                
+                timerRunning = true;
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) {
+                        timerSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        pauseTimer();
+                        alert('Timer finished!');
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            timerRunning = false;
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerSeconds = 0;
+            document.getElementById('timerMinutes').value = '5';
+            updateTimerDisplay();
+        }
+
+        // Notes functionality
+        function saveNotes() {
+            const notes = document.getElementById('notesText').value;
+            localStorage.setItem('cyberNotes', notes);
+            
+            const savedDiv = document.getElementById('notesSaved');
+            savedDiv.style.display = 'block';
+            setTimeout(() => {
+                savedDiv.style.display = 'none';
+            }, 2000);
+        }
+
+        function resetNotes() {
+            document.getElementById('notesText').value = '';
+            localStorage.removeItem('cyberNotes');
+        }
+
+        // Load saved notes
+        document.getElementById('notesText').value = localStorage.getItem('cyberNotes') || '';
+
+        // Random Number Generator
+        function generateRandom() {
+            const min = parseInt(document.getElementById('randMin').value);
+            const max = parseInt(document.getElementById('randMax').value);
+            
+            if (min >= max) {
+                document.getElementById('randomResult').textContent = 'Min must be less than Max';
+                return;
+            }
+            
+            const random = Math.floor(Math.random() * (max - min + 1)) + min;
+            document.getElementById('randomResult').textContent = random;
+        }
+
+        function resetRandom() {
+            document.getElementById('randMin').value = '1';
+            document.getElementById('randMax').value = '100';
+            document.getElementById('randomResult').textContent = 'Click Generate';
+        }
+
+        // Currency Converter (simplified rates)
+        const exchangeRates = {
+            USD: { EUR: 0.85, GBP: 0.73, JPY: 110, CAD: 1.25 },
+            EUR: { USD: 1.18, GBP: 0.86, JPY: 130, CAD: 1.47 },
+            GBP: { USD: 1.37, EUR: 1.16, JPY: 151, CAD: 1.71 },
+            JPY: { USD: 0.0091, EUR: 0.0077, GBP: 0.0066, CAD: 0.011 },
+            CAD: { USD: 0.80, EUR: 0.68, GBP: 0.58, JPY: 88 }
+        };
+
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('currencyAmount').value);
+            const from = document.getElementById('fromCurrency').value;
+            const to = document.getElementById('toCurrency').value;
+            
+            if (!amount || amount <= 0) {
+                document.getElementById('currencyResult').textContent = 'Enter valid amount';
+                return;
+            }
+            
+            if (from === to) {
+                document.getElementById('currencyResult').textContent = `${amount} ${from}`;
+                return;
+            }
+            
+            const rate = exchangeRates[from][to];
+            const result = (amount * rate).toFixed(2);
+            document.getElementById('currencyResult').textContent = `${amount} ${from} = ${result} ${to}`;
+        }
+
+        function resetCurrency() {
+            document.getElementById('currencyAmount').value = '100';
+            document.getElementById('fromCurrency').value = 'USD';
+            document.getElementById('toCurrency').value = 'EUR';
+            document.getElementById('currencyResult').textContent = 'Enter amount and convert';
+        }
+
+        // BMI Calculator
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('bmiWeight').value);
+            const height = parseFloat(document.getElementById('bmiHeight').value) / 100; // convert to meters
+            
+            if (!weight || !height || weight <= 0 || height <= 0) {
+                document.getElementById('bmiResult').textContent = 'Enter valid weight and height';
+                document.getElementById('bmiCategory').textContent = '';
+                return;
+            }
+            
+            const bmi = (weight / (height * height)).toFixed(1);
+            document.getElementById('bmiResult').textContent = `BMI: ${bmi}`;
+            
+            let category = '';
+            if (bmi < 18.5) category = 'Underweight';
+            else if (bmi < 25) category = 'Normal weight';
+            else if (bmi < 30) category = 'Overweight';
+            else category = 'Obese';
+            
+            document.getElementById('bmiCategory').textContent = category;
+        }
+
+        function resetBMI() {
+            document.getElementById('bmiWeight').value = '';
+            document.getElementById('bmiHeight').value = '';
+            document.getElementById('bmiResult').textContent = 'Enter weight and height';
+            document.getElementById('bmiCategory').textContent = '';
+        }
+
+        // QR Code Generator
+        function generateQR() {
+            const text = document.getElementById('qrText').value.trim();
+            
+            if (!text) {
+                document.getElementById('qrStatus').textContent = 'Enter text to generate QR code';
+                document.getElementById('qrImage').style.display = 'none';
+                return;
+            }
+            
+            const qrImg = document.getElementById('qrImage');
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`;
+            qrImg.style.display = 'block';
+            document.getElementById('qrStatus').textContent = 'QR Code generated successfully!';
+        }
+
+        function resetQR() {
+            document.getElementById('qrText').value = '';
+            document.getElementById('qrImage').style.display = 'none';
+            document.getElementById('qrStatus').textContent = 'Enter text to generate QR code';
+        }
+
+        // Initialize
+        createParticles();
+        updateTimerDisplay();
+        updateCalcDisplay();
     </script>
 </body>
 </html>
