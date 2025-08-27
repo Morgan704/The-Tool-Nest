@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Scheduler Mock — Nest</title><link rel="stylesheet" href="../assets/styles.css"/></head>
+<body>
+  <div class="tool-wrap" style="max-width:880px;margin:80px auto">
+    <a href="../index.html">← Home</a>
+    <h1>Post Scheduler (Mock)</h1>
+    <p class="kv">Create scheduled posts and export a CSV (no real posting).</p>
+
+    <label class="kv">Caption</label><textarea id="caption" class="input" rows="3"></textarea>
+    <label class="kv">Schedule date & time</label><input id="when" class="input" type="datetime-local"/>
+    <div style="margin-top:8px"><button id="add" class="btn btn-primary">Add to schedule</button><button id="download" class="btn btn-secondary" disabled>Download CSV</button><button id="reset" class="btn btn-secondary">Reset</button></div>
+
+    <table id="table" style="margin-top:12px;width:100%;border-collapse:collapse"></table>
+  </div>
+
+<script>
+const caption = document.getElementById('caption'), whenEl = document.getElementById('when'), add=document.getElementById('add'), table=document.getElementById('table'), download=document.getElementById('download'), reset=document.getElementById('reset');
+let rows = [];
+
+function renderTable(){
+  if(rows.length===0){ table.innerHTML=''; download.disabled=true; return; }
+  table.innerHTML = '<thead><tr><th>When</th><th>Caption</th><th>Remove</th></tr></thead><tbody>' + rows.map((r, i)=>`<tr><td>${r.when}</td><td>${r.caption}</td><td><button data-i="${i}" class="remove btn btn-secondary">Remove</button></td></tr>`).join('') + '</tbody>';
+  download.disabled = false;
+  table.querySelectorAll('.remove').forEach(b=>b.addEventListener('click', e=>{ rows.splice(parseInt(b.dataset.i,10),1); renderTable(); }));
+}
+
+add.addEventListener('click', ()=>{
+  if(!caption.value.trim() || !whenEl.value){ alert('Add caption and datetime'); return; }
+  rows.push({when: whenEl.value, caption: caption.value.trim()});
+  caption.value=''; whenEl.value='';
+  renderTable();
+});
+
+download.addEventListener('click', ()=>{
+  const csv = 'when,caption\\n' + rows.map(r=>`"${r.when.replace(/"/g,'""')}","${r.caption.replace(/"/g,'""')}"`).join('\\n');
+  const a = document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download='schedule.csv'; a.click();
+});
+
+reset.addEventListener('click', ()=>{ rows=[]; renderTable(); });
+</script>
+</body></html>
