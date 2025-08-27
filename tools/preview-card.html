@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Preview Card (OG) — Nest</title><link rel="stylesheet" href="../assets/styles.css"/></head>
+<body>
+  <div class="tool-wrap" style="max-width:920px;margin:80px auto">
+    <a href="../index.html">← Home</a>
+    <h1>Preview Card (OG Image Creator)</h1>
+    <p class="kv">Create a simple OG preview image (background color, title, subtitle). Download PNG.</p>
+
+    <label class="kv">Title</label><input id="title" class="input" placeholder="Your headline here"/>
+    <label class="kv">Subtitle</label><input id="sub" class="input" placeholder="Small subheadline"/>
+    <label class="kv">Background color</label><input id="bg" type="color" class="input" value="#0a1222"/>
+    <div style="margin-top:8px"><button id="gen" class="btn btn-primary">Generate</button><button id="reset" class="btn btn-secondary">Reset</button></div>
+
+    <div id="out" style="margin-top:12px"></div>
+    <div style="margin-top:8px"><button id="dl" class="btn btn-primary" style="display:none">Download PNG</button></div>
+  </div>
+
+<script>
+const titleEl = document.getElementById('title'), subEl = document.getElementById('sub'), bgEl = document.getElementById('bg');
+const gen = document.getElementById('gen'), reset = document.getElementById('reset'), out=document.getElementById('out'), dl=document.getElementById('dl');
+let curUrl='';
+
+gen.addEventListener('click', ()=>{
+  const W = 1200, H = 630;
+  const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = bgEl.value; ctx.fillRect(0,0,W,H);
+  // headline
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 56px Poppins, sans-serif';
+  const title = titleEl.value || 'Your headline';
+  // wrap title
+  const maxW = W - 120;
+  const words = title.split(' '); let line='', y=200;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 56px sans-serif';
+  for(let n=0;n<words.length;n++){
+    const test = line + words[n] + ' ';
+    const measure = ctx.measureText(test).width;
+    if(measure > maxW && line !== ''){ ctx.fillText(line, 60, y); line = words[n] + ' '; y += 64; } else { line = test; }
+  }
+  ctx.fillText(line,60,y); y += 80;
+  // subtitle
+  ctx.font = '24px sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  ctx.fillText(subEl.value || 'Subtitle or description', 60, y);
+
+  canvas.toBlob(b=>{
+    if(!b) return; if(curUrl) URL.revokeObjectURL(curUrl);
+    curUrl = URL.createObjectURL(b);
+    out.innerHTML = `<img src="${curUrl}" style="max-width:560px;border-radius:8px" alt="OG preview">`;
+    dl.style.display='inline-block'; dl.onclick = ()=>{ const a=document.createElement('a'); a.href = curUrl; a.download = 'og-image.png'; a.click(); };
+  }, 'image/png', 0.95);
+});
+
+reset.addEventListener('click', ()=>{ titleEl.value=''; subEl.value=''; bgEl.value='#0a1222'; out.innerHTML=''; dl.style.display='none'; if(curUrl){ URL.revokeObjectURL(curUrl); curUrl=''; }});
+</script>
+</body></html>
