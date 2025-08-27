@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Bio Generator — Nest</title><link rel="stylesheet" href="../assets/styles.css"/></head>
+<body>
+  <div class="tool-wrap" style="max-width:820px;margin:80px auto">
+    <a href="../index.html">← Home</a>
+    <h1>Bio Generator</h1>
+    <p class="kv">Enter keywords and pick tone to produce multiple bio options.</p>
+
+    <label class="kv">Keywords (comma separated)</label><input id="kw" class="input" placeholder="developer,coffee,travel"/>
+    <label class="kv">Tone</label>
+    <select id="tone" class="input"><option value="professional">Professional</option><option value="funny">Funny</option><option value="short">Short</option></select>
+    <div style="margin-top:8px"><button id="gen" class="btn btn-primary">Generate</button><button id="reset" class="btn btn-secondary">Reset</button></div>
+
+    <div id="out" style="margin-top:12px"></div>
+    <div style="margin-top:8px"><button id="dl" class="btn btn-primary" style="display:none">Download</button></div>
+  </div>
+
+<script>
+const gen=document.getElementById('gen'), reset=document.getElementById('reset'), kw=document.getElementById('kw'), tone=document.getElementById('tone'), out=document.getElementById('out'), dl=document.getElementById('dl');
+
+function genBios(words, toneVal){
+  const w = words.join(' • ');
+  if(toneVal==='professional'){
+    return [
+      `${w} — Product-focused developer building reliable web apps.`,
+      `Experienced developer · ${w} · Open to collaboration.`,
+      `${w} · Software Engineer | Building robust experiences.`
+    ];
+  } else if(toneVal==='funny'){
+    return [
+      `${w} — professional button pusher. coffee-fueled since forever.`,
+      `Dev by day, ${words[0]||'meme'} hunter by night.`,
+      `I make things that work. Also love ${words.join(', ')}.`
+    ];
+  } else {
+    return [
+      `${w}`,
+      `Web dev • ${words[0]||''}`,
+      `${words[0]||''} | dev`
+    ];
+  }
+}
+
+gen.addEventListener('click', ()=>{
+  const list = kw.value.split(/[,\s]+/).filter(Boolean);
+  if(list.length===0){ alert('Add at least one keyword'); return; }
+  const bios = genBios(list, tone.value);
+  out.innerHTML = bios.map(b=>`<div style="padding:8px;background:#071423;margin-bottom:8px;border-radius:8px">${b}</div>`).join('');
+  dl.style.display='inline-block';
+  dl.onclick = ()=>{ const a = document.createElement('a'); a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(bios.join('\\n\\n')); a.download='bios.txt'; a.click(); };
+});
+
+reset.addEventListener('click', ()=>{ kw.value=''; out.innerHTML=''; dl.style.display='none'; });
+</script>
+</body></html>
