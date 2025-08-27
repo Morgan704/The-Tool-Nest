@@ -3,823 +3,848 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Cyber-Neon Tools</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <title>The Tool Nest - Your Productivity Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-green: #39ff14;
-            --neon-purple: #bf00ff;
-            --neon-blue: #00c3ff;
-            --neon-pink: #ff0080;
-            --glass-bg: rgba(0, 20, 40, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --dark-bg: #0a0a0a;
+            --primary: #000000;
+            --primary-light: #333333;
+            --secondary: #ffffff;
+            --accent: #ff6b6b;
+            --light: #1a1a1a;
+            --dark: #0a0a0a;
+            --success: #00c896;
+            --gray: #888888;
+            --light-gray: #2a2a2a;
+            --card-bg: #121212;
+            --header-bg: #000000;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
-
+        
         body {
-            font-family: 'Exo 2', sans-serif;
-            background: radial-gradient(ellipse at top, #1a1a2e, #0a0a0a);
-            color: #fff;
-            min-height: 100vh;
+            background-color: #000000;
+            color: var(--secondary);
+            line-height: 1.6;
         }
-
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
+        
+        .container {
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--neon-blue);
-            border-radius: 50%;
-            animation: float 20s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .title {
-            font-family: 'Orbitron', monospace;
-            font-weight: 900;
-            text-transform: uppercase;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: titleGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes titleGlow {
-            0% {
-                filter: drop-shadow(0 0 10px var(--neon-blue));
-            }
-            50% {
-                filter: drop-shadow(0 0 20px var(--neon-purple));
-            }
-            100% {
-                filter: drop-shadow(0 0 15px var(--neon-green));
-            }
-        }
-
-        .card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(57, 255, 20, 0.1);
-        }
-
-        .card:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 8px 25px rgba(57, 255, 20, 0.2);
-            border-color: var(--neon-green);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
+        
+        header {
+            background: var(--header-bg);
+            color: var(--secondary);
+            padding: 1.2rem 0;
+            box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
+            position: sticky;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s;
+            z-index: 100;
+            border-bottom: 1px solid var(--light-gray);
         }
-
-        .card:hover::before {
-            left: 100%;
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        .card-title {
-            font-family: 'Orbitron', monospace;
-            color: var(--neon-blue);
-            text-shadow: 0 0 10px var(--neon-blue);
+        
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            color: var(--secondary);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.8rem;
+        }
+        
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 3.5rem 0 2.5rem;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: white;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .hero h1 {
+            font-size: 2.4rem;
+            margin-bottom: 1rem;
             font-weight: 700;
         }
-
-        .neon-input {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            transition: all 0.3s ease;
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
         }
-
-        .neon-input:focus {
-            outline: none;
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 10px rgba(0, 195, 255, 0.3);
+        
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1.5rem 0 2.5rem;
+            gap: 0.6rem;
         }
-
-        .neon-btn {
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-            border: none;
-            color: #000;
-            font-weight: 600;
+        
+        .category-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--light-gray);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
             cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
-            text-transform: uppercase;
+            color: var(--gray);
         }
-
-        .neon-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 195, 255, 0.4);
+        
+        .category-btn:hover, .category-btn.active {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
         }
-
-        .neon-btn:active {
-            transform: scale(0.98);
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+            padding: 0 0 3rem;
         }
-
-        .reset-btn {
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+        
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--light-gray);
         }
-
-        .calc-display {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--neon-green);
-            font-family: 'Orbitron', monospace;
-            color: var(--neon-green);
-            text-shadow: 0 0 10px var(--neon-green);
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
         }
-
-        .output-display {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--neon-green);
-            font-family: 'Orbitron', monospace;
-            color: var(--neon-green);
-            word-break: break-all;
+        
+        .tool-header {
+            padding: 1.2rem;
+            background: var(--card-bg);
+            color: var(--secondary);
+            border-bottom: 1px solid var(--light-gray);
         }
-
-        .timer-display {
-            font-family: 'Orbitron', monospace;
-            color: var(--neon-green);
-            text-shadow: 0 0 10px var(--neon-green);
+        
+        .tool-header h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
         }
-
-        @media print {
-            .particles {
+        
+        .tool-header h3 i {
+            margin-right: 8px;
+            color: var(--accent);
+        }
+        
+        .tool-header p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .tool-content {
+            padding: 1.2rem;
+        }
+        
+        .tool-content p {
+            color: var(--gray);
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+        }
+        
+        .tool-embed {
+            background: var(--light);
+            padding: 1.2rem;
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        
+        /* Calculator Styles */
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 6px;
+            max-width: 220px;
+            margin: 0 auto;
+        }
+        
+        .calculator-display {
+            grid-column: span 4;
+            background: #1a1a1a;
+            padding: 12px;
+            text-align: right;
+            font-size: 1.3rem;
+            border-radius: 6px;
+            border: 1px solid var(--light-gray);
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+        
+        .calculator-btn {
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #1a1a1a;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            font-size: 0.95rem;
+            color: var(--secondary);
+        }
+        
+        .calculator-btn:hover {
+            background: #2a2a2a;
+        }
+        
+        .calculator-btn.operator {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        
+        .calculator-btn.operator:hover {
+            background: #ff8585;
+        }
+        
+        .calculator-btn.equals {
+            background: var(--success);
+            color: var(--primary);
+        }
+        
+        .calculator-btn.equals:hover {
+            background: #00e0a8;
+        }
+        
+        /* Other tool styles */
+        .unit-converter {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 230px;
+            margin: 0 auto;
+        }
+        
+        .unit-converter select, .unit-converter input {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--light-gray);
+            font-size: 0.9rem;
+            background: #1a1a1a;
+            color: var(--secondary);
+        }
+        
+        .unit-converter button {
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: var(--accent);
+            color: var(--primary);
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .unit-converter button:hover {
+            background: #ff8585;
+        }
+        
+        .notes-app {
+            width: 100%;
+            max-width: 260px;
+            margin: 0 auto;
+        }
+        
+        .notes-app textarea {
+            width: 100%;
+            height: 130px;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--light-gray);
+            resize: vertical;
+            font-size: 0.9rem;
+            background: #1a1a1a;
+            color: var(--secondary);
+        }
+        
+        .notes-app button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            background: var(--accent);
+            color: var(--primary);
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .notes-app button:hover {
+            background: #ff8585;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
                 display: none;
             }
             
-            body {
-                background: #1a1a2e;
+            .hero h1 {
+                font-size: 2rem;
             }
             
-            .card {
-                break-inside: avoid;
-                page-break-inside: avoid;
+            .hero {
+                padding: 2.5rem 0 2rem;
             }
         }
     </style>
 </head>
-<body class="p-4">
-    <div class="particles" id="particles"></div>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-toolbox"></i>
+                    <span>The Tool Nest</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-folder"></i> Categories</a></li>
+                    <li><a href="#"><i class="fas fa-plus"></i> Add Tool</a></li>
+                    <li><a href="#"><i class="fas fa-user"></i> My Account</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
     
-    <h1 class="title text-4xl md:text-6xl text-center mb-8">Cyber-Neon Tools</h1>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-        
-        <!-- Calculator -->
-        <div class="card p-4">
-            <h3 class="card-title text-lg text-center mb-4">
-                <i class="fas fa-calculator mr-2"></i>Calculator
-            </h3>
-            <div class="calc-display p-4 rounded-lg text-right text-xl mb-4 h-12 flex items-center justify-end" id="calcDisplay">0</div>
-            <div class="grid grid-cols-4 gap-2">
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="clearCalc()">C</button>
-                <button class="reset-btn p-3 rounded aspect-square text-sm font-bold" onclick="resetCalc()">Reset</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="deleteLast()">⌫</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('/')">/</button>
-                
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('7')">7</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('8')">8</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('9')">9</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('*')">×</button>
-                
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('4')">4</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('5')">5</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('6')">6</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('-')">-</button>
-                
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('1')">1</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('2')">2</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('3')">3</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold row-span-2" onclick="appendToCalc('+')">+</button>
-                
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold col-span-2" onclick="appendToCalc('0')">0</button>
-                <button class="neon-btn p-3 rounded aspect-square text-sm font-bold" onclick="appendToCalc('.')">.</button>
-                
-                <button class="neon-btn p-3 rounded col-span-3 text-sm font-bold" onclick="calculate()" style="background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));">=</button>
-            </div>
+    <div class="hero">
+        <div class="container">
+            <h1>Your Productivity Hub</h1>
+            <p>All your essential tools in one convenient place. Streamline your workflow with our curated collection of utilities.</p>
         </div>
-
-        <!-- Password Generator -->
-        <div class="card p-4">
-            <h3 class="card-title text-lg text-center mb-4">
-                <i class="fas fa-key mr-2"></i>Password
-            </h3>
-            <div class="mb-3">
-                <label class="block text-sm mb-1">Length:</label>
-                <input type="number" id="passLength" value="12" min="4" max="50" class="neon-input w-full p-2 rounded">
-            </div>
-            <div class="space-y-2 mb-4">
-                <label class="flex items-center text-sm">
-                    <input type="checkbox" id="passUpper" checked class="mr-2"> Uppercase
-                </label>
-                <label class="flex items-center text-sm">
-                    <input type="checkbox" id="passLower" checked class="mr-2"> Lowercase  
-                </label>
-                <label class="flex items-center text-sm">
-                    <input type="checkbox" id="passNumbers" checked class="mr-2"> Numbers
-                </label>
-                <label class="flex items-center text-sm">
-                    <input type="checkbox" id="passSymbols" checked class="mr-2"> Symbols
-                </label>
-            </div>
-            <div class="flex gap-2 mb-3">
-                <button onclick="generatePassword()" class="neon-btn flex-1 py-2 px-3 rounded text-sm">Generate</button>
-                <button onclick="resetPassword()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
-            </div>
-            <div class="output-display p-3 rounded text-center text-sm" id="passOutput">Click Generate</div>
-        </div>
-
-        <!-- Word Counter -->
-        <div class="card p-4">
-            <h3 class="card-title text-lg text-center mb-4">
-                <i class="fas fa-file-alt mr-2"></i>Word Counter
-            </h3>
-            <textarea id="wordText" placeholder="Type your text here..." rows="4" class="neon-input w-full p-2 rounded mb-3 resize-none"></textarea>
-            <button onclick="resetWordCounter()" class="reset-btn w-full py-2 px-3 rounded text-sm mb-3">Reset</button>
-            <div class="output-display p-2 rounded text-center text-sm mb-2" id="wordCount">0 words, 0 characters</div>
-            <div class="output-display p-2 rounded text-center text-xs" id="wordStats">0 paragraphs, 0 sentences</div>
-        </div>
-
-        <!-- Text Case Converter -->
-        <div class="card p-4">
-            <h3 class="card-title text-lg text-center mb-4">
-                <i class="fas fa-text-height mr-2"></i>Text Case
-            </h3>
-            <textarea id="caseText" placeholder="Enter text to convert..." rows="3" class="neon-input w-full p-2 rounded mb-3 resize-none"></textarea>
-            <div class="grid grid-cols-2 gap-2 mb-3">
-                <button onclick="convertCase('lower')" class="neon-btn py-2 px-2 rounded text-xs">lowercase</button>
-                <button onclick="convertCase('upper')" class="neon-btn py-2 px-2 rounded text-xs">UPPERCASE</button>
-                <button onclick="convertCase('title')" class="neon-btn py-2 px-2 rounded text-xs">Title Case</button>
-                <button onclick="convertCase('sentence')" class="neon-btn py-2 px-2 rounded text-xs">Sentence</button>
-            </div>
-            <button onclick="resetTextCase()" class="reset-btn w-full py-2 px-3 rounded text-sm">Reset</button>
-        </div>
-
-        <!-- Timer -->
-        <div class="card p-4">
-            <h3 class="card-title text-lg text-center mb-4">
-                <i class="fas fa-stopwatch mr-2"></i>Timer
-            </h3>
-            <div class="timer-display text-3xl text-center mb-4" id="timerDisplay">00:00:00</div>
-            <div class="mb-3">
-                <label class="block text-sm mb-1">Minutes:</label>
-                <input type="number" id="timerMinutes" value="5" min="0" class="neon-input w-full p-2 rounded">
-            </div>
-            <div class="grid grid-cols-2 gap-2 mb-3">
-                <button onclick="startTimer()" class="neon-btn py-2 px-3 rounded text-sm">Start</button>
-                <button onclick="pauseTimer()" class="neon-btn py-2 px-3 rounded text-sm">Pause</button>
-            </div>
-            <button onclick="resetTimer()" class="reset-btn w-full py-2 px-3 rounded text-sm">Reset</button>
-        </div>
-
-        <!-- Notes -->
-        <div class="card p-4">
-            <h3 class="card-title text-lg text-center mb-4">
-                <i class="fas fa-sticky-note mr-2"></i>Notes
-            </h3>
-            <textarea id="notesText" placeholder="Your notes..." rows="4" class="neon-input w-full p-2 rounded mb-3 resize-none"></textarea>
-            <div class="grid grid-cols-2 gap-2 mb-3">
-                <button onclick="saveNotes()" class="neon-btn py-2 px-3 rounded text-sm">Save</button>
-                <button onclick="resetNotes()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
-            </div>
-            <div class="output-display p-2 rounded text-center text-sm" id="notesSaved" style="display: none;">Notes saved!</div>
-        </div>
-
-        <!-- Random Number Generator -->
-        <div class="card p-4">
-            <h3 class="card-title text-lg text-center mb-4">
-                <i class="fas fa-dice mr-2"></i>Random Number
-            </h3>
-            <div class="mb-3">
-                <label class="block text-sm mb-1">Min:</label>
-                <input type="number" id="randMin" value="1" class="neon-input w-full p-2 rounded">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm mb-1">Max:</label>
-                <input type="number" id="randMax" value="100" class="neon-input w-full p-2 rounded">
-            </div>
-            <div class="grid grid-cols-2 gap-2 mb-3">
-                <button onclick="generateRandom()" class="neon-btn py-2 px-3 rounded text-sm">Generate</button>
-                <button onclick="resetRandom()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
-            </div>
-            <div class="output-display p-3 rounded text-center text-lg" id="randomResult">Click Generate</div>
-        </div>
-
-        <!-- Currency Converter -->
-        <div class="card p-4">
-            <h3 class="card-title text-lg text-center mb-4">
-                <i class="fas fa-exchange-alt mr-2"></i>Currency
-            </h3>
-            <input type="number" id="currencyAmount" value="100" step="0.01" class="neon-input w-full p-2 rounded mb-3">
-            <div class="flex items-center gap-2 mb-3">
-                <select id="fromCurrency" class="neon-input flex-1 p-2 rounded">
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="JPY">JPY</option>
-                    <option value="CAD">CAD</option>
-                </select>
-                <span class="text-purple-400">→</span>
-                <select id="toCurrency" class="neon-input flex-1 p-2 rounded">
-                    <option value="EUR">EUR</option>
-                    <option value="USD">USD</option>
-                    <option value="GBP">GBP</option>
-                    <option value="JPY">JPY</option>
-                    <option value="CAD">CAD</option>
-                </select>
-            </div>
-            <div class="grid grid-cols-2 gap-2 mb-3">
-                <button onclick="convertCurrency()" class="neon-btn py-2 px-3 rounded text-sm">Convert</button>
-                <button onclick="resetCurrency()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
-            </div>
-            <div class="output-display p-3 rounded text-center text-sm" id="currencyResult">Enter amount and convert</div>
-        </div>
-
-        <!-- BMI Calculator -->
-        <div class="card p-4">
-            <h3 class="card-title text-lg text-center mb-4">
-                <i class="fas fa-weight mr-2"></i>BMI Calculator
-            </h3>
-            <div class="mb-3">
-                <label class="block text-sm mb-1">Weight (kg):</label>
-                <input type="number" id="bmiWeight" step="0.1" class="neon-input w-full p-2 rounded">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm mb-1">Height (cm):</label>
-                <input type="number" id="bmiHeight" class="neon-input w-full p-2 rounded">
-            </div>
-            <div class="grid grid-cols-2 gap-2 mb-3">
-                <button onclick="calculateBMI()" class="neon-btn py-2 px-3 rounded text-sm">Calculate</button>
-                <button onclick="resetBMI()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
-            </div>
-            <div class="output-display p-2 rounded text-center text-sm mb-2" id="bmiResult">Enter weight and height</div>
-            <div class="output-display p-2 rounded text-center text-xs" id="bmiCategory"></div>
-        </div>
-
-        <!-- QR Code Generator -->
-        <div class="card p-4">
-            <h3 class="card-title text-lg text-center mb-4">
-                <i class="fas fa-qrcode mr-2"></i>QR Generator
-            </h3>
-            <input type="text" id="qrText" placeholder="Enter text or URL" class="neon-input w-full p-2 rounded mb-3">
-            <div class="grid grid-cols-2 gap-2 mb-3">
-                <button onclick="generateQR()" class="neon-btn py-2 px-3 rounded text-sm">Generate</button>
-                <button onclick="resetQR()" class="reset-btn py-2 px-3 rounded text-sm">Reset</button>
-            </div>
-            <div class="text-center mb-3">
-                <img id="qrImage" style="display: none; max-width: 100%; height: auto; border-radius: 8px; filter: drop-shadow(0 0 10px var(--neon-green));">
-            </div>
-            <div class="output-display p-2 rounded text-center text-xs" id="qrStatus">Enter text to generate QR code</div>
-        </div>
-
     </div>
+    
+    <main class="container">
+        <div class="categories">
+            <button class="category-btn active">All Tools</button>
+            <button class="category-btn">Calculators</button>
+            <button class="category-btn">Converters</button>
+            <button class="category-btn">Productivity</button>
+            <button class="category-btn">Design</button>
+        </div>
+        
+        <div class="tools-grid">
+            <!-- Calculator Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h3><i class="fas fa-calculator"></i> Calculator</h3>
+                    <p>Perform basic calculations</p>
+                </div>
+                <div class="tool-content">
+                    <p>A simple calculator for everyday use. Supports basic arithmetic operations.</p>
+                    <div class="tool-embed">
+                        <div class="calculator">
+                            <div class="calculator-display">0</div>
+                            <button class="calculator-btn">C</button>
+                            <button class="calculator-btn">←</button>
+                            <button class="calculator-btn operator">%</button>
+                            <button class="calculator-btn operator">÷</button>
+                            <button class="calculator-btn">7</button>
+                            <button class="calculator-btn">8</button>
+                            <button class="calculator-btn">9</button>
+                            <button class="calculator-btn operator">×</button>
+                            <button class="calculator-btn">4</button>
+                            <button class="calculator-btn">5</button>
+                            <button class="calculator-btn">6</button>
+                            <button class="calculator-btn operator">-</button>
+                            <button class="calculator-btn">1</button>
+                            <button class="calculator-btn">2</button>
+                            <button class="calculator-btn">3</button>
+                            <button class="calculator-btn operator">+</button>
+                            <button class="calculator-btn">0</button>
+                            <button class="calculator-btn">.</button>
+                            <button class="calculator-btn equals">=</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Unit Converter Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h3><i class="fas fa-exchange-alt"></i> Unit Converter</h3>
+                    <p>Convert between different units</p>
+                </div>
+                <div class="tool-content">
+                    <p>Convert length, weight, temperature, and more between different unit systems.</p>
+                    <div class="tool-embed">
+                        <div class="unit-converter">
+                            <select id="conversion-type">
+                                <option value="length">Length</option>
+                                <option value="weight">Weight</option>
+                                <option value="temperature">Temperature</option>
+                            </select>
+                            <div class="input-group">
+                                <input type="number" id="from-value" placeholder="Enter value">
+                                <select id="from-unit">
+                                    <option value="meter">Meters</option>
+                                    <option value="inch">Inches</option>
+                                    <option value="foot">Feet</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <input type="number" id="to-value" placeholder="Result" readonly>
+                                <select id="to-unit">
+                                    <option value="foot">Feet</option>
+                                    <option value="meter">Meters</option>
+                                    <option value="inch">Inches</option>
+                                </select>
+                            </div>
+                            <button id="convert-btn">Convert</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notes Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h3><i class="fas fa-sticky-note"></i> Quick Notes</h3>
+                    <p>Jot down your thoughts</p>
+                </div>
+                <div class="tool-content">
+                    <p>A simple note-taking app. Your notes are saved in your browser's local storage.</p>
+                    <div class="tool-embed">
+                        <div class="notes-app">
+                            <textarea id="notes-area" placeholder="Type your notes here..."></textarea>
+                            <button id="save-notes">Save Notes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Currency Converter Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h3><i class="fas fa-money-bill-wave"></i> Currency Converter</h3>
+                    <p>Convert between currencies</p>
+                </div>
+                <div class="tool-content">
+                    <p>Check latest exchange rates and convert between world currencies. (Note: uses mock data)</p>
+                    <div class="tool-embed">
+                        <div class="unit-converter">
+                            <div class="input-group">
+                                <input type="number" id="currency-amount" placeholder="Amount" value="1">
+                                <select id="from-currency">
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="GBP">GBP</option>
+                                    <option value="JPY">JPY</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <input type="number" id="currency-result" placeholder="Result" readonly>
+                                <select id="to-currency">
+                                    <option value="EUR">EUR</option>
+                                    <option value="USD">USD</option>
+                                    <option value="GBP">GBP</option>
+                                    <option value="JPY">JPY</option>
+                                </select>
+                            </div>
+                            <button id="convert-currency">Convert</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timer Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h3><i class="fas fa-stopwatch"></i> Timer</h3>
+                    <p>Countdown timer</p>
+                </div>
+                <div class="tool-content">
+                    <p>Set a countdown timer for any duration. Get notified when time is up.</p>
+                    <div class="tool-embed">
+                        <div class="unit-converter">
+                            <input type="number" id="timer-minutes" placeholder="Minutes" value="5" min="0">
+                            <input type="number" id="timer-seconds" placeholder="Seconds" value="0" min="0" max="59">
+                            <div id="timer-display">05:00</div>
+                            <button id="start-timer">Start Timer</button>
+                            <button id="reset-timer">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Color Picker Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h3><i class="fas fa-palette"></i> Color Picker</h3>
+                    <p>Choose and customize colors</p>
+                </div>
+                <div class="tool-content">
+                    <p>Select a color and get its HEX and RGB values. Useful for design work.</p>
+                    <div class="tool-embed">
+                        <div class="unit-converter">
+                            <input type="color" id="color-picker" value="#ff6b6b">
+                            <div id="color-values">
+                                <p>HEX: <span id="hex-value">#ff6b6b</span></p>
+                                <p>RGB: <span id="rgb-value">255, 107, 107</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-toolbox"></i> The Tool Nest
+                </div>
+                <div class="footer-links">
+                    <a href="#">Home</a>
+                    <a href="#">Tools</a>
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+                <div class="copyright">
+                    © 2023 The Tool Nest. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Create floating particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const colors = ['#39ff14', '#bf00ff', '#00c3ff', '#ff0080'];
-            
-            setInterval(() => {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
-                particle.style.animationDelay = Math.random() * 2 + 's';
-                container.appendChild(particle);
+        // Calculator functionality
+        const calculatorDisplay = document.querySelector('.calculator-display');
+        const calculatorButtons = document.querySelectorAll('.calculator-btn');
+        let firstOperand = null;
+        let operator = null;
+        let waitingForSecondOperand = false;
+
+        calculatorButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.textContent;
                 
-                setTimeout(() => {
-                    particle.remove();
-                }, 25000);
-            }, 300);
-        }
-
-        // Enhanced Calculator functionality
-        let calcCurrentInput = '0';
-        let calcPreviousInput = '';
-        let calcOperator = '';
-        let calcShouldResetDisplay = false;
-
-        function updateCalcDisplay() {
-            document.getElementById('calcDisplay').textContent = calcCurrentInput;
-        }
-
-        function appendToCalc(value) {
-            if (calcShouldResetDisplay) {
-                calcCurrentInput = '';
-                calcShouldResetDisplay = false;
-            }
-
-            if (value === '.' && calcCurrentInput.includes('.')) {
-                return;
-            }
-
-            if (calcCurrentInput === '0' && value !== '.') {
-                calcCurrentInput = value;
-            } else {
-                calcCurrentInput += value;
-            }
-            
-            updateCalcDisplay();
-        }
-
-        function clearCalc() {
-            calcCurrentInput = '0';
-            updateCalcDisplay();
-        }
-
-        function resetCalc() {
-            calcCurrentInput = '0';
-            calcPreviousInput = '';
-            calcOperator = '';
-            calcShouldResetDisplay = false;
-            updateCalcDisplay();
-        }
-
-        function deleteLast() {
-            if (calcCurrentInput.length > 1) {
-                calcCurrentInput = calcCurrentInput.slice(0, -1);
-            } else {
-                calcCurrentInput = '0';
-            }
-            updateCalcDisplay();
-        }
-
-        function calculate() {
-            if (calcOperator && calcPreviousInput !== '') {
-                const prev = parseFloat(calcPreviousInput);
-                const current = parseFloat(calcCurrentInput);
-                let result;
-
-                switch (calcOperator) {
-                    case '+':
-                        result = prev + current;
-                        break;
-                    case '-':
-                        result = prev - current;
-                        break;
-                    case '*':
-                        result = prev * current;
-                        break;
-                    case '/':
-                        result = current !== 0 ? prev / current : 'Error';
-                        break;
-                    default:
-                        return;
+                if (value === 'C') {
+                    calculatorDisplay.textContent = '0';
+                    firstOperand = null;
+                    operator = null;
+                    waitingForSecondOperand = false;
+                    return;
                 }
-
-                calcCurrentInput = result.toString();
-                calcPreviousInput = '';
-                calcOperator = '';
-                calcShouldResetDisplay = true;
-                updateCalcDisplay();
-            }
-        }
-
-        // Handle operators
-        function handleOperator(nextOperator) {
-            const inputValue = parseFloat(calcCurrentInput);
-
-            if (calcPreviousInput === '') {
-                calcPreviousInput = inputValue;
-            } else if (calcOperator) {
-                const currentValue = calcPreviousInput || 0;
-                const newValue = calculate(currentValue, inputValue, calcOperator);
-
-                calcCurrentInput = String(newValue);
-                calcPreviousInput = newValue;
-            }
-
-            calcShouldResetDisplay = true;
-            calcOperator = nextOperator;
-            updateCalcDisplay();
-        }
-
-        // Override operator buttons
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add event listeners for operators
-            const operatorButtons = document.querySelectorAll('[onclick*="appendToCalc"]');
-            operatorButtons.forEach(button => {
-                const onclick = button.getAttribute('onclick');
-                if (onclick.includes("'+'") || onclick.includes("'-'") || onclick.includes("'*'") || onclick.includes("'/'")) {
-                    const operator = onclick.match(/'([+\-*/])'/)[1];
-                    button.setAttribute('onclick', `handleOperator('${operator}')`);
+                
+                if (value === '←') {
+                    calculatorDisplay.textContent = calculatorDisplay.textContent.slice(0, -1) || '0';
+                    return;
+                }
+                
+                if (value === '=') {
+                    if (operator && firstOperand !== null) {
+                        const result = calculate(firstOperand, parseFloat(calculatorDisplay.textContent), operator);
+                        calculatorDisplay.textContent = result;
+                        firstOperand = result;
+                        operator = null;
+                        waitingForSecondOperand = true;
+                    }
+                    return;
+                }
+                
+                if (['+', '-', '×', '÷', '%'].includes(value)) {
+                    if (firstOperand === null) {
+                        firstOperand = parseFloat(calculatorDisplay.textContent);
+                    } else if (operator) {
+                        const result = calculate(firstOperand, parseFloat(calculatorDisplay.textContent), operator);
+                        calculatorDisplay.textContent = result;
+                        firstOperand = result;
+                    }
+                    operator = value;
+                    waitingForSecondOperand = true;
+                    return;
+                }
+                
+                if (waitingForSecondOperand) {
+                    calculatorDisplay.textContent = value;
+                    waitingForSecondOperand = false;
+                } else {
+                    calculatorDisplay.textContent = calculatorDisplay.textContent === '0' ? value : calculatorDisplay.textContent + value;
                 }
             });
         });
 
-        // Password Generator
-        function generatePassword() {
-            const length = parseInt(document.getElementById('passLength').value);
-            const upper = document.getElementById('passUpper').checked;
-            const lower = document.getElementById('passLower').checked;
-            const numbers = document.getElementById('passNumbers').checked;
-            const symbols = document.getElementById('passSymbols').checked;
+        function calculate(a, b, operator) {
+            switch (operator) {
+                case '+': return a + b;
+                case '-': return a - b;
+                case '×': return a * b;
+                case '÷': return a / b;
+                case '%': return a % b;
+                default: return b;
+            }
+        }
 
-            let charset = '';
-            if (upper) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            if (lower) charset += 'abcdefghijklmnopqrstuvwxyz';
-            if (numbers) charset += '0123456789';
-            if (symbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
-
-            if (!charset) {
-                document.getElementById('passOutput').textContent = 'Select at least one option';
+        // Unit Converter functionality
+        document.getElementById('convert-btn').addEventListener('click', () => {
+            const value = parseFloat(document.getElementById('from-value').value);
+            const fromUnit = document.getElementById('from-unit').value;
+            const toUnit = document.getElementById('to-unit').value;
+            const conversionType = document.getElementById('conversion-type').value;
+            
+            if (isNaN(value)) {
+                alert('Please enter a valid number');
                 return;
             }
-
-            let password = '';
-            for (let i = 0; i < length; i++) {
-                password += charset.charAt(Math.floor(Math.random() * charset.length));
-            }
-
-            document.getElementById('passOutput').textContent = password;
             
-            // Copy to clipboard
-            navigator.clipboard.writeText(password).catch(() => {
-                console.log('Clipboard not available');
-            });
-        }
-
-        function resetPassword() {
-            document.getElementById('passLength').value = '12';
-            document.getElementById('passUpper').checked = true;
-            document.getElementById('passLower').checked = true;
-            document.getElementById('passNumbers').checked = true;
-            document.getElementById('passSymbols').checked = true;
-            document.getElementById('passOutput').textContent = 'Click Generate';
-        }
-
-        // Word Counter
-        document.getElementById('wordText').addEventListener('input', function() {
-            const text = this.value;
-            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-            const chars = text.length;
-            const paragraphs = text.trim() === '' ? 0 : text.split(/\n\s*\n/).length;
-            const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim()).length;
-
-            document.getElementById('wordCount').textContent = `${words} words, ${chars} characters`;
-            document.getElementById('wordStats').textContent = `${paragraphs} paragraphs, ${sentences} sentences`;
+            // Simple conversion factors for demonstration
+            let result;
+            if (conversionType === 'length') {
+                const toMeters = {
+                    meter: 1,
+                    inch: 0.0254,
+                    foot: 0.3048
+                };
+                
+                const meters = value * toMeters[fromUnit];
+                result = meters / toMeters[toUnit];
+            } else if (conversionType === 'weight') {
+                const toKilos = {
+                    kilogram: 1,
+                    pound: 0.453592,
+                    ounce: 0.0283495
+                };
+                
+                const kilos = value * toKilos[fromUnit];
+                result = kilos / toKilos[toUnit];
+            } else if (conversionType === 'temperature') {
+                if (fromUnit === 'celsius' && toUnit === 'fahrenheit') {
+                    result = (value * 9/5) + 32;
+                } else if (fromUnit === 'fahrenheit' && toUnit === 'celsius') {
+                    result = (value - 32) * 5/9;
+                } else {
+                    result = value; // Same unit
+                }
+            }
+            
+            document.getElementById('to-value').value = result.toFixed(2);
         });
 
-        function resetWordCounter() {
-            document.getElementById('wordText').value = '';
-            document.getElementById('wordCount').textContent = '0 words, 0 characters';
-            document.getElementById('wordStats').textContent = '0 paragraphs, 0 sentences';
+        // Notes functionality
+        const notesArea = document.getElementById('notes-area');
+        const saveNotesButton = document.getElementById('save-notes');
+
+        // Load saved notes from localStorage
+        if (localStorage.getItem('toolsShelfNotes')) {
+            notesArea.value = localStorage.getItem('toolsShelfNotes');
         }
 
-        // Text Case Converter
-        function convertCase(type) {
-            const textArea = document.getElementById('caseText');
-            let text = textArea.value;
+        saveNotesButton.addEventListener('click', () => {
+            localStorage.setItem('toolsShelfNotes', notesArea.value);
+            alert('Notes saved!');
+        });
 
-            switch(type) {
-                case 'lower':
-                    textArea.value = text.toLowerCase();
-                    break;
-                case 'upper':
-                    textArea.value = text.toUpperCase();
-                    break;
-                case 'title':
-                    textArea.value = text.replace(/\w\S*/g, (txt) => 
-                        txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-                    break;
-                case 'sentence':
-                    textArea.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-                    break;
+        // Currency Converter functionality
+        document.getElementById('convert-currency').addEventListener('click', () => {
+            const amount = parseFloat(document.getElementById('currency-amount').value);
+            const fromCurrency = document.getElementById('from-currency').value;
+            const toCurrency = document.getElementById('to-currency').value;
+            
+            if (isNaN(amount)) {
+                alert('Please enter a valid amount');
+                return;
             }
-        }
-
-        function resetTextCase() {
-            document.getElementById('caseText').value = '';
-        }
+            
+            // Mock exchange rates for demonstration
+            const rates = {
+                USD: { EUR: 0.85, GBP: 0.75, JPY: 110.0, USD: 1 },
+                EUR: { USD: 1.18, GBP: 0.88, JPY: 129.5, EUR: 1 },
+                GBP: { USD: 1.33, EUR: 1.14, JPY: 147.0, GBP: 1 },
+                JPY: { USD: 0.0091, EUR: 0.0077, GBP: 0.0068, JPY: 1 }
+            };
+            
+            const result = amount * rates[fromCurrency][toCurrency];
+            document.getElementById('currency-result').value = result.toFixed(2);
+        });
 
         // Timer functionality
+        const timerDisplay = document.getElementById('timer-display');
+        const startTimerButton = document.getElementById('start-timer');
+        const resetTimerButton = document.getElementById('reset-timer');
         let timerInterval = null;
-        let timerSeconds = 0;
-        let timerRunning = false;
+        let timeLeft = 5 * 60; // 5 minutes in seconds
 
         function updateTimerDisplay() {
-            const hours = Math.floor(timerSeconds / 3600);
-            const minutes = Math.floor((timerSeconds % 3600) / 60);
-            const seconds = timerSeconds % 60;
-            
-            document.getElementById('timerDisplay').textContent = 
-                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
-        function startTimer() {
-            if (!timerRunning) {
-                if (timerSeconds === 0) {
-                    const minutes = parseInt(document.getElementById('timerMinutes').value) || 0;
-                    timerSeconds = minutes * 60;
-                }
-                
-                timerRunning = true;
-                timerInterval = setInterval(() => {
-                    if (timerSeconds > 0) {
-                        timerSeconds--;
-                        updateTimerDisplay();
-                    } else {
-                        pauseTimer();
-                        alert('Timer finished!');
-                    }
-                }, 1000);
+        startTimerButton.addEventListener('click', () => {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                startTimerButton.textContent = 'Start Timer';
+                return;
             }
-        }
+            
+            const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
+            const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
+            timeLeft = minutes * 60 + seconds;
+            
+            if (timeLeft <= 0) {
+                alert('Please enter a valid time');
+                return;
+            }
+            
+            updateTimerDisplay();
+            startTimerButton.textContent = 'Pause Timer';
+            
+            timerInterval = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateTimerDisplay();
+                } else {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    startTimerButton.textContent = 'Start Timer';
+                    alert('Timer finished!');
+                }
+            }, 1000);
+        });
 
-        function pauseTimer() {
-            timerRunning = false;
+        resetTimerButton.addEventListener('click', () => {
             if (timerInterval) {
                 clearInterval(timerInterval);
                 timerInterval = null;
             }
-        }
-
-        function resetTimer() {
-            pauseTimer();
-            timerSeconds = 0;
-            document.getElementById('timerMinutes').value = '5';
+            startTimerButton.textContent = 'Start Timer';
+            const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
+            const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
+            timeLeft = minutes * 60 + seconds;
             updateTimerDisplay();
-        }
+        });
 
-        // Notes functionality
-        function saveNotes() {
-            const notes = document.getElementById('notesText').value;
-            localStorage.setItem('cyberNotes', notes);
+        // Color Picker functionality
+        const colorPicker = document.getElementById('color-picker');
+        const hexValue = document.getElementById('hex-value');
+        const rgbValue = document.getElementById('rgb-value');
+
+        colorPicker.addEventListener('input', () => {
+            const color = colorPicker.value;
+            hexValue.textContent = color;
             
-            const savedDiv = document.getElementById('notesSaved');
-            savedDiv.style.display = 'block';
-            setTimeout(() => {
-                savedDiv.style.display = 'none';
-            }, 2000);
-        }
-
-        function resetNotes() {
-            document.getElementById('notesText').value = '';
-            localStorage.removeItem('cyberNotes');
-        }
-
-        // Load saved notes
-        document.getElementById('notesText').value = localStorage.getItem('cyberNotes') || '';
-
-        // Random Number Generator
-        function generateRandom() {
-            const min = parseInt(document.getElementById('randMin').value);
-            const max = parseInt(document.getElementById('randMax').value);
+            // Convert hex to RGB
+            const r = parseInt(color.substr(1, 2), 16);
+            const g = parseInt(color.substr(3, 2), 16);
+            const b = parseInt(color.substr(5, 2), 16);
             
-            if (min >= max) {
-                document.getElementById('randomResult').textContent = 'Min must be less than Max';
-                return;
-            }
-            
-            const random = Math.floor(Math.random() * (max - min + 1)) + min;
-            document.getElementById('randomResult').textContent = random;
-        }
+            rgbValue.textContent = `${r}, ${g}, ${b}`;
+        });
 
-        function resetRandom() {
-            document.getElementById('randMin').value = '1';
-            document.getElementById('randMax').value = '100';
-            document.getElementById('randomResult').textContent = 'Click Generate';
-        }
-
-        // Currency Converter (simplified rates)
-        const exchangeRates = {
-            USD: { EUR: 0.85, GBP: 0.73, JPY: 110, CAD: 1.25 },
-            EUR: { USD: 1.18, GBP: 0.86, JPY: 130, CAD: 1.47 },
-            GBP: { USD: 1.37, EUR: 1.16, JPY: 151, CAD: 1.71 },
-            JPY: { USD: 0.0091, EUR: 0.0077, GBP: 0.0066, CAD: 0.011 },
-            CAD: { USD: 0.80, EUR: 0.68, GBP: 0.58, JPY: 88 }
-        };
-
-        function convertCurrency() {
-            const amount = parseFloat(document.getElementById('currencyAmount').value);
-            const from = document.getElementById('fromCurrency').value;
-            const to = document.getElementById('toCurrency').value;
-            
-            if (!amount || amount <= 0) {
-                document.getElementById('currencyResult').textContent = 'Enter valid amount';
-                return;
-            }
-            
-            if (from === to) {
-                document.getElementById('currencyResult').textContent = `${amount} ${from}`;
-                return;
-            }
-            
-            const rate = exchangeRates[from][to];
-            const result = (amount * rate).toFixed(2);
-            document.getElementById('currencyResult').textContent = `${amount} ${from} = ${result} ${to}`;
-        }
-
-        function resetCurrency() {
-            document.getElementById('currencyAmount').value = '100';
-            document.getElementById('fromCurrency').value = 'USD';
-            document.getElementById('toCurrency').value = 'EUR';
-            document.getElementById('currencyResult').textContent = 'Enter amount and convert';
-        }
-
-        // BMI Calculator
-        function calculateBMI() {
-            const weight = parseFloat(document.getElementById('bmiWeight').value);
-            const height = parseFloat(document.getElementById('bmiHeight').value) / 100; // convert to meters
-            
-            if (!weight || !height || weight <= 0 || height <= 0) {
-                document.getElementById('bmiResult').textContent = 'Enter valid weight and height';
-                document.getElementById('bmiCategory').textContent = '';
-                return;
-            }
-            
-            const bmi = (weight / (height * height)).toFixed(1);
-            document.getElementById('bmiResult').textContent = `BMI: ${bmi}`;
-            
-            let category = '';
-            if (bmi < 18.5) category = 'Underweight';
-            else if (bmi < 25) category = 'Normal weight';
-            else if (bmi < 30) category = 'Overweight';
-            else category = 'Obese';
-            
-            document.getElementById('bmiCategory').textContent = category;
-        }
-
-        function resetBMI() {
-            document.getElementById('bmiWeight').value = '';
-            document.getElementById('bmiHeight').value = '';
-            document.getElementById('bmiResult').textContent = 'Enter weight and height';
-            document.getElementById('bmiCategory').textContent = '';
-        }
-
-        // QR Code Generator
-        function generateQR() {
-            const text = document.getElementById('qrText').value.trim();
-            
-            if (!text) {
-                document.getElementById('qrStatus').textContent = 'Enter text to generate QR code';
-                document.getElementById('qrImage').style.display = 'none';
-                return;
-            }
-            
-            const qrImg = document.getElementById('qrImage');
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`;
-            qrImg.style.display = 'block';
-            document.getElementById('qrStatus').textContent = 'QR Code generated successfully!';
-        }
-
-        function resetQR() {
-            document.getElementById('qrText').value = '';
-            document.getElementById('qrImage').style.display = 'none';
-            document.getElementById('qrStatus').textContent = 'Enter text to generate QR code';
-        }
-
-        // Initialize
-        createParticles();
-        updateTimerDisplay();
-        updateCalcDisplay();
+        // Initialize with current color
+        const initialColor = colorPicker.value;
+        const r = parseInt(initialColor.substr(1, 2), 16);
+        const g = parseInt(initialColor.substr(3, 2), 16);
+        const b = parseInt(initialColor.substr(5, 2), 16);
+        rgbValue.textContent = `${r}, ${g}, ${b}`;
     </script>
 </body>
 </html>
