@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Backlink Checker — Nest</title><link rel="stylesheet" href="../assets/styles.css"/></head>
+<body>
+  <div class="tool-wrap" style="max-width:900px;margin:80px auto">
+    <a href="../index.html">← Home</a>
+    <h1>Backlink Checker — Demo</h1>
+    <p class="kv">Demo backlinks — replace with real API for production.</p>
+
+    <label class="kv">Domain</label><input id="domain" class="input" placeholder="example.com" />
+    <div style="margin-top:8px"><button id="run" class="btn btn-primary">Run</button><button id="reset" class="btn btn-secondary">Reset</button></div>
+
+    <div id="out" style="margin-top:12px"></div>
+    <div style="margin-top:8px"><button id="download" class="btn btn-primary" style="display:none">Download CSV</button></div>
+  </div>
+
+<script>
+const run = document.getElementById('run'); const reset = document.getElementById('reset');
+const out = document.getElementById('out'); const domain = document.getElementById('domain'); const dl = document.getElementById('download');
+
+function demoResults(d){
+  return [
+    {source:`https://blog.${d}/post-about-${d}`, anchor:`Best ${d} tools`, score:0.78},
+    {source:`https://news.${d}/a/123`, anchor:`Referencing ${d}`, score:0.61},
+    {source:`https://forum.${d}/thread/88`, anchor:`Discussion on ${d}`, score:0.42}
+  ];
+}
+
+run.addEventListener('click', ()=>{
+  const d = domain.value.trim(); if(!d){ alert('Enter domain'); return; }
+  const res = demoResults(d);
+  out.innerHTML = '<table style="width:100%"><thead><tr><th>Source</th><th>Anchor</th><th>Score</th></tr></thead><tbody>' + res.map(r=>`<tr><td>${r.source}</td><td>${r.anchor}</td><td>${r.score}</td></tr>`).join('') + '</tbody></table>';
+  dl.style.display = 'inline-block';
+  const csv = 'source,anchor,score\n' + res.map(r=>`"${r.source}","${r.anchor}",${r.score}`).join('\\n');
+  dl.onclick = ()=>{ const a = document.createElement('a'); a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download = `${d}-backlinks.csv`; a.click(); };
+});
+
+reset.addEventListener('click', ()=>{ domain.value=''; out.innerHTML=''; dl.style.display='none'; });
+</script>
+</body></html>
