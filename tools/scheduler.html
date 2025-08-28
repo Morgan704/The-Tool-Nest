@@ -1,41 +1,238 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Scheduler Mock — Nest</title><link rel="stylesheet" href="../assets/styles.css"/></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Post Scheduler — Nest</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+  <style>
+    body{font-family:Arial, sans-serif; background:#f9f9f9; margin:0}
+    .wrap{max-width:1000px; margin:60px auto; padding:20px}
+    .card{background:#fff; border-radius:14px; padding:24px; box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    h1{margin:0 0 10px}
+    .grid{display:grid; grid-template-columns:1.1fr 1fr; gap:20px}
+    label{font-weight:600; font-size:14px}
+    input, select, textarea{width:100%; padding:10px; border:1px solid #ccd3e0; border-radius:8px}
+    textarea{resize:vertical}
+    .row{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
+    .btn{padding:10px 16px; border:none; border-radius:8px; cursor:pointer; font-weight:700}
+    .btn-primary{background:#007bff; color:#fff}
+    .btn-secondary{background:#e9eef7}
+    table{width:100%; border-collapse:collapse; margin-top:12px}
+    th,td{padding:10px; border-bottom:1px solid #eef0f5; text-align:left; font-size:14px; vertical-align:top}
+    .muted{color:#666; font-size:12px}
+    .tools{display:flex; gap:10px; flex-wrap:wrap; margin:10px 0}
+    .tag{padding:4px 8px; border-radius:999px; font-size:12px; background:#eef4ff; color:#1a57d3}
+  </style>
+</head>
 <body>
-  <div class="tool-wrap" style="max-width:880px;margin:80px auto">
+  <div class="wrap">
     <a href="../index.html">← Home</a>
-    <h1>Post Scheduler (Mock)</h1>
-    <p class="kv">Create scheduled posts and export a CSV (no real posting).</p>
+    <div class="card" style="margin-top:12px">
+      <h1>Post Scheduler (Pro)</h1>
+      <p>Create a content plan for multiple platforms. Everything is saved locally in your browser (no login).</p>
 
-    <label class="kv">Caption</label><textarea id="caption" class="input" rows="3"></textarea>
-    <label class="kv">Schedule date & time</label><input id="when" class="input" type="datetime-local"/>
-    <div style="margin-top:8px"><button id="add" class="btn btn-primary">Add to schedule</button><button id="download" class="btn btn-secondary" disabled>Download CSV</button><button id="reset" class="btn btn-secondary">Reset</button></div>
+      <div class="grid">
+        <form id="form" class="card">
+          <div class="row">
+            <div>
+              <label>Platform</label>
+              <select id="platform">
+                <option>Instagram</option>
+                <option>Twitter/X</option>
+                <option>Facebook</option>
+                <option>LinkedIn</option>
+                <option>YouTube</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label>Image URL (optional)</label>
+              <input id="image" placeholder="https://...">
+            </div>
+          </div>
 
-    <table id="table" style="margin-top:12px;width:100%;border-collapse:collapse"></table>
+          <div>
+            <label>Post Content</label>
+            <textarea id="content" rows="5" placeholder="Write your caption or post text..."></textarea>
+            <div class="muted"><span id="charCount">0</span> characters</div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Date</label>
+              <input id="date" type="date">
+            </div>
+            <div>
+              <label>Time</label>
+              <input id="time" type="time">
+            </div>
+          </div>
+
+          <div class="tools">
+            <button type="submit" class="btn btn-primary" id="saveBtn">Add Post</button>
+            <button type="button" class="btn btn-secondary" id="clearForm">Clear</button>
+          </div>
+          <p class="muted">Tip: Use your Hashtag and Text Case tools to refine content before scheduling.</p>
+        </form>
+
+        <div class="card">
+          <div class="tools">
+            <button class="btn btn-secondary" id="exportCsv">Export CSV</button>
+            <button class="btn btn-secondary" id="clearAll">Clear All</button>
+          </div>
+          <table id="table">
+            <thead>
+              <tr>
+                <th>Platform</th>
+                <th>When</th>
+                <th>Content</th>
+                <th>Image</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+          <p class="muted" id="emptyHint">No posts yet. Add one on the left.</p>
+        </div>
+      </div>
+    </div>
   </div>
 
 <script>
-const caption = document.getElementById('caption'), whenEl = document.getElementById('when'), add=document.getElementById('add'), table=document.getElementById('table'), download=document.getElementById('download'), reset=document.getElementById('reset');
-let rows = [];
+const form = document.getElementById('form');
+const platform = document.getElementById('platform');
+const image = document.getElementById('image');
+const content = document.getElementById('content');
+const charCount = document.getElementById('charCount');
+const dateEl = document.getElementById('date');
+const timeEl = document.getElementById('time');
+const saveBtn = document.getElementById('saveBtn');
 
-function renderTable(){
-  if(rows.length===0){ table.innerHTML=''; download.disabled=true; return; }
-  table.innerHTML = '<thead><tr><th>When</th><th>Caption</th><th>Remove</th></tr></thead><tbody>' + rows.map((r, i)=>`<tr><td>${r.when}</td><td>${r.caption}</td><td><button data-i="${i}" class="remove btn btn-secondary">Remove</button></td></tr>`).join('') + '</tbody>';
-  download.disabled = false;
-  table.querySelectorAll('.remove').forEach(b=>b.addEventListener('click', e=>{ rows.splice(parseInt(b.dataset.i,10),1); renderTable(); }));
+const tbody = document.getElementById('tbody');
+const emptyHint = document.getElementById('emptyHint');
+const exportCsvBtn = document.getElementById('exportCsv');
+const clearFormBtn = document.getElementById('clearForm');
+const clearAllBtn = document.getElementById('clearAll');
+
+let editId = null;
+const KEY = 'nest_scheduler_v1';
+
+function load(){
+  try { return JSON.parse(localStorage.getItem(KEY)) || []; }
+  catch { return []; }
+}
+function save(list){ localStorage.setItem(KEY, JSON.stringify(list)); }
+function uid(){ return Math.random().toString(36).slice(2,10); }
+
+function render(){
+  const list = load();
+  tbody.innerHTML = '';
+  if(!list.length){ emptyHint.style.display='block'; return; }
+  emptyHint.style.display='none';
+  list.sort((a,b)=> new Date(a.when) - new Date(b.when));
+  for(const item of list){
+    const tr = document.createElement('tr');
+    const when = new Date(item.when);
+    tr.innerHTML = `
+      <td><span class="tag">${item.platform}</span></td>
+      <td>${when.toLocaleString()}</td>
+      <td style="white-space:pre-wrap">${item.content}</td>
+      <td>${item.image ? `<a href="${item.image}" target="_blank">View</a>` : '-'}</td>
+      <td>${item.done ? '✅ Done' : '⏳ Pending'}</td>
+      <td>
+        <button data-act="edit" data-id="${item.id}" class="btn btn-secondary" style="margin-bottom:6px">Edit</button>
+        <button data-act="toggle" data-id="${item.id}" class="btn btn-secondary" style="margin-bottom:6px">${item.done?'Mark Pending':'Mark Done'}</button>
+        <button data-act="del" data-id="${item.id}" class="btn btn-secondary">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  }
 }
 
-add.addEventListener('click', ()=>{
-  if(!caption.value.trim() || !whenEl.value){ alert('Add caption and datetime'); return; }
-  rows.push({when: whenEl.value, caption: caption.value.trim()});
-  caption.value=''; whenEl.value='';
-  renderTable();
+content.addEventListener('input', ()=> charCount.textContent = content.value.length);
+
+form.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const d = dateEl.value, t = timeEl.value;
+  if(!content.value.trim()){ alert('Write some content'); return; }
+  if(!d || !t){ alert('Pick date & time'); return; }
+
+  const list = load();
+  if(editId){
+    const idx = list.findIndex(x=>x.id===editId);
+    if(idx>-1){
+      list[idx] = { ...list[idx],
+        platform: platform.value,
+        image: image.value.trim(),
+        content: content.value.trim(),
+        when: new Date(`${d}T${t}`).toISOString()
+      };
+    }
+    editId = null;
+    saveBtn.textContent = 'Add Post';
+  } else {
+    list.push({
+      id: uid(),
+      platform: platform.value,
+      image: image.value.trim(),
+      content: content.value.trim(),
+      when: new Date(`${d}T${t}`).toISOString(),
+      done: false
+    });
+  }
+  save(list);
+  form.reset(); charCount.textContent = 0;
+  render();
 });
 
-download.addEventListener('click', ()=>{
-  const csv = 'when,caption\\n' + rows.map(r=>`"${r.when.replace(/"/g,'""')}","${r.caption.replace(/"/g,'""')}"`).join('\\n');
-  const a = document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download='schedule.csv'; a.click();
+clearFormBtn.addEventListener('click', ()=>{ form.reset(); editId=null; saveBtn.textContent='Add Post'; charCount.textContent=0; });
+
+tbody.addEventListener('click', (e)=>{
+  const btn = e.target.closest('button'); if(!btn) return;
+  const id = btn.dataset.id, act = btn.dataset.act;
+  const list = load();
+  const idx = list.findIndex(x=>x.id===id);
+  if(idx===-1) return;
+
+  if(act==='edit'){
+    const it = list[idx];
+    platform.value = it.platform;
+    image.value = it.image || '';
+    content.value = it.content; charCount.textContent = content.value.length;
+    const dt = new Date(it.when);
+    dateEl.value = dt.toISOString().slice(0,10);
+    timeEl.value = dt.toTimeString().slice(0,5);
+    editId = id; saveBtn.textContent = 'Save Changes';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else if(act==='toggle'){
+    list[idx].done = !list[idx].done;
+    save(list); render();
+  } else if(act==='del'){
+    if(confirm('Delete this post?')){ list.splice(idx,1); save(list); render(); }
+  }
 });
 
-reset.addEventListener('click', ()=>{ rows=[]; renderTable(); });
+exportCsvBtn.addEventListener('click', ()=>{
+  const list = load(); if(!list.length) return;
+  let csv = 'Platform,When,Content,Image,Status\n';
+  for(const x of list){
+    csv += `"${x.platform}","${new Date(x.when).toLocaleString().replace(/"/g,'""')}","${x.content.replace(/"/g,'""')}","${x.image}","${x.done?'Done':'Pending'}"\n`;
+  }
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'schedule.csv'; a.click();
+  URL.revokeObjectURL(url);
+});
+
+clearAllBtn.addEventListener('click', ()=>{
+  if(confirm('Clear all scheduled posts?')){ localStorage.removeItem(KEY); render(); }
+});
+
+// initial
+render();
 </script>
-</body></html>
+</body>
+</html>
