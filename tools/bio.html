@@ -1,78 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About — The Tool Nest</title>
-  <link rel="stylesheet" href="assets/styles.css" />
-  <style>
-    body{font-family:Arial, sans-serif; margin:0; background:#f9f9f9; color:#333}
-    header{background:#007bff; color:#fff; padding:48px 20px; text-align:center}
-    header h1{margin:0;font-size:32px}
-    header p{margin:10px 0 0; font-size:15px; opacity:.95}
-    .container{max-width:900px; margin:40px auto; padding:0 20px}
-    .card{background:#fff; border-radius:14px; padding:24px; box-shadow:0 8px 24px rgba(0,0,0,.08); margin-bottom:20px}
-    h2{margin:0 0 10px}
-    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px}
-    .pill{display:inline-block; padding:6px 12px; border-radius:999px; background:#eef4ff; color:#1a57d3; font-size:12px; margin:4px 6px 0 0}
-    a.btn{display:inline-block; padding:10px 16px; background:#007bff; color:#fff; border-radius:8px; text-decoration:none; font-weight:600}
-    .muted{color:#666; font-size:14px}
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Bio Generator — The Tool Nest</title>
+<style>
+  body{background:#000;color:#0f0;font-family:'Segoe UI',sans-serif;text-align:center;padding:40px;}
+  h1{text-shadow:0 0 15px #0f0;}
+  textarea{width:100%;max-width:500px;height:100px;padding:10px;
+    border:1px solid #0f0;border-radius:6px;background:#000;color:#0f0;}
+  select,button{margin:10px;padding:10px 15px;border:none;border-radius:6px;
+    background:#0f0;color:#000;font-weight:bold;cursor:pointer;box-shadow:0 0 10px #0f0;}
+  button:hover,select:hover{background:#000;color:#0f0;border:1px solid #0f0;}
+  .box{max-width:600px;margin:20px auto;padding:20px;background:rgba(255,255,255,0.05);
+    border-radius:12px;box-shadow:0 0 20px #0f0;}
+</style>
 </head>
 <body>
-  <header>
-    <h1>About The Tool Nest</h1>
-    <p>Compact, fast, privacy-friendly web tools — crafted by Morgan.</p>
-  </header>
-
-  <div class="container">
-    <section class="card">
-      <h2>Mission</h2>
-      <p>The Tool Nest delivers lightweight, no-login utilities that run entirely in your browser. No data leaves your device — ideal for creators, marketers, and developers who value speed and privacy.</p>
-    </section>
-
-    <section class="card">
-      <h2>What’s Inside</h2>
-      <div class="grid">
-        <div>
-          <strong>Media</strong><br>
-          <span class="pill">Image Converter</span>
-          <span class="pill">Post Resizer</span>
-          <span class="pill">OG Preview</span>
-        </div>
-        <div>
-          <strong>SEO</strong><br>
-          <span class="pill">Meta Tags</span>
-          <span class="pill">SERP Preview</span>
-          <span class="pill">Backlink Checker</span>
-        </div>
-        <div>
-          <strong>Social & Text</strong><br>
-          <span class="pill">Hashtags</span>
-          <span class="pill">Text Case</span>
-          <span class="pill">Word Counter</span>
-          <span class="pill">Scheduler</span>
-        </div>
-        <div>
-          <strong>Utilities</strong><br>
-          <span class="pill">QR Generator</span>
-          <span class="pill">Password (soon)</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Contact</h2>
-      <p class="muted">Questions, ideas, or bugs? I’d love to hear from you.</p>
-      <a class="btn" href="mailto:hello@thetoolnest.com">Email Morgan</a>
-      <!-- You can also add social links:
-      <a class="btn" href="https://github.com/morgan704" style="background:#24292e">GitHub</a> -->
-    </section>
-
-    <section class="card">
-      <h2>Privacy</h2>
-      <p>All tools are client-side. Your inputs (text, images, URLs) are processed locally in your browser. No tracking pixels, no databases.</p>
-    </section>
-  </div>
+<h1>✍️ Bio Generator</h1>
+<div class="box">
+  <p>Enter your name and choose style:</p>
+  <input id="name" placeholder="Your name" style="padding:8px;border:1px solid #0f0;background:#000;color:#0f0;width:80%;border-radius:6px;">
+  <br>
+  <select id="style">
+    <option value="professional">Professional</option>
+    <option value="casual">Casual</option>
+    <option value="funny">Funny</option>
+    <option value="inspirational">Inspirational</option>
+  </select>
+  <button onclick="generateBio()">Generate</button>
+  <br>
+  <textarea id="output" readonly placeholder="Your generated bio will appear here..."></textarea>
+  <br>
+  <button onclick="copyBio()">Copy</button>
+</div>
+<script>
+function generateBio(){
+  const name=document.getElementById('name').value||"Someone";
+  const style=document.getElementById('style').value;
+  let bio="";
+  if(style==="professional") bio=`${name} is a driven professional, passionate about growth and innovation.`;
+  if(style==="casual") bio=`Hey, I’m ${name}! Just living life and enjoying the journey.`;
+  if(style==="funny") bio=`${name}: powered by coffee, sarcasm, and WiFi.`;
+  if(style==="inspirational") bio=`${name} believes every day is a chance to inspire and grow.`;
+  document.getElementById('output').value=bio;
+}
+function copyBio(){
+  const out=document.getElementById('output');
+  out.select(); document.execCommand("copy");
+  alert("Bio copied!");
+}
+</script>
+<p><a href="index.html" style="color:#0f0">← Back to Home</a></p>
 </body>
 </html>
