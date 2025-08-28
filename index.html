@@ -2,86 +2,110 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>The Tool Nest — Galaxy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>The Tool Nest — Pro Web Tools</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-
-  body{
-    background:radial-gradient(ellipse at bottom,#0d1a26 0%,#000 100%);
-    color:#0f0;
-    overflow-x:hidden;
+  /* Background + Stars */
+  body {
+    margin:0; font-family:'Segoe UI', sans-serif; background:#000; color:#0f0; overflow-x:hidden;
+  }
+  .stars, .stars2, .stars3 {
+    position:absolute; width:2px; height:2px; background:transparent;
+    box-shadow:100px 200px #fff, 300px 600px #fff, 500px 100px #fff, 
+               700px 400px #fff, 900px 700px #fff, 1100px 300px #fff, 
+               1300px 200px #fff, 1500px 500px #fff, 1700px 800px #fff;
+    animation: animStar 100s linear infinite;
+  }
+  .stars2 {
+    box-shadow:200px 300px #0f0, 600px 800px #0f0, 1000px 400px #0f0,
+               1400px 600px #0f0, 1800px 900px #0f0;
+    animation: animStar 150s linear infinite;
+  }
+  .stars3 {
+    box-shadow:250px 500px #9f9, 800px 200px #9f9, 1200px 700px #9f9,
+               1600px 300px #9f9, 1900px 100px #9f9;
+    animation: animStar 200s linear infinite;
+  }
+  @keyframes animStar {
+    from { transform:translateY(0px); }
+    to   { transform:translateY(-1000px); }
   }
 
-  /* Stars & Shooting Stars */
-  .stars{width:2px;height:2px;background:transparent;
-    box-shadow:100px 200px #fff,300px 600px #fff,500px 100px #fff,
-               700px 400px #fff,900px 700px #fff,1100px 300px #fff,
-               1300px 200px #fff,1500px 500px #fff,1700px 800px #fff;
-    animation:twinkle 4s infinite alternate;}
-  .stars::after{content:"";position:absolute;top:0;width:2px;height:2px;background:transparent;box-shadow:inherit;}
-  @keyframes twinkle{from{opacity:0.2}to{opacity:1}}
-  .shooting-star{position:absolute;top:-10px;left:50%;width:2px;height:80px;background:linear-gradient(-45deg,#0f0,transparent);opacity:0;animation:shoot 6s linear infinite;}
-  @keyframes shoot{0%{transform:translateX(0) translateY(0);opacity:0}10%{opacity:1}50%{transform:translateX(-600px) translateY(600px);opacity:0}100%{opacity:0}}
-
   /* Header */
-  header{text-align:center;padding:50px 20px 20px;}
-  header h1{font-size:3em;color:#0f0;text-shadow:0 0 15px #0f0,0 0 30px #0f0;animation:flicker 3s infinite alternate;}
-  header p{margin-top:10px;color:#9f9;font-size:1.2em;animation:fadeIn 4s ease-in-out infinite alternate;}
-  nav{margin-top:20px;}
-  nav a{margin:0 12px;color:#0f0;text-decoration:none;font-weight:bold;text-shadow:0 0 5px #0f0;}
-  nav a:hover{color:#fff;text-shadow:0 0 15px #0f0;}
-  @keyframes flicker{from{text-shadow:0 0 5px #0f0,0 0 10px #0f0}to{text-shadow:0 0 20px #0f0,0 0 40px #0f0}}
-  @keyframes fadeIn{from{opacity:0.4}to{opacity:1}}
+  header {
+    text-align:center; padding:60px 20px; position:relative; z-index:1;
+  }
+  header h1 {
+    font-size:2.8em; color:#0f0; text-shadow:0 0 20px #0f0, 0 0 40px #0f0;
+  }
+  header p {
+    font-size:1.2em; color:#9f9;
+  }
 
-  /* Tools Grid */
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;padding:30px;max-width:1200px;margin:0 auto;}
-  .card{background:rgba(255,255,255,0.05);border:1px solid rgba(0,255,0,0.4);padding:20px;border-radius:12px;backdrop-filter:blur(6px);color:#0f0;text-align:center;box-shadow:0 0 10px rgba(0,255,0,0.2);transition:transform .3s,box-shadow .3s,border-color .3s;animation:slideUp 1s ease forwards;}
-  .card h3{margin-bottom:10px;font-size:1.3em;}
-  .card p{font-size:0.9em;margin-bottom:15px;color:#9f9;}
-  .card a{display:inline-block;padding:8px 16px;background:#0f0;color:#000;border-radius:6px;text-decoration:none;font-weight:bold;box-shadow:0 0 10px #0f0;transition:background .3s,color .3s;}
-  .card:hover{transform:translateY(-8px) scale(1.03);border-color:#0f0;box-shadow:0 0 25px #0f0;}
-  .card a:hover{background:#000;color:#0f0;}
-  @keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+  /* Tool Grid */
+  .grid {
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+    gap:20px; padding:40px; max-width:1200px; margin:auto; position:relative; z-index:1;
+  }
+  .card {
+    background:rgba(255,255,255,0.05); padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,255,0,0.3); text-align:center;
+    transition:transform .3s, box-shadow .3s;
+  }
+  .card:hover {
+    transform:translateY(-8px);
+    box-shadow:0 0 30px rgba(0,255,0,0.6);
+  }
+  .card h3 {
+    margin:10px 0; font-size:1.4em; text-shadow:0 0 10px #0f0;
+  }
+  .card a {
+    display:inline-block; margin-top:10px; padding:8px 16px; background:#0f0;
+    color:#000; font-weight:bold; border-radius:6px; text-decoration:none;
+    box-shadow:0 0 10px #0f0;
+  }
+  .card a:hover {
+    background:#000; color:#0f0; border:1px solid #0f0;
+  }
 
   /* Footer */
-  footer{text-align:center;padding:30px;color:#090;font-size:0.9em;margin-top:40px;}
-  .social a{margin:0 10px;color:#0f0;font-size:1.4em;text-decoration:none;text-shadow:0 0 10px #0f0;}
-  .social a:hover{color:#fff;text-shadow:0 0 20px #0f0;}
+  footer {
+    text-align:center; padding:20px; margin-top:40px; color:#090; position:relative; z-index:1;
+  }
+  .social a {
+    margin:0 10px; color:#0f0; font-size:1.4em; text-decoration:none;
+    text-shadow:0 0 10px #0f0;
+  }
+  .social a:hover {
+    color:#fff; text-shadow:0 0 20px #0f0;
+  }
 </style>
-<!-- Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+<!-- Infinite Stars Background -->
 <div class="stars"></div>
-<div class="shooting-star"></div>
+<div class="stars2"></div>
+<div class="stars3"></div>
 
 <header>
   <h1>🌌 The Tool Nest</h1>
-  <p>12 Compact, Powerful Web Tools — Fast, Secure & Beautifully Animated</p>
-  <nav>
-    <a href="about.html">About Us</a>
-    <a href="contact.html">Contact</a>
-    <a href="terms.html">Terms</a>
-    <a href="privacy.html">Privacy</a>
-  </nav>
+  <p>10+ compact, powerful, and secure web tools — all free & in-browser</p>
 </header>
 
-<section class="grid">
-  <div class="card"><h3>QR Code Generator</h3><p>Create QR codes instantly.</p><a href="tools/qr.html">Open Tool</a></div>
-  <div class="card"><h3>Image Converter</h3><p>Convert & resize images.</p><a href="tools/image-converter.html">Open Tool</a></div>
-  <div class="card"><h3>Password Generator</h3><p>Generate strong, secure passwords.</p><a href="tools/bio.html">Open Tool</a></div>
-  <div class="card"><h3>Hashtag Generator</h3><p>Create hashtags for social media.</p><a href="tools/hashtags.html">Open Tool</a></div>
-  <div class="card"><h3>SEO Meta Generator</h3><p>Create SEO meta tags easily.</p><a href="tools/seo-meta.html">Open Tool</a></div>
-  <div class="card"><h3>SEO SERP Preview</h3><p>Preview Google search snippets.</p><a href="tools/seo-serp.html">Open Tool</a></div>
-  <div class="card"><h3>SEO Backlink Checker</h3><p>Extract backlinks from HTML.</p><a href="tools/seo-backlinks.html">Open Tool</a></div>
-  <div class="card"><h3>Bio Generator</h3><p>Create bios for profiles.</p><a href="tools/bio.html">Open Tool</a></div>
-  <div class="card"><h3>Post Resizer</h3><p>Resize posts for platforms.</p><a href="tools/post-resizer.html">Open Tool</a></div>
-  <div class="card"><h3>Scheduler</h3><p>Plan and schedule posts.</p><a href="tools/scheduler.html">Open Tool</a></div>
-  <div class="card"><h3>Text Case Converter</h3><p>Convert text formats.</p><a href="tools/text-case.html">Open Tool</a></div>
-  <div class="card"><h3>Word Counter</h3><p>Count words & characters.</p><a href="tools/word-counter.html">Open Tool</a></div>
-  <div class="card"><h3>Card Preview</h3><p>Preview rich link cards.</p><a href="tools/preview-card.html">Open Tool</a></div>
-</section>
+<!-- Tool Grid -->
+<div class="grid">
+  <div class="card"><h3>QR Code Generator</h3><a href="tools/qr.html">Open Tool</a></div>
+  <div class="card"><h3>Image Converter</h3><a href="tools/image.html">Open Tool</a></div>
+  <div class="card"><h3>Word Counter</h3><a href="tools/wordcounter.html">Open Tool</a></div>
+  <div class="card"><h3>Text Case Converter</h3><a href="tools/text-case.html">Open Tool</a></div>
+  <div class="card"><h3>Scheduler</h3><a href="tools/scheduler.html">Open Tool</a></div>
+  <div class="card"><h3>Post Resizer</h3><a href="tools/resizer.html">Open Tool</a></div>
+  <div class="card"><h3>Bio Generator</h3><a href="tools/bio.html">Open Tool</a></div>
+  <div class="card"><h3>Password Generator</h3><a href="tools/password.html">Open Tool</a></div>
+  <div class="card"><h3>Text to Speech</h3><a href="tools/texttospeech.html">Open Tool</a></div>
+  <div class="card"><h3>Speech to Text</h3><a href="tools/speechtotext.html">Open Tool</a></div>
+</div>
 
 <footer>
   <div class="social">
@@ -90,7 +114,13 @@
     <a href="#"><i class="fab fa-instagram"></i></a>
     <a href="#"><i class="fab fa-github"></i></a>
   </div>
-  <p>© 2025 The Tool Nest — All rights reserved.</p>
+  <p>© 2025 The Tool Nest</p>
+  <p>
+    <a href="about.html" style="color:#0f0">About</a> | 
+    <a href="contact.html" style="color:#0f0">Contact</a> | 
+    <a href="terms.html" style="color:#0f0">Terms</a> | 
+    <a href="privacy.html" style="color:#0f0">Privacy</a>
+  </p>
 </footer>
 </body>
 </html>
