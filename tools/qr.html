@@ -1,65 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QR Code Generator — Nest</title>
-  <link rel="stylesheet" href="../assets/styles.css"/>
+  <link rel="stylesheet" href="../assets/styles.css">
   <style>
-    .tool-center{max-width:720px;margin:80px auto;padding:20px}
-    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    canvas{border-radius:8px;background:white}
+    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; }
+    .tool-container { max-width: 800px; margin: 60px auto; padding: 30px; background:#fff; border-radius: 12px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+    h1 { margin-top:0; }
+    .controls { display:flex; flex-wrap:wrap; gap:15px; margin-bottom:20px; }
+    .controls label { font-weight:bold; display:flex; flex-direction:column; font-size:14px; }
+    #qrcode { margin:20px auto; text-align:center; }
+    canvas { border:1px solid #ddd; border-radius:8px; }
+    .btn { padding:10px 18px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+    .btn-primary { background:#007bff; color:#fff; }
+    .btn-secondary { background:#ddd; color:#000; }
   </style>
 </head>
 <body>
-  <div class="tool-center tool-wrap" role="main">
-    <a href="../index.html">← Home</a>
-    <h1>QR Code Generator</h1>
-    <p class="kv">Enter text or URL, select size & format, generate and download.</p>
 
-    <div class="row" style="margin-top:12px">
-      <label class="kv" for="txt">Text / URL</label>
-      <input id="txt" class="input" value="https://example.com" />
-      <label class="kv">Size</label>
-      <select id="size" class="input" style="width:100px">
-        <option value="150">150</option><option value="300" selected>300</option><option value="600">600</option>
+<div class="tool-container">
+  <a href="../index.html">← Home</a>
+  <h1>QR Code Generator (Pro)</h1>
+  <p>Enter text or URL, customize colors, add logo, and generate a professional QR code.</p>
+
+  <div class="controls">
+    <label>Text / URL
+      <input type="text" id="qrText" placeholder="Enter text or link">
+    </label>
+    <label>Size
+      <select id="qrSize">
+        <option value="200">200px</option>
+        <option value="300">300px</option>
+        <option value="400" selected>400px</option>
+        <option value="500">500px</option>
+        <option value="600">600px</option>
       </select>
-      <button id="gen" class="btn btn-primary">Generate</button>
-      <button id="reset" class="btn btn-secondary">Reset</button>
-    </div>
-
-    <div id="preview" style="margin-top:16px" aria-live="polite"></div>
-    <div style="margin-top:12px">
-      <button id="download" class="btn btn-primary" disabled>Download PNG</button>
-    </div>
+    </label>
+    <label>Foreground
+      <input type="color" id="qrFg" value="#000000">
+    </label>
+    <label>Background
+      <input type="color" id="qrBg" value="#ffffff">
+    </label>
+    <label>Logo (optional)
+      <input type="file" id="qrLogo" accept="image/*">
+    </label>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
-  <script>
-    const txt = document.getElementById('txt');
-    const sizeSel = document.getElementById('size');
-    const gen = document.getElementById('gen');
-    const reset = document.getElementById('reset');
-    const preview = document.getElementById('preview');
-    const download = document.getElementById('download');
-    let qr;
+  <button id="generate" class="btn btn-primary">Generate QR</button>
+  <button id="download" class="btn btn-secondary" disabled>Download PNG</button>
 
-    gen.addEventListener('click', ()=>{
-      const v = txt.value.trim(); if(!v){ alert('Enter text or URL'); return; }
-      preview.innerHTML = '<canvas id="qrCanvas"></canvas>';
-      const canvasEl = document.getElementById('qrCanvas');
-      canvasEl.width = canvasEl.height = parseInt(sizeSel.value,10);
-      qr = new QRious({element: canvasEl, value: v, size: parseInt(sizeSel.value,10)});
-      download.disabled = false;
-    });
+  <div id="qrcode"></div>
+</div>
 
-    download.addEventListener('click', ()=>{
-      if(!qr) return;
-      const a = document.createElement('a');
-      a.href = document.getElementById('qrCanvas').toDataURL('image/png');
-      a.download = 'qr.png'; a.click();
-    });
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script>
+const qrText = document.getElementById('qrText');
+const qrSize = document.getElementById('qrSize');
+const qrFg = document.getElementById('qrFg');
+const qrBg = document.getElementById('qrBg');
+const qrLogo = document.getElementById('qrLogo');
+const generateBtn = document.getElementById('generate');
+const downloadBtn = document.getElementById('download');
+const qrContainer = document.getElementById('qrcode');
+let canvas;
 
-    reset.addEventListener('click', ()=>{ txt.value='https://example.com'; preview.innerHTML=''; download.disabled=true; qr=null; });
-  </script>
+generateBtn.addEventListener('click', async ()=>{
+  const text = qrText.value.trim();
+  if(!text){ alert("Please enter text or URL"); return; }
+
+  const size = parseInt(qrSize.value);
+  qrContainer.innerHTML = "";
+  canvas = document.createElement("canvas");
+  qrContainer.appendChild(canvas);
+
+  await QRCode.toCanvas(canvas, text, {
+    width: size,
+    margin: 2,
+    color: { dark: qrFg.value, light: qrBg.value }
+  });
+
+  // If logo is uploaded
+  if(qrLogo.files[0]){
+    const ctx = canvas.getContext("2d");
+    const logo = new Image();
+    logo.src = URL.createObjectURL(qrLogo.files[0]);
+    await logo.decode();
+
+    const logoSize = size * 0.2; // 20% of QR size
+    const x = (size - logoSize)/2;
+    const y = (size - logoSize)/2;
+    ctx.drawImage(logo, x, y, logoSize, logoSize);
+  }
+
+  downloadBtn.disabled = false;
+});
+
+downloadBtn.addEventListener('click', ()=>{
+  if(!canvas) return;
+  const link = document.createElement("a");
+  link.download = "qr-code.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+});
+</script>
+
 </body>
 </html>
