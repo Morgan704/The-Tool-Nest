@@ -3,87 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Tool Nest — 11 Compact Web Tools</title>
+  <title>The Tool Nest — 11 Tools</title>
   <link rel="stylesheet" href="assets/styles.css">
   <style>
-    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; color:#333; }
-    header { background:#007bff; color:#fff; padding:30px; text-align:center; }
-    header h1 { margin:0; font-size:28px; }
-    header p { margin-top:8px; font-size:15px; }
-    .container { max-width:1000px; margin:40px auto; padding:0 20px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
-    .card { background:#fff; border-radius:12px; padding:20px; box-shadow:0 6px 18px rgba(0,0,0,0.1); transition:0.2s; }
-    .card:hover { transform:translateY(-5px); box-shadow:0 10px 24px rgba(0,0,0,0.15); }
-    .card h3 { margin-top:0; margin-bottom:10px; font-size:18px; color:#007bff; }
-    .card p { font-size:14px; margin-bottom:12px; color:#555; }
-    .card a { text-decoration:none; background:#007bff; color:#fff; padding:8px 14px; border-radius:6px; font-size:14px; display:inline-block; }
-    footer { text-align:center; padding:25px; background:#f1f1f1; margin-top:40px; font-size:14px; color:#555; }
+    body { font-family: Arial, sans-serif; background:#0d1117; color:#fff; margin:0; padding:0; }
+    header { text-align:center; padding:50px 20px; background:linear-gradient(135deg,#007bff,#6610f2); }
+    header h1 { margin:0; font-size:36px; }
+    header p { font-size:16px; margin-top:10px; opacity:0.9; }
+
+    .container { max-width:1100px; margin:50px auto; padding:0 20px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:25px; }
+    .card { 
+      background:#161b22; border-radius:14px; padding:22px; 
+      box-shadow:0 6px 20px rgba(0,0,0,0.4); 
+      transition:transform 0.3s ease, box-shadow 0.3s ease; 
+      position:relative; overflow:hidden;
+    }
+    .card::before {
+      content:""; position:absolute; top:0; left:-100%; width:200%; height:100%;
+      background:linear-gradient(120deg,transparent,rgba(255,255,255,0.15),transparent);
+      transform:skewX(-25deg);
+    }
+    .card:hover::before { animation: shine 1.2s forwards; }
+    @keyframes shine { 100% { left:150%; } }
+
+    .card:hover { transform:translateY(-8px); box-shadow:0 12px 28px rgba(0,0,0,0.6); }
+    .card h3 { margin:0 0 8px; font-size:18px; color:#58a6ff; }
+    .card p { font-size:14px; color:#ccc; margin-bottom:12px; }
+    .card a { background:#007bff; color:#fff; padding:8px 14px; border-radius:6px; text-decoration:none; font-size:14px; }
+    .card a:hover { background:#0056b3; }
+    footer { text-align:center; padding:25px; background:#161b22; font-size:14px; color:#aaa; margin-top:50px; }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>The Tool Nest</h1>
-  <p>11 compact, powerful web tools — fast, secure, and beautifully animated</p>
+  <h1>🚀 The Tool Nest</h1>
+  <p>11 compact, powerful web tools — fast, secure, beautifully animated.</p>
 </header>
 
 <div class="container">
   <div class="grid">
-    <div class="card">
-      <h3>1. QR Code Generator</h3>
-      <p>Create QR codes instantly for links, text, or Wi-Fi.</p>
-      <a href="tools/qr.html">Open Tool</a>
-    </div>
-    <div class="card">
-      <h3>2. Image Converter</h3>
-      <p>Convert & resize images (JPG, PNG, WebP) directly in your browser.</p>
-      <a href="tools/image-converter.html">Open Tool</a>
-    </div>
-    <div class="card">
-      <h3>3. Password Generator</h3>
-      <p>Generate strong, secure passwords with custom options.</p>
-      <a href="tools/password.html">Open Tool</a>
-    </div>
-    <div class="card">
-      <h3>4. Lorem Ipsum Generator</h3>
-      <p>Quickly generate placeholder text for designs & mockups.</p>
-      <a href="tools/lorem.html">Open Tool</a>
-    </div>
-    <div class="card">
-      <h3>5. SEO Backlink Checker</h3>
-      <p>Paste HTML & extract backlinks with dofollow/nofollow info.</p>
-      <a href="tools/seo-backlink.html">Open Tool</a>
-    </div>
-    <div class="card">
-      <h3>6. Hashtag Generator</h3>
-      <p>Create smart hashtags for social media from any keyword.</p>
-      <a href="tools/hashtag.html">Open Tool</a>
-    </div>
-    <div class="card">
-      <h3>7. Open Graph Preview</h3>
-      <p>Preview & copy Open Graph / Twitter meta tags for social sharing.</p>
-      <a href="tools/og-preview.html">Open Tool</a>
-    </div>
-    <div class="card">
-      <h3>8. Text Case Converter</h3>
-      <p>Convert text into UPPERCASE, camelCase, snake_case, and more.</p>
-      <a href="tools/text-case.html">Open Tool</a>
-    </div>
-    <div class="card">
-      <h3>9. Word & Character Counter</h3>
-      <p>Count words, characters, sentences, paragraphs & reading time.</p>
-      <a href="tools/word-counter.html">Open Tool</a>
-    </div>
-    <div class="card">
-      <h3>10. Bio Generator</h3>
-      <p>Create stylish bios for social media with instant preview.</p>
-      <a href="tools/bio.html">Open Tool</a>
-    </div>
-    <div class="card">
-      <h3>11. Post Resizer / Scheduler</h3>
-      <p>Resize social media posts & schedule content easily.</p>
-      <a href="tools/post-resizer.html">Open Tool</a>
-    </div>
+
+    <div class="card"><h3>1. QR Code Generator</h3><p>Create QR codes instantly.</p><a href="tools/qr.html">Open Tool</a></div>
+    <div class="card"><h3>2. Image Converter</h3><p>Convert & resize images (JPG, PNG, WebP).</p><a href="tools/image-converter.html">Open Tool</a></div>
+    <div class="card"><h3>3. Password Generator</h3><p>Generate strong, secure passwords.</p><a href="tools/password.html">Open Tool</a></div>
+    <div class="card"><h3>4. Lorem Ipsum Generator</h3><p>Generate placeholder text for mockups.</p><a href="tools/lorem.html">Open Tool</a></div>
+    <div class="card"><h3>5. SEO Backlink Checker</h3><p>Extract backlinks with follow/nofollow.</p><a href="tools/seo-backlink.html">Open Tool</a></div>
+    <div class="card"><h3>6. Hashtag Generator</h3><p>Create smart hashtags for social media.</p><a href="tools/hashtag.html">Open Tool</a></div>
+    <div class="card"><h3>7. Open Graph Preview</h3><p>Preview Open Graph / Twitter tags.</p><a href="tools/og-preview.html">Open Tool</a></div>
+    <div class="card"><h3>8. Text Case Converter</h3><p>Convert text into UPPERCASE, camelCase, etc.</p><a href="tools/text-case.html">Open Tool</a></div>
+    <div class="card"><h3>9. Word & Character Counter</h3><p>Count words, chars, sentences, time.</p><a href="tools/word-counter.html">Open Tool</a></div>
+    <div class="card"><h3>10. Bio Generator</h3><p>Create stylish bios with preview.</p><a href="tools/bio.html">Open Tool</a></div>
+    <div class="card"><h3>11. Post Resizer / Scheduler</h3><p>Resize posts & schedule content.</p><a href="tools/post-resizer.html">Open Tool</a></div>
+
   </div>
 </div>
 
