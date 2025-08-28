@@ -1,42 +1,91 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Hashtag Generator — Nest</title><link rel="stylesheet" href="../assets/styles.css"/></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hashtag Generator — Nest</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <style>
+    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; }
+    .tool-container { max-width: 800px; margin: 60px auto; padding: 30px; background:#fff; border-radius: 12px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+    h1 { margin-top:0; }
+    .input-group { margin-bottom:15px; }
+    label { font-weight:bold; display:block; margin-bottom:5px; }
+    input { width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; }
+    .btn { padding:10px 18px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+    .btn-primary { background:#007bff; color:#fff; margin-top:10px; }
+    .hashtags { margin-top:20px; display:flex; flex-wrap:wrap; gap:10px; }
+    .tag { background:#f1f1f1; padding:6px 12px; border-radius:20px; cursor:pointer; transition:0.2s; }
+    .tag:hover { background:#007bff; color:#fff; }
+    .copy-all { margin-top:15px; }
+  </style>
+</head>
 <body>
-  <div class="tool-wrap" style="max-width:880px;margin:80px auto">
-    <a href="../index.html">← Home</a>
-    <h1>Hashtag Generator</h1>
-    <p class="kv">Enter topic or caption and pick platform; generate top hashtags (client-side heuristic).</p>
 
-    <label class="kv">Topic or caption</label><input id="topic" class="input" placeholder="coffee shop, sunrise, marketing"/>
-    <label class="kv">Number of hashtags</label><input id="count" class="input" type="number" value="10" min="1" max="30" />
+<div class="tool-container">
+  <a href="../index.html">← Home</a>
+  <h1>Hashtag Generator (Pro)</h1>
+  <p>Enter a keyword or phrase to generate relevant hashtags. Click on any hashtag to copy it instantly.</p>
 
-    <div style="margin-top:8px"><button id="gen" class="btn btn-primary">Generate</button><button id="reset" class="btn btn-secondary">Reset</button></div>
-
-    <div id="out" style="margin-top:12px;white-space:pre-wrap"></div>
-    <div style="margin-top:8px"><button id="dl" class="btn btn-primary" style="display:none">Download .txt</button></div>
+  <div class="input-group">
+    <label>Enter Keyword</label>
+    <input type="text" id="keyword" placeholder="e.g. travel, fitness, coding">
   </div>
 
+  <button id="generate" class="btn btn-primary">Generate Hashtags</button>
+  <div id="hashtags" class="hashtags"></div>
+  <button id="copyAll" class="btn btn-primary copy-all" style="display:none;">Copy All</button>
+</div>
+
 <script>
-const topic = document.getElementById('topic'), count = document.getElementById('count'), gen=document.getElementById('gen'), reset=document.getElementById('reset'), out=document.getElementById('out'), dl=document.getElementById('dl');
+const keywordInput = document.getElementById("keyword");
+const generateBtn = document.getElementById("generate");
+const hashtagsDiv = document.getElementById("hashtags");
+const copyAllBtn = document.getElementById("copyAll");
 
-function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,30); }
+function generateHashtags(keyword){
+  const base = keyword.replace(/\s+/g,"").toLowerCase();
+  return [
+    `#${base}`,
+    `#${base}life`,
+    `#${base}style`,
+    `#${base}daily`,
+    `#${base}love`,
+    `#${base}vibes`,
+    `#${base}community`,
+    `#${base}tips`,
+    `#${base}guide`,
+    `#${base}hub`,
+    `#${base}world`,
+    `#${base}pro`
+  ];
+}
 
-gen.addEventListener('click', ()=>{
-  const t = topic.value.trim(); if(!t){ alert('Enter topic'); return; }
-  const words = t.split(/[,\\s]+/).filter(Boolean);
-  const c = Math.max(1, Math.min(30, parseInt(count.value||10,10)));
-  const tags = new Set();
-  // heuristics: combine words, prefix popular words
-  const seeds = ['insta','photo','art','love','life','daily','photooftheday','now','best','trend'];
-  words.forEach(w=>{ tags.add('#'+slugify(w)); tags.add('#'+slugify(w)+'life'); });
-  seeds.forEach(s=>words.forEach(w=>tags.add('#'+s+slugify(w))));
-  // fill with single seeds
-  for(const s of seeds) tags.add('#'+s);
-  const arr = Array.from(tags).slice(0,c);
-  out.textContent = arr.join(' ');
-  dl.style.display = 'inline-block';
-  dl.onclick = ()=>{ const a = document.createElement('a'); a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(arr.join('\\n')); a.download = 'hashtags.txt'; a.click(); };
+generateBtn.addEventListener("click", ()=>{
+  const keyword = keywordInput.value.trim();
+  if(!keyword){ alert("Enter a keyword first!"); return; }
+
+  const tags = generateHashtags(keyword);
+  hashtagsDiv.innerHTML = "";
+  
+  tags.forEach(tag=>{
+    const span = document.createElement("span");
+    span.textContent = tag;
+    span.className = "tag";
+    span.addEventListener("click", ()=>{
+      navigator.clipboard.writeText(tag);
+      alert(`Copied: ${tag}`);
+    });
+    hashtagsDiv.appendChild(span);
+  });
+
+  copyAllBtn.style.display = "inline-block";
+  copyAllBtn.onclick = ()=>{
+    navigator.clipboard.writeText(tags.join(" "));
+    alert("All hashtags copied!");
+  };
 });
-
-reset.addEventListener('click', ()=>{ topic.value=''; count.value='10'; out.textContent=''; dl.style.display='none'; });
 </script>
-</body></html>
+
+</body>
+</html>
