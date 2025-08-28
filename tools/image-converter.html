@@ -55,17 +55,33 @@ convertBtn.addEventListener('click', async ()=>{
   }
   const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
   const ctx = canvas.getContext('2d'); ctx.drawImage(img,0,0,w,h);
-  const mime = fmt.value;
-  canvas.toBlob((b)=>{
-    if(!b){ alert('Conversion failed'); return; }
-    clearOut();
-    blobUrl = URL.createObjectURL(b);
-    outDiv.innerHTML = `<img class="preview-img" src="${blobUrl}" alt="converted preview">`;
-    dl.disabled = false;
-    dl.onclick = ()=>{ const a = document.createElement('a'); a.href = blobUrl; a.download = 'converted.' + (mime==='image/jpeg'?'jpg': mime.split('/')[1]); a.click(); };
-    URL.revokeObjectURL(url);
-  }, mime, 0.92);
+  
 });
 </script>
-</body>
+</body>const mime = fmt.value;
+canvas.toBlob((b)=>{
+  if(!b){ alert('Conversion failed'); return; }
+  clearOut();
+  blobUrl = URL.createObjectURL(b);
+
+  // Get file size in KB
+  const fileSizeKB = (b.size / 1024).toFixed(1);
+  const ext = mime === 'image/jpeg' ? 'JPG' : mime.split('/')[1].toUpperCase();
+
+  outDiv.innerHTML = `
+    <img class="preview-img" src="${blobUrl}" alt="converted preview">
+    <p>Converted to: <strong>${ext}</strong> — ${w}×${h}px — ${fileSizeKB} KB</p>
+  `;
+
+  dl.disabled = false;
+  dl.onclick = ()=>{
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = 'converted.' + (ext.toLowerCase());
+    a.click();
+  };
+
+  URL.revokeObjectURL(url);
+}, mime, 0.92);
+
 </html>
