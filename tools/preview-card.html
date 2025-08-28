@@ -1,60 +1,112 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Preview Card (OG) — Nest</title><link rel="stylesheet" href="../assets/styles.css"/></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Graph / Social Card Preview — Nest</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <style>
+    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; }
+    .tool-container { max-width: 800px; margin: 60px auto; padding: 30px; background:#fff; border-radius: 12px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+    h1 { margin-top:0; }
+    .input-group { margin-bottom:15px; }
+    label { font-weight:bold; display:block; margin-bottom:5px; }
+    input, textarea { width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; }
+    textarea { resize:vertical; }
+    .preview-card { border:1px solid #ddd; border-radius:10px; overflow:hidden; margin-top:20px; max-width:600px; }
+    .preview-card img { width:100%; height:auto; display:block; }
+    .preview-card .content { padding:12px; }
+    .preview-card .title { font-weight:bold; font-size:16px; margin-bottom:4px; }
+    .preview-card .desc { font-size:14px; color:#555; margin-bottom:6px; }
+    .preview-card .url { font-size:12px; color:#888; }
+    .btn { padding:10px 18px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; margin-top:10px; }
+    .btn-primary { background:#007bff; color:#fff; }
+  </style>
+</head>
 <body>
-  <div class="tool-wrap" style="max-width:920px;margin:80px auto">
-    <a href="../index.html">← Home</a>
-    <h1>Preview Card (OG Image Creator)</h1>
-    <p class="kv">Create a simple OG preview image (background color, title, subtitle). Download PNG.</p>
 
-    <label class="kv">Title</label><input id="title" class="input" placeholder="Your headline here"/>
-    <label class="kv">Subtitle</label><input id="sub" class="input" placeholder="Small subheadline"/>
-    <label class="kv">Background color</label><input id="bg" type="color" class="input" value="#0a1222"/>
-    <div style="margin-top:8px"><button id="gen" class="btn btn-primary">Generate</button><button id="reset" class="btn btn-secondary">Reset</button></div>
+<div class="tool-container">
+  <a href="../index.html">← Home</a>
+  <h1>Open Graph / Social Card Preview (Pro)</h1>
+  <p>Enter your details to see how your link will appear when shared on social media.</p>
 
-    <div id="out" style="margin-top:12px"></div>
-    <div style="margin-top:8px"><button id="dl" class="btn btn-primary" style="display:none">Download PNG</button></div>
+  <div class="input-group">
+    <label>Title</label>
+    <input type="text" id="title" placeholder="Page title">
   </div>
 
+  <div class="input-group">
+    <label>Description</label>
+    <textarea id="description" rows="3" placeholder="Page description"></textarea>
+  </div>
+
+  <div class="input-group">
+    <label>URL</label>
+    <input type="text" id="url" placeholder="https://example.com/page">
+  </div>
+
+  <div class="input-group">
+    <label>Image URL</label>
+    <input type="text" id="image" placeholder="https://example.com/image.jpg">
+  </div>
+
+  <button id="copy" class="btn btn-primary">Copy Meta Tags</button>
+
+  <div class="preview-card" id="preview" style="display:none;">
+    <img id="prevImg" src="">
+    <div class="content">
+      <div class="title" id="prevTitle">Example Title</div>
+      <div class="desc" id="prevDesc">Example description will appear here.</div>
+      <div class="url" id="prevUrl">example.com</div>
+    </div>
+  </div>
+</div>
+
 <script>
-const titleEl = document.getElementById('title'), subEl = document.getElementById('sub'), bgEl = document.getElementById('bg');
-const gen = document.getElementById('gen'), reset = document.getElementById('reset'), out=document.getElementById('out'), dl=document.getElementById('dl');
-let curUrl='';
+const title = document.getElementById("title");
+const description = document.getElementById("description");
+const url = document.getElementById("url");
+const image = document.getElementById("image");
 
-gen.addEventListener('click', ()=>{
-  const W = 1200, H = 630;
-  const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = bgEl.value; ctx.fillRect(0,0,W,H);
-  // headline
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 56px Poppins, sans-serif';
-  const title = titleEl.value || 'Your headline';
-  // wrap title
-  const maxW = W - 120;
-  const words = title.split(' '); let line='', y=200;
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'top';
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 56px sans-serif';
-  for(let n=0;n<words.length;n++){
-    const test = line + words[n] + ' ';
-    const measure = ctx.measureText(test).width;
-    if(measure > maxW && line !== ''){ ctx.fillText(line, 60, y); line = words[n] + ' '; y += 64; } else { line = test; }
+const prevTitle = document.getElementById("prevTitle");
+const prevDesc = document.getElementById("prevDesc");
+const prevUrl = document.getElementById("prevUrl");
+const prevImg = document.getElementById("prevImg");
+const preview = document.getElementById("preview");
+
+function updatePreview(){
+  prevTitle.textContent = title.value || "Example Title";
+  prevDesc.textContent = description.value || "Example description will appear here.";
+  prevUrl.textContent = url.value || "example.com";
+  if(image.value.trim()){
+    prevImg.src = image.value;
+  } else {
+    prevImg.src = "https://via.placeholder.com/600x315?text=Preview";
   }
-  ctx.fillText(line,60,y); y += 80;
-  // subtitle
-  ctx.font = '24px sans-serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.9)';
-  ctx.fillText(subEl.value || 'Subtitle or description', 60, y);
+  preview.style.display = "block";
+}
 
-  canvas.toBlob(b=>{
-    if(!b) return; if(curUrl) URL.revokeObjectURL(curUrl);
-    curUrl = URL.createObjectURL(b);
-    out.innerHTML = `<img src="${curUrl}" style="max-width:560px;border-radius:8px" alt="OG preview">`;
-    dl.style.display='inline-block'; dl.onclick = ()=>{ const a=document.createElement('a'); a.href = curUrl; a.download = 'og-image.png'; a.click(); };
-  }, 'image/png', 0.95);
+[title, description, url, image].forEach(input=>{
+  input.addEventListener("input", updatePreview);
 });
 
-reset.addEventListener('click', ()=>{ titleEl.value=''; subEl.value=''; bgEl.value='#0a1222'; out.innerHTML=''; dl.style.display='none'; if(curUrl){ URL.revokeObjectURL(curUrl); curUrl=''; }});
+document.getElementById("copy").addEventListener("click", ()=>{
+  const tags = `
+<meta property="og:title" content="${title.value}">
+<meta property="og:description" content="${description.value}">
+<meta property="og:url" content="${url.value}">
+<meta property="og:image" content="${image.value}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title.value}">
+<meta name="twitter:description" content="${description.value}">
+<meta name="twitter:image" content="${image.value}">
+  `.trim();
+
+  navigator.clipboard.writeText(tags);
+  alert("Meta tags copied to clipboard!");
+  updatePreview();
+});
 </script>
-</body></html>
+
+</body>
+</html>
