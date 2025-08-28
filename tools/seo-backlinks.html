@@ -1,39 +1,109 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Backlink Checker — Nest</title><link rel="stylesheet" href="../assets/styles.css"/></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEO Backlink Checker — Nest</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <style>
+    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; }
+    .tool-container { max-width: 900px; margin: 60px auto; padding: 30px; background:#fff; border-radius: 12px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+    h1 { margin-top:0; }
+    textarea { width:100%; padding:10px; border:1px solid #ccc; border-radius:8px; resize:vertical; }
+    table { width:100%; border-collapse:collapse; margin-top:20px; }
+    th, td { border:1px solid #ddd; padding:8px; text-align:left; font-size:14px; }
+    th { background:#f0f0f0; }
+    .btn { padding:10px 18px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; margin-top:10px; }
+    .btn-primary { background:#007bff; color:#fff; }
+    .btn-secondary { background:#ddd; color:#000; }
+  </style>
+</head>
 <body>
-  <div class="tool-wrap" style="max-width:900px;margin:80px auto">
-    <a href="../index.html">← Home</a>
-    <h1>Backlink Checker — Demo</h1>
-    <p class="kv">Demo backlinks — replace with real API for production.</p>
 
-    <label class="kv">Domain</label><input id="domain" class="input" placeholder="example.com" />
-    <div style="margin-top:8px"><button id="run" class="btn btn-primary">Run</button><button id="reset" class="btn btn-secondary">Reset</button></div>
+<div class="tool-container">
+  <a href="../index.html">← Home</a>
+  <h1>SEO Backlink Checker (Pro)</h1>
+  <p>Paste HTML source code of a page to extract backlinks (anchor text, URL, dofollow/nofollow).</p>
 
-    <div id="out" style="margin-top:12px"></div>
-    <div style="margin-top:8px"><button id="download" class="btn btn-primary" style="display:none">Download CSV</button></div>
-  </div>
+  <textarea id="htmlInput" rows="8" placeholder="Paste HTML code here..."></textarea>
+  <br>
+  <button id="analyze" class="btn btn-primary">Analyze Backlinks</button>
+  <button id="export" class="btn btn-secondary" disabled>Export CSV</button>
+
+  <table id="resultsTable" style="display:none;">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Anchor Text</th>
+        <th>URL</th>
+        <th>Rel</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody id="resultsBody"></tbody>
+  </table>
+</div>
 
 <script>
-const run = document.getElementById('run'); const reset = document.getElementById('reset');
-const out = document.getElementById('out'); const domain = document.getElementById('domain'); const dl = document.getElementById('download');
+const analyzeBtn = document.getElementById("analyze");
+const exportBtn = document.getElementById("export");
+const htmlInput = document.getElementById("htmlInput");
+const resultsTable = document.getElementById("resultsTable");
+const resultsBody = document.getElementById("resultsBody");
 
-function demoResults(d){
-  return [
-    {source:`https://blog.${d}/post-about-${d}`, anchor:`Best ${d} tools`, score:0.78},
-    {source:`https://news.${d}/a/123`, anchor:`Referencing ${d}`, score:0.61},
-    {source:`https://forum.${d}/thread/88`, anchor:`Discussion on ${d}`, score:0.42}
-  ];
-}
+let backlinks = [];
 
-run.addEventListener('click', ()=>{
-  const d = domain.value.trim(); if(!d){ alert('Enter domain'); return; }
-  const res = demoResults(d);
-  out.innerHTML = '<table style="width:100%"><thead><tr><th>Source</th><th>Anchor</th><th>Score</th></tr></thead><tbody>' + res.map(r=>`<tr><td>${r.source}</td><td>${r.anchor}</td><td>${r.score}</td></tr>`).join('') + '</tbody></table>';
-  dl.style.display = 'inline-block';
-  const csv = 'source,anchor,score\n' + res.map(r=>`"${r.source}","${r.anchor}",${r.score}`).join('\\n');
-  dl.onclick = ()=>{ const a = document.createElement('a'); a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download = `${d}-backlinks.csv`; a.click(); };
+analyzeBtn.addEventListener("click", ()=>{
+  const html = htmlInput.value.trim();
+  if(!html){ alert("Paste some HTML code first."); return; }
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const links = doc.querySelectorAll("a[href]");
+  
+  backlinks = [];
+  resultsBody.innerHTML = "";
+  let index = 1;
+
+  links.forEach(link=>{
+    const anchor = link.textContent.trim() || "(no text)";
+    const href = link.getAttribute("href");
+    const rel = link.getAttribute("rel") || "";
+    const type = rel.includes("nofollow") ? "Nofollow" : "Dofollow";
+
+    backlinks.push({ anchor, href, rel, type });
+
+    const row = `<tr>
+      <td>${index++}</td>
+      <td>${anchor}</td>
+      <td>${href}</td>
+      <td>${rel}</td>
+      <td>${type}</td>
+    </tr>`;
+    resultsBody.insertAdjacentHTML("beforeend", row);
+  });
+
+  resultsTable.style.display = backlinks.length ? "table" : "none";
+  exportBtn.disabled = backlinks.length === 0;
 });
 
-reset.addEventListener('click', ()=>{ domain.value=''; out.innerHTML=''; dl.style.display='none'; });
+exportBtn.addEventListener("click", ()=>{
+  if(!backlinks.length) return;
+
+  let csv = "Anchor Text,URL,Rel,Type\n";
+  backlinks.forEach(b=>{
+    csv += `"${b.anchor.replace(/"/g, '""')}","${b.href}","${b.rel}","${b.type}"\n`;
+  });
+
+  const blob = new Blob([csv], {type:"text/csv"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "backlinks.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+});
 </script>
-</body></html>
+
+</body>
+</html>
