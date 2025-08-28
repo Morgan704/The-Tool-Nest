@@ -2,109 +2,95 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>The Tool Nest — Pro Web Tools</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-  /* Background + Stars */
-  body {
-    margin:0; font-family:'Segoe UI', sans-serif; background:#000; color:#0f0; overflow-x:hidden;
-  }
-  .stars, .stars2, .stars3 {
-    position:absolute; width:2px; height:2px; background:transparent;
-    box-shadow:100px 200px #fff, 300px 600px #fff, 500px 100px #fff, 
-               700px 400px #fff, 900px 700px #fff, 1100px 300px #fff, 
-               1300px 200px #fff, 1500px 500px #fff, 1700px 800px #fff;
-    animation: animStar 100s linear infinite;
-  }
-  .stars2 {
-    box-shadow:200px 300px #0f0, 600px 800px #0f0, 1000px 400px #0f0,
-               1400px 600px #0f0, 1800px 900px #0f0;
-    animation: animStar 150s linear infinite;
-  }
-  .stars3 {
-    box-shadow:250px 500px #9f9, 800px 200px #9f9, 1200px 700px #9f9,
-               1600px 300px #9f9, 1900px 100px #9f9;
-    animation: animStar 200s linear infinite;
-  }
-  @keyframes animStar {
-    from { transform:translateY(0px); }
-    to   { transform:translateY(-1000px); }
+  :root{--neon:#00ff66;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:#000;color:var(--neon);overflow-x:hidden}
+  /* Canvas stars behind everything */
+  #space{
+    position:fixed; inset:0; width:100vw; height:100vh; z-index:0; pointer-events:none; background:radial-gradient(ellipse at bottom,#071018 0%,#000 60%,#000 100%);
   }
 
-  /* Header */
-  header {
-    text-align:center; padding:60px 20px; position:relative; z-index:1;
-  }
-  header h1 {
-    font-size:2.8em; color:#0f0; text-shadow:0 0 20px #0f0, 0 0 40px #0f0;
-  }
-  header p {
-    font-size:1.2em; color:#9f9;
-  }
+  header{position:relative;z-index:1;text-align:center;padding:60px 20px 20px}
+  header h1{margin:0;font-size:3rem;color:var(--neon);text-shadow:0 0 12px var(--neon),0 0 40px var(--neon);letter-spacing:.5px}
+  header p{margin:10px 0 0;color:#aaffcc}
 
-  /* Tool Grid */
-  .grid {
-    display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
-    gap:20px; padding:40px; max-width:1200px; margin:auto; position:relative; z-index:1;
-  }
-  .card {
-    background:rgba(255,255,255,0.05); padding:20px; border-radius:12px;
-    box-shadow:0 0 20px rgba(0,255,0,0.3); text-align:center;
-    transition:transform .3s, box-shadow .3s;
-  }
-  .card:hover {
-    transform:translateY(-8px);
-    box-shadow:0 0 30px rgba(0,255,0,0.6);
-  }
-  .card h3 {
-    margin:10px 0; font-size:1.4em; text-shadow:0 0 10px #0f0;
-  }
-  .card a {
-    display:inline-block; margin-top:10px; padding:8px 16px; background:#0f0;
-    color:#000; font-weight:bold; border-radius:6px; text-decoration:none;
-    box-shadow:0 0 10px #0f0;
-  }
-  .card a:hover {
-    background:#000; color:#0f0; border:1px solid #0f0;
-  }
+  nav{margin-top:16px}
+  nav a{color:var(--neon);text-decoration:none;font-weight:700;margin:0 10px}
+  nav a:hover{text-shadow:0 0 12px var(--neon)}
 
-  /* Footer */
-  footer {
-    text-align:center; padding:20px; margin-top:40px; color:#090; position:relative; z-index:1;
+  .grid{
+    position:relative;z-index:1;
+    max-width:1200px;margin:30px auto;padding:0 20px 40px;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;
   }
-  .social a {
-    margin:0 10px; color:#0f0; font-size:1.4em; text-decoration:none;
-    text-shadow:0 0 10px #0f0;
+  .card{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(0,255,102,.35);
+    border-radius:14px;
+    padding:18px;
+    text-align:center;
+    backdrop-filter: blur(6px);
+    box-shadow:0 0 14px rgba(0,255,102,.18);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    animation:rise .6s ease both;
   }
-  .social a:hover {
-    color:#fff; text-shadow:0 0 20px #0f0;
+  .card h3{margin:6px 0 8px;font-size:1.15rem;text-shadow:0 0 8px var(--neon)}
+  .card p{margin:0 0 12px;color:#aaffcc;font-size:.92rem;min-height:34px}
+  .card a{
+    display:inline-block;padding:8px 14px;border-radius:8px;
+    background:var(--neon);color:#001a0b;text-decoration:none;font-weight:800;
+    box-shadow:0 0 12px var(--neon);
   }
+  .card:hover{transform:translateY(-8px) scale(1.02);border-color:var(--neon);box-shadow:0 0 26px var(--neon)}
+  .card a:hover{background:#001a0b;color:var(--neon);outline:1px solid var(--neon)}
+
+  @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+  footer{
+    position:relative;z-index:1;text-align:center;padding:28px 16px;color:#59ffa1
+  }
+  .social a{color:var(--neon);font-size:1.25rem;margin:0 10px;text-decoration:none}
+  .social a:hover{color:#fff;text-shadow:0 0 16px var(--neon)}
+  footer .links a{color:var(--neon);text-decoration:none;margin:0 8px}
+  footer .links a:hover{text-shadow:0 0 10px var(--neon)}
 </style>
 </head>
 <body>
-<!-- Infinite Stars Background -->
-<div class="stars"></div>
-<div class="stars2"></div>
-<div class="stars3"></div>
+
+<canvas id="space"></canvas>
 
 <header>
   <h1>🌌 The Tool Nest</h1>
-  <p>10+ compact, powerful, and secure web tools — all free & in-browser</p>
+  <p>12 compact, powerful web tools — fast, secure & beautifully animated</p>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+  </nav>
 </header>
 
-<!-- Tool Grid -->
 <div class="grid">
-  <div class="card"><h3>QR Code Generator</h3><a href="tools/qr.html">Open Tool</a></div>
-  <div class="card"><h3>Image Converter</h3><a href="tools/image.html">Open Tool</a></div>
-  <div class="card"><h3>Word Counter</h3><a href="tools/wordcounter.html">Open Tool</a></div>
-  <div class="card"><h3>Text Case Converter</h3><a href="tools/text-case.html">Open Tool</a></div>
-  <div class="card"><h3>Scheduler</h3><a href="tools/scheduler.html">Open Tool</a></div>
-  <div class="card"><h3>Post Resizer</h3><a href="tools/resizer.html">Open Tool</a></div>
-  <div class="card"><h3>Bio Generator</h3><a href="tools/bio.html">Open Tool</a></div>
-  <div class="card"><h3>Password Generator</h3><a href="tools/password.html">Open Tool</a></div>
-  <div class="card"><h3>Text to Speech</h3><a href="tools/texttospeech.html">Open Tool</a></div>
-  <div class="card"><h3>Speech to Text</h3><a href="tools/speechtotext.html">Open Tool</a></div>
+  <!-- EXACT FILES YOU HAVE -->
+  <div class="card"><h3>QR Code Generator</h3><p>Create QR codes instantly.</p><a href="tools/qr.html">Open Tool</a></div>
+  <div class="card"><h3>Image Converter</h3><p>Convert & resize images (PNG/JPG/WebP).</p><a href="tools/image-converter.html">Open Tool</a></div>
+  <div class="card"><h3>Word Counter</h3><p>Words, characters, sentences & time.</p><a href="tools/word-counter.html">Open Tool</a></div>
+  <div class="card"><h3>Text Case Converter</h3><p>UPPERCASE, lowercase, Title, more.</p><a href="tools/text-case.html">Open Tool</a></div>
+  <div class="card"><h3>Scheduler</h3><p>Plan and schedule content.</p><a href="tools/scheduler.html">Open Tool</a></div>
+  <div class="card"><h3>Post Resizer</h3><p>Resize posts for any platform.</p><a href="tools/post-resizer.html">Open Tool</a></div>
+  <div class="card"><h3>Bio Generator</h3><p>Create stylish bios with one click.</p><a href="tools/bio.html">Open Tool</a></div>
+  <div class="card"><h3>Hashtag Generator</h3><p>Smart hashtags from any keyword.</p><a href="tools/hashtags.html">Open Tool</a></div>
+  <div class="card"><h3>SEO Meta Generator</h3><p>Titles & descriptions that rank.</p><a href="tools/seo-meta.html">Open Tool</a></div>
+  <div class="card"><h3>SEO SERP Preview</h3><p>See how it looks on Google.</p><a href="tools/seo-serp.html">Open Tool</a></div>
+  <div class="card"><h3>SEO Backlink Checker</h3><p>Extract links from HTML.</p><a href="tools/seo-backlinks.html">Open Tool</a></div>
+  <div class="card"><h3>Card Preview</h3><p>Preview rich link cards.</p><a href="tools/preview-card.html">Open Tool</a></div>
+
+  <!-- If/when you add password generator file, uncomment below: -->
+  <!-- <div class="card"><h3>Password Generator</h3><p>Strong, random, copy-ready.</p><a href="tools/password.html">Open Tool</a></div> -->
 </div>
 
 <footer>
@@ -114,13 +100,107 @@
     <a href="#"><i class="fab fa-instagram"></i></a>
     <a href="#"><i class="fab fa-github"></i></a>
   </div>
-  <p>© 2025 The Tool Nest</p>
-  <p>
-    <a href="about.html" style="color:#0f0">About</a> | 
-    <a href="contact.html" style="color:#0f0">Contact</a> | 
-    <a href="terms.html" style="color:#0f0">Terms</a> | 
-    <a href="privacy.html" style="color:#0f0">Privacy</a>
-  </p>
+  <div class="links" style="margin-top:8px;">
+    <a href="about.html">About</a> •
+    <a href="contact.html">Contact</a> •
+    <a href="terms.html">Terms</a> •
+    <a href="privacy.html">Privacy</a>
+  </div>
+  <p style="margin-top:8px;">© 2025 The Tool Nest</p>
 </footer>
+
+<script>
+/* ===== Massive starfield (more stars, infinite, twinkle + shooting) ===== */
+(function(){
+  const c = document.getElementById('space');
+  const ctx = c.getContext('2d');
+  let W = c.width = window.innerWidth;
+  let H = c.height = window.innerHeight;
+
+  const STAR_COUNT = Math.min(600, Math.floor((W*H)/2500)); // lots of stars
+  const stars = [];
+  const rand = (min,max)=>Math.random()*(max-min)+min;
+
+  function makeStar(){
+    return {
+      x: Math.random()*W,
+      y: Math.random()*H,
+      r: rand(0.3,1.6),
+      a: rand(0.35,0.95),
+      tw: rand(0.002,0.01), // twinkle speed
+      dir: Math.random()<0.5? -1: 1,
+      drift: rand(0.02,0.06)
+    };
+  }
+
+  for(let i=0;i<STAR_COUNT;i++) stars.push(makeStar());
+
+  let shooters = [];
+  function shoot(){
+    shooters.push({
+      x: rand(W*0.2, W*0.9),
+      y: rand(-40, H*0.2),
+      vx: rand(-6,-3),
+      vy: rand(3,6),
+      life: 0,
+      max: rand(40,80)
+    });
+  }
+  // periodic shooting stars
+  setInterval(shoot, 1800 + Math.random()*1500);
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    // background soft glow
+    const grd = ctx.createRadialGradient(W*0.5,H*1.1,10, W*0.5,H*1.1, Math.max(W,H));
+    grd.addColorStop(0, 'rgba(0,255,120,0.06)');
+    grd.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = grd; ctx.fillRect(0,0,W,H);
+
+    // stars
+    for(const s of stars){
+      s.a += s.tw * s.dir;
+      if(s.a>1){ s.a=1; s.dir=-1; }
+      if(s.a<0.25){ s.a=0.25; s.dir=1; }
+      s.y -= s.drift; // slow upward drift for infinity effect
+      if(s.y < -2){ s.y = H+2; s.x = Math.random()*W; }
+
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(160,255,200,${s.a})`;
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    // shooters
+    for(let i=shooters.length-1;i>=0;i--){
+      const sh = shooters[i];
+      sh.x += sh.vx; sh.y += sh.vy; sh.life++;
+
+      // trail
+      const grad = ctx.createLinearGradient(sh.x, sh.y, sh.x - sh.vx*10, sh.y - sh.vy*10);
+      grad.addColorStop(0, 'rgba(0,255,120,0.9)');
+      grad.addColorStop(1, 'rgba(0,255,120,0)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(sh.x, sh.y);
+      ctx.lineTo(sh.x - sh.vx*8, sh.y - sh.vy*8);
+      ctx.stroke();
+
+      if(sh.life>sh.max || sh.x<-50 || sh.y>H+50){ shooters.splice(i,1); }
+    }
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  window.addEventListener('resize', ()=>{
+    W = c.width = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }, {passive:true});
+})();
+</script>
+
 </body>
 </html>
