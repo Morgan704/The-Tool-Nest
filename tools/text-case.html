@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Text Case Converter — Nest</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f9f9f9;margin:0}
+    .wrap{max-width:900px;margin:60px auto;padding:20px}
+    .card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    h1{margin:0 0 10px}
+    textarea{width:100%;padding:12px;border:1px solid #ccd3e0;border-radius:8px;min-height:200px;resize:vertical}
+    .actions{margin:16px 0;display:flex;flex-wrap:wrap;gap:10px}
+    button{padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+    .btn-primary{background:#007bff;color:#fff}
+    .btn-secondary{background:#e9eef7}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="../index.html">← Home</a>
+    <div class="card" style="margin-top:12px">
+      <h1>Text Case Converter</h1>
+      <p>Convert text instantly to uppercase, lowercase, title case, sentence case, or alternating case.</p>
+      <textarea id="input" placeholder="Paste or type text..."></textarea>
+      <div class="actions">
+        <button class="btn-primary" onclick="convert('upper')">UPPERCASE</button>
+        <button class="btn-primary" onclick="convert('lower')">lowercase</button>
+        <button class="btn-primary" onclick="convert('title')">Title Case</button>
+        <button class="btn-primary" onclick="convert('sentence')">Sentence case</button>
+        <button class="btn-primary" onclick="convert('alt')">aLtErNaTiNg</button>
+        <button class="btn-secondary" onclick="copyText()">Copy</button>
+        <button class="btn-secondary" onclick="clearText()">Clear</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const input = document.getElementById('input');
+function convert(type){
+  let text = input.value;
+  if(type==='upper') input.value = text.toUpperCase();
+  else if(type==='lower') input.value = text.toLowerCase();
+  else if(type==='title') input.value = text.replace(/\w\S*/g,w=> w.charAt(0).toUpperCase()+w.substr(1).toLowerCase());
+  else if(type==='sentence') input.value = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g,c=>c.toUpperCase());
+  else if(type==='alt') input.value = text.split('').map((c,i)=> i%2 ? c.toLowerCase() : c.toUpperCase()).join('');
+}
+function copyText(){
+  input.select(); document.execCommand('copy'); alert('Copied!');
+}
+function clearText(){ input.value=''; }
+</script>
+</body>
+</html>
