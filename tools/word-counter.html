@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Word Counter — Nest</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+  <style>
+    body{font-family:Arial, sans-serif;background:#f9f9f9;margin:0}
+    .wrap{max-width:900px;margin:60px auto;padding:20px}
+    .card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    h1{margin:0 0 10px}
+    textarea{width:100%;padding:12px;border:1px solid #ccd3e0;border-radius:8px;min-height:220px;resize:vertical}
+    .stats{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+    .box{background:#f3f5f9;border-radius:10px;padding:12px;text-align:center}
+    .num{font-size:22px;font-weight:700;color:#007bff}
+    label{font-weight:600;font-size:14px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="../index.html">← Home</a>
+    <div class="card" style="margin-top:12px">
+      <h1>Word Counter</h1>
+      <p>Paste or type text below. Live counter shows characters, words, sentences, and reading time.</p>
+      <textarea id="input" placeholder="Start typing or paste your text..."></textarea>
+      <div class="stats">
+        <div class="box"><label>Characters</label><div class="num" id="chars">0</div></div>
+        <div class="box"><label>Words</label><div class="num" id="words">0</div></div>
+        <div class="box"><label>Sentences</label><div class="num" id="sentences">0</div></div>
+        <div class="box"><label>Reading Time</label><div class="num" id="time">0s</div></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const input = document.getElementById('input');
+const chars = document.getElementById('chars');
+const words = document.getElementById('words');
+const sentences = document.getElementById('sentences');
+const time = document.getElementById('time');
+
+function update(){
+  const text = input.value;
+  chars.textContent = text.length;
+  const ws = text.trim().split(/\s+/).filter(Boolean);
+  words.textContent = ws.length;
+  const s = text.split(/[.!?]+/).filter(x=>x.trim().length>0);
+  sentences.textContent = s.length;
+  const mins = ws.length/200; // ~200 wpm
+  if(mins<1) time.textContent = Math.round(mins*60)+'s';
+  else time.textContent = Math.round(mins)+'m';
+}
+input.addEventListener('input', update);
+</script>
+</body>
+</html>
