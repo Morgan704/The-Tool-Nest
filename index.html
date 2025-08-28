@@ -1,167 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Tool Nest - Your Toolkit in the Galaxy</title>
-  <link rel="stylesheet" href="assets/styles.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Tool Nest — 11 Compact Web Tools</title>
+  <link rel="stylesheet" href="assets/styles.css">
   <style>
-    /* Galaxy background */
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: black;
-      color: #fff;
-      overflow-x: hidden;
-    }
-    canvas#starfield {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
-    }
-    header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1rem 2rem;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-      position: sticky; top: 0; z-index: 10;
-    }
-    header h1 { color: #00e0ff; }
-    nav a {
-      margin: 0 0.75rem;
-      color: #fff; text-decoration: none;
-      transition: color .3s;
-    }
-    nav a:hover { color: #00e0ff; }
-    .hero {
-      text-align: center;
-      padding: 6rem 2rem;
-    }
-    .hero h2 {
-      font-size: 3rem;
-      color: #00e0ff;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.25rem;
-      max-width: 600px;
-      margin: 0 auto;
-      opacity: .85;
-    }
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      padding: 3rem 2rem;
-    }
-    .tool-card {
-      background: rgba(255,255,255,0.05);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      text-align: center;
-      cursor: pointer;
-      transition: transform .3s, box-shadow .3s;
-    }
-    .tool-card:hover {
-      transform: translateY(-6px) scale(1.03);
-      box-shadow: 0 0 20px #00e0ff55;
-    }
-    footer {
-      background: rgba(0,0,0,0.8);
-      text-align: center;
-      padding: 2rem;
-      margin-top: 3rem;
-    }
-    footer a {
-      color: #00e0ff; margin: 0 0.5rem;
-      text-decoration: none;
-    }
+    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; color:#333; }
+    header { background:#007bff; color:#fff; padding:30px; text-align:center; }
+    header h1 { margin:0; font-size:28px; }
+    header p { margin-top:8px; font-size:15px; }
+    .container { max-width:1000px; margin:40px auto; padding:0 20px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
+    .card { background:#fff; border-radius:12px; padding:20px; box-shadow:0 6px 18px rgba(0,0,0,0.1); transition:0.2s; }
+    .card:hover { transform:translateY(-5px); box-shadow:0 10px 24px rgba(0,0,0,0.15); }
+    .card h3 { margin-top:0; margin-bottom:10px; font-size:18px; color:#007bff; }
+    .card p { font-size:14px; margin-bottom:12px; color:#555; }
+    .card a { text-decoration:none; background:#007bff; color:#fff; padding:8px 14px; border-radius:6px; font-size:14px; display:inline-block; }
+    footer { text-align:center; padding:25px; background:#f1f1f1; margin-top:40px; font-size:14px; color:#555; }
   </style>
 </head>
 <body>
-  <canvas id="starfield"></canvas>
 
-  <header>
-    <h1>The Tool Nest</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="tools/index.html">Tools</a>
-      <a href="signin.html">Sign In</a>
-      <a href="contact.html">Contact</a>
-      <a href="suggestions.html">Suggestions</a>
-    </nav>
-  </header>
+<header>
+  <h1>The Tool Nest</h1>
+  <p>11 compact, powerful web tools — fast, secure, and beautifully animated</p>
+</header>
 
-  <section class="hero">
-    <h2>Your Toolkit in the Galaxy</h2>
-    <p>10 compact, powerful web tools — fast, secure, and beautifully animated.</p>
-  </section>
+<div class="container">
+  <div class="grid">
+    <div class="card">
+      <h3>1. QR Code Generator</h3>
+      <p>Create QR codes instantly for links, text, or Wi-Fi.</p>
+      <a href="tools/qr.html">Open Tool</a>
+    </div>
+    <div class="card">
+      <h3>2. Image Converter</h3>
+      <p>Convert & resize images (JPG, PNG, WebP) directly in your browser.</p>
+      <a href="tools/image-converter.html">Open Tool</a>
+    </div>
+    <div class="card">
+      <h3>3. Password Generator</h3>
+      <p>Generate strong, secure passwords with custom options.</p>
+      <a href="tools/password.html">Open Tool</a>
+    </div>
+    <div class="card">
+      <h3>4. Lorem Ipsum Generator</h3>
+      <p>Quickly generate placeholder text for designs & mockups.</p>
+      <a href="tools/lorem.html">Open Tool</a>
+    </div>
+    <div class="card">
+      <h3>5. SEO Backlink Checker</h3>
+      <p>Paste HTML & extract backlinks with dofollow/nofollow info.</p>
+      <a href="tools/seo-backlink.html">Open Tool</a>
+    </div>
+    <div class="card">
+      <h3>6. Hashtag Generator</h3>
+      <p>Create smart hashtags for social media from any keyword.</p>
+      <a href="tools/hashtag.html">Open Tool</a>
+    </div>
+    <div class="card">
+      <h3>7. Open Graph Preview</h3>
+      <p>Preview & copy Open Graph / Twitter meta tags for social sharing.</p>
+      <a href="tools/og-preview.html">Open Tool</a>
+    </div>
+    <div class="card">
+      <h3>8. Text Case Converter</h3>
+      <p>Convert text into UPPERCASE, camelCase, snake_case, and more.</p>
+      <a href="tools/text-case.html">Open Tool</a>
+    </div>
+    <div class="card">
+      <h3>9. Word & Character Counter</h3>
+      <p>Count words, characters, sentences, paragraphs & reading time.</p>
+      <a href="tools/word-counter.html">Open Tool</a>
+    </div>
+    <div class="card">
+      <h3>10. Bio Generator</h3>
+      <p>Create stylish bios for social media with instant preview.</p>
+      <a href="tools/bio.html">Open Tool</a>
+    </div>
+    <div class="card">
+      <h3>11. Post Resizer / Scheduler</h3>
+      <p>Resize social media posts & schedule content easily.</p>
+      <a href="tools/post-resizer.html">Open Tool</a>
+    </div>
+  </div>
+</div>
 
-  <section class="tools-grid">
-    <div class="tool-card" onclick="location.href='tools/qr.html'">QR Code Generator</div>
-    <div class="tool-card" onclick="location.href='tools/image-converter.html'">Image Converter</div>
-    <div class="tool-card" onclick="location.href='tools/seo-meta.html'">SEO: Meta Tag Generator</div>
-    <div class="tool-card" onclick="location.href='tools/seo-serp.html'">SEO: SERP Preview</div>
-    <div class="tool-card" onclick="location.href='tools/seo-backlinks.html'">SEO: Backlink Checker</div>
-    <div class="tool-card" onclick="location.href='tools/hashtags.html'">Social: Hashtag Generator</div>
-    <div class="tool-card" onclick="location.href='tools/post-resizer.html'">Social: Post Resizer</div>
-    <div class="tool-card" onclick="location.href='tools/bio.html'">Social: Bio Generator</div>
-    <div class="tool-card" onclick="location.href='tools/scheduler.html'">Social: Post Scheduler</div>
-    <div class="tool-card" onclick="location.href='tools/preview-card.html'">Social: Preview Card</div>
-  </section>
+<footer>
+  © 2025 The Tool Nest — All rights reserved.
+</footer>
 
-  <footer>
-    <p>
-      <a href="index.html">Home</a> |
-      <a href="tools/index.html">Tools</a> |
-      <a href="contact.html">Contact</a> |
-      <a href="suggestions.html">Suggestions</a> |
-      <a href="privacy.html">Privacy</a> |
-      <a href="terms.html">Terms</a>
-    </p>
-    <p>&copy; 2025 The Tool Nest. All rights reserved.</p>
-  </footer>
-
-  <script>
-    // Starfield animation
-    const canvas = document.getElementById("starfield");
-    const ctx = canvas.getContext("2d");
-    let stars = [];
-    const numStars = 150;
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    for (let i=0; i<numStars; i++) {
-      stars.push({
-        x: Math.random()*canvas.width,
-        y: Math.random()*canvas.height,
-        radius: Math.random()*1.5,
-        speed: Math.random()*0.5+0.2
-      });
-    }
-
-    function animateStars() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle = "white";
-      for (let s of stars) {
-        ctx.beginPath();
-        ctx.arc(s.x,s.y,s.radius,0,2*Math.PI);
-        ctx.fill();
-        s.y += s.speed;
-        if (s.y > canvas.height) {
-          s.y = 0;
-          s.x = Math.random()*canvas.width;
-        }
-      }
-      requestAnimationFrame(animateStars);
-    }
-    animateStars();
-  </script>
 </body>
 </html>
