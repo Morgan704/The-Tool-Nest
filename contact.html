@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Contact Us — The Tool Nest</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root{--neon:#00ff66;}
+  body{margin:0;font-family:'Segoe UI',system-ui;background:#000;color:var(--neon);overflow-x:hidden}
+  #space{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;background:#000}
+
+  header{text-align:center;padding:60px 20px 30px;position:relative;z-index:1}
+  header h1{margin:0;font-size:2.5rem;text-shadow:0 0 12px var(--neon),0 0 30px var(--neon)}
+
+  main{max-width:800px;margin:40px auto;position:relative;z-index:1;padding:20px;text-align:center}
+  form{margin-top:20px;text-align:left;background:rgba(255,255,255,0.05);padding:20px;border-radius:12px;
+       border:1px solid rgba(0,255,102,.3);box-shadow:0 0 16px rgba(0,255,102,.25);}
+  label{display:block;margin:15px 0 5px;}
+  input,textarea{width:100%;padding:10px;background:#000;color:var(--neon);
+                 border:1px solid var(--neon);border-radius:6px;outline:none;}
+  input:focus,textarea:focus{box-shadow:0 0 10px var(--neon);}
+  button{margin-top:15px;padding:10px 20px;background:var(--neon);color:#000;
+         border:none;border-radius:6px;font-weight:bold;cursor:pointer;box-shadow:0 0 15px var(--neon);}
+  button:hover{background:#000;color:var(--neon);border:1px solid var(--neon);}
+  footer{text-align:center;padding:20px;color:#59ffa1;position:relative;z-index:1}
+  footer a{color:var(--neon);margin:0 8px;text-decoration:none}
+  footer a:hover{text-shadow:0 0 10px var(--neon)}
+  .social a{margin:0 10px;color:var(--neon);font-size:1.4em;text-decoration:none;text-shadow:0 0 10px var(--neon);}
+  .social a:hover{color:#fff;text-shadow:0 0 20px var(--neon);}
+</style>
+</head>
+<body>
+
+<canvas id="space"></canvas>
+
+<header>
+  <h1>Contact Us</h1>
+</header>
+
+<main>
+  <p>We’d love to hear your feedback, questions, or suggestions! Fill out the form below:</p>
+
+  <form action="mailto:your-email@example.com" method="post" enctype="text/plain">
+    <label>Your Name:</label>
+    <input type="text" name="name" required>
+    
+    <label>Your Email:</label>
+    <input type="email" name="email" required>
+    
+    <label>Your Message / Suggestion:</label>
+    <textarea name="message" rows="5" required></textarea>
+    
+    <button type="submit">Send Message</button>
+  </form>
+
+  <p style="margin-top:20px;"><a href="index.html">← Back to Home</a></p>
+</main>
+
+<footer>
+  <div class="social">
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-github"></i></a>
+  </div>
+  <p>© 2025 The Tool Nest</p>
+</footer>
+
+<script>
+/* infinite stars */
+(function(){
+  const c=document.getElementById('space');const ctx=c.getContext('2d');
+  let W=c.width=window.innerWidth;let H=c.height=window.innerHeight;
+  const stars=Array.from({length:250},()=>({x:Math.random()*W,y:Math.random()*H,
+    r:Math.random()*1.5+0.3,a:Math.random(),s:(Math.random()*0.5)+0.2}));
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(const s of stars){
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,2*Math.PI);
+      ctx.fillStyle=`rgba(0,255,120,${s.a})`;
+      ctx.fill();
+      s.y-=s.s;if(s.y<0){s.y=H;s.x=Math.random()*W}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+  window.addEventListener('resize',()=>{W=c.width=window.innerWidth;H=c.height=window.innerHeight;});
+})();
+</script>
+</body>
+</html>
