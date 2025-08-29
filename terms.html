@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Terms & Conditions — The Tool Nest</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root{--neon:#00ff66;}
+  body{margin:0;font-family:'Segoe UI',system-ui;background:#000;color:var(--neon);overflow-x:hidden}
+  #space{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;background:#000}
+
+  header{text-align:center;padding:60px 20px 30px;position:relative;z-index:1}
+  header h1{margin:0;font-size:2.5rem;text-shadow:0 0 12px var(--neon),0 0 30px var(--neon)}
+
+  main{max-width:900px;margin:40px auto;position:relative;z-index:1;padding:20px}
+  section{background:rgba(255,255,255,0.05);padding:20px 28px;margin:20px 0;border-radius:12px;border:1px solid rgba(0,255,102,.3);box-shadow:0 0 16px rgba(0,255,102,.25)}
+  section h2{margin-top:0;color:var(--neon);text-shadow:0 0 8px var(--neon)}
+
+  footer{text-align:center;padding:20px;color:#59ffa1;position:relative;z-index:1}
+  footer a{color:var(--neon);margin:0 8px;text-decoration:none}
+  footer a:hover{text-shadow:0 0 10px var(--neon)}
+</style>
+</head>
+<body>
+
+<canvas id="space"></canvas>
+
+<header>
+  <h1>Terms & Conditions</h1>
+</header>
+
+<main>
+  <section>
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing and using The Tool Nest, you agree to comply with and be bound by these Terms & Conditions.</p>
+  </section>
+
+  <section>
+    <h2>2. Use of Tools</h2>
+    <p>All tools are provided free of charge for personal and professional use. You agree not to misuse or attempt to disrupt the services.</p>
+  </section>
+
+  <section>
+    <h2>3. Intellectual Property</h2>
+    <p>The Tool Nest branding, design, and original code are the property of the site owner. Tools are free to use but cannot be resold as-is without permission.</p>
+  </section>
+
+  <section>
+    <h2>4. Limitation of Liability</h2>
+    <p>The Tool Nest is provided “as-is” without warranties. We are not liable for any damages resulting from use of the tools.</p>
+  </section>
+
+  <section>
+    <h2>5. Modifications</h2>
+    <p>We reserve the right to update these Terms & Conditions at any time. Continued use of the site means you accept any changes.</p>
+  </section>
+
+  <section>
+    <h2>6. Contact</h2>
+    <p>If you have questions about these Terms & Conditions, please visit our <a href="contact.html">Contact page</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <p>© 2025 The Tool Nest</p>
+  <p>
+    <a href="index.html">Home</a> • 
+    <a href="about.html">About</a> • 
+    <a href="privacy.html">Privacy</a> • 
+    <a href="contact.html">Contact</a>
+  </p>
+</footer>
+
+<script>
+/* starfield background same as homepage */
+(function(){
+  const c=document.getElementById('space');const ctx=c.getContext('2d');
+  let W=c.width=window.innerWidth;let H=c.height=window.innerHeight;
+  const stars=Array.from({length:220},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+0.3,a:Math.random(),s:(Math.random()*0.5)+0.2}));
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(const s of stars){
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,2*Math.PI);
+      ctx.fillStyle=`rgba(0,255,120,${s.a})`;
+      ctx.fill();
+      s.y-=s.s;if(s.y<0){s.y=H;s.x=Math.random()*W}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+  window.addEventListener('resize',()=>{W=c.width=window.innerWidth;H=c.height=window.innerHeight;});
+})();
+</script>
+</body>
+</html>
