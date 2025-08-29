@@ -4,53 +4,63 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Bio Generator — The Tool Nest</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="../assets/styles.css">
 <style>
-  body{background:#000;color:#0f0;font-family:'Segoe UI',sans-serif;text-align:center;padding:40px;}
-  h1{text-shadow:0 0 15px #0f0;}
-  textarea{width:100%;max-width:500px;height:100px;padding:10px;
-    border:1px solid #0f0;border-radius:6px;background:#000;color:#0f0;}
-  select,button{margin:10px;padding:10px 15px;border:none;border-radius:6px;
-    background:#0f0;color:#000;font-weight:bold;cursor:pointer;box-shadow:0 0 10px #0f0;}
-  button:hover,select:hover{background:#000;color:#0f0;border:1px solid #0f0;}
-  .box{max-width:600px;margin:20px auto;padding:20px;background:rgba(255,255,255,0.05);
-    border-radius:12px;box-shadow:0 0 20px #0f0;}
+  body{background:#000;color:#00ff66;font-family:'Segoe UI',sans-serif;text-align:center;padding:40px}
+  h1{text-shadow:0 0 12px #00ff66}
+  textarea{width:90%;max-width:600px;height:120px;margin:20px auto;display:block;padding:10px;border-radius:8px;border:1px solid #00ff66;background:#111;color:#aaffcc}
+  button{padding:10px 20px;margin:10px;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
+  .btn-primary{background:#00ff66;color:#000;box-shadow:0 0 12px #00ff66}
+  .btn-primary:hover{background:#000;color:#00ff66;outline:1px solid #00ff66}
 </style>
 </head>
 <body>
-<h1>✍️ Bio Generator</h1>
-<div class="box">
-  <p>Enter your name and choose style:</p>
-  <input id="name" placeholder="Your name" style="padding:8px;border:1px solid #0f0;background:#000;color:#0f0;width:80%;border-radius:6px;">
-  <br>
-  <select id="style">
-    <option value="professional">Professional</option>
-    <option value="casual">Casual</option>
-    <option value="funny">Funny</option>
-    <option value="inspirational">Inspirational</option>
-  </select>
-  <button onclick="generateBio()">Generate</button>
-  <br>
-  <textarea id="output" readonly placeholder="Your generated bio will appear here..."></textarea>
-  <br>
-  <button onclick="copyBio()">Copy</button>
-</div>
+
+<h1>✨ Bio Generator</h1>
+<p>Click to generate a cool, random bio for your profile!</p>
+<textarea id="output" placeholder="Your generated bio will appear here..."></textarea>
+<button id="generate" class="btn-primary">Generate Bio</button>
+<button id="copy" class="btn-primary">Copy to Clipboard</button>
+
+<footer>
+  <p>© 2025 The Tool Nest</p>
+  <p>
+    <a href="../about.html">About</a> • 
+    <a href="../privacy.html">Privacy</a> • 
+    <a href="../terms.html">Terms</a> • 
+    <a href="../contact.html">Contact</a>
+  </p>
+  <div class="social">
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-github"></i></a>
+  </div>
+</footer>
+
 <script>
-function generateBio(){
-  const name=document.getElementById('name').value||"Someone";
-  const style=document.getElementById('style').value;
-  let bio="";
-  if(style==="professional") bio=`${name} is a driven professional, passionate about growth and innovation.`;
-  if(style==="casual") bio=`Hey, I’m ${name}! Just living life and enjoying the journey.`;
-  if(style==="funny") bio=`${name}: powered by coffee, sarcasm, and WiFi.`;
-  if(style==="inspirational") bio=`${name} believes every day is a chance to inspire and grow.`;
-  document.getElementById('output').value=bio;
-}
-function copyBio(){
-  const out=document.getElementById('output');
-  out.select(); document.execCommand("copy");
+const bios = [
+  "Dreaming big ✨ Living free 🌍",
+  "Coffee ☕ Code 💻 Repeat 🔁",
+  "Lost in music 🎶 Found in moments 💫",
+  "Building tools that matter 🛠️",
+  "Night owl 🌙 Star gazer 🌌",
+  "Turning ideas into reality 🚀"
+];
+
+document.getElementById("generate").addEventListener("click", ()=>{
+  const randomBio = bios[Math.floor(Math.random()*bios.length)];
+  document.getElementById("output").value = randomBio;
+});
+
+document.getElementById("copy").addEventListener("click", ()=>{
+  const text = document.getElementById("output");
+  text.select();
+  document.execCommand("copy");
   alert("Bio copied!");
-}
+});
 </script>
-<p><a href="index.html" style="color:#0f0">← Back to Home</a></p>
+
 </body>
 </html>
