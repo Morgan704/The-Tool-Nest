@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Suggestion Box — The Tool Nest</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root{--neon:#00ff66;}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:#000;color:var(--neon);}
+  #space{position:fixed;inset:0;z-index:0;pointer-events:none;background:#000;}
+  .wrap{position:relative;z-index:1;max-width:720px;margin:80px auto;padding:20px;text-align:center}
+  h1{font-size:2.4rem;margin-bottom:10px;text-shadow:0 0 12px var(--neon),0 0 40px var(--neon);}
+  p{color:#aaffcc;margin-bottom:24px}
+  form{display:flex;flex-direction:column;gap:14px;text-align:left}
+  input,textarea{
+    width:100%;padding:12px;border-radius:8px;border:1px solid var(--neon);
+    background:rgba(0,0,0,.6);color:#fff;font-size:1rem;resize:vertical;
+  }
+  button{
+    background:var(--neon);color:#001a0b;font-weight:700;font-size:1rem;
+    padding:12px;border:none;border-radius:8px;cursor:pointer;
+    box-shadow:0 0 14px var(--neon);
+  }
+  button:hover{background:#001a0b;color:var(--neon);border:1px solid var(--neon)}
+  footer{margin-top:40px;text-align:center;color:#59ffa1}
+  footer a{color:var(--neon);text-decoration:none;margin:0 8px}
+  footer a:hover{text-shadow:0 0 10px var(--neon)}
+</style>
+</head>
+<body>
+
+<canvas id="space"></canvas>
+
+<div class="wrap">
+  <h1>💡 Suggestion Box</h1>
+  <p>Have an idea for a new tool or feature? Share it with us!</p>
+
+  <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <label>Your Name</label>
+    <input type="text" name="name" placeholder="Enter your name" required>
+
+    <label>Your Email</label>
+    <input type="email" name="email" placeholder="Enter your email" required>
+
+    <label>Your Suggestion</label>
+    <textarea name="suggestion" rows="5" placeholder="Describe your idea..." required></textarea>
+
+    <button type="submit">Send Suggestion</button>
+  </form>
+</div>
+
+<footer>
+  <p>© 2025 The Tool Nest</p>
+  <p>
+    <a href="index.html">Home</a> • 
+    <a href="about.html">About</a> • 
+    <a href="privacy.html">Privacy</a> • 
+    <a href="terms.html">Terms</a> • 
+    <a href="contact.html">Contact</a>
+  </p>
+</footer>
+
+<script>
+/* Star background */
+(function(){
+  const c=document.getElementById('space'),ctx=c.getContext('2d');
+  let W=c.width=window.innerWidth,H=c.height=window.innerHeight;
+  const stars=Array.from({length:400},()=>({
+    x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+0.3,a:Math.random()
+  }));
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(const s of stars){
+      s.a+=0.01*(Math.random()>.5?1:-1);
+      if(s.a<0.2)s.a=0.2;if(s.a>1)s.a=1;
+      ctx.beginPath();ctx.fillStyle=`rgba(0,255,120,${s.a})`;
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+  window.addEventListener('resize',()=>{W=c.width=window.innerWidth;H=c.height=window.innerHeight;});
+})();
+</script>
+
+</body>
+</html>
