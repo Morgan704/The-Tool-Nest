@@ -1,56 +1,99 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Scheduler — Tool Nest</title>
-<link rel="stylesheet" href="../assets/styles.css"/>
-<style>
-  .tool-center{max-width:800px;margin:60px auto;padding:20px;text-align:center}
-  form{display:grid;gap:12px;margin-top:18px}
-  input,textarea,select{padding:10px;font-size:1rem;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66}
-  button{margin-top:10px;padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
-  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
-  .result{margin-top:20px;padding:16px;border:1px solid rgba(0,255,102,.35);border-radius:10px;background:rgba(255,255,255,.05)}
-  .btns{display:flex;justify-content:center;gap:12px;margin-top:10px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scheduler - The Tool Nest</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #00ff66;
+      text-align: center;
+      padding: 20px;
+    }
+    form {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #00ff66;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 15px rgba(0,255,102,0.2);
+    }
+    input, textarea {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid #00ff66;
+      border-radius: 6px;
+      background: #111;
+      color: #00ff66;
+    }
+    button {
+      background: #00ff66;
+      color: #001a0b;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      margin: 5px;
+      cursor: pointer;
+      box-shadow: 0 0 12px #00ff66;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: #001a0b;
+      color: #00ff66;
+      border: 1px solid #00ff66;
+    }
+    #output {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px dashed #00ff66;
+      border-radius: 8px;
+      background: #111;
+    }
+  </style>
 </head>
 <body>
-  <div class="tool-center tool-wrap">
-    <a href="../index.html">← Home</a>
-    <h1>Scheduler</h1>
-    <p>Plan and schedule your content easily.</p>
+  <h1>📅 Content Scheduler</h1>
+  <p>Plan and schedule your content easily.</p>
 
-    <form id="scheduleForm" onsubmit="event.preventDefault();generateSchedule()">
-      <input type="text" id="task" placeholder="Enter task..." required>
-      <input type="date" id="date" required>
-      <input type="time" id="time" required>
-      <textarea id="notes" placeholder="Additional notes..."></textarea>
-      <div class="btns">
-        <button type="submit">Add Schedule</button>
-        <button type="button" id="resetBtn" data-reset="scheduleForm output">Reset</button>
-      </div>
-    </form>
+  <form id="scheduleForm">
+    <input type="text" id="title" placeholder="Content Title" required><br>
+    <textarea id="details" placeholder="Content Details"></textarea><br>
+    <input type="date" id="date" required><br>
+    <input type="time" id="time" required><br>
+    
+    <button type="button" onclick="scheduleContent()">Schedule</button>
+    <button type="button" class="reset-btn" data-target="scheduler">Reset</button>
+  </form>
 
-    <div id="output" class="result"></div>
-  </div>
+  <div id="output"></div>
 
-<script src="../reset.js"></script>
-<script>
-function generateSchedule(){
-  const task = document.getElementById("task").value;
-  const date = document.getElementById("date").value;
-  const time = document.getElementById("time").value;
-  const notes = document.getElementById("notes").value;
-  const output = document.getElementById("output");
+  <script src="../reset.js"></script>
+  <script>
+    function scheduleContent() {
+      const title = document.getElementById("title").value.trim();
+      const details = document.getElementById("details").value.trim();
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+      const output = document.getElementById("output");
 
-  output.innerHTML = `
-    <strong>Task:</strong> ${task}<br>
-    <strong>Date:</strong> ${date}<br>
-    <strong>Time:</strong> ${time}<br>
-    <strong>Notes:</strong> ${notes || "—"}
-  `;
-}
-</script>
+      if (!title || !date || !time) {
+        output.innerHTML = "⚡ Please fill in all required fields.";
+        return;
+      }
+
+      output.innerHTML = `
+        <h3>✅ Scheduled</h3>
+        <p><b>Title:</b> ${title}</p>
+        <p><b>Details:</b> ${details || "N/A"}</p>
+        <p><b>Date:</b> ${date}</p>
+        <p><b>Time:</b> ${time}</p>
+      `;
+    }
+  </script>
 </body>
 </html>
