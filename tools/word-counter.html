@@ -14,8 +14,8 @@
     }
     textarea {
       width: 90%;
-      height: 150px;
-      margin: 10px 0;
+      height: 200px;
+      margin: 15px 0;
       padding: 10px;
       border: 2px solid #00ff66;
       border-radius: 8px;
@@ -40,12 +40,10 @@
       color: #00ff66;
       border: 1px solid #00ff66;
     }
-    #output {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px dashed #00ff66;
-      border-radius: 8px;
-      background: #111;
+    .stats {
+      margin-top: 15px;
+      font-size: 1.1rem;
+      color: #aaffcc;
     }
   </style>
 </head>
@@ -54,34 +52,27 @@
   <p>Count words, characters, sentences & reading time.</p>
 
   <textarea id="textInput" placeholder="Type or paste your text here..."></textarea><br>
-  
-  <button onclick="countWords()">Count</button>
-  <button type="button" class="reset-btn" data-target="word-counter">Reset</button>
 
-  <div id="output"></div>
+  <button onclick="countWords()">Count</button>
+  <button class="reset-btn" data-target="word-counter">Reset</button>
+
+  <div class="stats" id="stats"></div>
 
   <script src="../reset.js"></script>
   <script>
     function countWords() {
-      const text = document.getElementById("textInput").value.trim();
-      const output = document.getElementById("output");
+      let text = document.getElementById("textInput").value.trim();
 
-      if (!text) {
-        output.innerHTML = "⚡ Please enter some text.";
-        return;
-      }
+      let words = text.length > 0 ? text.split(/\s+/).length : 0;
+      let chars = text.length;
+      let sentences = text.split(/[.!?]+/).filter(Boolean).length;
+      let readingTime = Math.ceil(words / 200); // 200 words/minute
 
-      const words = text.split(/\s+/).filter(Boolean).length;
-      const chars = text.length;
-      const sentences = text.split(/[.!?]+/).filter(Boolean).length;
-      const readTime = Math.ceil(words / 200); // 200 wpm
-
-      output.innerHTML = `
-        <h3>📊 Results</h3>
+      document.getElementById("stats").innerHTML = `
         <p><b>Words:</b> ${words}</p>
         <p><b>Characters:</b> ${chars}</p>
         <p><b>Sentences:</b> ${sentences}</p>
-        <p><b>Reading Time:</b> ${readTime} min</p>
+        <p><b>Reading Time:</b> ${readingTime} min</p>
       `;
     }
   </script>
