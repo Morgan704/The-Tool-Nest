@@ -1,56 +1,202 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>QR Code Generator — Tool Nest</title>
-<link rel="stylesheet" href="../assets/styles.css"/>
-<style>
-  .tool-center{max-width:600px;margin:60px auto;padding:20px;text-align:center}
-  input[type="text"]{width:80%;padding:10px;font-size:1rem;margin:8px 0;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66}
-  .qr-box{margin-top:20px}
-  canvas{margin-top:12px}
-  .btns{display:flex;justify-content:center;gap:12px;margin-top:12px;flex-wrap:wrap}
-  button{padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
-  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator - Create QR Codes Online</title>
+  <meta name="description" content="Free online QR Code Generator. Create QR codes instantly for text, URLs, contact info, Wi-Fi, and more. No upload required.">
+  <meta property="og:title" content="QR Code Generator - Create QR Codes Online">
+  <meta property="og:description" content="Free online QR Code Generator. Generate QR codes instantly in your browser with no server upload.">
+  
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+
+  <style>
+    .tooltip { visibility: hidden; opacity: 0; transition: opacity 0.3s; }
+    .tooltip.show { visibility: visible; opacity: 1; }
+  </style>
 </head>
-<body>
-  <div class="tool-center tool-wrap">
-    <a href="../index.html">← Home</a>
-    <h1>QR Code Generator</h1>
-    <p>Generate instant QR codes from any text or link.</p>
+<body class="bg-gray-50 min-h-screen">
 
-    <form id="qrForm" onsubmit="event.preventDefault();generateQR()">
-      <input type="text" id="qrInput" placeholder="Enter text or URL" required>
-      <div class="btns">
-        <button type="submit">Generate</button>
-        <button type="button" id="resetBtn" data-reset="qrForm qrPreview">Reset</button>
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <i class="fas fa-qrcode text-2xl text-blue-600"></i>
+          <h1 class="text-2xl font-bold text-gray-900">QR Code Generator</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button id="helpBtn" class="text-gray-600 hover:text-blue-600 transition-colors">
+            <i class="fas fa-question-circle text-xl"></i>
+          </button>
+          <a href="https://github.com" target="_blank" class="text-gray-600 hover:text-blue-600 transition-colors">
+            <i class="fab fa-github text-xl"></i>
+          </a>
+        </div>
       </div>
-    </form>
+    </div>
+  </header>
 
-    <div id="qrPreview" class="qr-box"></div>
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Input Panel -->
+    <div class="bg-white rounded-lg shadow-sm border p-6 mb-8">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">QR Code Settings</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Text / URL</label>
+          <textarea id="qrText" rows="4" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500" placeholder="Enter text or URL here"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Size</label>
+          <input type="number" id="qrSize" value="256" min="100" max="600" class="w-full border rounded-md px-3 py-2">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Color</label>
+          <input type="color" id="qrColor" value="#000000" class="w-full h-10 border rounded-md">
+        </div>
+      </div>
+
+      <div class="mt-6 flex flex-wrap gap-4">
+        <button id="generateBtn" class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors">
+          <i class="fas fa-magic mr-2"></i>Generate QR
+        </button>
+        <button id="downloadBtn" class="bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700 transition-colors hidden">
+          <i class="fas fa-download mr-2"></i>Download
+        </button>
+        <button id="clearBtn" class="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors">
+          <i class="fas fa-trash mr-2"></i>Clear
+        </button>
+      </div>
+    </div>
+
+    <!-- Output -->
+    <div id="qrResult" class="bg-white rounded-lg shadow-sm border p-6 text-center hidden">
+      <h4 class="font-medium text-gray-900 mb-4">Generated QR Code</h4>
+      <div id="qrCode" class="flex justify-center"></div>
+    </div>
+
+  </main>
+
+  <!-- Help Modal -->
+  <div id="helpModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-2xl m-4">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold">Help</h3>
+        <button id="closeHelp" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="space-y-4 text-sm text-gray-600">
+        <p><strong>Text / URL:</strong> Enter anything (website link, message, etc.) and click "Generate QR".</p>
+        <p><strong>Size:</strong> Set the pixel size of the QR code (100–600).</p>
+        <p><strong>Color:</strong> Pick your QR foreground color.</p>
+        <p>Click <strong>Download</strong> to save as PNG.</p>
+      </div>
+    </div>
   </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-<script src="../reset.js"></script>
-<script>
-let qr;
-function generateQR(){
-  const text=document.getElementById("qrInput").value.trim();
-  if(!text){document.getElementById("qrPreview").innerHTML="";return;}
-  if(!qr){
-    qr=new QRious({
-      element:document.createElement("canvas"),
-      size:200,
-      value:text
-    });
-    document.getElementById("qrPreview").innerHTML="";
-    document.getElementById("qrPreview").appendChild(qr.element);
-  }else{
-    qr.value=text;
-  }
-}
-</script>
+  <!-- Toast -->
+  <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+  <script>
+    class QRTool {
+      constructor() {
+        this.qr = null;
+        this.init();
+      }
+
+      init() {
+        document.getElementById('generateBtn').addEventListener('click', () => this.generateQR());
+        document.getElementById('downloadBtn').addEventListener('click', () => this.downloadQR());
+        document.getElementById('clearBtn').addEventListener('click', () => this.clearQR());
+        document.getElementById('helpBtn').addEventListener('click', () => document.getElementById('helpModal').classList.remove('hidden'));
+        document.getElementById('closeHelp').addEventListener('click', () => document.getElementById('helpModal').classList.add('hidden'));
+        document.getElementById('helpModal').addEventListener('click', (e) => {
+          if (e.target === document.getElementById('helpModal')) document.getElementById('helpModal').classList.add('hidden');
+        });
+      }
+
+      generateQR() {
+        const text = document.getElementById('qrText').value.trim();
+        const size = parseInt(document.getElementById('qrSize').value) || 256;
+        const color = document.getElementById('qrColor').value || "#000000";
+
+        if (!text) {
+          this.showToast("Please enter text or URL", "error");
+          return;
+        }
+
+        document.getElementById('qrResult').classList.remove('hidden');
+        document.getElementById('qrCode').innerHTML = "";
+
+        this.qr = new QRCode(document.getElementById("qrCode"), {
+          text: text,
+          width: size,
+          height: size,
+          colorDark: color,
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+
+        document.getElementById('downloadBtn').classList.remove('hidden');
+        this.showToast("QR Code generated!", "success");
+      }
+
+      downloadQR() {
+        const canvas = document.querySelector("#qrCode canvas");
+        if (!canvas) {
+          this.showToast("No QR Code to download", "error");
+          return;
+        }
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL("image/png");
+        link.download = "qrcode.png";
+        link.click();
+        this.showToast("QR Code downloaded!", "success");
+      }
+
+      clearQR() {
+        document.getElementById('qrText').value = "";
+        document.getElementById('qrResult').classList.add('hidden');
+        document.getElementById('qrCode').innerHTML = "";
+        document.getElementById('downloadBtn').classList.add('hidden');
+        this.showToast("Cleared", "info");
+      }
+
+      showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        const bg = {
+          success: 'bg-green-500',
+          error: 'bg-red-500',
+          info: 'bg-blue-500'
+        }[type] || 'bg-gray-500';
+
+        toast.className = `${bg} text-white px-4 py-2 rounded-lg shadow-lg transform transition-transform duration-300 translate-x-full`;
+        toast.textContent = message;
+        container.appendChild(toast);
+
+        setTimeout(() => toast.classList.remove('translate-x-full'), 100);
+        setTimeout(() => {
+          toast.classList.add('translate-x-full');
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+    }
+
+    new QRTool();
+  </script>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+      <h3 class="text-lg font-semibold text-gray-900">GitHub Integration</h3>
+      <p class="text-gray-500">&copy; 2024 QR Code Generator. Built with HTML5, Canvas API, and TailwindCSS.</p>
+    </div>
+  </footer>
 </body>
 </html>
