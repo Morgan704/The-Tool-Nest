@@ -1,65 +1,186 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>SEO Backlink Checker — Tool Nest</title>
-<link rel="stylesheet" href="../assets/styles.css"/>
-<style>
-  .tool-center{max-width:800px;margin:60px auto;padding:20px;text-align:center}
-  textarea{padding:10px;font-size:1rem;margin:6px 0;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66;width:100%}
-  ul{list-style:none;padding:0;margin:0}
-  li{margin:6px 0;color:#aaffcc}
-  .btns{display:flex;justify-content:center;gap:12px;margin-top:12px}
-  button{padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
-  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
-</style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SEO Backlink Checker — The Tool Nest</title>
+<meta name="description" content="Paste any HTML and extract links with anchor text, rel, follow/nofollow and domain summary. Export CSV.">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<style>table{border-collapse:collapse} th,td{padding:.5rem .6rem} tr:nth-child(even){background:#f9fafb}</style>
 </head>
-<body>
-  <div class="tool-center tool-wrap">
-    <a href="../index.html">← Home</a>
-    <h1>SEO Backlink Checker</h1>
-    <p>Paste HTML below to extract all backlinks.</p>
-
-    <form id="backlinkForm" onsubmit="event.preventDefault();extractLinks()">
-      <textarea id="htmlInput" rows="6" placeholder="Paste your HTML here..."></textarea>
-      <div class="btns">
-        <button type="submit">Extract Links</button>
-        <button type="button" id="resetBtn" data-reset="backlinkForm results">Reset</button>
-      </div>
-    </form>
-
-    <div id="results"></div>
+<body class="bg-gray-50 min-h-screen">
+<header class="bg-white shadow-sm border-b">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <i class="fas fa-link text-2xl text-blue-600"></i>
+      <h1 class="text-2xl font-bold text-gray-900">SEO Backlink Checker</h1>
+    </div>
+    <button id="helpBtn" class="text-gray-600 hover:text-blue-600"><i class="fas fa-question-circle text-xl"></i></button>
   </div>
+</header>
 
-<script src="../reset.js"></script>
+<main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+  <section class="bg-white rounded-lg shadow-sm border p-6">
+    <div class="grid md:grid-cols-3 gap-4 mb-4">
+      <div class="md:col-span-2">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Paste HTML source</label>
+        <textarea id="html" rows="8" class="w-full border rounded px-3 py-2 font-mono text-sm" placeholder="Paste page HTML here..."></textarea>
+      </div>
+      <div class="flex items-end gap-3">
+        <button id="scanBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-search mr-2"></i>Scan</button>
+        <button id="resetBtn" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"><i class="fas fa-trash mr-2"></i>Reset</button>
+        <button id="exportBtn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" disabled><i class="fas fa-file-export mr-2"></i>Export CSV</button>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4 mb-4">
+      <div class="p-3 bg-gray-50 rounded border">
+        <div class="text-sm text-gray-500">Total links</div>
+        <div class="text-2xl font-bold" id="total">0</div>
+      </div>
+      <div class="p-3 bg-gray-50 rounded border">
+        <div class="text-sm text-gray-500">Unique domains</div>
+        <div class="text-2xl font-bold" id="domains">0</div>
+      </div>
+      <div class="p-3 bg-gray-50 rounded border">
+        <div class="text-sm text-gray-500">Nofollow links</div>
+        <div class="text-2xl font-bold" id="nofollow">0</div>
+      </div>
+    </div>
+
+    <div class="overflow-auto border rounded">
+      <table class="min-w-full text-sm">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="text-left">Href</th>
+            <th class="text-left">Anchor Text</th>
+            <th class="text-left">Rel</th>
+            <th class="text-left">Follow?</th>
+            <th class="text-left">Target</th>
+            <th class="text-left">Domain</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<!-- Help Modal -->
+<div id="helpModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 max-w-lg w-full m-4">
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="text-lg font-bold">What this does</h3>
+      <button id="closeHelp" class="text-gray-500 hover:text-gray-700"><i class="fas fa-times"></i></button>
+    </div>
+    <ul class="text-sm text-gray-700 space-y-2">
+      <li>Parses your HTML, finds all <code>&lt;a href&gt;</code> links and extracts attributes.</li>
+      <li>Marks links with <code>rel="nofollow|ugc|sponsored"</code> as <b>Nofollow</b>.</li>
+      <li>Counts unique referring domains and exports a CSV.</li>
+    </ul>
+  </div>
+</div>
+
+<div id="toastContainer" class="fixed top-4 right-4 space-y-2 z-50"></div>
+
 <script>
-function extractLinks(){
-  const html = document.getElementById("htmlInput").value.trim();
-  const results = document.getElementById("results");
-  results.innerHTML = "";
+const htmlEl=document.getElementById('html');
+const rows=document.getElementById('rows');
+const totalEl=document.getElementById('total');
+const domainsEl=document.getElementById('domains');
+const nofollowEl=document.getElementById('nofollow');
+const exportBtn=document.getElementById('exportBtn');
 
-  if(!html){
-    results.textContent = "Please paste some HTML.";
-    return;
-  }
+let lastData = [];
 
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  const links = doc.querySelectorAll("a[href]");
-  
-  if(links.length === 0){
-    results.textContent = "No backlinks found.";
-    return;
-  }
+document.getElementById('scanBtn').addEventListener('click', ()=>{
+  const src = htmlEl.value.trim();
+  if(!src){ toast('Paste some HTML first','error'); return; }
+  const dom = new DOMParser().parseFromString(src,'text/html');
+  const links = [...dom.querySelectorAll('a[href]')];
 
-  const ul = document.createElement("ul");
-  links.forEach(link=>{
-    const li = document.createElement("li");
-    li.textContent = link.href;
-    ul.appendChild(li);
+  lastData = links.map(a=>{
+    const href = a.getAttribute('href') || '';
+    const text = (a.textContent || '').trim().replace(/\s+/g,' ');
+    const rel = (a.getAttribute('rel') || '').toLowerCase();
+    const target = a.getAttribute('target') || '';
+    const follow = !( /(^|\\s)(nofollow|ugc|sponsored)(\\s|$)/.test(rel) );
+    const domain = extractDomain(href);
+    return { href, text, rel, follow, target, domain };
   });
-  results.appendChild(ul);
+
+  renderTable(lastData);
+  updateStats(lastData);
+  exportBtn.disabled = lastData.length===0;
+  toast(`Found ${lastData.length} links`,'success');
+});
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  htmlEl.value=''; rows.innerHTML=''; totalEl.textContent='0'; domainsEl.textContent='0'; nofollowEl.textContent='0';
+  exportBtn.disabled = true;
+  toast('Cleared','info');
+});
+
+exportBtn.addEventListener('click', ()=>{
+  if(!lastData.length) return;
+  const csv = toCSV(lastData);
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'backlinks.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});
+
+function extractDomain(href){
+  try{
+    const u = new URL(href, 'https://example.com');
+    if(!/^https?:$/.test(u.protocol)) return '';
+    return u.hostname.replace(/^www\\./,'');
+  }catch(e){ return ''; }
+}
+function renderTable(data){
+  rows.innerHTML = data.map(r=>`
+    <tr>
+      <td class="whitespace-nowrap max-w-xs overflow-hidden overflow-ellipsis"><a href="${r.href}" class="text-blue-600 underline" target="_blank" rel="noopener">${escapeHtml(r.href)}</a></td>
+      <td class="max-w-md overflow-hidden overflow-ellipsis">${escapeHtml(r.text)}</td>
+      <td>${escapeHtml(r.rel)}</td>
+      <td>${r.follow?'<span class="text-green-700 font-medium">Follow</span>':'<span class="text-red-700 font-medium">Nofollow</span>'}</td>
+      <td>${escapeHtml(r.target)}</td>
+      <td>${escapeHtml(r.domain)}</td>
+    </tr>`).join('');
+}
+function updateStats(data){
+  totalEl.textContent = data.length;
+  const domains = new Set(data.map(d=>d.domain).filter(Boolean));
+  domainsEl.textContent = domains.size;
+  nofollowEl.textContent = data.filter(d=>!d.follow).length;
+}
+function toCSV(data){
+  const head=['href','anchor_text','rel','follow','target','domain'];
+  const rows=[head.join(',')].concat(data.map(r=> head.map(k=>csvSafe(r[k])).join(',')));
+  return rows.join('\\n');
+}
+function csvSafe(v){
+  const s = String(v==null?'':v).replace(/"/g,'""');
+  return /[",\\n]/.test(s)? `"${s}"` : s;
+}
+function escapeHtml(s){
+  return String(s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+}
+
+// Help + toast
+document.getElementById('helpBtn').addEventListener('click', ()=>document.getElementById('helpModal').classList.remove('hidden'));
+document.getElementById('closeHelp').addEventListener('click', ()=>document.getElementById('helpModal').classList.add('hidden'));
+document.getElementById('helpModal').addEventListener('click', e=>{ if(e.target.id==='helpModal') e.target.classList.add('hidden'); });
+
+function toast(msg,type='info'){
+  const c=document.getElementById('toastContainer'); const el=document.createElement('div');
+  const color={success:'bg-green-500',error:'bg-red-500',info:'bg-blue-500',warning:'bg-yellow-500'}[type]||'bg-blue-500';
+  el.className=`${color} text-white px-4 py-2 rounded shadow transform transition duration-300 translate-x-full`;
+  el.textContent=msg; c.appendChild(el);
+  setTimeout(()=>el.classList.remove('translate-x-full'),50);
+  setTimeout(()=>{ el.classList.add('translate-x-full'); setTimeout(()=>el.remove(),250); },3200);
 }
 </script>
 </body>
