@@ -1,63 +1,160 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Post Resizer — Tool Nest</title>
-<link rel="stylesheet" href="../assets/styles.css"/>
-<style>
-  .tool-center{max-width:800px;margin:60px auto;padding:20px;text-align:center}
-  input,select{padding:10px;font-size:1rem;margin:6px 0;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66}
-  canvas{margin-top:20px;border:1px solid rgba(0,255,102,.35);border-radius:10px}
-  .btns{display:flex;justify-content:center;gap:12px;margin-top:12px}
-  button{padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
-  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Post Resizer — The Tool Nest</title>
+<meta name="description" content="Resize your text to fit Instagram, X/Twitter, Facebook, TikTok limits. Live counter, trim modes, copy & reset.">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<style>@keyframes spin{to{transform:rotate(360deg)}}.animate-spin{animation:spin 1s linear infinite}</style>
 </head>
-<body>
-  <div class="tool-center tool-wrap">
-    <a href="../index.html">← Home</a>
-    <h1>Post Resizer</h1>
-    <p>Resize posts for any platform.</p>
-
-    <form id="resizeForm" onsubmit="event.preventDefault();resizeImage()">
-      <input type="file" id="upload" accept="image/*" required>
-      <select id="size">
-        <option value="1080x1080">Instagram (1080x1080)</option>
-        <option value="1200x628">Facebook (1200x628)</option>
-        <option value="1920x1080">YouTube (1920x1080)</option>
-      </select>
-      <div class="btns">
-        <button type="submit">Resize</button>
-        <button type="button" id="resetBtn" data-reset="resizeForm preview">Reset</button>
-      </div>
-    </form>
-
-    <canvas id="preview"></canvas>
+<body class="bg-gray-50 min-h-screen">
+<header class="bg-white shadow-sm border-b">
+  <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <i class="fas fa-compress text-2xl text-blue-600"></i>
+      <h1 class="text-2xl font-bold text-gray-900">Post Resizer</h1>
+    </div>
+    <button id="helpBtn" class="text-gray-600 hover:text-blue-600"><i class="fas fa-question-circle text-xl"></i></button>
   </div>
+</header>
 
-<script src="../reset.js"></script>
+<main class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+  <section class="bg-white rounded-lg shadow-sm border p-6">
+    <div class="grid md:grid-cols-3 gap-4 mb-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Platform</label>
+        <select id="platform" class="w-full border rounded px-3 py-2">
+          <option value="280">X / Twitter (280)</option>
+          <option value="2200">Instagram (2,200)</option>
+          <option value="63206">Facebook (63,206)</option>
+          <option value="2200t">TikTok (2,200 caption)</option>
+          <option value="150">LinkedIn Headline (150)</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Trim mode</label>
+        <select id="trimMode" class="w-full border rounded px-3 py-2">
+          <option value="hard">Hard cut (…)</option>
+          <option value="word">Word-safe (…)</option>
+          <option value="smart">Smart keep CTA</option>
+        </select>
+      </div>
+      <div class="flex items-end gap-3">
+        <button id="resizeBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-magic mr-2"></i>Resize</button>
+        <button id="copyBtn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"><i class="fas fa-copy mr-2"></i>Copy</button>
+        <button id="resetBtn" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"><i class="fas fa-trash mr-2"></i>Reset</button>
+      </div>
+    </div>
+
+    <label class="block text-sm font-medium text-gray-700 mb-1">Your text</label>
+    <textarea id="input" rows="6" class="w-full border rounded p-3 mb-2" placeholder="Paste or type your post..."></textarea>
+    <div class="flex items-center justify-between text-sm text-gray-600 mb-3">
+      <span>Characters: <b id="inCount">0</b></span>
+      <span>Limit: <b id="limit">280</b></span>
+    </div>
+
+    <label class="block text-sm font-medium text-gray-700 mb-1">Resized</label>
+    <textarea id="output" rows="6" class="w-full border rounded p-3 bg-gray-50" readonly></textarea>
+    <div class="text-sm text-gray-600 mt-2">Characters: <b id="outCount">0</b></div>
+  </section>
+</main>
+
+<!-- Help Modal -->
+<div id="helpModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 max-w-lg w-full m-4">
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="text-lg font-bold">How it works</h3>
+      <button id="closeHelp" class="text-gray-500 hover:text-gray-700"><i class="fas fa-times"></i></button>
+    </div>
+    <ul class="text-sm text-gray-700 space-y-2">
+      <li><b>Trim modes</b>: Hard = cut at limit; Word-safe = cut at last word; Smart = keeps last sentence with CTA if possible.</li>
+      <li>Live character counts for both input and output.</li>
+      <li>Copy and Reset buttons for quick workflow.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toastContainer" class="fixed top-4 right-4 space-y-2 z-50"></div>
+
 <script>
-function resizeImage(){
-  const file = document.getElementById("upload").files[0];
-  const canvas = document.getElementById("preview");
-  const ctx = canvas.getContext("2d");
+const platform = document.getElementById('platform');
+const trimMode = document.getElementById('trimMode');
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+const inCount = document.getElementById('inCount');
+const outCount = document.getElementById('outCount');
+const limitEl = document.getElementById('limit');
 
-  if(!file) return;
-  const [w,h] = document.getElementById("size").value.split("x").map(Number);
+const LIMITS = { "280":280, "2200":2200, "2200t":2200, "63206":63206, "150":150 };
 
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = new Image();
-    img.onload = ()=>{
-      canvas.width = w;
-      canvas.height = h;
-      ctx.drawImage(img, 0, 0, w, h);
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+function updateCounts() {
+  inCount.textContent = input.value.length;
+  outCount.textContent = output.value.length;
 }
+input.addEventListener('input', updateCounts);
+platform.addEventListener('change', ()=>{ limitEl.textContent = LIMITS[platform.value] || 280; });
+
+function resizeText(text, limit, mode) {
+  if (text.length <= limit) return text;
+  if (mode === 'hard') return text.slice(0, limit-1).trimEnd() + '…';
+  if (mode === 'word') {
+    let cut = text.slice(0, limit);
+    const lastSpace = cut.lastIndexOf(' ');
+    if (lastSpace > 0) cut = cut.slice(0, lastSpace);
+    return cut.trimEnd() + '…';
+  }
+  // smart: keep a CTA or sentence at end if possible
+  let base = text.slice(0, limit);
+  const lastDot = base.lastIndexOf('.');
+  const lastBang = base.lastIndexOf('!');
+  const lastQ = base.lastIndexOf('?');
+  const lastPunct = Math.max(lastDot, lastBang, lastQ);
+  if (lastPunct > limit - 120) base = base.slice(0, lastPunct+1);
+  else {
+    const lastSpace = base.lastIndexOf(' ');
+    if (lastSpace > 0) base = base.slice(0, lastSpace);
+  }
+  return base.trimEnd() + '…';
+}
+
+document.getElementById('resizeBtn').addEventListener('click', ()=>{
+  const lim = LIMITS[platform.value] || 280;
+  const resized = resizeText(input.value, lim, trimMode.value);
+  output.value = resized;
+  updateCounts();
+  showToast('Resized for selected platform','success');
+});
+
+document.getElementById('copyBtn').addEventListener('click', async ()=>{
+  if(!output.value){ showToast('Nothing to copy','error'); return; }
+  await navigator.clipboard.writeText(output.value);
+  showToast('Copied to clipboard','success');
+});
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  input.value = ''; output.value = ''; updateCounts();
+  showToast('Cleared','info');
+});
+
+// Help
+document.getElementById('helpBtn').addEventListener('click', ()=>document.getElementById('helpModal').classList.remove('hidden'));
+document.getElementById('closeHelp').addEventListener('click', ()=>document.getElementById('helpModal').classList.add('hidden'));
+document.getElementById('helpModal').addEventListener('click', e=>{ if(e.target.id==='helpModal') e.target.classList.add('hidden'); });
+
+// Toast
+function showToast(message,type='info'){
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');
+  const color={success:'bg-green-500',error:'bg-red-500',info:'bg-blue-500',warning:'bg-yellow-500'}[type]||'bg-blue-500';
+  t.className=`${color} text-white px-4 py-2 rounded shadow transform transition duration-300 translate-x-full`;
+  t.textContent=message; c.appendChild(t);
+  setTimeout(()=>t.classList.remove('translate-x-full'),50);
+  setTimeout(()=>{ t.classList.add('translate-x-full'); setTimeout(()=>t.remove(),250); },3500);
+}
+updateCounts();
 </script>
 </body>
 </html>
