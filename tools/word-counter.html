@@ -1,86 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Word Counter - The Tool Nest</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #00ff66;
-      text-align: center;
-      padding: 20px;
-    }
-    textarea {
-      width: 90%;
-      height: 150px;
-      margin: 10px 0;
-      padding: 10px;
-      border: 2px solid #00ff66;
-      border-radius: 8px;
-      background: #111;
-      color: #00ff66;
-      resize: none;
-    }
-    button {
-      background: #00ff66;
-      color: #001a0b;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      margin: 5px;
-      cursor: pointer;
-      box-shadow: 0 0 12px #00ff66;
-      transition: all 0.3s ease;
-    }
-    button:hover {
-      background: #001a0b;
-      color: #00ff66;
-      border: 1px solid #00ff66;
-    }
-    #output {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px dashed #00ff66;
-      border-radius: 8px;
-      background: #111;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Word Counter — The Tool Nest</title>
+<link rel="stylesheet" href="../assets/styles.css" />
+<style>
+  .tool-center{max-width:960px;margin:70px auto;padding:20px}
+  .input{width:100%;min-height:220px;background:#0b0f0b;color:#caffdb;
+         border:1px solid #12ff7a;border-radius:10px;padding:14px;font-size:16px}
+  .panel{margin-top:18px;border:1px dashed #12ff7a;border-radius:10px;padding:14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+  .metric{background:rgba(18,255,122,.06);border:1px solid rgba(18,255,122,.35);
+          border-radius:10px;padding:12px;text-align:center}
+  .metric b{display:block;font-size:22px;margin-top:4px;color:#12ff7a;text-shadow:0 0 8px #12ff7a}
+  .actions{margin-top:14px;text-align:center}
+  .btn{display:inline-block;padding:10px 16px;border-radius:10px;border:none;
+       background:#12ff7a;color:#001a0b;font-weight:800;cursor:pointer;
+       box-shadow:0 0 14px rgba(18,255,122,.8)}
+  .btn:hover{background:#001a0b;color:#12ff7a;outline:1px solid #12ff7a}
+</style>
 </head>
 <body>
-  <h1>📝 Word Counter</h1>
-  <p>Count words, characters, sentences & reading time.</p>
+  <div class="tool-center tool-wrap">
+    <a href="../index.html">← Home</a>
+    <h1>📝 Word Counter</h1>
+    <p class="kv">Count words, characters, sentences, paragraphs & reading time.</p>
 
-  <textarea id="textInput"></textarea>
-<div id="output"></div>
-<button class="reset-btn" data-target="word-counter">Reset</button>
+    <textarea id="textInput" class="input" placeholder="Start typing or paste your text here..."></textarea>
+
+    <div id="output" class="panel">
+      <div class="grid">
+        <div class="metric">Words<b id="wcWords">0</b></div>
+        <div class="metric">Characters<b id="wcChars">0</b></div>
+        <div class="metric">Sentences<b id="wcSentences">0</b></div>
+        <div class="metric">Paragraphs<b id="wcParas">0</b></div>
+        <div class="metric">Reading Time (min)<b id="wcTime">0</b></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="reset-btn btn">Reset</button>
+    </div>
+  </div>
+
+<script>
+// live counting
+(function(){
+  const ta = document.getElementById('textInput');
+  const elW = document.getElementById('wcWords');
+  const elC = document.getElementById('wcChars');
+  const elS = document.getElementById('wcSentences');
+  const elP = document.getElementById('wcParas');
+  const elT = document.getElementById('wcTime');
+
+  function count(){
+    const txt = ta.value || '';
+    const chars = txt.length;
+
+    // words: split on whitespace, ignore empties
+    const words = (txt.trim().match(/\b[\p{L}\p{N}’'-]+\b/gu) || []).length;
+
+    // sentences: split on ., !, ? followed by space/end
+    const sentences = (txt.match(/[^.!?]+[.!?]+(\s|$)/g) || []).length;
+
+    // paragraphs: blocks separated by blank lines
+    const paragraphs = (txt.trim().split(/\n\s*\n/).filter(s => s.trim().length>0)).length || (txt.trim()?1:0);
+
+    // reading time (200 wpm)
+    const minutes = Math.ceil(words / 200);
+
+    elW.textContent = String(words);
+    elC.textContent = String(chars);
+    elS.textContent = String(sentences);
+    elP.textContent = String(paragraphs);
+    elT.textContent = String(isNaN(minutes)?0:minutes);
+  }
+
+  ta.addEventListener('input', count);
+  count();
+})();
+</script>
 <script src="../reset.js"></script>
-
-  <script>
-    function countWords() {
-      const text = document.getElementById("textInput").value.trim();
-      const output = document.getElementById("output");
-
-      if (!text) {
-        output.innerHTML = "⚡ Please enter some text.";
-        return;
-      }
-
-      const words = text.split(/\s+/).filter(Boolean).length;
-      const chars = text.length;
-      const sentences = text.split(/[.!?]+/).filter(Boolean).length;
-      const readTime = Math.ceil(words / 200); // 200 wpm
-
-      output.innerHTML = `
-        <h3>📊 Results</h3>
-        <p><b>Words:</b> ${words}</p>
-        <p><b>Characters:</b> ${chars}</p>
-        <p><b>Sentences:</b> ${sentences}</p>
-        <p><b>Reading Time:</b> ${readTime} min</p>
-      `;
-    }
-  </script>
 </body>
 </html>
