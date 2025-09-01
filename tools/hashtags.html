@@ -1,91 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hashtag Generator — Nest</title>
-  <link rel="stylesheet" href="../assets/styles.css">
-  <style>
-    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; }
-    .tool-container { max-width: 800px; margin: 60px auto; padding: 30px; background:#fff; border-radius: 12px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
-    h1 { margin-top:0; }
-    .input-group { margin-bottom:15px; }
-    label { font-weight:bold; display:block; margin-bottom:5px; }
-    input { width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; }
-    .btn { padding:10px 18px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
-    .btn-primary { background:#007bff; color:#fff; margin-top:10px; }
-    .hashtags { margin-top:20px; display:flex; flex-wrap:wrap; gap:10px; }
-    .tag { background:#f1f1f1; padding:6px 12px; border-radius:20px; cursor:pointer; transition:0.2s; }
-    .tag:hover { background:#007bff; color:#fff; }
-    .copy-all { margin-top:15px; }
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Hashtag Generator — Tool Nest</title>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+  .tool-center{max-width:700px;margin:60px auto;padding:20px;text-align:center}
+  input{padding:10px;font-size:1rem;margin:6px 0;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66;width:100%}
+  .output{margin-top:20px;padding:14px;border:1px solid rgba(0,255,102,.35);border-radius:10px;background:rgba(255,255,255,.05)}
+  .btns{display:flex;justify-content:center;gap:12px;margin-top:12px}
+  button{padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
+  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
+</style>
 </head>
 <body>
+  <div class="tool-center tool-wrap">
+    <a href="../index.html">← Home</a>
+    <h1>Hashtag Generator</h1>
+    <p>Generate smart hashtags from any keyword.</p>
 
-<div class="tool-container">
-  <a href="../index.html">← Home</a>
-  <h1>Hashtag Generator (Pro)</h1>
-  <p>Enter a keyword or phrase to generate relevant hashtags. Click on any hashtag to copy it instantly.</p>
+    <form id="hashForm" onsubmit="event.preventDefault();generateTags()">
+      <input type="text" id="keyword" placeholder="Enter a keyword..." required>
+      <div class="btns">
+        <button type="submit">Generate</button>
+        <button type="button" id="resetBtn" data-reset="hashForm results">Reset</button>
+      </div>
+    </form>
 
-  <div class="input-group">
-    <label>Enter Keyword</label>
-    <input type="text" id="keyword" placeholder="e.g. travel, fitness, coding">
+    <div id="results" class="output"></div>
   </div>
 
-  <button id="generate" class="btn btn-primary">Generate Hashtags</button>
-  <div id="hashtags" class="hashtags"></div>
-  <button id="copyAll" class="btn btn-primary copy-all" style="display:none;">Copy All</button>
-</div>
-
+<script src="../reset.js"></script>
 <script>
-const keywordInput = document.getElementById("keyword");
-const generateBtn = document.getElementById("generate");
-const hashtagsDiv = document.getElementById("hashtags");
-const copyAllBtn = document.getElementById("copyAll");
+function generateTags(){
+  const kw = document.getElementById("keyword").value.trim();
+  const out = document.getElementById("results");
+  if(!kw){ out.textContent="Please enter a keyword."; return; }
 
-function generateHashtags(keyword){
-  const base = keyword.replace(/\s+/g,"").toLowerCase();
-  return [
+  const base = kw.replace(/\s+/g,"");
+  const tags = [
     `#${base}`,
-    `#${base}life`,
-    `#${base}style`,
-    `#${base}daily`,
-    `#${base}love`,
-    `#${base}vibes`,
-    `#${base}community`,
-    `#${base}tips`,
-    `#${base}guide`,
-    `#${base}hub`,
-    `#${base}world`,
-    `#${base}pro`
+    `#${base}Life`,
+    `#${base}Tips`,
+    `#Love${base}`,
+    `#Insta${base}`,
+    `#${base}Goals`,
+    `#${base}Daily`,
+    `#${base}Vibes`,
+    `#${base}Trends`,
+    `#${base}Community`
   ];
+  out.textContent = tags.join(" ");
 }
-
-generateBtn.addEventListener("click", ()=>{
-  const keyword = keywordInput.value.trim();
-  if(!keyword){ alert("Enter a keyword first!"); return; }
-
-  const tags = generateHashtags(keyword);
-  hashtagsDiv.innerHTML = "";
-  
-  tags.forEach(tag=>{
-    const span = document.createElement("span");
-    span.textContent = tag;
-    span.className = "tag";
-    span.addEventListener("click", ()=>{
-      navigator.clipboard.writeText(tag);
-      alert(`Copied: ${tag}`);
-    });
-    hashtagsDiv.appendChild(span);
-  });
-
-  copyAllBtn.style.display = "inline-block";
-  copyAllBtn.onclick = ()=>{
-    navigator.clipboard.writeText(tags.join(" "));
-    alert("All hashtags copied!");
-  };
-});
 </script>
-
 </body>
 </html>
