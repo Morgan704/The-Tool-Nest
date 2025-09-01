@@ -1,28 +1,132 @@
-<!-- Add inside your <body> under the buttons -->
-<div class="btn-group">
-  <button id="resetFile" class="reset-btn">Reset File</button>
-  <button id="clearPreview" class="reset-btn">Clear Preview</button>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Converter — The Tool Nest</title>
+  <style>
+    body {
+      background: #000;
+      color: #00ff66;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      text-shadow: 0 0 10px #00ff66, 0 0 20px #00ff66;
+    }
+    input, select, button {
+      margin: 10px;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      background: #00ff66;
+      color: #001a0b;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 12px #00ff66;
+    }
+    button:hover {
+      background: #001a0b;
+      color: #00ff66;
+      outline: 1px solid #00ff66;
+    }
+    .btn-group {
+      margin-top: 15px;
+    }
+    canvas {
+      margin-top: 20px;
+      border: 1px solid #00ff66;
+      border-radius: 10px;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>🖼 Image Converter</h1>
+  <p>Upload an image and convert to PNG, JPG, or WebP</p>
 
-<script>
-const fileInput = document.getElementById("file");
-const preview = document.getElementById("preview");
-const ctx = preview.getContext("2d");
+  <input type="file" id="file" accept="image/*">
+  <select id="format">
+    <option value="image/png">PNG</option>
+    <option value="image/jpeg">JPG</option>
+    <option value="image/webp">WebP</option>
+  </select>
+  <button id="convert">Convert</button>
 
-// Reset File button → clears input + preview
-document.getElementById("resetFile").addEventListener("click", () => {
-  fileInput.value = ""; // clears file input
-  ctx.clearRect(0, 0, preview.width, preview.height); // clears canvas
-  preview.width = 0; 
-  preview.height = 0;
-  alert("File input has been reset ✅");
-});
+  <div class="btn-group">
+    <button id="resetFile">Reset File</button>
+    <button id="clearPreview">Clear Preview</button>
+  </div>
 
-// Clear Preview button → clears only canvas
-document.getElementById("clearPreview").addEventListener("click", () => {
-  ctx.clearRect(0, 0, preview.width, preview.height);
-  preview.width = 0; 
-  preview.height = 0;
-  alert("Preview cleared ✅");
-});
-</script>
+  <br>
+  <canvas id="preview"></canvas>
+  <br>
+  <a id="download" style="display:none;" download="converted.png">⬇️ Download</a>
+
+  <script>
+    const fileInput = document.getElementById("file");
+    const preview = document.getElementById("preview");
+    const ctx = preview.getContext("2d");
+    const convertBtn = document.getElementById("convert");
+    const formatSelect = document.getElementById("format");
+    const downloadLink = document.getElementById("download");
+
+    let currentImage = null;
+
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          preview.width = img.width;
+          preview.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          currentImage = img;
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    convertBtn.addEventListener("click", () => {
+      if (!currentImage) {
+        alert("Please upload an image first!");
+        return;
+      }
+      const format = formatSelect.value;
+      preview.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.download = "converted" + (format === "image/png" ? ".png" : format === "image/jpeg" ? ".jpg" : ".webp");
+        downloadLink.style.display = "inline-block";
+      }, format);
+    });
+
+    // Reset File button → clears input + canvas
+    document.getElementById("resetFile").addEventListener("click", () => {
+      fileInput.value = "";
+      ctx.clearRect(0, 0, preview.width, preview.height);
+      preview.width = 0;
+      preview.height = 0;
+      currentImage = null;
+      downloadLink.style.display = "none";
+      alert("File input has been reset ✅");
+    });
+
+    // Clear Preview button → clears only the canvas
+    document.getElementById("clearPreview").addEventListener("click", () => {
+      ctx.clearRect(0, 0, preview.width, preview.height);
+      preview.width = 0;
+      preview.height = 0;
+      downloadLink.style.display = "none";
+      alert("Preview cleared ✅");
+    });
+  </script>
+</body>
+</html>
