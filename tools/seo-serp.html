@@ -1,87 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SEO SERP Preview — Nest</title>
-  <link rel="stylesheet" href="../assets/styles.css">
-  <style>
-    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; }
-    .tool-container { max-width: 800px; margin: 60px auto; padding: 30px; background:#fff; border-radius: 12px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
-    h1 { margin-top:0; }
-    .input-group { margin-bottom:15px; }
-    label { font-weight:bold; display:block; margin-bottom:5px; }
-    input, textarea { width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; }
-    textarea { resize:vertical; }
-    .counter { font-size:12px; color:#666; text-align:right; }
-    .warning { color:red; font-size:12px; }
-    .serp-preview { font-family: Arial, sans-serif; margin-top:20px; padding:15px; border:1px solid #ddd; border-radius:8px; background:#fafafa; }
-    .serp-title { color:#1a0dab; font-size:18px; line-height:1.3; margin-bottom:3px; }
-    .serp-url { color:#006621; font-size:14px; margin-bottom:3px; }
-    .serp-desc { color:#545454; font-size:13px; line-height:1.4; }
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SEO SERP Preview — Tool Nest</title>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+  .tool-center{max-width:800px;margin:60px auto;padding:20px;text-align:center}
+  textarea,input{padding:10px;font-size:1rem;margin:6px 0;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66;width:100%}
+  .preview{margin-top:20px;padding:14px;border:1px solid rgba(0,255,102,.35);border-radius:10px;background:#111;text-align:left}
+  .serp-title{color:#1a0dab;font-size:1.2rem;margin:0}
+  .serp-url{color:#006621;font-size:.9rem;margin:2px 0}
+  .serp-desc{color:#545454;font-size:.95rem}
+  .btns{display:flex;justify-content:center;gap:12px;margin-top:12px}
+  button{padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
+  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
+</style>
 </head>
 <body>
+  <div class="tool-center tool-wrap">
+    <a href="../index.html">← Home</a>
+    <h1>SEO SERP Preview</h1>
+    <p>See how your title & description appear on Google.</p>
 
-<div class="tool-container">
-  <a href="../index.html">← Home</a>
-  <h1>SEO SERP Preview (Pro)</h1>
-  <p>Type in your title, URL, and description to see how your page will look in Google search results.</p>
+    <form id="serpForm" onsubmit="event.preventDefault();showPreview()">
+      <input type="text" id="serpTitle" placeholder="Enter page title..." required>
+      <input type="text" id="serpUrl" placeholder="Enter page URL..." required>
+      <textarea id="serpDesc" rows="3" placeholder="Enter description..." required></textarea>
+      <div class="btns">
+        <button type="submit">Preview</button>
+        <button type="button" id="resetBtn" data-reset="serpForm serpResult">Reset</button>
+      </div>
+    </form>
 
-  <div class="input-group">
-    <label>Title</label>
-    <input type="text" id="title" maxlength="70">
-    <div class="counter"><span id="titleCount">0</span>/60 <span id="titleWarn"></span></div>
+    <div id="serpResult" class="preview"></div>
   </div>
 
-  <div class="input-group">
-    <label>URL</label>
-    <input type="text" id="url" placeholder="https://example.com/page">
-  </div>
-
-  <div class="input-group">
-    <label>Description</label>
-    <textarea id="description" rows="3" maxlength="180"></textarea>
-    <div class="counter"><span id="descCount">0</span>/160 <span id="descWarn"></span></div>
-  </div>
-
-  <div class="serp-preview">
-    <div class="serp-title" id="prevTitle">Example Page Title</div>
-    <div class="serp-url" id="prevUrl">https://example.com</div>
-    <div class="serp-desc" id="prevDesc">This is how your page description will appear in search results.</div>
-  </div>
-</div>
-
+<script src="../reset.js"></script>
 <script>
-const title = document.getElementById("title");
-const description = document.getElementById("description");
-const url = document.getElementById("url");
+function showPreview(){
+  const title = document.getElementById("serpTitle").value.trim();
+  const url = document.getElementById("serpUrl").value.trim();
+  const desc = document.getElementById("serpDesc").value.trim();
+  const out = document.getElementById("serpResult");
 
-const prevTitle = document.getElementById("prevTitle");
-const prevUrl = document.getElementById("prevUrl");
-const prevDesc = document.getElementById("prevDesc");
+  if(!title || !url || !desc){
+    out.textContent = "Please enter title, URL, and description.";
+    return;
+  }
 
-const titleCount = document.getElementById("titleCount");
-const descCount = document.getElementById("descCount");
-const titleWarn = document.getElementById("titleWarn");
-const descWarn = document.getElementById("descWarn");
-
-title.addEventListener("input", ()=>{
-  prevTitle.textContent = title.value || "Example Page Title";
-  titleCount.textContent = title.value.length;
-  titleWarn.textContent = title.value.length > 60 ? "⚠ Too long!" : "";
-});
-
-description.addEventListener("input", ()=>{
-  prevDesc.textContent = description.value || "This is how your page description will appear in search results.";
-  descCount.textContent = description.value.length;
-  descWarn.textContent = description.value.length > 160 ? "⚠ Too long!" : "";
-});
-
-url.addEventListener("input", ()=>{
-  prevUrl.textContent = url.value || "https://example.com";
-});
+  out.innerHTML = `
+    <p class="serp-title">${title}</p>
+    <p class="serp-url">${url}</p>
+    <p class="serp-desc">${desc}</p>
+  `;
+}
 </script>
-
 </body>
 </html>
