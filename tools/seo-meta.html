@@ -1,135 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SEO Meta Tag Generator — Nest</title>
-  <link rel="stylesheet" href="../assets/styles.css">
-  <style>
-    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; }
-    .tool-container { max-width: 800px; margin: 60px auto; padding: 30px; background:#fff; border-radius: 12px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
-    h1 { margin-top:0; }
-    .input-group { margin-bottom:15px; }
-    label { font-weight:bold; display:block; margin-bottom:5px; }
-    input, textarea { width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; }
-    textarea { resize:vertical; }
-    .preview { margin-top:20px; padding:15px; border:1px solid #ddd; border-radius:8px; background:#fafafa; }
-    .google-preview { font-family: Arial, sans-serif; margin-bottom:15px; }
-    .google-title { color:#1a0dab; font-size:18px; }
-    .google-url { color:#006621; font-size:14px; }
-    .google-desc { color:#545454; font-size:13px; }
-    .btn { padding:10px 18px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
-    .btn-primary { background:#007bff; color:#fff; }
-    .counter { font-size:12px; color:#666; text-align:right; }
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Hashtag Generator — Tool Nest</title>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+  .tool-center{max-width:700px;margin:60px auto;padding:20px;text-align:center}
+  input{padding:10px;font-size:1rem;margin:6px 0;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66;width:100%}
+  .output{margin-top:20px;padding:14px;border:1px solid rgba(0,255,102,.35);border-radius:10px;background:rgba(255,255,255,.05)}
+  .btns{display:flex;justify-content:center;gap:12px;margin-top:12px}
+  button{padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
+  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
+</style>
 </head>
 <body>
+  <div class="tool-center tool-wrap">
+    <a href="../index.html">← Home</a>
+    <h1>Hashtag Generator</h1>
+    <p>Generate smart hashtags from any keyword.</p>
 
-<div class="tool-container">
-  <a href="../index.html">← Home</a>
-  <h1>SEO Meta Tag Generator (Pro)</h1>
-  <p>Fill in your page details and copy SEO-ready meta tags with live previews.</p>
+    <form id="hashForm" onsubmit="event.preventDefault();generateTags()">
+      <input type="text" id="keyword" placeholder="Enter a keyword..." required>
+      <div class="btns">
+        <button type="submit">Generate</button>
+        <button type="button" id="resetBtn" data-reset="hashForm results">Reset</button>
+      </div>
+    </form>
 
-  <div class="input-group">
-    <label>Page Title</label>
-    <input type="text" id="title" maxlength="60">
-    <div class="counter"><span id="titleCount">0</span>/60</div>
+    <div id="results" class="output"></div>
   </div>
 
-  <div class="input-group">
-    <label>Description</label>
-    <textarea id="description" rows="3" maxlength="160"></textarea>
-    <div class="counter"><span id="descCount">0</span>/160</div>
-  </div>
-
-  <div class="input-group">
-    <label>Page URL</label>
-    <input type="text" id="url">
-  </div>
-
-  <div class="input-group">
-    <label>Image URL (for social preview)</label>
-    <input type="text" id="image">
-  </div>
-
-  <button id="copy" class="btn btn-primary">Copy Meta Tags</button>
-
-  <div class="preview">
-    <h3>Google Search Preview</h3>
-    <div class="google-preview">
-      <div class="google-title" id="prevTitle">Example Title</div>
-      <div class="google-url" id="prevUrl">www.example.com</div>
-      <div class="google-desc" id="prevDesc">Example description of the webpage will appear here.</div>
-    </div>
-    <h3>Social Card Preview</h3>
-    <div class="social-preview" id="prevSocial">
-      <img id="prevImg" src="" style="max-width:100%; border-radius:6px; display:none; margin-bottom:10px;">
-      <strong id="prevSocialTitle">Example Title</strong><br>
-      <span id="prevSocialDesc">Example description of the webpage.</span>
-    </div>
-  </div>
-</div>
-
+<script src="../reset.js"></script>
 <script>
-const title = document.getElementById("title");
-const description = document.getElementById("description");
-const url = document.getElementById("url");
-const image = document.getElementById("image");
+function generateTags(){
+  const kw = document.getElementById("keyword").value.trim();
+  const out = document.getElementById("results");
+  if(!kw){ out.textContent="Please enter a keyword."; return; }
 
-const prevTitle = document.getElementById("prevTitle");
-const prevUrl = document.getElementById("prevUrl");
-const prevDesc = document.getElementById("prevDesc");
-const prevSocialTitle = document.getElementById("prevSocialTitle");
-const prevSocialDesc = document.getElementById("prevSocialDesc");
-const prevImg = document.getElementById("prevImg");
-
-const titleCount = document.getElementById("titleCount");
-const descCount = document.getElementById("descCount");
-
-title.addEventListener("input", ()=>{
-  prevTitle.textContent = title.value || "Example Title";
-  prevSocialTitle.textContent = title.value || "Example Title";
-  titleCount.textContent = title.value.length;
-});
-
-description.addEventListener("input", ()=>{
-  prevDesc.textContent = description.value || "Example description of the webpage will appear here.";
-  prevSocialDesc.textContent = description.value || "Example description of the webpage.";
-  descCount.textContent = description.value.length;
-});
-
-url.addEventListener("input", ()=>{
-  prevUrl.textContent = url.value || "www.example.com";
-});
-
-image.addEventListener("input", ()=>{
-  if(image.value.trim()){
-    prevImg.src = image.value;
-    prevImg.style.display = "block";
-  } else {
-    prevImg.style.display = "none";
-  }
-});
-
-document.getElementById("copy").addEventListener("click", ()=>{
-  const tags = `
-<title>${title.value}</title>
-<meta name="description" content="${description.value}">
-<link rel="canonical" href="${url.value}">
-<meta property="og:title" content="${title.value}">
-<meta property="og:description" content="${description.value}">
-<meta property="og:url" content="${url.value}">
-<meta property="og:image" content="${image.value}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${title.value}">
-<meta name="twitter:description" content="${description.value}">
-<meta name="twitter:image" content="${image.value}">
-  `.trim();
-
-  navigator.clipboard.writeText(tags);
-  alert("Meta tags copied to clipboard!");
-});
+  const base = kw.replace(/\s+/g,"");
+  const tags = [
+    `#${base}`,
+    `#${base}Life`,
+    `#${base}Tips`,
+    `#Love${base}`,
+    `#Insta${base}`,
+    `#${base}Goals`,
+    `#${base}Daily`,
+    `#${base}Vibes`,
+    `#${base}Trends`,
+    `#${base}Community`
+  ];
+  out.textContent = tags.join(" ");
+}
 </script>
-
 </body>
 </html>
