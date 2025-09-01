@@ -1,94 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Converter</title>
-  <style>
-    body {
-      background: #000;
-      color: #00ff66;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-    .btn, .reset-btn {
-      margin: 10px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      background: #00ff66;
-      color: #001a0b;
-      box-shadow: 0 0 12px #00ff66;
-      transition: 0.3s;
-    }
-    .btn:hover, .reset-btn:hover {
-      background: #001a0b;
-      color: #00ff66;
-      outline: 1px solid #00ff66;
-    }
-    canvas {
-      margin-top: 20px;
-      border: 1px solid #00ff66;
-      border-radius: 10px;
-    }
-  </style>
-</head>
-<body>
+<!-- Add inside your <body> under the buttons -->
+<div class="btn-group">
+  <button id="resetFile" class="reset-btn">Reset File</button>
+  <button id="clearPreview" class="reset-btn">Clear Preview</button>
+</div>
 
-  <h1>🖼️ Image Converter</h1>
-  <input type="file" id="fileInput" accept="image/*">
-  <br><br>
-  <select id="format">
-    <option value="image/png">PNG</option>
-    <option value="image/jpeg">JPG</option>
-    <option value="image/webp">WebP</option>
-  </select>
-  <br><br>
-  <button class="btn" id="convertBtn">Convert & Download</button>
-  <button class="reset-btn" data-reset="fileInput">Reset File</button>
-  <button class="reset-btn" data-reset="previewCanvas">Clear Preview</button>
-  
-  <br><br>
-  <canvas id="previewCanvas"></canvas>
+<script>
+const fileInput = document.getElementById("file");
+const preview = document.getElementById("preview");
+const ctx = preview.getContext("2d");
 
-  <script>
-    const fileInput = document.getElementById('fileInput');
-    const canvas = document.getElementById('previewCanvas');
-    const ctx = canvas.getContext('2d');
+// Reset File button → clears input + preview
+document.getElementById("resetFile").addEventListener("click", () => {
+  fileInput.value = ""; // clears file input
+  ctx.clearRect(0, 0, preview.width, preview.height); // clears canvas
+  preview.width = 0; 
+  preview.height = 0;
+  alert("File input has been reset ✅");
+});
 
-    let img = new Image();
-
-    fileInput.addEventListener('change', e => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = evt => {
-        img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0);
-        };
-        img.src = evt.target.result;
-      };
-      reader.readAsDataURL(file);
-    });
-
-    document.getElementById('convertBtn').addEventListener('click', () => {
-      const format = document.getElementById('format').value;
-      canvas.toBlob(blob => {
-        const link = document.createElement('a');
-        link.download = `converted.${format.split('/')[1]}`;
-        link.href = URL.createObjectURL(blob);
-        link.click();
-      }, format);
-    });
-  </script>
-
-  <!-- Universal reset -->
-  <script src="../reset.js"></script>
-
-</body>
-</html>
+// Clear Preview button → clears only canvas
+document.getElementById("clearPreview").addEventListener("click", () => {
+  ctx.clearRect(0, 0, preview.width, preview.height);
+  preview.width = 0; 
+  preview.height = 0;
+  alert("Preview cleared ✅");
+});
+</script>
