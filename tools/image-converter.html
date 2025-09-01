@@ -6,114 +6,89 @@
   <title>Image Converter</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       background: #000;
       color: #00ff66;
+      font-family: Arial, sans-serif;
       text-align: center;
-      padding: 40px;
+      padding: 20px;
     }
-    h1 {
-      text-shadow: 0 0 12px #00ff66;
-    }
-    input, select, button {
+    .btn, .reset-btn {
       margin: 10px;
-      padding: 10px;
-      border: 1px solid #00ff66;
+      padding: 10px 20px;
+      border: none;
       border-radius: 8px;
-      background: #001a0b;
-      color: #00ff66;
       font-weight: bold;
       cursor: pointer;
-    }
-    input[type="file"] {
-      background: none;
-    }
-    button:hover {
       background: #00ff66;
       color: #001a0b;
-    }
-    img {
-      margin-top: 20px;
-      max-width: 100%;
-      border: 1px solid #00ff66;
-      border-radius: 12px;
       box-shadow: 0 0 12px #00ff66;
+      transition: 0.3s;
     }
-    .btn-group {
+    .btn:hover, .reset-btn:hover {
+      background: #001a0b;
+      color: #00ff66;
+      outline: 1px solid #00ff66;
+    }
+    canvas {
       margin-top: 20px;
+      border: 1px solid #00ff66;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>Image Converter</h1>
-  <input type="file" id="fileInput" accept="image/*"><br>
-  <select id="formatSelect">
+
+  <h1>🖼️ Image Converter</h1>
+  <input type="file" id="fileInput" accept="image/*">
+  <br><br>
+  <select id="format">
     <option value="image/png">PNG</option>
     <option value="image/jpeg">JPG</option>
-    <option value="image/webp">WEBP</option>
-  </select><br>
-  <button onclick="convertImage()">Convert & Download</button>
-
-  <div class="btn-group">
-    <button onclick="resetFile()">Reset File</button>
-    <button onclick="clearPreview()">Clear Preview</button>
-  </div>
-
-  <br>
-  <img id="preview" style="display:none;" alt="Preview">
+    <option value="image/webp">WebP</option>
+  </select>
+  <br><br>
+  <button class="btn" id="convertBtn">Convert & Download</button>
+  <button class="reset-btn" data-reset="fileInput">Reset File</button>
+  <button class="reset-btn" data-reset="previewCanvas">Clear Preview</button>
+  
+  <br><br>
+  <canvas id="previewCanvas"></canvas>
 
   <script>
     const fileInput = document.getElementById('fileInput');
-    const preview = document.getElementById('preview');
-    const formatSelect = document.getElementById('formatSelect');
-    let currentFile = null;
+    const canvas = document.getElementById('previewCanvas');
+    const ctx = canvas.getContext('2d');
 
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = e => {
-          preview.src = e.target.result;
-          preview.style.display = 'block';
-          currentFile = e.target.result;
+    let img = new Image();
+
+    fileInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = evt => {
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
         };
-        reader.readAsDataURL(file);
-      }
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
     });
 
-    function convertImage() {
-      if (!currentFile) {
-        alert("Please select an image first.");
-        return;
-      }
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-      img.onload = function () {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        canvas.toBlob(blob => {
-          const link = document.createElement('a');
-          link.download = `converted.${formatSelect.value.split('/')[1]}`;
-          link.href = URL.createObjectURL(blob);
-          link.click();
-        }, formatSelect.value);
-      };
-      img.src = currentFile;
-    }
-
-    function resetFile() {
-      fileInput.value = "";
-      preview.src = "";
-      preview.style.display = "none";
-      currentFile = null;
-    }
-
-    function clearPreview() {
-      preview.src = "";
-      preview.style.display = "none";
-    }
+    document.getElementById('convertBtn').addEventListener('click', () => {
+      const format = document.getElementById('format').value;
+      canvas.toBlob(blob => {
+        const link = document.createElement('a');
+        link.download = `converted.${format.split('/')[1]}`;
+        link.href = URL.createObjectURL(blob);
+        link.click();
+      }, format);
+    });
   </script>
+
+  <!-- Universal reset -->
+  <script src="../reset.js"></script>
+
 </body>
 </html>
