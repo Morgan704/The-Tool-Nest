@@ -1,112 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Open Graph / Social Card Preview — Nest</title>
-  <link rel="stylesheet" href="../assets/styles.css">
-  <style>
-    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; }
-    .tool-container { max-width: 800px; margin: 60px auto; padding: 30px; background:#fff; border-radius: 12px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
-    h1 { margin-top:0; }
-    .input-group { margin-bottom:15px; }
-    label { font-weight:bold; display:block; margin-bottom:5px; }
-    input, textarea { width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; }
-    textarea { resize:vertical; }
-    .preview-card { border:1px solid #ddd; border-radius:10px; overflow:hidden; margin-top:20px; max-width:600px; }
-    .preview-card img { width:100%; height:auto; display:block; }
-    .preview-card .content { padding:12px; }
-    .preview-card .title { font-weight:bold; font-size:16px; margin-bottom:4px; }
-    .preview-card .desc { font-size:14px; color:#555; margin-bottom:6px; }
-    .preview-card .url { font-size:12px; color:#888; }
-    .btn { padding:10px 18px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; margin-top:10px; }
-    .btn-primary { background:#007bff; color:#fff; }
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Card Preview — Tool Nest</title>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+  .tool-center{max-width:700px;margin:60px auto;padding:20px;text-align:center}
+  input{padding:10px;font-size:1rem;margin:6px 0;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66;width:100%}
+  iframe{width:100%;height:220px;border:1px solid #00ff66;border-radius:8px;margin-top:15px;background:#111}
+  .btns{display:flex;justify-content:center;gap:12px;margin-top:12px}
+  button{padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
+  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
+</style>
 </head>
 <body>
+  <div class="tool-center tool-wrap">
+    <a href="../index.html">← Home</a>
+    <h1>Card Preview</h1>
+    <p>Enter a URL to preview how the link card looks.</p>
 
-<div class="tool-container">
-  <a href="../index.html">← Home</a>
-  <h1>Open Graph / Social Card Preview (Pro)</h1>
-  <p>Enter your details to see how your link will appear when shared on social media.</p>
+    <form id="cardForm" onsubmit="event.preventDefault();previewCard()">
+      <input type="url" id="urlInput" placeholder="Enter URL..." required>
+      <div class="btns">
+        <button type="submit">Preview</button>
+        <button type="button" id="resetBtn" data-reset="cardForm preview">Reset</button>
+      </div>
+    </form>
 
-  <div class="input-group">
-    <label>Title</label>
-    <input type="text" id="title" placeholder="Page title">
+    <div id="preview"></div>
   </div>
 
-  <div class="input-group">
-    <label>Description</label>
-    <textarea id="description" rows="3" placeholder="Page description"></textarea>
-  </div>
-
-  <div class="input-group">
-    <label>URL</label>
-    <input type="text" id="url" placeholder="https://example.com/page">
-  </div>
-
-  <div class="input-group">
-    <label>Image URL</label>
-    <input type="text" id="image" placeholder="https://example.com/image.jpg">
-  </div>
-
-  <button id="copy" class="btn btn-primary">Copy Meta Tags</button>
-
-  <div class="preview-card" id="preview" style="display:none;">
-    <img id="prevImg" src="">
-    <div class="content">
-      <div class="title" id="prevTitle">Example Title</div>
-      <div class="desc" id="prevDesc">Example description will appear here.</div>
-      <div class="url" id="prevUrl">example.com</div>
-    </div>
-  </div>
-</div>
-
+<script src="../reset.js"></script>
 <script>
-const title = document.getElementById("title");
-const description = document.getElementById("description");
-const url = document.getElementById("url");
-const image = document.getElementById("image");
+function previewCard(){
+  const url = document.getElementById("urlInput").value.trim();
+  const preview = document.getElementById("preview");
+  preview.innerHTML = "";
 
-const prevTitle = document.getElementById("prevTitle");
-const prevDesc = document.getElementById("prevDesc");
-const prevUrl = document.getElementById("prevUrl");
-const prevImg = document.getElementById("prevImg");
-const preview = document.getElementById("preview");
-
-function updatePreview(){
-  prevTitle.textContent = title.value || "Example Title";
-  prevDesc.textContent = description.value || "Example description will appear here.";
-  prevUrl.textContent = url.value || "example.com";
-  if(image.value.trim()){
-    prevImg.src = image.value;
-  } else {
-    prevImg.src = "https://via.placeholder.com/600x315?text=Preview";
+  if(!url){
+    preview.textContent = "Please enter a valid URL.";
+    return;
   }
-  preview.style.display = "block";
+
+  const iframe = document.createElement("iframe");
+  iframe.src = url;
+  preview.appendChild(iframe);
 }
-
-[title, description, url, image].forEach(input=>{
-  input.addEventListener("input", updatePreview);
-});
-
-document.getElementById("copy").addEventListener("click", ()=>{
-  const tags = `
-<meta property="og:title" content="${title.value}">
-<meta property="og:description" content="${description.value}">
-<meta property="og:url" content="${url.value}">
-<meta property="og:image" content="${image.value}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${title.value}">
-<meta name="twitter:description" content="${description.value}">
-<meta name="twitter:image" content="${image.value}">
-  `.trim();
-
-  navigator.clipboard.writeText(tags);
-  alert("Meta tags copied to clipboard!");
-  updatePreview();
-});
 </script>
-
 </body>
 </html>
