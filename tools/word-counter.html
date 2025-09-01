@@ -1,57 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Word Counter — Nest</title>
-  <link rel="stylesheet" href="../assets/styles.css"/>
-  <style>
-    body{font-family:Arial, sans-serif;background:#f9f9f9;margin:0}
-    .wrap{max-width:900px;margin:60px auto;padding:20px}
-    .card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
-    h1{margin:0 0 10px}
-    textarea{width:100%;padding:12px;border:1px solid #ccd3e0;border-radius:8px;min-height:220px;resize:vertical}
-    .stats{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
-    .box{background:#f3f5f9;border-radius:10px;padding:12px;text-align:center}
-    .num{font-size:22px;font-weight:700;color:#007bff}
-    label{font-weight:600;font-size:14px}
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Word Counter — Tool Nest</title>
+<link rel="stylesheet" href="../assets/styles.css"/>
+<style>
+  .tool-center{max-width:820px;margin:60px auto;padding:20px;text-align:center}
+  textarea{width:100%;height:220px;padding:10px;font-size:1rem;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66}
+  .stats{margin-top:20px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+  .stat{background:rgba(255,255,255,0.05);border:1px solid rgba(0,255,102,.35);border-radius:10px;padding:12px 20px;min-width:120px;text-align:center}
+  button{margin-top:18px;padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
+  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
+</style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="tool-center tool-wrap">
     <a href="../index.html">← Home</a>
-    <div class="card" style="margin-top:12px">
-      <h1>Word Counter</h1>
-      <p>Paste or type text below. Live counter shows characters, words, sentences, and reading time.</p>
-      <textarea id="input" placeholder="Start typing or paste your text..."></textarea>
-      <div class="stats">
-        <div class="box"><label>Characters</label><div class="num" id="chars">0</div></div>
-        <div class="box"><label>Words</label><div class="num" id="words">0</div></div>
-        <div class="box"><label>Sentences</label><div class="num" id="sentences">0</div></div>
-        <div class="box"><label>Reading Time</label><div class="num" id="time">0s</div></div>
-      </div>
+    <h1>Word Counter</h1>
+    <p>Count words, characters, sentences & estimated reading time.</p>
+
+    <textarea id="text" placeholder="Type or paste your text here..."></textarea>
+    
+    <div class="stats">
+      <div class="stat"><strong id="words">0</strong><br/>Words</div>
+      <div class="stat"><strong id="chars">0</strong><br/>Characters</div>
+      <div class="stat"><strong id="sents">0</strong><br/>Sentences</div>
+      <div class="stat"><strong id="time">0</strong><br/>Reading (min)</div>
     </div>
+
+    <button id="resetBtn" data-reset="text">Reset</button>
   </div>
 
+<script src="../reset.js"></script>
 <script>
-const input = document.getElementById('input');
-const chars = document.getElementById('chars');
-const words = document.getElementById('words');
-const sentences = document.getElementById('sentences');
-const time = document.getElementById('time');
+const txt = document.getElementById('text');
+const wordsEl = document.getElementById('words');
+const charsEl = document.getElementById('chars');
+const sentsEl = document.getElementById('sents');
+const timeEl = document.getElementById('time');
 
-function update(){
-  const text = input.value;
-  chars.textContent = text.length;
-  const ws = text.trim().split(/\s+/).filter(Boolean);
-  words.textContent = ws.length;
-  const s = text.split(/[.!?]+/).filter(x=>x.trim().length>0);
-  sentences.textContent = s.length;
-  const mins = ws.length/200; // ~200 wpm
-  if(mins<1) time.textContent = Math.round(mins*60)+'s';
-  else time.textContent = Math.round(mins)+'m';
+function updateStats(){
+  const t = txt.value.trim();
+  const words = t ? t.split(/\s+/).length : 0;
+  const chars = t.length;
+  const sents = t ? t.split(/[.!?]+/).filter(s=>s.trim().length>0).length : 0;
+  const time = Math.ceil(words/200);
+  wordsEl.textContent = words;
+  charsEl.textContent = chars;
+  sentsEl.textContent = sents;
+  timeEl.textContent = time;
 }
-input.addEventListener('input', update);
+
+txt.addEventListener('input', updateStats);
 </script>
 </body>
 </html>
