@@ -3,130 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Converter — The Tool Nest</title>
+  <title>Image Converter</title>
   <style>
     body {
+      font-family: Arial, sans-serif;
       background: #000;
       color: #00ff66;
-      font-family: 'Segoe UI', Arial, sans-serif;
       text-align: center;
-      padding: 20px;
+      padding: 40px;
     }
     h1 {
-      text-shadow: 0 0 10px #00ff66, 0 0 20px #00ff66;
+      text-shadow: 0 0 12px #00ff66;
     }
     input, select, button {
       margin: 10px;
-      padding: 10px 14px;
-      border: none;
+      padding: 10px;
+      border: 1px solid #00ff66;
       border-radius: 8px;
-      font-size: 1rem;
-    }
-    button {
-      background: #00ff66;
-      color: #001a0b;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 0 12px #00ff66;
-    }
-    button:hover {
       background: #001a0b;
       color: #00ff66;
-      outline: 1px solid #00ff66;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    input[type="file"] {
+      background: none;
+    }
+    button:hover {
+      background: #00ff66;
+      color: #001a0b;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 100%;
+      border: 1px solid #00ff66;
+      border-radius: 12px;
+      box-shadow: 0 0 12px #00ff66;
     }
     .btn-group {
-      margin-top: 15px;
-    }
-    canvas {
       margin-top: 20px;
-      border: 1px solid #00ff66;
-      border-radius: 10px;
-      max-width: 100%;
     }
   </style>
 </head>
 <body>
-  <h1>🖼 Image Converter</h1>
-  <p>Upload an image and convert to PNG, JPG, or WebP</p>
-
-  <input type="file" id="file" accept="image/*">
-  <select id="format">
+  <h1>Image Converter</h1>
+  <input type="file" id="fileInput" accept="image/*"><br>
+  <select id="formatSelect">
     <option value="image/png">PNG</option>
     <option value="image/jpeg">JPG</option>
-    <option value="image/webp">WebP</option>
-  </select>
-  <button id="convert">Convert</button>
+    <option value="image/webp">WEBP</option>
+  </select><br>
+  <button onclick="convertImage()">Convert & Download</button>
 
   <div class="btn-group">
-    <button id="resetFile">Reset File</button>
-    <button id="clearPreview">Clear Preview</button>
+    <button onclick="resetFile()">Reset File</button>
+    <button onclick="clearPreview()">Clear Preview</button>
   </div>
 
   <br>
-  <canvas id="preview"></canvas>
-  <br>
-  <a id="download" style="display:none;" download="converted.png">⬇️ Download</a>
+  <img id="preview" style="display:none;" alt="Preview">
 
   <script>
-    const fileInput = document.getElementById("file");
-    const preview = document.getElementById("preview");
-    const ctx = preview.getContext("2d");
-    const convertBtn = document.getElementById("convert");
-    const formatSelect = document.getElementById("format");
-    const downloadLink = document.getElementById("download");
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+    const formatSelect = document.getElementById('formatSelect');
+    let currentFile = null;
 
-    let currentImage = null;
-
-    fileInput.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-          preview.width = img.width;
-          preview.height = img.height;
-          ctx.drawImage(img, 0, 0);
-          currentImage = img;
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+          currentFile = e.target.result;
         };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      }
     });
 
-    convertBtn.addEventListener("click", () => {
-      if (!currentImage) {
-        alert("Please upload an image first!");
+    function convertImage() {
+      if (!currentFile) {
+        alert("Please select an image first.");
         return;
       }
-      const format = formatSelect.value;
-      preview.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
-        downloadLink.href = url;
-        downloadLink.download = "converted" + (format === "image/png" ? ".png" : format === "image/jpeg" ? ".jpg" : ".webp");
-        downloadLink.style.display = "inline-block";
-      }, format);
-    });
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.onload = function () {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(blob => {
+          const link = document.createElement('a');
+          link.download = `converted.${formatSelect.value.split('/')[1]}`;
+          link.href = URL.createObjectURL(blob);
+          link.click();
+        }, formatSelect.value);
+      };
+      img.src = currentFile;
+    }
 
-    // Reset File button → clears input + canvas
-    document.getElementById("resetFile").addEventListener("click", () => {
+    function resetFile() {
       fileInput.value = "";
-      ctx.clearRect(0, 0, preview.width, preview.height);
-      preview.width = 0;
-      preview.height = 0;
-      currentImage = null;
-      downloadLink.style.display = "none";
-      alert("File input has been reset ✅");
-    });
+      preview.src = "";
+      preview.style.display = "none";
+      currentFile = null;
+    }
 
-    // Clear Preview button → clears only the canvas
-    document.getElementById("clearPreview").addEventListener("click", () => {
-      ctx.clearRect(0, 0, preview.width, preview.height);
-      preview.width = 0;
-      preview.height = 0;
-      downloadLink.style.display = "none";
-      alert("Preview cleared ✅");
-    });
+    function clearPreview() {
+      preview.src = "";
+      preview.style.display = "none";
+    }
   </script>
 </body>
 </html>
