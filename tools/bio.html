@@ -3,64 +3,50 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Bio Generator — The Tool Nest</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="../assets/styles.css">
+<title>Bio Generator — Tool Nest</title>
+<link rel="stylesheet" href="../assets/styles.css"/>
 <style>
-  body{background:#000;color:#00ff66;font-family:'Segoe UI',sans-serif;text-align:center;padding:40px}
-  h1{text-shadow:0 0 12px #00ff66}
-  textarea{width:90%;max-width:600px;height:120px;margin:20px auto;display:block;padding:10px;border-radius:8px;border:1px solid #00ff66;background:#111;color:#aaffcc}
-  button{padding:10px 20px;margin:10px;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
-  .btn-primary{background:#00ff66;color:#000;box-shadow:0 0 12px #00ff66}
-  .btn-primary:hover{background:#000;color:#00ff66;outline:1px solid #00ff66}
+  .tool-center{max-width:800px;margin:60px auto;padding:20px;text-align:center}
+  textarea{width:100%;height:140px;padding:10px;font-size:1rem;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66;margin-bottom:14px}
+  .result{margin-top:18px;padding:16px;border:1px solid rgba(0,255,102,.35);border-radius:10px;background:rgba(255,255,255,.05);min-height:60px}
+  button{margin:10px;padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
+  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
+  .btns{margin-top:12px}
 </style>
 </head>
 <body>
+  <div class="tool-center tool-wrap">
+    <a href="../index.html">← Home</a>
+    <h1>Bio Generator</h1>
+    <p>Create stylish bios instantly.</p>
 
-<h1>✨ Bio Generator</h1>
-<p>Click to generate a cool, random bio for your profile!</p>
-<textarea id="output" placeholder="Your generated bio will appear here..."></textarea>
-<button id="generate" class="btn-primary">Generate Bio</button>
-<button id="copy" class="btn-primary">Copy to Clipboard</button>
+    <textarea id="bioInput" placeholder="Enter your name, hobby, or idea..."></textarea>
+    <div class="btns">
+      <button onclick="generateBio()">Generate Bio</button>
+      <button id="resetBtn" data-reset="bioInput bioOutput">Reset</button>
+    </div>
 
-<footer>
-  <p>© 2025 The Tool Nest</p>
-  <p>
-    <a href="../about.html">About</a> • 
-    <a href="../privacy.html">Privacy</a> • 
-    <a href="../terms.html">Terms</a> • 
-    <a href="../contact.html">Contact</a>
-  </p>
-  <div class="social">
-    <a href="#"><i class="fab fa-facebook"></i></a>
-    <a href="#"><i class="fab fa-twitter"></i></a>
-    <a href="#"><i class="fab fa-instagram"></i></a>
-    <a href="#"><i class="fab fa-github"></i></a>
+    <div id="bioOutput" class="result"></div>
   </div>
-</footer>
 
+<script src="../reset.js"></script>
 <script>
-const bios = [
-  "Dreaming big ✨ Living free 🌍",
-  "Coffee ☕ Code 💻 Repeat 🔁",
-  "Lost in music 🎶 Found in moments 💫",
-  "Building tools that matter 🛠️",
-  "Night owl 🌙 Star gazer 🌌",
-  "Turning ideas into reality 🚀"
-];
-
-document.getElementById("generate").addEventListener("click", ()=>{
-  const randomBio = bios[Math.floor(Math.random()*bios.length)];
-  document.getElementById("output").value = randomBio;
-});
-
-document.getElementById("copy").addEventListener("click", ()=>{
-  const text = document.getElementById("output");
-  text.select();
-  document.execCommand("copy");
-  alert("Bio copied!");
-});
+function generateBio(){
+  const input = document.getElementById("bioInput").value.trim();
+  const output = document.getElementById("bioOutput");
+  if(!input){ 
+    output.textContent = "⚡ Please enter something first!";
+    return;
+  }
+  const bios = [
+    `${input} ✨ Living life with purpose.`,
+    `🚀 ${input} | Dream big, work hard.`,
+    `${input} 🌍 Explorer of ideas & places.`,
+    `🎯 ${input} | Focused. Driven. Limitless.`,
+    `${input} 🌌 Creating my own universe.`
+  ];
+  output.textContent = bios[Math.floor(Math.random()*bios.length)];
+}
 </script>
-
 </body>
 </html>
