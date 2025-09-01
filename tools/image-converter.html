@@ -6,89 +6,104 @@
   <title>Image Converter</title>
   <style>
     body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #000;
       color: #00ff66;
-      font-family: Arial, sans-serif;
       text-align: center;
-      padding: 20px;
+      padding: 30px;
     }
-    .btn, .reset-btn {
-      margin: 10px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      background: #00ff66;
-      color: #001a0b;
-      box-shadow: 0 0 12px #00ff66;
-      transition: 0.3s;
-    }
-    .btn:hover, .reset-btn:hover {
-      background: #001a0b;
+    h1 {
       color: #00ff66;
-      outline: 1px solid #00ff66;
+      text-shadow: 0 0 8px #00ff66;
+    }
+    input, select, button {
+      margin: 10px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+    }
+    input, select {
+      background: #111;
+      color: #00ff66;
+      border: 1px solid #00ff66;
+    }
+    button {
+      background: #00ff66;
+      color: #000;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ff66;
+    }
+    button:hover {
+      background: #000;
+      color: #00ff66;
+      border: 1px solid #00ff66;
     }
     canvas {
       margin-top: 20px;
       border: 1px solid #00ff66;
-      border-radius: 10px;
+      border-radius: 12px;
+      max-width: 100%;
     }
   </style>
 </head>
 <body>
-
-  <h1>🖼️ Image Converter</h1>
+  <h1>Image Converter</h1>
+  <p>Select an image and choose a format:</p>
+  
   <input type="file" id="fileInput" accept="image/*">
-  <br><br>
-  <select id="format">
+  <select id="formatSelect">
     <option value="image/png">PNG</option>
     <option value="image/jpeg">JPG</option>
-    <option value="image/webp">WebP</option>
+    <option value="image/webp">WEBP</option>
   </select>
+  <button id="convertBtn">Convert</button>
+  <a id="downloadLink" style="display:none;">Download</a>
+
+  <!-- Reset buttons -->
   <br><br>
-  <button class="btn" id="convertBtn">Convert & Download</button>
   <button class="reset-btn" data-reset="fileInput">Reset File</button>
-  <button class="reset-btn" data-reset="previewCanvas">Clear Preview</button>
-  
-  <br><br>
-  <canvas id="previewCanvas"></canvas>
+  <button class="reset-btn" data-reset="canvas">Reset Preview</button>
+
+  <canvas id="canvas"></canvas>
 
   <script>
-    const fileInput = document.getElementById('fileInput');
-    const canvas = document.getElementById('previewCanvas');
-    const ctx = canvas.getContext('2d');
-
+    const fileInput = document.getElementById("fileInput");
+    const formatSelect = document.getElementById("formatSelect");
+    const convertBtn = document.getElementById("convertBtn");
+    const downloadLink = document.getElementById("downloadLink");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
     let img = new Image();
 
-    fileInput.addEventListener('change', e => {
+    fileInput.addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = evt => {
-        img.onload = () => {
+      reader.onload = function (event) {
+        img.onload = function () {
           canvas.width = img.width;
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
         };
-        img.src = evt.target.result;
+        img.src = event.target.result;
       };
       reader.readAsDataURL(file);
     });
 
-    document.getElementById('convertBtn').addEventListener('click', () => {
-      const format = document.getElementById('format').value;
-      canvas.toBlob(blob => {
-        const link = document.createElement('a');
-        link.download = `converted.${format.split('/')[1]}`;
-        link.href = URL.createObjectURL(blob);
-        link.click();
+    convertBtn.addEventListener("click", () => {
+      const format = formatSelect.value;
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.download = "converted." + format.split("/")[1];
+        downloadLink.style.display = "inline-block";
+        downloadLink.textContent = "Download " + format.split("/")[1].toUpperCase();
       }, format);
     });
   </script>
 
-  <!-- Universal reset -->
+  <!-- universal reset -->
   <script src="../reset.js"></script>
-
 </body>
 </html>
