@@ -3,71 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Converter - The Tool Nest</title>
+  <title>Image Converter</title>
   <style>
-    body {font-family: Arial, sans-serif;background:#000;color:#00ff66;text-align:center;padding:20px;}
-    input, select {margin:10px;padding:8px;border:1px solid #00ff66;border-radius:8px;background:#111;color:#00ff66;}
-    img {margin-top:15px;max-width:90%;border:1px solid #00ff66;border-radius:8px;}
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #000;
+      color: #00ff66;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      color: #00ff66;
+      text-shadow: 0 0 8px #00ff66;
+    }
+    input, select, button {
+      margin: 10px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+    }
+    input, select {
+      background: #111;
+      color: #00ff66;
+      border: 1px solid #00ff66;
+    }
     button {
-      padding:10px 15px;border:none;border-radius:8px;
-      background:#00ff66;color:#001a0b;font-weight:700;cursor:pointer;margin:5px;
-      box-shadow:0 0 12px #00ff66;
+      background: #00ff66;
+      color: #000;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ff66;
     }
-    button:hover {background:#001a0b;color:#00ff66;outline:1px solid #00ff66;}
-    .reset-btn {
-      display:inline-block;margin-top:10px;padding:8px 14px;border-radius:8px;
-      background:transparent;color:#00ff66;border:1px solid #00ff66;font-weight:600;
-      cursor:pointer;transition:all 0.3s ease;box-shadow:0 0 10px rgba(0,255,102,0.3);
+    button:hover {
+      background: #000;
+      color: #00ff66;
+      border: 1px solid #00ff66;
     }
-    .reset-btn:hover {background:#00ff66;color:#001a0b;box-shadow:0 0 20px #00ff66;}
+    canvas {
+      margin-top: 20px;
+      border: 1px solid #00ff66;
+      border-radius: 12px;
+      max-width: 100%;
+    }
   </style>
 </head>
 <body>
-  <h2>Image Converter</h2>
-  <input type="file" id="fileInput" accept="image/*"><br>
+  <h1>Image Converter</h1>
+  <p>Select an image and choose a format:</p>
+  
+  <input type="file" id="fileInput" accept="image/*">
   <select id="formatSelect">
-    <option value="png">PNG</option>
-    <option value="jpg">JPG</option>
-    <option value="webp">WebP</option>
+    <option value="image/png">PNG</option>
+    <option value="image/jpeg">JPG</option>
+    <option value="image/webp">WEBP</option>
   </select>
-  <button onclick="convertImage()">Convert</button>
-  <button class="reset-btn" data-target="#fileInput, #preview">Reset</button>
+  <button id="convertBtn">Convert</button>
+  <a id="downloadLink" style="display:none;">Download</a>
 
-  <div>
-    <canvas id="canvas" style="display:none;"></canvas>
-    <img id="preview" alt="Preview will appear here"/>
-  </div>
+  <!-- Reset buttons -->
+  <br><br>
+  <button class="reset-btn" data-reset="fileInput">Reset File</button>
+  <button class="reset-btn" data-reset="canvas">Reset Preview</button>
+
+  <canvas id="canvas"></canvas>
 
   <script>
-    let img = document.getElementById("preview");
-    let canvas = document.getElementById("canvas");
-    let ctx = canvas.getContext("2d");
+    const fileInput = document.getElementById("fileInput");
+    const formatSelect = document.getElementById("formatSelect");
+    const convertBtn = document.getElementById("convertBtn");
+    const downloadLink = document.getElementById("downloadLink");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    let img = new Image();
 
-    document.getElementById("fileInput").addEventListener("change", e => {
-      let file = e.target.files[0];
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
       if (!file) return;
-      let reader = new FileReader();
-      reader.onload = function(evt) {
-        img.src = evt.target.result;
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        img.onload = function () {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = event.target.result;
       };
       reader.readAsDataURL(file);
     });
 
-    function convertImage() {
-      if (!img.src) {alert("Please upload an image first");return;}
-      let format = document.getElementById("formatSelect").value;
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      ctx.drawImage(img, 0, 0);
-
-      canvas.toBlob(blob => {
-        let link = document.createElement("a");
-        link.download = `converted.${format}`;
-        link.href = URL.createObjectURL(blob);
-        link.click();
-      }, `image/${format}`);
-    }
+    convertBtn.addEventListener("click", () => {
+      const format = formatSelect.value;
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.download = "converted." + format.split("/")[1];
+        downloadLink.style.display = "inline-block";
+        downloadLink.textContent = "Download " + format.split("/")[1].toUpperCase();
+      }, format);
+    });
   </script>
+
+  <!-- universal reset -->
   <script src="../reset.js"></script>
 </body>
 </html>
