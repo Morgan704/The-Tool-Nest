@@ -1,58 +1,235 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Hashtag Generator — Tool Nest</title>
-<link rel="stylesheet" href="../assets/styles.css"/>
-<style>
-  .tool-center{max-width:700px;margin:60px auto;padding:20px;text-align:center}
-  input{padding:10px;font-size:1rem;margin:6px 0;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66;width:100%}
-  .output{margin-top:20px;padding:14px;border:1px solid rgba(0,255,102,.35);border-radius:10px;background:rgba(255,255,255,.05)}
-  .btns{display:flex;justify-content:center;gap:12px;margin-top:12px}
-  button{padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
-  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
-</style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SEO Meta Generator — The Tool Nest</title>
+<meta name="description" content="Generate SEO page title, meta description, URL slug and H1 from a few inputs. Live counters and copy buttons.">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<style>@keyframes spin{to{transform:rotate(360deg)}}.animate-spin{animation:spin 1s linear infinite}</style>
 </head>
-<body>
-  <div class="tool-center tool-wrap">
-    <a href="../index.html">← Home</a>
-    <h1>Hashtag Generator</h1>
-    <p>Generate smart hashtags from any keyword.</p>
-
-    <form id="hashForm" onsubmit="event.preventDefault();generateTags()">
-      <input type="text" id="keyword" placeholder="Enter a keyword..." required>
-      <div class="btns">
-        <button type="submit">Generate</button>
-        <button type="button" id="resetBtn" data-reset="hashForm results">Reset</button>
-      </div>
-    </form>
-
-    <div id="results" class="output"></div>
+<body class="bg-gray-50 min-h-screen">
+<header class="bg-white shadow-sm border-b">
+  <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <i class="fas fa-magnifying-glass-chart text-2xl text-blue-600"></i>
+      <h1 class="text-2xl font-bold text-gray-900">SEO Meta Generator</h1>
+    </div>
+    <button id="helpBtn" class="text-gray-600 hover:text-blue-600"><i class="fas fa-question-circle text-xl"></i></button>
   </div>
+</header>
 
-<script src="../reset.js"></script>
+<main class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+  <section class="bg-white rounded-lg shadow-sm border p-6 space-y-4">
+    <div class="grid md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Brand / Site</label>
+        <input id="brand" class="w-full border rounded px-3 py-2" placeholder="The Tool Nest">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Primary keyword</label>
+        <input id="primaryKw" class="w-full border rounded px-3 py-2" placeholder="online image converter">
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Page topic</label>
+        <input id="topic" class="w-full border rounded px-3 py-2" placeholder="Convert images (PNG, JPG, WebP) instantly">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Secondary keywords (comma-separated)</label>
+        <input id="secondaryKw" class="w-full border rounded px-3 py-2" placeholder="jpg to png, webp converter, image tools">
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Title style</label>
+        <select id="titleStyle" class="w-full border rounded px-3 py-2">
+          <option value="pipe">Topic | Brand</option>
+          <option value="dash">Topic – Brand</option>
+          <option value="brandlast">Keyword: Topic | Brand</option>
+          <option value="brandfirst">Brand: Topic</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Meta length</label>
+        <select id="metaLen" class="w-full border rounded px-3 py-2">
+          <option value="150">~150 (safe)</option>
+          <option value="160" selected>~160</option>
+          <option value="120">~120</option>
+        </select>
+      </div>
+      <div class="flex items-end gap-3">
+        <button id="genBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-wand-magic-sparkles mr-2"></i>Generate</button>
+        <button id="resetBtn" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"><i class="fas fa-trash mr-2"></i>Reset</button>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">SEO Title <span class="text-xs text-gray-500">(≤ 60 chars)</span></label>
+        <div class="relative">
+          <input id="seoTitle" class="w-full border rounded px-3 py-2 pr-24">
+          <div class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500"><span id="titleCount">0</span>/60</div>
+        </div>
+        <div class="mt-2 flex gap-2">
+          <button class="copy btn bg-green-600 text-white px-3 py-1 rounded text-sm" data-target="seoTitle"><i class="fas fa-copy mr-1"></i>Copy</button>
+          <button class="slug btn bg-gray-200 px-3 py-1 rounded text-sm" id="makeSlug"><i class="fas fa-link mr-1"></i>Make slug</button>
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Meta Description <span class="text-xs text-gray-500">(≤ 160 chars)</span></label>
+        <div class="relative">
+          <textarea id="metaDesc" rows="4" class="w-full border rounded px-3 py-2 pr-24"></textarea>
+          <div class="absolute right-2 top-2 text-xs text-gray-500"><span id="descCount">0</span>/160</div>
+        </div>
+        <div class="mt-2">
+          <button class="copy btn bg-green-600 text-white px-3 py-1 rounded text-sm" data-target="metaDesc"><i class="fas fa-copy mr-1"></i>Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">URL Slug</label>
+        <input id="slug" class="w-full border rounded px-3 py-2" placeholder="image-converter-online">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">H1</label>
+        <input id="h1" class="w-full border rounded px-3 py-2" placeholder="Convert Images Online (PNG, JPG, WebP)">
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Suggested Meta Tags</label>
+      <textarea id="tags" rows="5" class="w-full border rounded px-3 py-2 font-mono text-sm"></textarea>
+      <div class="mt-2">
+        <button class="copy btn bg-green-600 text-white px-3 py-1 rounded text-sm" data-target="tags"><i class="fas fa-copy mr-1"></i>Copy</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Help Modal -->
+<div id="helpModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-lg p-6 max-w-lg w-full m-4">
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="text-lg font-bold">Tips</h3>
+      <button id="closeHelp" class="text-gray-500 hover:text-gray-700"><i class="fas fa-times"></i></button>
+    </div>
+    <ul class="text-sm text-gray-700 space-y-2">
+      <li>Keep titles under ~60 characters. Put the main keyword near the front.</li>
+      <li>Descriptions that promise value and include the keyword tend to get more clicks.</li>
+      <li>One URL slug per page; use lowercase and hyphens only.</li>
+    </ul>
+  </div>
+</div>
+
+<div id="toastContainer" class="fixed top-4 right-4 space-y-2 z-50"></div>
+
 <script>
-function generateTags(){
-  const kw = document.getElementById("keyword").value.trim();
-  const out = document.getElementById("results");
-  if(!kw){ out.textContent="Please enter a keyword."; return; }
+const $$ = id => document.getElementById(id);
+const brand=$$('brand'), topic=$$('topic'), pkw=$$('primaryKw'), skw=$$('secondaryKw');
+const titleStyle=$$('titleStyle'), metaLen=$$('metaLen');
+const seoTitle=$$('seoTitle'), metaDesc=$$('metaDesc'), slugEl=$$('slug'), h1=$$('h1'), tags=$$('tags');
+const tCount=$$('titleCount'), dCount=$$('descCount');
 
-  const base = kw.replace(/\s+/g,"");
-  const tags = [
-    `#${base}`,
-    `#${base}Life`,
-    `#${base}Tips`,
-    `#Love${base}`,
-    `#Insta${base}`,
-    `#${base}Goals`,
-    `#${base}Daily`,
-    `#${base}Vibes`,
-    `#${base}Trends`,
-    `#${base}Community`
-  ];
-  out.textContent = tags.join(" ");
+function limitCount(){
+  tCount.textContent = seoTitle.value.length;
+  dCount.textContent = metaDesc.value.length;
 }
+seoTitle.addEventListener('input', limitCount);
+metaDesc.addEventListener('input', limitCount);
+
+function makeTitle() {
+  const t = topic.value.trim() || 'Awesome Tools Online';
+  const b = brand.value.trim() || 'The Tool Nest';
+  const k = pkw.value.trim();
+  let title='';
+  switch(titleStyle.value){
+    case 'pipe': title = `${t} | ${b}`; break;
+    case 'dash': title = `${t} – ${b}`; break;
+    case 'brandlast': title = (k?`${cap(k)}: `:'') + `${t} | ${b}`; break;
+    default: title = `${b}: ${t}`;
+  }
+  return trimTo(title, 60);
+}
+function makeDesc() {
+  const len = parseInt(metaLen.value,10) || 160;
+  const b = brand.value.trim() || 'The Tool Nest';
+  const k = pkw.value.trim();
+  const extras = skw.value.split(',').map(x=>x.trim()).filter(Boolean).slice(0,2);
+  const core = topic.value.trim() || 'Fast, privacy-first online tools.';
+  let msg = `${core} ${k?`— ${k}. `:''}${extras.length?`Includes ${extras.join(', ')}. `:''}No signup. Free.`;
+  return trimTo(msg, len);
+}
+function makeSlugFromTitle(s){
+  return s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-');
+}
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function trimTo(s,limit){ return s.length<=limit? s : s.slice(0,limit-1).trimEnd()+'…'; }
+
+function buildTags(){
+  const title=seoTitle.value || makeTitle();
+  const desc=metaDesc.value || makeDesc();
+  const slug=slugEl.value || makeSlugFromTitle(title);
+  return `<title>${title}</title>
+<meta name="description" content="${desc}">
+<link rel="canonical" href="https://toolnest.live/${slug}/">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toolnest.live/${slug}/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${desc}">`;
+}
+
+document.getElementById('genBtn').addEventListener('click', ()=>{
+  const title = makeTitle();
+  const desc = makeDesc();
+  const slug = makeSlugFromTitle(title);
+  const h = topic.value.trim() || 'Awesome Tools Online';
+  seoTitle.value = title;
+  metaDesc.value = desc;
+  slugEl.value = slug;
+  h1.value = h;
+  tags.value = buildTags();
+  limitCount();
+  toast('Generated meta tags','success');
+});
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  [brand,topic,pkw,skw,seoTitle,metaDesc,slugEl,h1,tags].forEach(el=> el.value='');
+  limitCount(); toast('Cleared','info');
+});
+document.querySelectorAll('.copy').forEach(btn=>{
+  btn.addEventListener('click', async ()=>{
+    const id = btn.dataset.target;
+    await navigator.clipboard.writeText($$(id).value);
+    toast('Copied to clipboard','success');
+  });
+});
+document.getElementById('makeSlug').addEventListener('click', ()=>{
+  const s = makeSlugFromTitle(seoTitle.value || makeTitle());
+  slugEl.value = s; toast('Slug created','success');
+});
+
+// Help modal + toast
+document.getElementById('helpBtn').addEventListener('click', ()=>document.getElementById('helpModal').classList.remove('hidden'));
+document.getElementById('closeHelp').addEventListener('click', ()=>document.getElementById('helpModal').classList.add('hidden'));
+document.getElementById('helpModal').addEventListener('click', e=>{ if(e.target.id==='helpModal') e.target.classList.add('hidden'); });
+
+function toast(msg,type='info'){
+  const c=document.getElementById('toastContainer'); const el=document.createElement('div');
+  const color={success:'bg-green-500',error:'bg-red-500',info:'bg-blue-500',warning:'bg-yellow-500'}[type]||'bg-blue-500';
+  el.className=`${color} text-white px-4 py-2 rounded shadow transform transition duration-300 translate-x-full`;
+  el.textContent=msg; c.appendChild(el);
+  setTimeout(()=>el.classList.remove('translate-x-full'),50);
+  setTimeout(()=>{ el.classList.add('translate-x-full'); setTimeout(()=>el.remove(),250); },3200);
+}
+limitCount();
 </script>
 </body>
 </html>
