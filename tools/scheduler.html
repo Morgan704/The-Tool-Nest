@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Text Case Converter - ToolNest</title>
-  <meta name="description" content="Convert text to uppercase, lowercase, title case, and more. Free online text case converter.">
-  
+  <title>Task Scheduler - ToolNest</title>
+  <meta name="description" content="Free task scheduler. Plan tasks, set reminders, and manage your schedule easily.">
+
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
 </head>
@@ -15,28 +15,35 @@
   <header class="bg-white shadow-sm border-b">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <h1 class="text-2xl font-bold text-gray-900 flex items-center">
-        <i class="fas fa-text-height text-blue-600 mr-2"></i> Text Case Converter
+        <i class="fas fa-calendar-check text-blue-600 mr-2"></i> Task Scheduler
       </h1>
       <button id="helpBtn" class="text-gray-600 hover:text-blue-600"><i class="fas fa-question-circle text-xl"></i></button>
     </div>
   </header>
 
   <!-- Main -->
-  <main class="max-w-4xl mx-auto px-4 py-8">
+  <main class="max-w-3xl mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-sm border p-6">
-      <label class="block text-sm font-medium text-gray-700 mb-2">Enter Text</label>
-      <textarea id="textInput" rows="6" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 mb-4" placeholder="Paste or type your text..."></textarea>
+      <form id="scheduleForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Task Name</label>
+          <input type="text" id="taskName" class="w-full border rounded-md px-3 py-2" placeholder="Enter task..." required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
+          <input type="datetime-local" id="taskTime" class="w-full border rounded-md px-3 py-2" required>
+        </div>
+        <div class="flex gap-3">
+          <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"><i class="fas fa-plus mr-1"></i>Add Task</button>
+          <button type="button" id="resetBtn" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700"><i class="fas fa-trash mr-1"></i>Reset</button>
+        </div>
+      </form>
+    </div>
 
-      <div class="flex flex-wrap gap-3 mb-4">
-        <button class="btn" data-case="upper"><i class="fas fa-arrow-up mr-1"></i>UPPERCASE</button>
-        <button class="btn" data-case="lower"><i class="fas fa-arrow-down mr-1"></i>lowercase</button>
-        <button class="btn" data-case="title"><i class="fas fa-heading mr-1"></i>Title Case</button>
-        <button class="btn" data-case="sentence"><i class="fas fa-paragraph mr-1"></i>Sentence case</button>
-        <button class="btn bg-red-600 hover:bg-red-700" id="resetBtn"><i class="fas fa-trash mr-1"></i>Reset</button>
-      </div>
-
-      <label class="block text-sm font-medium text-gray-700 mb-2">Result</label>
-      <textarea id="resultBox" rows="6" class="w-full border rounded-md px-3 py-2 bg-gray-50" readonly></textarea>
+    <!-- Task List -->
+    <div id="taskList" class="mt-8 bg-white rounded-lg shadow-sm border p-6 hidden">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Scheduled Tasks</h3>
+      <ul id="tasks" class="space-y-2 text-sm text-gray-700"></ul>
     </div>
   </main>
 
@@ -47,41 +54,39 @@
         <h3 class="text-lg font-bold">Help</h3>
         <button id="closeHelp"><i class="fas fa-times"></i></button>
       </div>
-      <p class="text-gray-600 text-sm">Convert your text instantly into uppercase, lowercase, title case, or sentence case. Paste your text, choose an option, and copy the result.</p>
+      <p class="text-gray-600 text-sm">Add a task with date and time. Your schedule will be listed below. Use Reset to clear the form.</p>
     </div>
   </div>
 
   <!-- Toast -->
   <div id="toastContainer" class="fixed top-4 right-4 space-y-2"></div>
 
-  <style>
-    .btn { @apply bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition; }
-  </style>
-
   <script>
-    const input = document.getElementById('textInput');
-    const result = document.getElementById('resultBox');
+    const form = document.getElementById('scheduleForm');
+    const tasks = document.getElementById('tasks');
+    const taskList = document.getElementById('taskList');
     const toastContainer = document.getElementById('toastContainer');
 
-    document.querySelectorAll('[data-case]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const type = btn.dataset.case;
-        let text = input.value.trim();
-        if (!text) return showToast("Please enter text", "error");
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('taskName').value.trim();
+      const time = document.getElementById('taskTime').value;
+      if (!name || !time) return showToast("Fill all fields!", "error");
 
-        if (type === 'upper') result.value = text.toUpperCase();
-        if (type === 'lower') result.value = text.toLowerCase();
-        if (type === 'title') result.value = text.replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase());
-        if (type === 'sentence') result.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+      const li = document.createElement('li');
+      li.className = "p-2 border rounded-md flex justify-between items-center";
+      li.innerHTML = `<span>${name} - ${new Date(time).toLocaleString()}</span>
+                      <button onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700"><i class="fas fa-times"></i></button>`;
+      tasks.appendChild(li);
 
-        showToast("Converted to " + type + " case!", "success");
-      });
+      taskList.classList.remove('hidden');
+      form.reset();
+      showToast("Task added!", "success");
     });
 
     document.getElementById('resetBtn').addEventListener('click', () => {
-      input.value = "";
-      result.value = "";
-      showToast("Cleared", "info");
+      form.reset();
+      showToast("Form cleared", "info");
     });
 
     // Help modal
