@@ -1,55 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Text Case Converter — Nest</title>
-  <link rel="stylesheet" href="../assets/styles.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Case Converter - The Tool Nest</title>
   <style>
-    body{font-family:Arial,sans-serif;background:#f9f9f9;margin:0}
-    .wrap{max-width:900px;margin:60px auto;padding:20px}
-    .card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
-    h1{margin:0 0 10px}
-    textarea{width:100%;padding:12px;border:1px solid #ccd3e0;border-radius:8px;min-height:200px;resize:vertical}
-    .actions{margin:16px 0;display:flex;flex-wrap:wrap;gap:10px}
-    button{padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:600}
-    .btn-primary{background:#007bff;color:#fff}
-    .btn-secondary{background:#e9eef7}
+    body {font-family: Arial, sans-serif;background:#000;color:#00ff66;text-align:center;padding:20px;}
+    textarea {width:90%;height:140px;margin:12px 0;padding:10px;border:1px solid #00ff66;
+      border-radius:8px;background:#111;color:#00ff66;resize:none;}
+    button {
+      padding:10px 15px;border:none;border-radius:8px;
+      background:#00ff66;color:#001a0b;font-weight:700;cursor:pointer;margin:5px;
+      box-shadow:0 0 12px #00ff66;
+    }
+    button:hover {background:#001a0b;color:#00ff66;outline:1px solid #00ff66;}
+    .reset-btn {
+      display:inline-block;margin-top:10px;padding:8px 14px;border-radius:8px;
+      background:transparent;color:#00ff66;border:1px solid #00ff66;font-weight:600;
+      cursor:pointer;transition:all 0.3s ease;box-shadow:0 0 10px rgba(0,255,102,0.3);
+    }
+    .reset-btn:hover {background:#00ff66;color:#001a0b;box-shadow:0 0 20px #00ff66;}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <a href="../index.html">← Home</a>
-    <div class="card" style="margin-top:12px">
-      <h1>Text Case Converter</h1>
-      <p>Convert text instantly to uppercase, lowercase, title case, sentence case, or alternating case.</p>
-      <textarea id="input" placeholder="Paste or type text..."></textarea>
-      <div class="actions">
-        <button class="btn-primary" onclick="convert('upper')">UPPERCASE</button>
-        <button class="btn-primary" onclick="convert('lower')">lowercase</button>
-        <button class="btn-primary" onclick="convert('title')">Title Case</button>
-        <button class="btn-primary" onclick="convert('sentence')">Sentence case</button>
-        <button class="btn-primary" onclick="convert('alt')">aLtErNaTiNg</button>
-        <button class="btn-secondary" onclick="copyText()">Copy</button>
-        <button class="btn-secondary" onclick="clearText()">Clear</button>
-      </div>
-    </div>
-  </div>
+  <h2>Text Case Converter</h2>
+  <textarea id="textInput" placeholder="Type or paste your text here..."></textarea><br>
 
-<script>
-const input = document.getElementById('input');
-function convert(type){
-  let text = input.value;
-  if(type==='upper') input.value = text.toUpperCase();
-  else if(type==='lower') input.value = text.toLowerCase();
-  else if(type==='title') input.value = text.replace(/\w\S*/g,w=> w.charAt(0).toUpperCase()+w.substr(1).toLowerCase());
-  else if(type==='sentence') input.value = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g,c=>c.toUpperCase());
-  else if(type==='alt') input.value = text.split('').map((c,i)=> i%2 ? c.toLowerCase() : c.toUpperCase()).join('');
-}
-function copyText(){
-  input.select(); document.execCommand('copy'); alert('Copied!');
-}
-function clearText(){ input.value=''; }
-</script>
+  <button onclick="convertText('upper')">UPPERCASE</button>
+  <button onclick="convertText('lower')">lowercase</button>
+  <button onclick="convertText('title')">Title Case</button>
+  <button onclick="convertText('sentence')">Sentence case</button>
+  <button onclick="convertText('capitalize')">Capitalize Each Word</button>
+
+  <br>
+  <button class="reset-btn" data-target="#textInput">Reset</button>
+
+  <script>
+    function convertText(type) {
+      let input = document.getElementById("textInput").value;
+      if (!input.trim()) return;
+
+      switch(type) {
+        case 'upper': input = input.toUpperCase(); break;
+        case 'lower': input = input.toLowerCase(); break;
+        case 'title': input = input.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()); break;
+        case 'sentence': input = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase(); break;
+        case 'capitalize': input = input.replace(/\b\w/g,c=>c.toUpperCase()); break;
+      }
+      document.getElementById("textInput").value = input;
+    }
+  </script>
+  <script src="../reset.js"></script>
 </body>
 </html>
