@@ -5,51 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Text Case Converter - The Tool Nest</title>
   <style>
-    body {font-family: Arial, sans-serif;background:#000;color:#00ff66;text-align:center;padding:20px;}
-    textarea {width:90%;height:140px;margin:12px 0;padding:10px;border:1px solid #00ff66;
-      border-radius:8px;background:#111;color:#00ff66;resize:none;}
+    body {
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #00ff66;
+      text-align: center;
+      padding: 20px;
+    }
+    textarea {
+      width: 90%;
+      height: 200px;
+      margin: 15px 0;
+      padding: 10px;
+      border: 2px solid #00ff66;
+      border-radius: 8px;
+      background: #111;
+      color: #00ff66;
+      resize: none;
+    }
     button {
-      padding:10px 15px;border:none;border-radius:8px;
-      background:#00ff66;color:#001a0b;font-weight:700;cursor:pointer;margin:5px;
-      box-shadow:0 0 12px #00ff66;
+      background: #00ff66;
+      color: #001a0b;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      margin: 5px;
+      cursor: pointer;
+      box-shadow: 0 0 12px #00ff66;
+      transition: all 0.3s ease;
     }
-    button:hover {background:#001a0b;color:#00ff66;outline:1px solid #00ff66;}
-    .reset-btn {
-      display:inline-block;margin-top:10px;padding:8px 14px;border-radius:8px;
-      background:transparent;color:#00ff66;border:1px solid #00ff66;font-weight:600;
-      cursor:pointer;transition:all 0.3s ease;box-shadow:0 0 10px rgba(0,255,102,0.3);
+    button:hover {
+      background: #001a0b;
+      color: #00ff66;
+      border: 1px solid #00ff66;
     }
-    .reset-btn:hover {background:#00ff66;color:#001a0b;box-shadow:0 0 20px #00ff66;}
   </style>
 </head>
 <body>
-  <h2>Text Case Converter</h2>
+  <h1>🔤 Text Case Converter</h1>
+  <p>Convert your text into UPPERCASE, lowercase, Title Case & more.</p>
+
   <textarea id="textInput" placeholder="Type or paste your text here..."></textarea><br>
 
-  <button onclick="convertText('upper')">UPPERCASE</button>
-  <button onclick="convertText('lower')">lowercase</button>
-  <button onclick="convertText('title')">Title Case</button>
-  <button onclick="convertText('sentence')">Sentence case</button>
-  <button onclick="convertText('capitalize')">Capitalize Each Word</button>
+  <button onclick="toUpper()">UPPERCASE</button>
+  <button onclick="toLower()">lowercase</button>
+  <button onclick="toTitle()">Title Case</button>
+  <button onclick="toSentence()">Sentence case</button>
+  <button class="reset-btn" data-target="text-case">Reset</button>
 
-  <br>
-  <button class="reset-btn" data-target="#textInput">Reset</button>
-
+  <script src="../reset.js"></script>
   <script>
-    function convertText(type) {
-      let input = document.getElementById("textInput").value;
-      if (!input.trim()) return;
-
-      switch(type) {
-        case 'upper': input = input.toUpperCase(); break;
-        case 'lower': input = input.toLowerCase(); break;
-        case 'title': input = input.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()); break;
-        case 'sentence': input = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase(); break;
-        case 'capitalize': input = input.replace(/\b\w/g,c=>c.toUpperCase()); break;
-      }
-      document.getElementById("textInput").value = input;
+    function toUpper() {
+      document.getElementById("textInput").value =
+        document.getElementById("textInput").value.toUpperCase();
+    }
+    function toLower() {
+      document.getElementById("textInput").value =
+        document.getElementById("textInput").value.toLowerCase();
+    }
+    function toTitle() {
+      document.getElementById("textInput").value =
+        document.getElementById("textInput").value
+        .toLowerCase()
+        .replace(/\b\w/g, c => c.toUpperCase());
+    }
+    function toSentence() {
+      let text = document.getElementById("textInput").value.toLowerCase();
+      document.getElementById("textInput").value =
+        text.charAt(0).toUpperCase() + text.slice(1);
     }
   </script>
-  <script src="../reset.js"></script>
 </body>
 </html>
