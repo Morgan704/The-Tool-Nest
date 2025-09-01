@@ -1,52 +1,142 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Card Preview — Tool Nest</title>
-<link rel="stylesheet" href="../assets/styles.css"/>
-<style>
-  .tool-center{max-width:700px;margin:60px auto;padding:20px;text-align:center}
-  input{padding:10px;font-size:1rem;margin:6px 0;border-radius:8px;border:1px solid #00ff66;background:#000;color:#00ff66;width:100%}
-  iframe{width:100%;height:220px;border:1px solid #00ff66;border-radius:8px;margin-top:15px;background:#111}
-  .btns{display:flex;justify-content:center;gap:12px;margin-top:12px}
-  button{padding:10px 18px;font-weight:700;border:none;border-radius:8px;background:#00ff66;color:#001a0b;cursor:pointer;box-shadow:0 0 12px #00ff66}
-  button:hover{background:#001a0b;color:#00ff66;outline:1px solid #00ff66}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Preview & Password Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <style>
+    .card-preview {
+      max-width: 500px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .card-preview img {
+      max-height: 200px;
+      object-fit: cover;
+      width: 100%;
+    }
+  </style>
 </head>
-<body>
-  <div class="tool-center tool-wrap">
-    <a href="../index.html">← Home</a>
-    <h1>Card Preview</h1>
-    <p>Enter a URL to preview how the link card looks.</p>
+<body class="bg-gray-50 min-h-screen">
 
-    <form id="cardForm" onsubmit="event.preventDefault();previewCard()">
-      <input type="url" id="urlInput" placeholder="Enter URL..." required>
-      <div class="btns">
-        <button type="submit">Preview</button>
-        <button type="button" id="resetBtn" data-reset="cardForm preview">Reset</button>
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-gray-900"><i class="fas fa-tools text-blue-600 mr-2"></i>Final Tools</h1>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+    <!-- Card Preview Tool -->
+    <section class="bg-white rounded-lg shadow-sm border p-6">
+      <h2 class="text-xl font-semibold mb-4"><i class="fas fa-id-card text-blue-600 mr-2"></i>Card Preview Generator</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+          <input type="text" id="cardTitle" placeholder="Enter title" class="w-full border px-3 py-2 rounded-md">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+          <input type="text" id="cardDesc" placeholder="Enter description" class="w-full border px-3 py-2 rounded-md">
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+          <input type="text" id="cardImage" placeholder="Paste image link" class="w-full border px-3 py-2 rounded-md">
+        </div>
       </div>
-    </form>
 
-    <div id="preview"></div>
-  </div>
+      <div class="card-preview bg-gray-100" id="previewCard">
+        <img src="https://via.placeholder.com/500x200.png?text=Preview+Image" alt="Card Image" id="previewImg">
+        <div class="p-4">
+          <h3 class="text-lg font-bold" id="previewTitle">Card Title</h3>
+          <p class="text-gray-600 text-sm mt-1" id="previewDesc">Card description will appear here...</p>
+        </div>
+      </div>
+    </section>
 
-<script src="../reset.js"></script>
-<script>
-function previewCard(){
-  const url = document.getElementById("urlInput").value.trim();
-  const preview = document.getElementById("preview");
-  preview.innerHTML = "";
+    <!-- Password Generator Tool -->
+    <section class="bg-white rounded-lg shadow-sm border p-6">
+      <h2 class="text-xl font-semibold mb-4"><i class="fas fa-key text-green-600 mr-2"></i>Password Generator</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Password Length</label>
+          <input type="number" id="pwLength" value="12" min="6" max="64" class="w-full border px-3 py-2 rounded-md">
+        </div>
+        <div class="flex flex-col justify-center space-y-2">
+          <label><input type="checkbox" id="pwUpper" checked> Include Uppercase</label>
+          <label><input type="checkbox" id="pwNumbers" checked> Include Numbers</label>
+          <label><input type="checkbox" id="pwSymbols" checked> Include Symbols</label>
+        </div>
+      </div>
 
-  if(!url){
-    preview.textContent = "Please enter a valid URL.";
-    return;
-  }
+      <div class="flex items-center space-x-4">
+        <input type="text" id="generatedPw" readonly class="w-full border px-3 py-2 rounded-md bg-gray-50">
+        <button id="generatePwBtn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"><i class="fas fa-sync"></i> Generate</button>
+        <button id="copyPwBtn" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"><i class="fas fa-copy"></i> Copy</button>
+      </div>
+    </section>
 
-  const iframe = document.createElement("iframe");
-  iframe.src = url;
-  preview.appendChild(iframe);
-}
-</script>
+  </main>
+
+  <script>
+    // --- Card Preview ---
+    const cardTitle = document.getElementById('cardTitle');
+    const cardDesc = document.getElementById('cardDesc');
+    const cardImage = document.getElementById('cardImage');
+    const previewTitle = document.getElementById('previewTitle');
+    const previewDesc = document.getElementById('previewDesc');
+    const previewImg = document.getElementById('previewImg');
+
+    cardTitle.addEventListener('input', () => previewTitle.textContent = cardTitle.value || 'Card Title');
+    cardDesc.addEventListener('input', () => previewDesc.textContent = cardDesc.value || 'Card description will appear here...');
+    cardImage.addEventListener('input', () => previewImg.src = cardImage.value || 'https://via.placeholder.com/500x200.png?text=Preview+Image');
+
+    // --- Password Generator ---
+    const pwLength = document.getElementById('pwLength');
+    const pwUpper = document.getElementById('pwUpper');
+    const pwNumbers = document.getElementById('pwNumbers');
+    const pwSymbols = document.getElementById('pwSymbols');
+    const generatedPw = document.getElementById('generatedPw');
+    const generatePwBtn = document.getElementById('generatePwBtn');
+    const copyPwBtn = document.getElementById('copyPwBtn');
+
+    function generatePassword() {
+      const length = parseInt(pwLength.value) || 12;
+      const lower = "abcdefghijklmnopqrstuvwxyz";
+      const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const numbers = "0123456789";
+      const symbols = "!@#$%^&*()_+[]{}|;:,.<>?";
+      
+      let chars = lower;
+      if (pwUpper.checked) chars += upper;
+      if (pwNumbers.checked) chars += numbers;
+      if (pwSymbols.checked) chars += symbols;
+
+      let password = "";
+      for (let i = 0; i < length; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      generatedPw.value = password;
+    }
+
+    generatePwBtn.addEventListener('click', generatePassword);
+
+    copyPwBtn.addEventListener('click', () => {
+      generatedPw.select();
+      document.execCommand('copy');
+      alert("Password copied to clipboard!");
+    });
+
+    // Generate a default password on load
+    generatePassword();
+  </script>
+
 </body>
 </html>
