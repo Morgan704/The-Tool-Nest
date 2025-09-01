@@ -53,14 +53,11 @@
   <h1>📝 Word Counter</h1>
   <p>Count words, characters, sentences & reading time.</p>
 
-  <textarea id="textInput" placeholder="Type or paste your text here..."></textarea><br>
-  
-  <button onclick="countWords()">Count</button>
-  <button type="button" class="reset-btn" data-target="word-counter">Reset</button>
+  <textarea id="textInput"></textarea>
+<div id="output"></div>
+<button class="reset-btn" data-target="word-counter">Reset</button>
+<script src="../reset.js"></script>
 
-  <div id="output"></div>
-
-  <script src="../reset.js"></script>
   <script>
     function countWords() {
       const text = document.getElementById("textInput").value.trim();
