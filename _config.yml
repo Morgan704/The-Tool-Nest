@@ -1,0 +1,5 @@
+title: My Site
+description: My blog on GitHub Pages
+theme: minima
+plugins:
+  - jekyll-feed
