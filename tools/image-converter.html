@@ -1,76 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free Online Image Converter • JPG, PNG, WebP, GIF, BMP</title>
 
   <!-- SEO Meta -->
   <meta name="description" content="Free online Image Converter. Convert images instantly between JPG, PNG, WebP, GIF, and BMP formats. 100% private, all processing is done locally in your browser.">
-  <link rel="canonical" href="https://www.toolnest.live/tools/image-converter.html">
+  <meta name="keywords" content="image converter, JPG to PNG, PNG to JPG, convert WebP, free image tools">
+  <link rel="canonical" href="https://yourdomain.com/tools/image-converter.html">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#2563eb">
 
   <!-- Open Graph -->
   <meta property="og:title" content="Image Converter – Convert JPG, PNG, WebP, GIF, BMP Online">
   <meta property="og:description" content="Drag & drop images to convert between JPG, PNG, WebP, GIF, and BMP. Private, fast, and 100% in your browser.">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="The Tool Nest">
+  <meta property="og:url" content="https://yourdomain.com/tools/image-converter.html">
+  <meta property="og:image" content="https://yourdomain.com/assets/image-converter-preview.png">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Image Converter – Free, Private, In-Browser">
   <meta name="twitter:description" content="Convert images in your browser: JPG, PNG, WebP. No uploads.">
+  <meta name="twitter:image" content="https://yourdomain.com/assets/image-converter-preview.png">
 
-  <!-- Tailwind -->
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Image Converter Tool",
+    "url": "https://yourdomain.com/tools/image-converter.html",
+    "description": "Free online image converter tool. Convert JPG, PNG, WebP, GIF, BMP formats instantly in your browser.",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- Tailwind & JS Libraries -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  
   <style>
-    .dropzone {
-      border: 2px dashed rgb(203,213,225); /* slate-300 */
-      transition: background-color .15s, border-color .15s;
-    }
-    .dropzone.dragover {
-      background-color: rgba(59,130,246,.06); /* blue-500/10 */
-      border-color: rgb(59,130,246);
-    }
+    .dropzone { border: 2px dashed rgb(203,213,225); transition: background-color .15s, border-color .15s; }
+    .dropzone.dragover { background-color: rgba(59,130,246,.06); border-color: rgb(59,130,246); }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
   <!-- Header -->
   <header class="w-full border-b bg-white">
     <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <!-- icon -->
-        <svg class="w-6 h-6" role="img" aria-label="Image Icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <rect x="3" y="3" width="18" height="14" rx="2" ry="2" stroke-width="2"></rect>
-          <circle cx="8" cy="8" r="2" stroke-width="2"></circle>
-          <path d="M21 15l-5-5-4 4-2-2-5 5" stroke-width="2"></path>
-        </svg>
-        <h1 class="text-xl font-semibold">Image Converter</h1>
-      </div>
-      <div class="flex items-center gap-3">
-        <!-- help -->
-        <button id="helpBtn" class="p-2 rounded hover:bg-gray-100" aria-label="Help">
-          <svg class="w-5 h-5" role="img" aria-label="Help" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
-            <path d="M9.09 9a3 3 0 015.82 1c0 2-3 2-3 4" stroke-width="2" />
-            <circle cx="12" cy="17" r="1" stroke-width="2"></circle>
-          </svg>
-        </button>
-        <!-- github -->
-        <a href="https://github.com/" class="p-2 rounded hover:bg-gray-100" aria-label="GitHub">
-          <svg class="w-5 h-5" role="img" aria-label="GitHub Logo" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 .5A11.5 11.5 0 000 12a11.5 11.5 0 008 10.93c.58.1.79-.25.79-.56l-.01-2.02c-3.26.71-3.95-1.4-3.95-1.4-.53-1.35-1.3-1.71-1.3-1.71-1.06-.73.08-.72.08-.72 1.17.08 1.78 1.2 1.78 1.2 1.04 1.77 2.72 1.26 3.38.96.11-.77.4-1.26.73-1.55-2.6-.3-5.34-1.3-5.34-5.77 0-1.28.46-2.33 1.2-3.15-.12-.3-.52-1.52.11-3.17 0 0 .98-.31 3.2 1.2a11.04 11.04 0 015.83 0c2.22-1.51 3.2-1.2 3.2-1.2.63 1.65.23 2.87.11 3.17.74.82 1.2 1.87 1.2 3.15 0 4.48-2.75 5.47-5.37 5.76.41.35.78 1.04.78 2.11l-.01 3.12c0 .31.2.67.8.56A11.5 11.5 0 0024 12C24 5.64 18.63.5 12 .5z"/>
-          </svg>
-        </a>
-      </div>
+      <h1 class="text-xl font-semibold flex items-center gap-2">
+        <svg class="w-6 h-6" role="img" aria-label="Image Icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="14" rx="2" ry="2" stroke-width="2"></rect><circle cx="8" cy="8" r="2" stroke-width="2"></circle><path d="M21 15l-5-5-4 4-2-2-5 5" stroke-width="2"></path></svg>
+        Image Converter
+      </h1>
     </div>
   </header>
 
   <main class="max-w-5xl mx-auto px-4">
-    <!-- SEO content -->
+    <!-- SEO Content -->
     <section class="max-w-3xl mx-auto mt-8 text-center text-gray-700">
       <h2 class="text-2xl font-bold mb-2">Free Online Image Converter</h2>
-      <p class="mb-4">Easily convert your images between <strong>JPG, PNG, WebP, GIF, and BMP</strong> formats directly in your browser. 
-      No uploads, no server processing — everything is fast, private, and secure.</p>
+      <p class="mb-4">Easily convert your images between <strong>JPG, PNG, WebP, GIF, and BMP</strong> formats directly in your browser. No uploads, no server processing — everything is fast, private, and secure.</p>
       <h3 class="text-xl font-semibold mb-2">Why use this Image Converter?</h3>
       <ul class="list-disc text-left mx-auto w-fit text-gray-600">
         <li>100% free with no limits</li>
@@ -80,23 +81,19 @@
       </ul>
     </section>
 
-    <!-- Drop zone -->
+    <!-- Drop Zone -->
     <section class="bg-white rounded-lg shadow-sm mt-6">
-      <div id="dropzone" class="dropzone rounded-lg m-6 h-64 flex flex-col items-center justify-center">
-        <div class="mb-4">
-          <svg class="w-12 h-12 opacity-60" role="img" aria-label="Upload Icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M20 16.58A5 5 0 0018 7h-1.26A8 8 0 104 15.25" stroke-width="2"/>
-            <path d="M12 12v9m0-9l-3 3m3-3l3 3" stroke-width="2"/>
-          </svg>
-        </div>
-        <p class="text-lg font-semibold text-gray-700 text-center">Drop images here or click to browse</p>
-        <p class="text-sm text-gray-500 mt-1 text-center">Supports JPG, PNG, WebP, GIF, BMP formats</p>
-        <p class="text-xs text-gray-400 mt-1 text-center">All processing is done locally in your browser - your images never leave your device</p>
-        <button id="browseBtn" class="mt-5 inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2.5 rounded">
-          Browse Files
-        </button>
+      <label for="fileInput" id="dropzone" class="dropzone rounded-lg m-6 h-64 flex flex-col items-center justify-center cursor-pointer">
+        <svg class="w-12 h-12 opacity-60 mb-4" role="img" aria-label="Upload Icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M20 16.58A5 5 0 0018 7h-1.26A8 8 0 104 15.25" stroke-width="2"/>
+          <path d="M12 12v9m0-9l-3 3m3-3l3 3" stroke-width="2"/>
+        </svg>
+        <p class="text-lg font-semibold text-gray-700">Drop images here or click to browse</p>
+        <p class="text-sm text-gray-500 mt-1">Supports JPG, PNG, WebP, GIF, BMP formats</p>
+        <p class="text-xs text-gray-400 mt-1">All processing is done locally in your browser - your images never leave your device</p>
         <input id="fileInput" type="file" accept="image/*" multiple class="hidden" />
-      </div>
+      </label>
+
       <!-- Options -->
       <div id="options" class="px-6 pb-6 hidden">
         <div class="flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
@@ -118,66 +115,75 @@
             <button id="clearBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-4 py-2 rounded">Clear</button>
           </div>
         </div>
-        <p class="text-xs text-gray-500 mt-3">Tip: Animated GIFs and some formats (e.g., BMP) are flattened to a single image when converting.</p>
         <ul id="fileList" class="mt-4 text-sm text-gray-700 list-disc pl-5"></ul>
-      </div>
-    </section>
-
-    <!-- Info blocks -->
-    <section class="grid md:grid-cols-3 gap-6 my-10">
-      <div class="bg-white rounded-lg shadow-sm p-6">
-        <h2 class="font-semibold mb-2">Deploy to GitHub Pages</h2>
-        <ol class="text-sm text-gray-600 list-decimal pl-5 space-y-1">
-          <li>Create a new repository</li>
-          <li>Upload this HTML file as <code>image-converter.html</code></li>
-          <li>Enable GitHub Pages for the repo</li>
-        </ol>
-      </div>
-      <div class="bg-white rounded-lg shadow-sm p-6">
-        <h2 class="font-semibold mb-2">GitHub Integration</h2>
-        <ul class="text-sm text-gray-600 list-disc pl-5 space-y-1">
-          <li>Client-side processing (privacy-focused)</li>
-          <li>Multiple format support</li>
-          <li>No server or API required</li>
-        </ul>
-        <h3 class="font-semibold mt-4 mb-1">Features</h3>
-        <ul class="text-sm text-gray-600 list-disc pl-5 space-y-1">
-          <li>Drag & drop, or browse</li>
-          <li>Batch convert & auto-download</li>
-          <li>PNG, JPG, WebP outputs</li>
-        </ul>
-      </div>
-      <div class="bg-white rounded-lg shadow-sm p-6">
-        <h2 class="font-semibold mb-2">License</h2>
-        <p class="text-sm text-gray-600">
-          MIT License – Feel free to modify and distribute. This tool processes all images locally in your browser for maximum privacy.
-        </p>
       </div>
     </section>
   </main>
 
-  <!-- Help Modal -->
-  <div id="helpModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-lg max-w-lg w-full p-6">
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="text-lg font-semibold">How it works</h3>
-        <button id="closeHelp" class="p-2 rounded hover:bg-gray-100" aria-label="Close">
-          <svg class="w-5 h-5" role="img" aria-label="Close" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M6 6l12 12M18 6L6 18" stroke-width="2"/>
-          </svg>
-        </button>
-      </div>
-      <p class="text-sm text-gray-700">
-        Drop images or click “Browse Files”. Choose output format (PNG, JPG, WebP) and click “Convert & Download”.
-        All conversions happen in your browser. Animated GIFs will be flattened to a single frame.
-      </p>
-    </div>
-  </div>
-
-  <!-- Script (same as before, shortened here) -->
+  <!-- JavaScript -->
   <script>
-    /* JavaScript same as before for drag/drop, conversion, modal */
-    /* ... keep the same logic from my previous version ... */
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const options = document.getElementById('options');
+    const fileList = document.getElementById('fileList');
+    const formatSelect = document.getElementById('format');
+    const qualityWrap = document.getElementById('qualityWrap');
+    const qualityInput = document.getElementById('quality');
+    const qVal = document.getElementById('qVal');
+
+    let files = [];
+
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+    dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+    fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+    function handleFiles(selected) {
+      files = Array.from(selected);
+      if (files.length) {
+        options.classList.remove('hidden');
+        renderFileList();
+      }
+    }
+
+    function renderFileList() {
+      fileList.innerHTML = files.map(f => `<li>${f.name}</li>`).join('');
+    }
+
+    formatSelect.addEventListener('change', () => {
+      qualityWrap.classList.toggle('hidden', formatSelect.value !== 'image/jpeg');
+    });
+
+    qualityInput.addEventListener('input', () => { qVal.textContent = qualityInput.value; });
+
+    document.getElementById('convertBtn').addEventListener('click', async () => {
+      const zip = new JSZip();
+      for (const file of files) {
+        const img = await createImageBitmap(file);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
+        const blob = await new Promise(r => canvas.toBlob(r, formatSelect.value, formatSelect.value==='image/jpeg'?qualityInput.value/100:1));
+        zip.file(file.name.split('.')[0] + getExt(formatSelect.value), blob);
+      }
+      const content = await zip.generateAsync({type:'blob'});
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(content);
+      link.download = 'converted_images.zip';
+      link.click();
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      files = [];
+      fileList.innerHTML = '';
+      options.classList.add('hidden');
+      fileInput.value = '';
+    });
+
+    function getExt(type) {
+      return type==='image/png'?'.png':type==='image/jpeg'?'.jpg':'.webp';
+    }
   </script>
 </body>
 </html>
