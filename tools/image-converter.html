@@ -5,46 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Image Converter Tool - Convert Images Online</title>
   <meta name="description" content="Free online image converter tool. Convert JPG, PNG, WebP, GIF, BMP formats. No upload required - all processing done locally in your browser.">
-  <meta name="keywords" content="image converter, JPG to PNG, PNG to WebP, image format converter, online image tools">
-  <meta property="og:title" content="Image Converter Tool - Convert Images Online">
-  <meta property="og:description" content="Free online image converter tool. Convert between JPG, PNG, WebP, GIF, BMP formats locally in your browser.">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Image Converter Tool">
-  <meta name="twitter:description" content="Free online image converter tool. Convert between JPG, PNG, WebP, GIF, BMP formats.">
-  <link rel="canonical" href="https://yourdomain.com/image-converter" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-
-  <!-- FAQ Schema JSON-LD -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Is this image converter free to use?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes, this tool is completely free. You can convert unlimited images without any cost or signup." }
-      },
-      {
-        "@type": "Question",
-        "name": "Do I need to upload my images to a server?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. All processing happens locally in your browser, which means your images never leave your device." }
-      },
-      {
-        "@type": "Question",
-        "name": "What formats can I convert?",
-        "acceptedAnswer": { "@type": "Answer", "text": "This tool supports JPG, PNG, WebP, GIF, and BMP formats." }
-      },
-      {
-        "@type": "Question",
-        "name": "Will the quality of my images change?",
-        "acceptedAnswer": { "@type": "Answer", "text": "You can control quality when converting to JPG. PNG and WebP formats keep maximum quality." }
-      }
-    ]
-  }
-  </script>
 
   <style>
     .drag-over { background-color: #e0f2fe !important; border-color: #0284c7 !important; }
@@ -52,110 +14,74 @@
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
-  <!-- Header -->
-  <header class="bg-white shadow-sm border-b">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-          <i class="fas fa-image text-2xl text-blue-600"></i>
-          <h1 class="text-2xl font-bold text-gray-900">Image Converter</h1>
-        </div>
+  <!-- Upload Area -->
+  <div class="bg-white rounded-lg shadow-sm border-2 border-dashed border-gray-300 p-8 text-center mb-8" id="dropZone">
+    <div class="space-y-4">
+      <i class="fas fa-cloud-upload-alt text-4xl text-gray-400"></i>
+      <div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Drop images here or click to browse</h3>
+        <p class="text-gray-600">Supports JPG, PNG, WebP, GIF, BMP formats</p>
       </div>
+      <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+      <button type="button" id="browseBtn" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
+        <i class="fas fa-folder-open mr-2"></i>Browse Files
+      </button>
     </div>
-  </header>
+  </div>
 
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Upload Area -->
-    <div class="bg-white rounded-lg shadow-sm border-2 border-dashed border-gray-300 p-8 text-center mb-8" id="dropZone">
-      <div class="space-y-4">
-        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400"></i>
-        <div>
-          <h3 class="text-lg font-medium text-gray-900 mb-2">Drop images here or click to browse</h3>
-          <p class="text-gray-600">Supports JPG, PNG, WebP, GIF, BMP formats</p>
-          <p class="text-sm text-gray-500 mt-1">All processing is done locally in your browser - your images never leave your device</p>
-        </div>
-        <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
-        <button type="button" id="browseBtn" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
-          <i class="fas fa-folder-open mr-2"></i>Browse Files
-        </button>
-      </div>
-    </div>
+  <!-- Images Grid -->
+  <div id="imagesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
-    <!-- Images Grid -->
-    <div id="imagesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-
-    <!-- FAQ Section -->
-    <section class="max-w-3xl mx-auto mt-12 mb-12 bg-white rounded-lg shadow-sm p-6">
-      <h2 class="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
-      <div class="space-y-4 text-gray-700">
-        <div>
-          <h3 class="font-semibold">1. Is this image converter free to use?</h3>
-          <p>Yes, this tool is completely free. You can convert unlimited images without any cost or signup.</p>
-        </div>
-        <div>
-          <h3 class="font-semibold">2. Do I need to upload my images to a server?</h3>
-          <p>No. All processing happens locally in your browser, which means your images never leave your device.</p>
-        </div>
-        <div>
-          <h3 class="font-semibold">3. What formats can I convert?</h3>
-          <p>This tool supports <strong>JPG, PNG, WebP, GIF, and BMP</strong> formats.</p>
-        </div>
-        <div>
-          <h3 class="font-semibold">4. Will the quality of my images change?</h3>
-          <p>You can control quality when converting to JPG. PNG and WebP formats keep maximum quality.</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- JavaScript -->
   <script>
-    const browseBtn = document.getElementById("browseBtn");
-    const fileInput = document.getElementById("fileInput");
-    const dropZone = document.getElementById("dropZone");
-    const imagesGrid = document.getElementById("imagesGrid");
+    document.addEventListener("DOMContentLoaded", () => {
+      const browseBtn = document.getElementById("browseBtn");
+      const fileInput = document.getElementById("fileInput");
+      const dropZone = document.getElementById("dropZone");
+      const imagesGrid = document.getElementById("imagesGrid");
 
-    // Open file picker when button clicked
-    browseBtn.addEventListener("click", () => fileInput.click());
-
-    // Handle file input
-    fileInput.addEventListener("change", (e) => handleFiles(e.target.files));
-
-    // Handle drag & drop
-    dropZone.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      dropZone.classList.add("drag-over");
-    });
-
-    dropZone.addEventListener("dragleave", () => {
-      dropZone.classList.remove("drag-over");
-    });
-
-    dropZone.addEventListener("drop", (e) => {
-      e.preventDefault();
-      dropZone.classList.remove("drag-over");
-      handleFiles(e.dataTransfer.files);
-    });
-
-    // Handle files
-    function handleFiles(files) {
-      [...files].forEach(file => {
-        if (file.type.startsWith("image/")) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const card = document.createElement("div");
-            card.className = "bg-white border rounded-lg p-4 shadow-sm";
-            card.innerHTML = `
-              <img src="${e.target.result}" alt="${file.name}" class="image-preview mb-2 rounded">
-              <p class="text-sm text-gray-700 truncate">${file.name}</p>
-            `;
-            imagesGrid.appendChild(card);
-          };
-          reader.readAsDataURL(file);
-        }
+      // Open file picker when button clicked
+      browseBtn.addEventListener("click", () => {
+        fileInput.click();
       });
-    }
+
+      // Handle file input
+      fileInput.addEventListener("change", (e) => handleFiles(e.target.files));
+
+      // Handle drag & drop
+      dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZone.classList.add("drag-over");
+      });
+
+      dropZone.addEventListener("dragleave", () => {
+        dropZone.classList.remove("drag-over");
+      });
+
+      dropZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropZone.classList.remove("drag-over");
+        handleFiles(e.dataTransfer.files);
+      });
+
+      // Process files
+      function handleFiles(files) {
+        [...files].forEach(file => {
+          if (file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const card = document.createElement("div");
+              card.className = "bg-white border rounded-lg p-4 shadow-sm";
+              card.innerHTML = `
+                <img src="${e.target.result}" alt="${file.name}" class="image-preview mb-2 rounded">
+                <p class="text-sm text-gray-700 truncate">${file.name}</p>
+              `;
+              imagesGrid.appendChild(card);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>
