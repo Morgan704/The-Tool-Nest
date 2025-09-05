@@ -3,85 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Converter Tool - Convert Images Online</title>
-  <meta name="description" content="Free online image converter tool. Convert JPG, PNG, WebP, GIF, BMP formats. No upload required - all processing done locally in your browser.">
+  <title>Image Converter Tool</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-
-  <style>
-    .drag-over { background-color: #e0f2fe !important; border-color: #0284c7 !important; }
-    .image-preview { max-width: 200px; max-height: 150px; object-fit: cover; }
-  </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <!-- Upload Area -->
-  <div class="bg-white rounded-lg shadow-sm border-2 border-dashed border-gray-300 p-8 text-center mb-8" id="dropZone">
-    <div class="space-y-4">
-      <i class="fas fa-cloud-upload-alt text-4xl text-gray-400"></i>
-      <div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Drop images here or click to browse</h3>
-        <p class="text-gray-600">Supports JPG, PNG, WebP, GIF, BMP formats</p>
-      </div>
-      <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
-      <button type="button" id="browseBtn" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors">
-        <i class="fas fa-folder-open mr-2"></i>Browse Files
-      </button>
-    </div>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center justify-center p-6">
+
+  <!-- Upload Box -->
+  <div id="dropZone" class="w-full max-w-lg bg-white border-2 border-dashed border-gray-400 rounded-lg p-8 text-center cursor-pointer">
+    <p class="mb-4 text-gray-600">Drag & drop images here or click the button below</p>
+
+    <!-- Hidden Input -->
+    <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+
+    <!-- Browse Button -->
+    <button id="browseBtn" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700">
+      Browse Files
+    </button>
   </div>
 
-  <!-- Images Grid -->
-  <div id="imagesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  <!-- Image Preview -->
+  <div id="imagesGrid" class="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4"></div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const browseBtn = document.getElementById("browseBtn");
-      const fileInput = document.getElementById("fileInput");
-      const dropZone = document.getElementById("dropZone");
-      const imagesGrid = document.getElementById("imagesGrid");
+    const browseBtn = document.getElementById("browseBtn");
+    const fileInput = document.getElementById("fileInput");
+    const dropZone = document.getElementById("dropZone");
+    const imagesGrid = document.getElementById("imagesGrid");
 
-      // Open file picker when button clicked
-      browseBtn.addEventListener("click", () => {
-        fileInput.click();
-      });
-
-      // Handle file input
-      fileInput.addEventListener("change", (e) => handleFiles(e.target.files));
-
-      // Handle drag & drop
-      dropZone.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dropZone.classList.add("drag-over");
-      });
-
-      dropZone.addEventListener("dragleave", () => {
-        dropZone.classList.remove("drag-over");
-      });
-
-      dropZone.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dropZone.classList.remove("drag-over");
-        handleFiles(e.dataTransfer.files);
-      });
-
-      // Process files
-      function handleFiles(files) {
-        [...files].forEach(file => {
-          if (file.type.startsWith("image/")) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              const card = document.createElement("div");
-              card.className = "bg-white border rounded-lg p-4 shadow-sm";
-              card.innerHTML = `
-                <img src="${e.target.result}" alt="${file.name}" class="image-preview mb-2 rounded">
-                <p class="text-sm text-gray-700 truncate">${file.name}</p>
-              `;
-              imagesGrid.appendChild(card);
-            };
-            reader.readAsDataURL(file);
-          }
-        });
-      }
+    // Click opens file picker ✅
+    browseBtn.addEventListener("click", () => {
+      fileInput.click();
     });
+
+    // File input change
+    fileInput.addEventListener("change", (e) => {
+      handleFiles(e.target.files);
+    });
+
+    // Drag and drop
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.classList.add("bg-blue-50");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("bg-blue-50");
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("bg-blue-50");
+      handleFiles(e.dataTransfer.files);
+    });
+
+    // Preview images
+    function handleFiles(files) {
+      [...files].forEach(file => {
+        if (file.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.className = "w-full h-32 object-cover rounded";
+            imagesGrid.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
   </script>
+
 </body>
 </html>
