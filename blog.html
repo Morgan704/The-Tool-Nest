@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - The Tool Nest</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Social Media Tools Blog - Hashtag Generator & QR Code Tips | The Tool Nest</title>
+    <meta name="description" content="Learn how to use our hashtag maker and QR code generator effectively. Boost your social media engagement with our free tools and expert tips.">
+    <meta name="keywords" content="hashtag generator, QR code generator, social media tools, free online tools">
+    <link rel="canonical" href="https://www.toolnest.live/blog.html">
+    
+    <!-- Open Graph Tags for Social Media -->
+    <meta property="og:title" content="Social Media Tools Blog - The Tool Nest">
+    <meta property="og:description" content="Learn how to use our hashtag maker and QR code generator effectively.">
+    <meta property="og:url" content="https://www.toolnest.live/blog.html">
+    <meta property="og:type" content="website">
+    
     <style>
         * {
             margin: 0;
@@ -17,38 +26,26 @@
             background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             color: #f0f0f0;
             line-height: 1.6;
-            min-height: 100vh;
-            padding-bottom: 60px;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            padding: 20px;
         }
         
         header {
             text-align: center;
-            padding: 40px 20px 30px;
+            padding: 30px 20px;
             background: rgba(0, 20, 40, 0.8);
             border-bottom: 2px solid #00ff66;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin-bottom: 30px;
         }
         
         h1 {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
             color: #00ff66;
-            text-shadow: 0 0 10px rgba(0, 255, 102, 0.7);
         }
         
         header p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.9;
             margin-bottom: 20px;
         }
@@ -56,9 +53,9 @@
         nav {
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
         
         nav a {
@@ -73,52 +70,43 @@
         
         nav a:hover {
             background: rgba(0, 255, 102, 0.2);
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
         }
         
         .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
         
         .page-title {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             color: #00ff66;
-            font-size: 2.5rem;
-            text-shadow: 0 0 8px rgba(0, 255, 102, 0.5);
+            font-size: 2rem;
         }
         
         .blog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
         }
         
         .blog-card {
             background: rgba(10, 30, 50, 0.8);
             border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            transition: transform 0.3s ease;
             border: 1px solid rgba(0, 255, 102, 0.3);
         }
         
         .blog-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 255, 102, 0.2);
-        }
-        
-        .card-content {
-            padding: 25px;
         }
         
         .blog-card h2 {
             color: #00ff66;
             margin-bottom: 15px;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
         }
         
         .blog-card p {
@@ -148,9 +136,39 @@
         
         .read-more:hover {
             background: #00cc55;
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.5);
         }
         
+        footer {
+            text-align: center;
+            padding: 25px 20px;
+            background: rgba(0, 20, 40, 0.8);
+            border-top: 2px solid #00ff66;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+        
+        footer p {
+            margin: 10px 0;
+            color: #aaa;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .footer-links a {
+            color: #00ff66;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
         /* Modal Styles */
         .modal {
             display: none;
@@ -230,50 +248,13 @@
         .modal-body li {
             margin-bottom: 10px;
         }
-        
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            background: rgba(0, 20, 40, 0.8);
-            border-top: 2px solid #00ff66;
-            margin-top: 60px;
+
+        /* Schema.org structured data */
+        .structured-data {
+            display: none;
         }
-        
-        footer p {
-            margin: 10px 0;
-            color: #aaa;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .footer-links a {
-            color: #00ff66;
-            text-decoration: none;
-        }
-        
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-        
+
         @media (max-width: 768px) {
-            .blog-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .page-title {
-                font-size: 2rem;
-            }
-            
             .modal-content {
                 padding: 20px;
                 margin: 20px auto;
@@ -282,8 +263,6 @@
     </style>
 </head>
 <body>
-    <canvas id="space"></canvas>
-    
     <header>
         <h1>🌌 The Tool Nest</h1>
         <p>Free Online Tools - Fast, Secure & Beautiful</p>
@@ -304,7 +283,7 @@
                     <h2>How to Use Our Hashtag Maker to Boost Your Social Media Engagement</h2>
                     <span class="date">September 5, 2025</span>
                     <p>Learn how to create effective hashtags that increase your visibility on Instagram, Twitter, and TikTok. Get more followers and engagement with the right strategy.</p>
-                    <button class="read-more" data-article="hashtag">Read More</button>
+                    <button class="read-more" onclick="openModal('hashtagModal')">Read More</button>
                 </div>
             </div>
             
@@ -313,7 +292,7 @@
                     <h2>QR Code Best Practices: How to Create and Use Them Effectively</h2>
                     <span class="date">September 4, 2025</span>
                     <p>Discover the best ways to create, use, and track QR codes for your business or personal use. Avoid common mistakes and make QR codes that people actually scan.</p>
-                    <button class="read-more" data-article="qrcode">Read More</button>
+                    <button class="read-more" onclick="openModal('qrcodeModal')">Read More</button>
                 </div>
             </div>
         </div>
@@ -322,7 +301,7 @@
     <!-- Article Modals -->
     <div id="hashtagModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <span class="close-modal" onclick="closeModal('hashtagModal')">&times;</span>
             <div class="modal-header">
                 <h2>How to Use Our Hashtag Maker to Boost Your Social Media Engagement</h2>
                 <span class="modal-date">September 5, 2025</span>
@@ -362,7 +341,7 @@
     
     <div id="qrcodeModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <span class="close-modal" onclick="closeModal('qrcodeModal')">&times;</span>
             <div class="modal-header">
                 <h2>QR Code Best Practices: How to Create and Use Them Effectively</h2>
                 <span class="modal-date">September 4, 2025</span>
@@ -410,95 +389,79 @@
         </div>
     </div>
     
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json" class="structured-data">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "The Tool Nest",
+      "url": "https://www.toolnest.live/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.toolnest.live/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json" class="structured-data">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "The Tool Nest Blog",
+      "url": "https://www.toolnest.live/blog.html",
+      "description": "Learn how to use our hashtag maker and QR code generator effectively.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "The Tool Nest",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.toolnest.live/logo.png"
+        }
+      }
+    }
+    </script>
+    
     <footer>
         <div class="footer-links">
             <a href="about.html">About</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>
             <a href="contact.html">Contact</a>
-            <a href="sitemap.html">Sitemap</a>
+            <a href="sitemap.xml">Sitemap</a>
         </div>
         <p>© 2025 The Tool Nest. All rights reserved.</p>
     </footer>
 
     <script>
-        // Starfield animation
-        const canvas = document.getElementById('space');
-        const ctx = canvas.getContext('2d');
-        
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        
-        const stars = [];
-        const starCount = 200;
-        
-        for (let i = 0; i < starCount; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 1.5,
-                speed: Math.random() * 0.5,
-                opacity: Math.random()
-            });
-        }
-        
-        function drawStars() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ffffff';
-            
-            stars.forEach(star => {
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                ctx.closePath();
-                ctx.globalAlpha = star.opacity;
-                ctx.fill();
-                
-                star.x -= star.speed;
-                if (star.x < 0) {
-                    star.x = canvas.width;
-                    star.y = Math.random() * canvas.height;
-                }
-            });
-            
-            requestAnimationFrame(drawStars);
-        }
-        
-        drawStars();
-        
         // Modal functionality
-        const modalTriggers = document.querySelectorAll('.read-more');
-        const modals = document.querySelectorAll('.modal');
-        const closeButtons = document.querySelectorAll('.close-modal');
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
         
-        modalTriggers.forEach(trigger => {
-            trigger.addEventListener('click', () => {
-                const articleType = trigger.getAttribute('data-article');
-                const modal = document.getElementById(`${articleType}Modal`);
-                modal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            });
-        });
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
         
-        closeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const modal = button.closest('.modal');
-                modal.style.display = 'none';
+        // Close modal when clicking outside of it
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
                 document.body.style.overflow = 'auto';
-            });
+            }
         });
         
-        window.addEventListener('click', (event) => {
-            modals.forEach(modal => {
-                if (event.target === modal) {
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
                     modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
+                });
+                document.body.style.overflow = 'auto';
+            }
         });
     </script>
 </body>
