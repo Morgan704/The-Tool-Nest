@@ -1,71 +1,505 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- COPY THE ENTIRE <head> SECTION FROM YOUR index.html FILE -->
-  <!-- Then, change the title and description to this: -->
-  <title>Blog - The Tool Nest | Tips & Tutorials</title>
-  <meta name="description" content="Learn how to get the most out of your free online tools. Tips, tricks, and guides for QR codes, hashtags, SEO, and more.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - The Tool Nest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #f0f0f0;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 60px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px 30px;
+            background: rgba(0, 20, 40, 0.8);
+            border-bottom: 2px solid #00ff66;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #00ff66;
+            text-shadow: 0 0 10px rgba(0, 255, 102, 0.7);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        nav a {
+            color: #00ff66;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border: 1px solid #00ff66;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            background: rgba(0, 255, 102, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #00ff66;
+            font-size: 2.5rem;
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.5);
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .blog-card {
+            background: rgba(10, 30, 50, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 102, 0.3);
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 255, 102, 0.2);
+        }
+        
+        .card-content {
+            padding: 25px;
+        }
+        
+        .blog-card h2 {
+            color: #00ff66;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .blog-card p {
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+        
+        .blog-card .date {
+            color: #888;
+            font-style: italic;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .read-more {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #00ff66;
+            color: #002200;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .read-more:hover {
+            background: #00cc55;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.5);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #0f2027, #203a43);
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 800px;
+            box-shadow: 0 0 25px rgba(0, 255, 102, 0.3);
+            border: 1px solid #00ff66;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #00ff66;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: #00cc55;
+            transform: rotate(90deg);
+        }
+        
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 255, 102, 0.3);
+        }
+        
+        .modal-header h2 {
+            color: #00ff66;
+            font-size: 2rem;
+        }
+        
+        .modal-date {
+            color: #888;
+            font-style: italic;
+            margin: 10px 0;
+        }
+        
+        .modal-body {
+            line-height: 1.8;
+        }
+        
+        .modal-body p {
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+        
+        .modal-body h3 {
+            color: #00ff66;
+            margin: 25px 0 15px;
+        }
+        
+        .modal-body ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-body li {
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(0, 20, 40, 0.8);
+            border-top: 2px solid #00ff66;
+            margin-top: 60px;
+        }
+        
+        footer p {
+            margin: 10px 0;
+            color: #aaa;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .footer-links a {
+            color: #00ff66;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                margin: 20px auto;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- COPY THE STARFIELD CANVAS FROM index.html -->
-  <canvas id="space"></canvas>
-
-  <!-- COPY THE HEADER AND NAVIGATION FROM index.html -->
-  <header>
-    <h1>🌌 The Tool Nest</h1>
-    <p>Free Online Tools - Fast, Secure & Beautiful</p>
-    <nav>
-      <a href="index.html">Home</a> <!-- Link back to homepage -->
-      <a href="blog.html">Blog</a>   <!-- This is the current page -->
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="terms.html">Terms</a>
-      <a href="privacy.html">Privacy</a>
-    </nav>
-  </header>
-
-  <!-- ADD THE BLOG CONTENT -->
-  <div class="grid" style="max-width: 800px; margin: 40px auto; padding: 0 20px;">
-    <h1 style="grid-column: 1 / -1; text-align: center;">Tool Nest Blog</h1>
-    <p style="grid-column: 1 / -1; text-align: center; color: #aaffcc;">Tips and tricks to get the most out of our free tools.</p>
-
-    <!-- BLOG POST LIST -->
-    <article class="card" style="grid-column: 1 / -1; text-align: left;">
-      <h3><a href="blog/hashtag-maker-guide.html" style="color: var(--neon); text-decoration: none;">How to Use Our Hashtag Maker to Boost Your Social Media Engagement</a></h3>
-      <p><em>September 5, 2025</em></p>
-      <p>Learn how to create effective hashtags that increase your visibility on Instagram, Twitter, and TikTok. Get more followers and engagement with the right strategy.</p>
-      <a href="blog/hashtag-maker-guide.html">Read More</a>
-    </article>
-
-    <article class="card" style="grid-column: 1 / -1; text-align: left;">
-      <h3><a href="blog/qr-code-guide.html" style="color: var(--neon); text-decoration: none;">QR Code Best Practices: How to Create and Use Them Effectively</a></h3>
-      <p><em>September 4, 2025</em></p>
-      <p>Discover the best ways to create, use, and track QR codes for your business or personal use. Avoid common mistakes and make QR codes that people actually scan.</p>
-      <a href="blog/qr-code-guide.html">Read More</a>
-    </article>
-  </div>
-
-  <!-- COPY THE FOOTER FROM index.html -->
-  <footer>
-    <p>© 2025 The Tool Nest</p>
-    <p>
-      <a href="about.html">About</a> • 
-      <a href="privacy.html">Privacy</a> • 
-      <a href="terms.html">Terms</a> • 
-      <a href="contact.html">Contact</a> •
-      <a href="sitemap.xml">Sitemap</a>
-    </p>
-    <div class="social">
-      <a href="#"><i class="fab fa-facebook"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-github"></i></a>
+    <canvas id="space"></canvas>
+    
+    <header>
+        <h1>🌌 The Tool Nest</h1>
+        <p>Free Online Tools - Fast, Secure & Beautiful</p>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="blog.html">Blog</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <h2 class="page-title">Our Blog</h2>
+        
+        <div class="blog-grid">
+            <div class="blog-card">
+                <div class="card-content">
+                    <h2>How to Use Our Hashtag Maker to Boost Your Social Media Engagement</h2>
+                    <span class="date">September 5, 2025</span>
+                    <p>Learn how to create effective hashtags that increase your visibility on Instagram, Twitter, and TikTok. Get more followers and engagement with the right strategy.</p>
+                    <button class="read-more" data-article="hashtag">Read More</button>
+                </div>
+            </div>
+            
+            <div class="blog-card">
+                <div class="card-content">
+                    <h2>QR Code Best Practices: How to Create and Use Them Effectively</h2>
+                    <span class="date">September 4, 2025</span>
+                    <p>Discover the best ways to create, use, and track QR codes for your business or personal use. Avoid common mistakes and make QR codes that people actually scan.</p>
+                    <button class="read-more" data-article="qrcode">Read More</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </footer>
+    
+    <!-- Article Modals -->
+    <div id="hashtagModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>How to Use Our Hashtag Maker to Boost Your Social Media Engagement</h2>
+                <span class="modal-date">September 5, 2025</span>
+            </div>
+            <div class="modal-body">
+                <p>Hashtags are a powerful tool for increasing your social media visibility and engagement. When used correctly, they can help you reach a wider audience, connect with like-minded users, and boost your content's performance.</p>
+                
+                <h3>Why Hashtags Matter</h3>
+                <p>Hashtags categorize your content, making it discoverable to users interested in those topics. They're essentially a content discovery tool that can:</p>
+                <ul>
+                    <li>Increase your post's reach beyond your followers</li>
+                    <li>Attract targeted followers interested in your niche</li>
+                    <li>Boost engagement rates through relevant discovery</li>
+                    <li>Help you track campaigns and user-generated content</li>
+                </ul>
+                
+                <h3>Best Practices for Hashtag Use</h3>
+                <p>Our hashtag maker tool simplifies the process of finding the perfect hashtags for your content. Here's how to make the most of it:</p>
+                <ul>
+                    <li>Use a mix of popular and niche-specific hashtags</li>
+                    <li>Include 5-11 hashtags per post for optimal engagement</li>
+                    <li>Research hashtags before using them to ensure relevance</li>
+                    <li>Create branded hashtags for your business or campaigns</li>
+                </ul>
+                
+                <h3>Platform-Specific Tips</h3>
+                <p>Each social media platform has its own hashtag culture:</p>
+                <ul>
+                    <li><strong>Instagram:</strong> Use up to 30 hashtags (but 5-11 is optimal)</li>
+                    <li><strong>Twitter:</strong> Stick to 1-2 hashtags per tweet for best results</li>
+                    <li><strong>TikTok:</strong> Use 3-5 trending and niche hashtags</li>
+                    <li><strong>Facebook:</strong> 1-2 hashtags tend to perform best</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div id="qrcodeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>QR Code Best Practices: How to Create and Use Them Effectively</h2>
+                <span class="modal-date">September 4, 2025</span>
+            </div>
+            <div class="modal-body">
+                <p>QR codes have made a huge comeback in recent years, becoming an essential tool for businesses and marketers. When implemented correctly, they can bridge the gap between physical and digital experiences.</p>
+                
+                <h3>What Makes a Good QR Code?</h3>
+                <p>An effective QR code is more than just a random pattern of black squares. It should be:</p>
+                <ul>
+                    <li>Scannable from a reasonable distance</li>
+                    <li>Placed in context with clear instructions</li>
+                    <li>Connected to a mobile-optimized destination</li>
+                    <li>Tested across multiple devices and scanning apps</li>
+                </ul>
+                
+                <h3>Design Tips for QR Codes</h3>
+                <p>While functionality is key, you can also make your QR codes visually appealing:</p>
+                <ul>
+                    <li>Add your logo or brand element to the center</li>
+                    <li>Use brand colors while maintaining sufficient contrast</li>
+                    <li>Incorporate a clear call-to-action around the code</li>
+                    <li>Ensure the quiet zone (margin) is preserved</li>
+                </ul>
+                
+                <h3>Strategic Implementation</h3>
+                <p>Where and how you use QR codes significantly impacts their effectiveness:</p>
+                <ul>
+                    <li><strong>Print materials:</strong> Business cards, brochures, flyers</li>
+                    <li><strong>Product packaging:</strong> Link to usage instructions or reviews</li>
+                    <li><strong>Restaurant menus:</strong> Link to digital menus or ordering systems</li>
+                    <li><strong>Retail displays:</strong> Provide additional product information</li>
+                    <li><strong>Event signage:</strong> Connect to schedules or registration pages</li>
+                </ul>
+                
+                <h3>Tracking and Analytics</h3>
+                <p>One of the biggest advantages of QR codes is the ability to track engagement. Use our QR code generator to create trackable codes that provide insights into:</p>
+                <ul>
+                    <li>Number of scans over time</li>
+                    <li>Geographical location of users</li>
+                    <li>Devices and operating systems used</li>
+                    <li>Peak scanning times</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="about.html">About</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="contact.html">Contact</a>
+            <a href="sitemap.html">Sitemap</a>
+        </div>
+        <p>© 2025 The Tool Nest. All rights reserved.</p>
+    </footer>
 
-  <!-- COPY THE STARFIELD SCRIPT FROM index.html -->
-  <script>
-    // Paste the entire starfield script from your index.html here
-  </script>
+    <script>
+        // Starfield animation
+        const canvas = document.getElementById('space');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        const stars = [];
+        const starCount = 200;
+        
+        for (let i = 0; i < starCount; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.5,
+                speed: Math.random() * 0.5,
+                opacity: Math.random()
+            });
+        }
+        
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.globalAlpha = star.opacity;
+                ctx.fill();
+                
+                star.x -= star.speed;
+                if (star.x < 0) {
+                    star.x = canvas.width;
+                    star.y = Math.random() * canvas.height;
+                }
+            });
+            
+            requestAnimationFrame(drawStars);
+        }
+        
+        drawStars();
+        
+        // Modal functionality
+        const modalTriggers = document.querySelectorAll('.read-more');
+        const modals = document.querySelectorAll('.modal');
+        const closeButtons = document.querySelectorAll('.close-modal');
+        
+        modalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const articleType = trigger.getAttribute('data-article');
+                const modal = document.getElementById(`${articleType}Modal`);
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.modal');
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+        });
+        
+        window.addEventListener('click', (event) => {
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
