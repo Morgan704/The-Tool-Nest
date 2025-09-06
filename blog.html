@@ -60,7 +60,7 @@
             transition: all 0.3s ease;
         }
         
-        nav a:hover {
+        nav a:hover, nav a.active {
             background: rgba(0, 255, 102, 0.2);
         }
         
@@ -128,6 +128,7 @@
         
         .read-more:hover {
             background: #00cc55;
+            transform: translateY(-2px);
         }
         
         footer {
@@ -174,90 +175,63 @@
             color: #00ff66;
         }
 
-        /* Modal Styles */
-        .modal {
+        /* Full Article Styles */
+        .full-article {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 20px;
-        }
-        
-        .modal-content {
-            background: linear-gradient(135deg, #0f2027, #203a43);
-            margin: 40px auto;
-            padding: 30px;
+            background: rgba(10, 30, 50, 0.9);
             border-radius: 10px;
-            max-width: 800px;
-            box-shadow: 0 0 25px rgba(0, 255, 102, 0.3);
-            border: 1px solid #00ff66;
-            position: relative;
+            padding: 30px;
+            margin-top: 20px;
+            border: 1px solid rgba(0, 255, 102, 0.3);
+            animation: fadeIn 0.5s ease;
         }
         
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            color: #00ff66;
-            font-size: 28px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .close-modal:hover {
-            color: #00cc55;
-            transform: rotate(90deg);
-        }
-        
-        .modal-header {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(0, 255, 102, 0.3);
-        }
-        
-        .modal-header h2 {
-            color: #00ff66;
-            font-size: 2rem;
-        }
-        
-        .modal-date {
-            color: #888;
-            font-style: italic;
-            margin: 10px 0;
-        }
-        
-        .modal-body {
-            line-height: 1.8;
-        }
-        
-        .modal-body p {
-            margin-bottom: 20px;
-            color: #e0e0e0;
-        }
-        
-        .modal-body h3 {
+        .full-article h3 {
             color: #00ff66;
             margin: 25px 0 15px;
+            font-size: 1.4rem;
         }
         
-        .modal-body ul {
+        .full-article ul {
             margin-left: 20px;
             margin-bottom: 20px;
         }
         
-        .modal-body li {
+        .full-article li {
             margin-bottom: 10px;
+        }
+        
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #00ff66;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-to-top:hover {
+            text-decoration: underline;
+        }
+
+        /* Page content styles */
+        .page-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        #blog-page {
+            display: block; /* Show blog by default */
         }
 
         @media (max-width: 768px) {
-            .modal-content {
+            .blog-card, .full-article {
                 padding: 20px;
-                margin: 20px auto;
             }
         }
     </style>
@@ -267,112 +241,250 @@
         <h1>🌌 The Tool Nest</h1>
         <p>Free Online Tools - Fast, Secure & Beautiful</p>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="blog.html">Blog</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
+            <a href="#" class="nav-link" data-page="home">Home</a>
+            <a href="#" class="nav-link active" data-page="blog">Blog</a>
+            <a href="#" class="nav-link" data-page="about">About</a>
+            <a href="#" class="nav-link" data-page="contact">Contact</a>
         </nav>
     </header>
     
     <div class="container">
-        <h2 class="page-title">Our Blog</h2>
+        <!-- Home Page -->
+        <div id="home-page" class="page-content">
+            <div style="text-align: center; padding: 50px 20px;">
+                <h2 style="color: #00ff66; margin-bottom: 20px;">Welcome to The Tool Nest</h2>
+                <p>We provide free online tools to make your digital life easier.</p>
+                <div style="margin-top: 30px;">
+                    <button class="read-more" onclick="showPage('blog')">Visit Our Blog</button>
+                </div>
+            </div>
+        </div>
         
-        <div class="blog-grid">
-            <div class="blog-card">
-                <div class="card-content">
+        <!-- Blog Page -->
+        <div id="blog-page" class="page-content">
+            <h2 class="page-title">Our Blog</h2>
+            
+            <div class="blog-grid">
+                <!-- Blog Post 1: Hashtag Maker -->
+                <div class="blog-card">
+                    <div class="card-content">
+                        <h2>How to Use Our Hashtag Maker to Boost Your Social Media Engagement</h2>
+                        <span class="date">September 5, 2025</span>
+                        <p>Learn how to create effective hashtags that increase your visibility on Instagram, Twitter, and TikTok. Get more followers and engagement with the right strategy.</p>
+                        <button class="read-more" onclick="showArticle('hashtagArticle')">Read More</button>
+                    </div>
+                </div>
+                
+                <div id="hashtagArticle" class="full-article">
                     <h2>How to Use Our Hashtag Maker to Boost Your Social Media Engagement</h2>
                     <span class="date">September 5, 2025</span>
-                    <p>Learn how to create effective hashtags that increase your visibility on Instagram, Twitter, and TikTok. Get more followers and engagement with the right strategy.</p>
-                    <button class="read-more" onclick="openModal('hashtagModal')">Read More</button>
+                    
+                    <p>Hashtags are a powerful tool for increasing your social media visibility and engagement. When used correctly, they can help you reach a wider audience, connect with like-minded users, and boost your content's performance.</p>
+                    
+                    <h3>Why Hashtags Matter</h3>
+                    <p>Hashtags categorize your content, making it discoverable to users interested in those topics. They're essentially a content discovery tool that can:</p>
+                    <ul>
+                        <li>Increase your post's reach beyond your followers</li>
+                        <li>Attract targeted followers interested in your niche</li>
+                        <li>Boost engagement rates through relevant discovery</li>
+                        <li>Help you track campaigns and user-generated content</li>
+                    </ul>
+                    
+                    <h3>Getting Started with Our Hashtag Maker</h3>
+                    <p>Our hashtag maker is designed to be intuitive and powerful. Simply enter a keyword related to your content, and our tool will generate a list of relevant, popular hashtags that you can use to maximize your reach.</p>
+                    
+                    <a class="back-to-top" onclick="hideArticle('hashtagArticle')">↑ Back to Top</a>
                 </div>
-            </div>
-            
-            <div class="blog-card">
-                <div class="card-content">
+                
+                <!-- Blog Post 2: QR Code -->
+                <div class="blog-card">
+                    <div class="card-content">
+                        <h2>QR Code Best Practices: How to Create and Use Them Effectively</h2>
+                        <span class="date">September 4, 2025</span>
+                        <p>Discover the best ways to create, use, and track QR codes for your business or personal use. Avoid common mistakes and make QR codes that people actually scan.</p>
+                        <button class="read-more" onclick="showArticle('qrcodeArticle')">Read More</button>
+                    </div>
+                </div>
+                
+                <div id="qrcodeArticle" class="full-article">
                     <h2>QR Code Best Practices: How to Create and Use Them Effectively</h2>
                     <span class="date">September 4, 2025</span>
-                    <p>Discover the best ways to create, use, and track QR codes for your business or personal use. Avoid common mistakes and make QR codes that people actually scan.</p>
-                    <button class="read-more" onclick="openModal('qrcodeModal')">Read More</button>
+                    
+                    <p>QR codes have made a huge comeback in recent years, becoming an essential tool for businesses and marketers. When implemented correctly, they can bridge the gap between physical and digital experiences.</p>
+                    
+                    <h3>What Makes a Good QR Code?</h3>
+                    <p>An effective QR code is more than just a random pattern of black squares. It should be:</p>
+                    <ul>
+                        <li>Scannable from a reasonable distance</li>
+                        <li>Placed in context with clear instructions</li>
+                        <li>Connected to a mobile-optimized destination</li>
+                        <li>Tested across multiple devices and scanning apps</li>
+                    </ul>
+                    
+                    <h3>Designing Effective QR Codes</h3>
+                    <p>While QR codes have a standard structure, you can still customize them to match your brand. Our QR code generator allows you to adjust colors, add a logo, and create frames that make your QR codes more appealing while maintaining functionality.</p>
+                    
+                    <h3>Best Practices for QR Code Placement</h3>
+                    <p>Where you place your QR code is just as important as its design. Consider these locations for maximum scans:</p>
+                    <ul>
+                        <li>Product packaging where customers can easily scan</li>
+                        <li>Restaurant menus for easy access to nutritional information</li>
+                        <li>Business cards to quickly share contact information</li>
+                        <li>Real estate signs for property details</li>
+                        <li>Event materials for quick registration</li>
+                    </ul>
+                    
+                    <h3>Tracking and Analytics</h3>
+                    <p>Our QR code generator includes built-in analytics to help you track scans, locations, and times. This data is invaluable for understanding your audience and optimizing your marketing campaigns.</p>
+                    
+                    <a class="back-to-top" onclick="hideArticle('qrcodeArticle')">↑ Back to Top</a>
+                </div>
+                
+                <!-- Blog Post 3: Scheduler -->
+                <div class="blog-card">
+                    <div class="card-content">
+                        <h2>How to Use Our Scheduler to Master Your Social Media Strategy</h2>
+                        <span class="date">September 6, 2025</span>
+                        <p>Learn how to use the ToolNest Scheduler to plan, create, and automate your content strategy from a single, powerful dashboard. Save time and maintain a consistent online presence.</p>
+                        <button class="read-more" onclick="showArticle('schedulerArticle')">Read More</button>
+                    </div>
+                </div>
+                
+                <div id="schedulerArticle" class="full-article">
+                    <h2>How to Use Our Scheduler to Master Your Social Media Strategy</h2>
+                    <span class="date">September 6, 2025</span>
+                    
+                    <p>Consistency is key to social media success, but maintaining a regular posting schedule can be challenging. Our Scheduler tool helps you plan, create, and automate your content strategy from a single, powerful dashboard.</p>
+                    
+                    <h3>Benefits of Using Our Scheduler</h3>
+                    <p>Our Scheduler tool offers numerous advantages for social media managers and content creators:</p>
+                    <ul>
+                        <li>Save time by planning content in advance</li>
+                        <li>Maintain a consistent posting schedule</li>
+                        <li>Visualize your content calendar</li>
+                        <li>Optimize posting times for maximum engagement</li>
+                        <li>Manage multiple platforms from one dashboard</li>
+                    </ul>
+                    
+                    <h3>Getting Started with Social Media Scheduling</h3>
+                    <p>To begin using our scheduler, simply connect your social media accounts, create your content, and select the dates and times you want your posts to go live. Our intelligent system will handle the rest, ensuring your content reaches your audience at the optimal times.</p>
+                    
+                    <h3>Advanced Features</h3>
+                    <p>Our Scheduler includes advanced features like:</p>
+                    <ul>
+                        <li>Content recycling to repurpose your best posts</li>
+                        <li>Performance analytics to track engagement</li>
+                        <li>Team collaboration tools for content approval</li>
+                        <li>Multi-platform publishing to all major social networks</li>
+                    </ul>
+                    
+                    <a class="back-to-top" onclick="hideArticle('schedulerArticle')">↑ Back to Top</a>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Article Modals -->
-    <div id="hashtagModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('hashtagModal')">&times;</span>
-            <div class="modal-header">
-                <h2>How to Use Our Hashtag Maker to Boost Your Social Media Engagement</h2>
-                <span class="modal-date">September 5, 2025</span>
-            </div>
-            <div class="modal-body">
-                <p>Hashtags are a powerful tool for increasing your social media visibility and engagement. When used correctly, they can help you reach a wider audience, connect with like-minded users, and boost your content's performance.</p>
-                
-                <h3>Why Hashtags Matter</h3>
-                <p>Hashtags categorize your content, making it discoverable to users interested in those topics. They're essentially a content discovery tool that can:</p>
-                <ul>
-                    <li>Increase your post's reach beyond your followers</li>
-                    <li>Attract targeted followers interested in your niche</li>
-                    <li>Boost engagement rates through relevant discovery</li>
-                    <li>Help you track campaigns and user-generated content</li>
-                </ul>
+        
+        <!-- About Page -->
+        <div id="about-page" class="page-content">
+            <div style="padding: 30px;">
+                <h2 class="page-title">About The Tool Nest</h2>
+                <p>We are dedicated to providing free, high-quality online tools to help you succeed in your digital endeavors.</p>
             </div>
         </div>
-    </div>
-    
-    <div id="qrcodeModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('qrcodeModal')">&times;</span>
-            <div class="modal-header">
-                <h2>QR Code Best Practices: How to Create and Use Them Effectively</h2>
-                <span class="modal-date">September 4, 2025</span>
-            </div>
-            <div class="modal-body">
-                <p>QR codes have made a huge comeback in recent years, becoming an essential tool for businesses and marketers. When implemented correctly, they can bridge the gap between physical and digital experiences.</p>
-                
-                <h3>What Makes a Good QR Code?</h3>
-                <p>An effective QR code is more than just a random pattern of black squares. It should be:</p>
-                <ul>
-                    <li>Scannable from a reasonable distance</li>
-                    <li>Placed in context with clear instructions</li>
-                    <li>Connected to a mobile-optimized destination</li>
-                    <li>Tested across multiple devices and scanning apps</li>
-                </ul>
+        
+        <!-- Contact Page -->
+        <div id="contact-page" class="page-content">
+            <div style="padding: 30px;">
+                <h2 class="page-title">Contact Us</h2>
+                <p>Have questions or feedback? We'd love to hear from you!</p>
             </div>
         </div>
     </div>
     
     <footer>
         <div class="footer-links">
-            <a href="about.html">About</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="terms.html">Terms</a>
-            <a href="contact.html">Contact</a>
+            <a href="#" onclick="showPage('about')">About</a>
+            <a href="#" onclick="showPage('privacy')">Privacy</a>
+            <a href="#" onclick="showPage('terms')">Terms</a>
+            <a href="#" onclick="showPage('contact')">Contact</a>
         </div>
         <p>© 2025 The Tool Nest. All rights reserved.</p>
-        <a href="sitemap.xml" class="sitemap-link">Sitemap</a>
+        <a href="#" onclick="showPage('sitemap')" class="sitemap-link">Sitemap</a>
     </footer>
 
     <script>
-        // Simple modal functionality
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-        
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-                document.body.style.overflow = 'auto';
+        // Function to show different pages
+        function showPage(pageId) {
+            // Hide all page contents
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show the selected page
+            const selectedPage = document.getElementById(pageId + '-page');
+            if (selectedPage) {
+                selectedPage.style.display = 'block';
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            
+            // Update active navigation link
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            
+            // If showing blog, make sure all articles are hidden initially
+            if (pageId === 'blog') {
+                const articles = document.querySelectorAll('.full-article');
+                articles.forEach(article => {
+                    article.style.display = 'none';
+                });
             }
         }
+
+        // Function to show full article
+        function showArticle(articleId) {
+            // Hide all articles first
+            const articles = document.querySelectorAll('.full-article');
+            articles.forEach(article => {
+                article.style.display = 'none';
+            });
+            
+            // Show the selected article
+            const article = document.getElementById(articleId);
+            if (article) {
+                article.style.display = 'block';
+                
+                // Smooth scroll to the article
+                article.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // Function to hide article
+        function hideArticle(articleId) {
+            const article = document.getElementById(articleId);
+            if (article) {
+                article.style.display = 'none';
+                
+                // Scroll back to the top of the page
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        // Set up navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.getAttribute('data-page');
+                showPage(page);
+            });
+        });
     </script>
 </body>
 </html>
