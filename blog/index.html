@@ -1,17 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Redirecting to Blog Article</title>
-    <!-- Redirect to your first article -->
-    <meta http-equiv="refresh" content="0; url=https://www.toolnest.live/blog/how-to-create-a-qr-code-for-whatsapp.html">
-    <script>
-        // JavaScript redirect as a backup
-        window.location.href = "https://www.toolnest.live/blog/how-to-create-a-qr-code-for-whatsapp.html";
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | The Tool Nest</title>
+    <style>
+        :root { --neon: #00ff66; }
+        body { 
+            font-family: 'Segoe UI', system-ui, Arial, sans-serif; 
+            background: #000; 
+            color: #fff; 
+            line-height: 1.6; 
+            max-width: 800px; 
+            margin: 40px auto; 
+            padding: 20px; 
+        }
+        a { color: var(--neon); text-decoration: none; }
+        a:hover { text-decoration: underline; text-shadow: 0 0 8px var(--neon); }
+        .back-link { display: inline-block; margin-bottom: 20px; }
+        h1 { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
+        .article-list { margin-top: 30px; }
+        .article-item { 
+            background: rgba(255,255,255,0.05); 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            border-radius: 10px; 
+            border-left: 4px solid var(--neon);
+        }
+    </style>
 </head>
 <body>
-    <!-- Fallback message if redirect doesn't work -->
-    <p>Redirecting to <a href="https://www.toolnest.live/blog/how-to-create-a-qr-code-for-whatsapp.html">our blog article</a>.</p>
+
+    <a href="https://www.toolnest.live" class="back-link"><i class="fas fa-arrow-left"></i> Back to All Tools</a>
+    <h1>The Tool Nest Blog</h1>
+    <p>Tips, tricks, and guides on how to use our free online tools effectively.</p>
+
+    <div class="article-list">
+        <div class="article-item">
+            <h3><a href="how-to-create-a-qr-code-for-whatsapp.html">How to Create a QR Code for Your WhatsApp Chat</a></h3>
+            <p>Learn how to create a custom QR code for your WhatsApp in seconds using our free generator.</p>
+        </div>
+        
+        <!-- PASTE NEW ARTICLES HERE IN THE FUTURE -->
+        <!-- Example for your next article:
+        <div class="article-item">
+            <h3><a href="how-to-create-strong-password.html">How to Create a Strong Password You Can Remember</a></h3>
+            <p>Learn the rules for creating strong passwords and use our free generator for ultimate security.</p>
+        </div>
+        -->
+    </div>
+
 </body>
 </html>
