@@ -72,6 +72,25 @@
     nav a{color:var(--neon);text-decoration:none;font-weight:700;margin:0 10px}
     nav a:hover{text-shadow:0 0 12px var(--neon)}
 
+    .section-heading {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      margin: 40px 0 30px;
+      padding: 0 20px;
+    }
+    
+    .section-heading h2 {
+      font-size: 2rem;
+      color: var(--neon);
+      text-shadow: 0 0 10px var(--neon);
+      margin: 0;
+      display: inline-block;
+      padding: 0 15px 8px;
+      border-bottom: 2px solid var(--neon);
+      box-shadow: 0 8px 15px -5px rgba(0,255,102,0.3);
+    }
+
     .grid{
       position:relative;z-index:1;
       max-width:1200px;margin:30px auto;padding:0 20px 40px;
@@ -97,6 +116,35 @@
     }
     .card:hover{transform:translateY(-8px) scale(1.02);border-color:var(--neon);box-shadow:0 0 26px var(--neon)}
     .card a:hover{background:#001a0b;color:var(--neon);outline:1px solid var(--neon)}
+
+    .about-section {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,255,102,0.2);
+      border-radius: 14px;
+      text-align: center;
+    }
+    
+    .about-section p {
+      color: #aaffcc;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .about-section a {
+      color: var(--neon);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    
+    .about-section a:hover {
+      text-shadow: 0 0 10px var(--neon);
+      text-decoration: underline;
+    }
 
     @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
@@ -129,6 +177,11 @@
   </nav>
 </header>
 
+<!-- Added H2 heading section -->
+<div class="section-heading">
+  <h2>Explore Our Free Web Tools</h2>
+</div>
+
 <div class="grid">
   <!-- EXACT FILES YOU HAVE -->
   <div class="card"><h3>QR Code Generator</h3><p>Create QR codes instantly.</p><a href="tools/qr.html">Open Tool</a></div>
@@ -146,6 +199,14 @@
   <div class="card"><h3>Password Generator</h3><p>Strong, random, copy-ready.</p><a href="tools/password.html">Open Tool</a></div>
 </div>
 
+<!-- Added about section with internal links -->
+<div class="about-section">
+  <h2>About The Tool Nest</h2>
+  <p>Welcome to The Tool Nest, your ultimate destination for <a href="tools/qr.html">free online tools</a> designed to boost your digital presence. Our collection includes powerful utilities like the <a href="tools/image-converter.html">Image Converter</a>, <a href="tools/seo-meta.html">SEO Meta Generator</a>, and <a href="tools/password.html">Password Generator</a> - all completely free to use.</p>
+  <p>We're constantly adding new tools to help with your <a href="tools/seo-backlinks.html">SEO efforts</a>, <a href="tools/hashtags.html">social media marketing</a>, and <a href="tools/bio.html">profile optimization</a>. Whether you're a content creator, marketer, or developer, you'll find valuable resources here at The Tool Nest.</p>
+  <p>Check out our <a href="blog.html">blog</a> for tutorials and tips, or <a href="contact.html">contact us</a> if you have any questions or suggestions for new tools!</p>
+</div>
+
 <footer>
   <p>© 2025 The Tool Nest</p>
   <p class="links">
@@ -153,7 +214,9 @@
     <a href="privacy.html">Privacy</a> • 
     <a href="terms.html">Terms</a> • 
     <a href="contact.html">Contact</a> •
-    
+    <a href="tools/qr.html">QR Generator</a> •
+    <a href="tools/image-converter.html">Image Converter</a> •
+    <a href="tools/password.html">Password Generator</a>
   </p>
   <div class="social">
     <a href="#"><i class="fab fa-facebook"></i></a>
