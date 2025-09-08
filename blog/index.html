@@ -6,27 +6,164 @@
     <title>Blog | The Tool Nest</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        :root { --neon: #00ff66; }
+        :root { 
+            --neon: #00ff66; 
+            --dark-bg: #111;
+            --card-bg: rgba(30, 30, 30, 0.8);
+        }
+        
         body { 
             font-family: 'Segoe UI', system-ui, Arial, sans-serif; 
-            background: #000; 
+            background: var(--dark-bg); 
             color: #fff; 
             line-height: 1.6; 
             max-width: 800px; 
             margin: 40px auto; 
             padding: 20px; 
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 102, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 102, 0.05) 0%, transparent 20%);
         }
-        a { color: var(--neon); text-decoration: none; }
-        a:hover { text-decoration: underline; text-shadow: 0 0 8px var(--neon); }
-        .back-link { display: inline-block; margin-bottom: 20px; }
-        h1 { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
-        .article-list { margin-top: 30px; }
-        .article-item { 
-            background: rgba(255,255,255,0.05); 
-            padding: 20px; 
+        
+        a { 
+            color: var(--neon); 
+            text-decoration: none; 
+            transition: all 0.3s ease;
+        }
+        
+        a:hover { 
+            text-decoration: underline; 
+            text-shadow: 0 0 8px var(--neon); 
+        }
+        
+        .back-link { 
+            display: inline-block; 
             margin-bottom: 20px; 
+            padding: 8px 16px;
+            border: 1px solid var(--neon);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: rgba(0, 255, 102, 0.1);
+            box-shadow: 0 0 12px rgba(0, 255, 102, 0.4);
+        }
+        
+        h1 { 
+            color: var(--neon); 
+            text-shadow: 0 0 10px var(--neon);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #ccc;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            border-left: 3px solid var(--neon);
+            padding-left: 15px;
+        }
+        
+        .article-list { 
+            margin-top: 30px; 
+        }
+        
+        .article-item { 
+            background: var(--card-bg); 
+            padding: 25px; 
+            margin-bottom: 25px; 
             border-radius: 10px; 
             border-left: 4px solid var(--neon);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .article-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 255, 102, 0.2);
+        }
+        
+        .article-item h3 {
+            margin-top: 0;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+        
+        .article-item p {
+            color: #ddd;
+            margin-bottom: 0;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #999;
+        }
+        
+        .search-box {
+            margin: 20px 0;
+            display: flex;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 12px 15px;
+            background: var(--card-bg);
+            border: 1px solid #333;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .search-box button {
+            padding: 12px 20px;
+            background: var(--neon);
+            color: black;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .search-box button:hover {
+            background: #00cc55;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-style: italic;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+                margin: 20px auto;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .article-item {
+                padding: 15px;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { border-color: var(--neon); }
+            50% { border-color: #00cc55; box-shadow: 0 0 15px rgba(0, 255, 102, 0.5); }
+            100% { border-color: var(--neon); }
         }
     </style>
 </head>
@@ -34,17 +171,107 @@
 
     <a href="https://www.toolnest.live" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
     <h1>The Tool Nest Blog</h1>
-    <p>Tips, tricks, and guides on how to use our free online tools effectively.</p>
+    <p class="subtitle">Tips, tricks, and guides on how to use our free online tools effectively.</p>
 
-    <!-- ▼▼▼ THIS IS THE MISSING PART THAT LISTS YOUR ARTICLES ▼▼▼ -->
-    <div class="article-list">
-        <div class="article-item">
-            <h3><a href="how-to-create-a-qr-code-for-whatsapp.html">How to Create a QR Code for Your WhatsApp Chat</a></h3>
-            <p>Learn how to create a custom QR code for your WhatsApp in seconds using our free generator.</p>
-        </div>
-        <!-- PASTE NEW ARTICLES HERE IN THE FUTURE -->
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search blog posts...">
+        <button onclick="searchPosts()"><i class="fas fa-search"></i></button>
     </div>
-    <!-- ▲▲▲ THIS IS THE MISSING PART THAT LISTS YOUR ARTICLES ▲▲▲ -->
+
+    <!-- Blog posts will be dynamically loaded here -->
+    <div class="article-list" id="article-list">
+        <div class="article-item pulse">
+            <h3>Loading blog posts...</h3>
+            <p>Please wait while we load our latest articles.</p>
+        </div>
+    </div>
+
+    <script>
+        // Blog posts data - you can add more posts here
+        const blogPosts = [
+            {
+                title: "How to Create a QR Code for Your WhatsApp Chat",
+                description: "Learn how to create a custom QR code for your WhatsApp in seconds using our free generator.",
+                link: "./how-to-create-a-qr-code-for-whatsapp.html",
+                date: "2023-11-15",
+                tags: ["QR Code", "WhatsApp", "Tutorial"]
+            },
+            {
+                title: "5 Ways to Optimize Your Images for Web",
+                description: "Discover techniques to compress and optimize your images for faster website loading.",
+                link: "./optimize-images-for-web.html",
+                date: "2023-12-03",
+                tags: ["Images", "Optimization", "Web Performance"]
+            },
+            {
+                title: "The Ultimate Guide to Color Conversion Tools",
+                description: "Learn how to convert between color formats like HEX, RGB, HSL with our easy-to-use tools.",
+                link: "./color-conversion-guide.html",
+                date: "2024-01-10",
+                tags: ["Colors", "Design", "Conversion"]
+            }
+        ];
+
+        // Function to display blog posts
+        function displayPosts(posts) {
+            const articleList = document.getElementById('article-list');
+            
+            if (posts.length === 0) {
+                articleList.innerHTML = '<div class="no-results">No blog posts found. Try a different search term.</div>';
+                return;
+            }
+            
+            articleList.innerHTML = '';
+            
+            posts.forEach(post => {
+                const articleItem = document.createElement('div');
+                articleItem.className = 'article-item';
+                
+                const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                articleItem.innerHTML = `
+                    <h3><a href="${post.link}">${post.title}</a></h3>
+                    <p>${post.description}</p>
+                    <div class="article-meta">
+                        <span><i class="far fa-calendar"></i> ${formattedDate}</span>
+                        <span>${post.tags.map(tag => `#${tag}`).join(' ')}</span>
+                    </div>
+                `;
+                
+                articleList.appendChild(articleItem);
+            });
+        }
+
+        // Function to search posts
+        function searchPosts() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                displayPosts(blogPosts);
+                return;
+            }
+            
+            const filteredPosts = blogPosts.filter(post => 
+                post.title.toLowerCase().includes(searchTerm) ||
+                post.description.toLowerCase().includes(searchTerm) ||
+                post.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+            );
+            
+            displayPosts(filteredPosts);
+        }
+
+        // Initialize the blog when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            displayPosts(blogPosts);
+            
+            // Add event listener for search input
+            document.getElementById('search-input').addEventListener('keyup', searchPosts);
+        });
+    </script>
 
 </body>
 </html>
