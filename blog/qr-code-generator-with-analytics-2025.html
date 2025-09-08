@@ -3,24 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR Code Generator with Analytics Tracking Free 2025</title>
+  <title>QR Code Generator with Analytics Tracking Free 2025 | The Tool Nest</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
       margin: 0;
       padding: 0;
+      height: 100%;
       background: black;
       overflow-x: hidden;
-      color: #00ff88;
-      font-family: Arial, sans-serif;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.7;
     }
 
+    /* Container for stars */
     .stars {
-      position: absolute;
+      position: fixed;
       width: 100%;
       height: 100%;
       overflow: hidden;
       z-index: -1;
+      top: 0;
+      left: 0;
     }
 
     .star {
@@ -36,62 +41,275 @@
       50% { opacity: 1; }
     }
 
+    /* Content styling */
     .container {
       position: relative;
       z-index: 1;
       max-width: 900px;
-      margin: auto;
+      margin: 0 auto;
       padding: 40px 20px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+      margin-top: 30px;
+      margin-bottom: 30px;
     }
 
-    h1, h2, h3 {
+    header {
+      text-align: center;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #00ff88;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
       color: #00ff88;
       text-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88;
     }
 
-    h1 {
-      font-size: 2.5rem;
-      text-align: center;
-      margin-bottom: 20px;
+    .subtitle {
+      font-size: 1.2rem;
+      color: #a0a0a0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .article-meta {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #00ff88;
+    }
+
+    .article-meta span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
     h2 {
-      margin-top: 40px;
+      font-size: 1.8rem;
+      color: #00ff88;
+      margin: 2.5rem 0 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #00cc66;
+    }
+
+    h3 {
+      font-size: 1.4rem;
+      color: #00cc66;
+      margin: 1.8rem 0 0.8rem;
     }
 
     p {
-      margin-bottom: 15px;
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
     }
 
-    ul {
-      margin: 15px 0;
-      padding-left: 20px;
+    a {
+      color: #00ff88;
+      text-decoration: none;
+      transition: all 0.3s ease;
     }
 
-    .faq {
-      background: rgba(0, 255, 136, 0.05);
+    a:hover {
+      color: #00cc66;
+      text-shadow: 0 0 5px #00ff88;
+    }
+
+    .highlight {
+      background: rgba(0, 255, 136, 0.1);
+      border-left: 4px solid #00ff88;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 1.5rem 0;
+    }
+
+    .feature-card {
+      background: rgba(0, 40, 20, 0.5);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #00cc66;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+    }
+
+    .feature-card i {
+      font-size: 2rem;
+      color: #00ff88;
+      margin-bottom: 1rem;
+    }
+
+    .faq-item {
+      background: rgba(0, 40, 20, 0.5);
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #00cc66;
+    }
+
+    .faq-question {
+      padding: 1.2rem;
+      background: rgba(0, 255, 136, 0.2);
+      color: #00ff88;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-answer {
+      padding: 1.2rem;
+      background: rgba(0, 20, 10, 0.5);
+    }
+
+    .tool-card {
+      background: rgba(0, 40, 20, 0.5);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      border: 1px solid #00cc66;
+    }
+
+    .tool-card h4 {
+      color: #00ff88;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tool-card h4 i {
+      color: #00cc66;
+    }
+
+    .pros-cons {
+      display: flex;
+      gap: 15px;
+      margin: 1rem 0;
+    }
+
+    .pros, .cons {
+      flex: 1;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .pros {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid #00cc66;
+    }
+
+    .cons {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 4px solid #ff4444;
+    }
+
+    .pros h5, .cons h5 {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #00ff88;
+    }
+
+    .pros ul, .cons ul {
+      padding-left: 1.5rem;
+      color: #f0f0f0;
+    }
+
+    .pros li, .cons li {
+      margin-bottom: 0.3rem;
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 2.5rem;
+      background: rgba(0, 255, 136, 0.1);
       border: 1px solid #00ff88;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 20px 0;
+      border-radius: 12px;
+      margin: 2.5rem 0;
     }
 
-    .cta {
+    .btn {
       display: inline-block;
-      margin-top: 20px;
-      padding: 12px 25px;
       background: #00ff88;
       color: black;
-      font-weight: bold;
-      border-radius: 8px;
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
       text-decoration: none;
+      font-weight: 600;
+      margin-top: 1.5rem;
       box-shadow: 0 0 15px #00ff88;
-      transition: 0.3s;
+      transition: all 0.3s ease;
     }
 
-    .cta:hover {
+    .btn:hover {
       background: #00cc66;
       box-shadow: 0 0 25px #00ff88;
+      transform: translateY(-3px);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding: 20px;
+      border-top: 1px solid #00cc66;
+      font-size: 0.9rem;
+      color: #a0a0a0;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 1.5rem 0;
+    }
+
+    .footer-links a {
+      color: #00cc66;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: #00ff88;
+    }
+
+    @media (max-width: 900px) {
+      .pros-cons {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+      
+      .container {
+        padding: 20px 15px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -99,109 +317,259 @@
   <div class="stars"></div>
 
   <div class="container">
-    <h1>QR Code Generator with Analytics Tracking Free 2025</h1>
+    <header>
+      <h1>QR Code Generator with Analytics Tracking</h1>
+      <p class="subtitle">The Complete 2025 Guide to Creating, Tracking, and Analyzing QR Code Campaigns with Free Tools from The Tool Nest</p>
+      <div class="article-meta">
+        <span><i class="fas fa-user"></i> Morgan704</span>
+        <span><i class="fas fa-calendar"></i> January 15, 2025</span>
+        <span><i class="fas fa-clock"></i> 15 min read</span>
+      </div>
+    </header>
 
-    <!-- (content here – same as previous version with Tool Nest links) -->
+    <section>
+      <h2>Why QR Codes with Analytics Matter in 2025</h2>
+      <p>QR codes have evolved from simple static images to powerful marketing tools that bridge the physical and digital worlds. With the right analytics, you can track scans, user locations, devices, and even measure campaign ROI. In today's data-driven marketing landscape, understanding customer behavior is crucial for success.</p>
+      
+      <div class="highlight">
+        <p>According to recent studies, QR code usage has increased by 450% since 2020, with over 50% of consumers expecting brands to offer QR code experiences. The integration of analytics has transformed these once-simple codes into sophisticated marketing tools.</p>
+      </div>
+      
+      <p>Whether you're a small business owner, marketer, or developer, understanding how to leverage QR codes with analytics can give you valuable insights into customer behavior and campaign performance. The Tool Nest's <a href="https://www.toolnest.live/tools/qr.html" target="_blank">QR Code Generator</a> provides these capabilities for free, making advanced analytics accessible to everyone.</p>
+      
+      <h3>Key Benefits of QR Code Analytics</h3>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-chart-line"></i>
+          <h4>Performance Tracking</h4>
+          <p>Measure scan volumes, unique users, and engagement patterns over time to optimize your campaigns.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Location Insights</h4>
+          <p>Discover where your scans are happening geographically to optimize placement and targeting.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-mobile-alt"></i>
+          <h4>Device Analysis</h4>
+          <p>Identify which devices your audience uses to tailor the experience and improve compatibility.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-calendar-alt"></i>
+          <h4>Time-based Data</h4>
+          <p>Track when scans occur to determine optimal times for campaigns and promotions.</p>
+        </div>
+      </div>
+    </section>
 
-    <h2>FAQs</h2>
-    <div class="faq">
-      <h3>1. Are free QR code generators with analytics safe?</h3>
-      <p>Yes, reputable tools like Beaconstac, QR TIGER, ViralQR, and <a href="https://www.toolnest.live/tools/qr.html" target="_blank">Tool Nest QR Generator</a> use secure servers. Always choose platforms with good reviews and HTTPS encryption.</p>
+    <section>
+      <h2>Top Free QR Code Generators with Analytics</h2>
+      <p>While many QR code generators offer basic functionality, these platforms provide robust analytics without requiring a paid plan. Each has its strengths, but for comprehensive free analytics, <a href="https://www.toolnest.live/tools/qr.html" target="_blank">The Tool Nest's solution</a> stands out for its balance of features and accessibility.</p>
+      
+      <div class="tool-card">
+        <h4><i class="fas fa-qrcode"></i> Beaconstac</h4>
+        <p>Beaconstac offers dynamic QR codes with detailed analytics on their free plan, including scan location, device type, and time of scan. Their platform is designed for businesses that need enterprise-level features but want to start with a free option.</p>
+        <div class="pros-cons">
+          <div class="pros">
+            <h5><i class="fas fa-plus"></i> Pros</h5>
+            <ul>
+              <li>Comprehensive analytics dashboard</li>
+              <li>Unlimited scans on free plan</li>
+              <li>Customizable QR designs</li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h5><i class="fas fa-minus"></i> Cons</h5>
+            <ul>
+              <li>Limited to 3 dynamic QR codes</li>
+              <li>Branding on free tier</li>
+              <li>Advanced features require upgrade</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tool-card">
+        <h4><i class="fas fa-qrcode"></i> QR TIGER</h4>
+        <p>QR TIGER provides basic analytics with their free tier, including scan counts and location data with an intuitive interface. They've positioned themselves as a user-friendly option for small to medium businesses.</p>
+        <div class="pros-cons">
+          <div class="pros">
+            <h5><i class="fas fa-plus"></i> Pros</h5>
+            <ul>
+              <li>User-friendly interface</li>
+              <li>Real-time scan data</li>
+              <li>API access available</li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h5><i class="fas fa-minus"></i> Cons</h5>
+            <ul>
+              <li>Limited historical data</li>
+              <li>Advanced features require upgrade</li>
+              <li>Fewer customization options</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tool-card">
+        <h4><i class="fas fa-qrcode"></i> The Tool Nest QR Generator</h4>
+        <p>Our completely free solution offers basic scan tracking with a simple interface and no hidden costs. Designed with simplicity in mind, <a href="https://www.toolnest.live/tools/qr.html" target="_blank">our QR generator</a> provides essential analytics without overwhelming users with complexity.</p>
+        <div class="pros-cons">
+          <div class="pros">
+            <h5><i class="fas fa-plus"></i> Pros</h5>
+            <ul>
+              <li>100% free with no limits</li>
+              <li>Simple, clean interface</li>
+              <li>No registration required</li>
+              <li>Basic analytics included</li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h5><i class="fas fa-minus"></i> Cons</h5>
+            <ul>
+              <li>Basic analytics only</li>
+              <li>Limited customization options</li>
+              <li>No enterprise features</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>How to Implement QR Code Analytics</h2>
+      <p>Implementing QR code analytics involves a few key steps to ensure you're capturing the right data. Whether you're using <a href="https://www.toolnest.live/tools/qr.html" target="_blank">The Tool Nest's solution</a> or another platform, these principles will help you get the most from your QR campaigns.</p>
+      
+      <h3>1. Choose Between Static and Dynamic QR Codes</h3>
+      <p>Static QR codes contain fixed information and cannot be changed once generated. They're suitable for permanent information like Wi-Fi passwords or personal contact details. Dynamic QR codes allow you to update the destination URL and track analytics, making them essential for marketing campaigns where you need flexibility and insights.</p>
+      
+      <h3>2. Set Up Tracking Parameters</h3>
+      <p>Use UTM parameters or custom tracking codes to monitor specific campaigns, sources, and mediums through your analytics platform. This allows you to attribute scans to specific marketing initiatives and measure ROI accurately. Most quality QR generators, including <a href="https://www.toolnest.live/tools/qr.html" target="_blank">The Tool Nest's tool</a>, simplify this process with built-in parameter options.</p>
+      
+      <h3>3. Integrate with Analytics Platforms</h3>
+      <p>Connect your QR code solution with Google Analytics, Facebook Pixel, or other analytics tools for comprehensive insights. This integration allows you to see QR code scans alongside your other marketing data, providing a holistic view of your campaign performance.</p>
+      
+      <h3>4. Test Before Deployment</h3>
+      <p>Always test your QR codes across different devices and scanning apps to ensure they work correctly and track properly. Verify that the analytics are recording scans and that the destination URL provides a good user experience, especially on mobile devices.</p>
+    </section>
+
+    <section>
+      <h2>Frequently Asked Questions</h2>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Are free QR code generators with analytics safe to use?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Yes, reputable tools like Beaconstac, QR TIGER, ViralQR, and <a href="https://www.toolnest.live/tools/qr.html" target="_blank">The Tool Nest QR Generator</a> use secure servers and encryption. Always check for HTTPS and read privacy policies before use. Avoid unknown providers that might inject malicious code or sell your data.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Do free plans have scan limits?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Most free tools allow unlimited scans but limit the number of dynamic QR codes or campaigns you can create. Always check the specific limitations of each platform. <a href="https://www.toolnest.live/tools/qr.html" target="_blank">The Tool Nest</a> offers unlimited scans and QR codes with no hidden limits.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Can I change the destination after creating a QR code?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Yes, but only if you use dynamic QR codes. Static QR codes cannot be edited once created, which is why dynamic codes are essential for marketing campaigns. Most quality generators, including <a href="https://www.toolnest.live/tools/qr.html" target="_blank">The Tool Nest's solution</a>, offer dynamic QR capabilities.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Do I need technical skills to use these tools?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>No, most QR code generators are designed for ease of use with simple interfaces. However, some technical knowledge can help with advanced tracking and integration. <a href="https://www.toolnest.live/tools/qr.html" target="_blank">The Tool Nest's QR Generator</a> is specifically designed for users without technical backgrounds.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Will analytics tracking cost extra in the future?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Some advanced analytics features may require premium plans, but most free platforms include basic tracking. <a href="https://www.toolnest.live/tools/qr.html" target="_blank">The Tool Nest</a> is committed to keeping its core features free, including basic analytics for QR codes.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Can QR codes be branded with my logo?</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Yes, many free tools like QRCode Monkey, QR TIGER, and <a href="https://www.toolnest.live/tools/qr.html" target="_blank">The Tool Nest</a> allow you to add logos, colors, and frames to your QR codes for better branding. This helps maintain brand consistency and increases recognition.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-section">
+      <h2>Ready to Create Your QR Code with Analytics?</h2>
+      <p>Start tracking your QR code campaigns today with our free, easy-to-use generator. Whether you're promoting your business, sharing contact information, or creating a marketing campaign, <a href="https://www.toolnest.live/tools/qr.html" target="_blank">The Tool Nest's QR Generator</a> provides the analytics you need to measure success.</p>
+      <a href="https://www.toolnest.live/tools/qr.html" target="_blank" class="btn">Generate QR Code Now</a>
     </div>
 
-    <div class="faq">
-      <h3>2. Do free plans have scan limits?</h3>
-      <p>Most free tools allow unlimited scans but limit the number of dynamic QR codes or campaigns you can create.</p>
-    </div>
+    <section>
+      <h2>Best Practices for QR Code Campaigns</h2>
+      <p>To maximize the effectiveness of your QR code campaigns, follow these proven strategies that combine technical best practices with marketing insights.</p>
+      
+      <h3>Provide Clear Value</h3>
+      <p>Users need a compelling reason to scan your QR code. Offer discounts, exclusive content, or useful information that justifies the action. The value proposition should be immediately apparent near the QR code placement.</p>
+      
+      <h3>Optimize Placement</h3>
+      <p>Position QR codes where they're easily accessible and where users have time to scan them. Consider lighting conditions, scanning distance, and potential obstacles that might interfere with scanning.</p>
+      
+      <h3>Test and Iterate</h3>
+      <p>Use your analytics to understand what works and refine your approach based on data. A/B test different placements, designs, and calls-to-action to optimize your QR code performance.</p>
+      
+      <h3>Make It Mobile-Friendly</h3>
+      <p>Ensure the destination content is optimized for mobile devices since most scans come from smartphones. Slow-loading or poorly formatted pages will increase bounce rates and reduce conversion.</p>
+      
+      <h3>Combine with Other Marketing Channels</h3>
+      <p>Integrate QR codes with your other marketing initiatives for a cohesive strategy. Use them in social media campaigns, email marketing, and traditional advertising to create multiple touchpoints.</p>
+    </section>
 
-    <div class="faq">
-      <h3>3. Can I change the link after creating a QR code?</h3>
-      <p>Yes, but only if you generate a <em>dynamic</em> QR code. Static QR codes cannot be edited once created.</p>
-    </div>
+    <section>
+      <h2>The Future of QR Codes with Analytics</h2>
+      <p>As we look toward the future, QR code technology continues to evolve with enhanced capabilities and deeper integration with other technologies. The integration of augmented reality (AR), near-field communication (NFC), and advanced analytics will create even more powerful experiences.</p>
+      
+      <p>We can expect to see QR codes that adapt content based on user demographics, location, and previous interactions. The line between physical and digital marketing will continue to blur as QR codes become more interactive and personalized.</p>
+      
+      <p>Platforms like <a href="https://www.toolnest.live/" target="_blank">The Tool Nest</a> are at the forefront of these developments, making advanced technology accessible to businesses of all sizes. By providing free tools with robust analytics, we're helping to democratize technology that was once available only to enterprises with large budgets.</p>
+    </section>
 
-    <div class="faq">
-      <h3>4. Do I need coding skills to use these tools?</h3>
-      <p>No, most QR code generators are user-friendly with drag-and-drop or simple form inputs.</p>
-    </div>
-
-    <div class="faq">
-      <h3>5. Will analytics tracking cost extra in the future?</h3>
-      <p>Some advanced analytics features may require premium plans, but most free platforms include basic tracking.</p>
-    </div>
-
-    <div class="faq">
-      <h3>6. Can QR codes be branded with my logo?</h3>
-      <p>Yes, many free tools like QRCode Monkey, QR TIGER, and <a href="https://www.toolnest.live/tools/qr.html" target="_blank">Tool Nest</a> allow you to add logos, colors, and frames to your QR codes for better branding.</p>
-    </div>
-
-    <h2>Conclusion</h2>
-    <p>QR codes have become an essential marketing and communication tool in 2025. With free generators that include analytics tracking, even small businesses can compete with big brands by making data-driven decisions. From marketing campaigns to restaurants, events, and beyond, QR code analytics open up a world of insights.</p>
-    <p><strong>Now it’s your turn—try <a href="https://www.toolnest.live/tools/qr.html" target="_blank">Tool Nest’s Free QR Code Generator</a> today, create your first dynamic QR code, and unlock the power of analytics tracking in 2025!</strong></p>
-    <a href="https://www.toolnest.live/tools/qr.html" target="_blank" class="cta">Generate My Free QR Code</a>
+    <footer>
+      <p>© 2025 The Tool Nest. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="https://www.toolnest.live/" target="_blank">Home</a>
+        <a href="https://www.toolnest.live/tools.html" target="_blank">Tools</a>
+        <a href="https://www.toolnest.live/blog.html" target="_blank">Blog</a>
+        <a href="https://www.toolnest.live/privacy.html" target="_blank">Privacy Policy</a>
+        <a href="https://www.toolnest.live/contact.html" target="_blank">Contact</a>
+      </div>
+      <p>The Tool Nest provides free online tools to help you work smarter. Visit our <a href="https://www.toolnest.live/" target="_blank">main website</a> to explore all our offerings.</p>
+    </footer>
   </div>
-
-  <!-- FAQ Schema Markup -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Are free QR code generators with analytics safe?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, reputable tools like Beaconstac, QR TIGER, ViralQR, and Tool Nest QR Generator use secure servers. Always choose platforms with good reviews and HTTPS encryption."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Do free plans have scan limits?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Most free tools allow unlimited scans but limit the number of dynamic QR codes or campaigns you can create."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I change the link after creating a QR code?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, but only if you generate a dynamic QR code. Static QR codes cannot be edited once created."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Do I need coding skills to use these tools?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No, most QR code generators are user-friendly with drag-and-drop or simple form inputs."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Will analytics tracking cost extra in the future?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Some advanced analytics features may require premium plans, but most free platforms include basic tracking."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can QR codes be branded with my logo?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, many free tools like QRCode Monkey, QR TIGER, and Tool Nest allow you to add logos, colors, and frames to your QR codes for better branding."
-        }
-      }
-    ]
-  }
-  </script>
 
   <script>
     // Generate random stars
     const starContainer = document.querySelector('.stars');
-    const numStars = 100;
+    const numStars = 200;
 
     for (let i = 0; i < numStars; i++) {
       const star = document.createElement('div');
@@ -212,8 +580,28 @@
       star.style.top = Math.random() * 100 + 'vh';
       star.style.left = Math.random() * 100 + 'vw';
       star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      star.style.animationDelay = (Math.random() * 5) + 's';
       starContainer.appendChild(star);
     }
+    
+    // Add parallax effect on mouse move
+    document.addEventListener('mousemove', (e) => {
+      const x = (window.innerWidth - e.pageX * 2) / 50;
+      const y = (window.innerHeight - e.pageY * 2) / 50;
+      starContainer.style.transform = `translateX(${x}px) translateY(${y}px)`;
+    });
+    
+    // FAQ functionality
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        const icon = question.querySelector('i');
+        
+        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        icon.className = icon.className === 'fas fa-chevron-down' ? 
+          'fas fa-chevron-up' : 'fas fa-chevron-down';
+      });
+    });
   </script>
 </body>
 </html>
